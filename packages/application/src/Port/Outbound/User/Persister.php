@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\Port\Outbound\User;
 
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\User\Model\User;
+use CuriosityConference\Domain\User\Model\UserWithHashedPassword;
 
 interface Persister
 {
     /**
      * @throws PersistFailedException
      */
-    public function persist(User $user): string;
+    public function persist(UserWithHashedPassword $user): string;
 }

@@ -10,6 +10,7 @@ use CuriosityConference\Adapters\Tests\Unit\Mocks\EntityManagerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 use CuriosityConference\Domain\User\Model\User;
+use CuriosityConference\Domain\User\Model\UserWithHashedPassword;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -32,11 +33,11 @@ final class PersisterTest extends TestCase
 
     public function testPersistIsValid(): void
     {
-        $user = new User(
+        $user = new UserWithHashedPassword(
             'test',
             'test',
             'test@web.de',
-            'test',
+            'Test123!',
         );
         $userId = $this->persister->persist($user);
 
@@ -46,7 +47,7 @@ final class PersisterTest extends TestCase
             'test',
             'test',
             'test@web.de',
-            'test',
+            'Test123!',
         );
         self::assertIsString($expectedUserEntity->getId());
         self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject->getFirstName());
@@ -90,13 +91,11 @@ final class PersisterTest extends TestCase
     {
         $this->entityManagerMock->throwPersistException = new \Exception('test');
 
-        $user = new User(
+        $user = new UserWithHashedPassword(
             'test',
             'test',
             'test@web.de',
-            'test',
-            '20-02-2026',
-            '+4915112345678',
+            'Test123!',
         );
         try {
             $this->persister->persist($user);
@@ -110,7 +109,7 @@ final class PersisterTest extends TestCase
             'test',
             'test',
             'test@web.de',
-            'test',
+            'Test123!',
         );
         self::assertIsString($expectedUserEntity->getId());
         self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject->getFirstName());

@@ -7,7 +7,7 @@ namespace CuriosityConference\Adapters\Outbound\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User as UserEntity;
 use CuriosityConference\Application\Port\Outbound\User\Persister as PersisterInterface;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\User\Model\User;
+use CuriosityConference\Domain\User\Model\UserWithHashedPassword;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -24,7 +24,7 @@ final readonly class Persister implements PersisterInterface
      * @throws PersistFailedException
      */
     #[\Override]
-    public function persist(User $user): string
+    public function persist(UserWithHashedPassword $user): string
     {
         try {
             $this->logger->info('Start persisting user.');

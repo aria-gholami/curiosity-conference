@@ -7,6 +7,7 @@ namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\User;
 use CuriosityConference\Application\Port\Inbound\User\CreateHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\InvalidEmailException;
+use CuriosityConference\Domain\Exception\InvalidPasswordException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 use CuriosityConference\Domain\User\Model\User;
 use Psr\Log\LoggerInterface;
@@ -31,11 +32,12 @@ final readonly class CreateController
                 $data['lastName'] ?? '',
                 $data['email'] ?? '',
                 $data['password'] ?? '',
+                $data['confirmPassword'] ?? '',
             );
             $id = $this->createHandler->handle($user);
 
             return new JsonResponse(['id' => $id], Response::HTTP_CREATED);
-        } catch (EmptyStringException|InvalidEmailException $exception) {
+        } catch (EmptyStringException|InvalidEmailException|InvalidPasswordException $exception) {
             $this->logger->notice('Request data for /api/v1/user is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);

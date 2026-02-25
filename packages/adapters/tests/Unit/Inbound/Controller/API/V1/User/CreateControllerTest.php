@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\User\Mocks
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\InvalidEmailException;
+use CuriosityConference\Domain\Exception\InvalidPasswordException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 use CuriosityConference\Domain\User\Model\User;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -41,7 +42,8 @@ final class CreateControllerTest extends TestCase
             'firstName' => 'test',
             'lastName' => 'test',
             'email' => 'test@web.de',
-            'password' => 'test',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
         ];
         $request = new Request(
             [],
@@ -61,6 +63,7 @@ final class CreateControllerTest extends TestCase
         self::assertSame($payload['lastName'], $this->createHandlerMock->inputUser->lastName);
         self::assertSame($payload['email'], $this->createHandlerMock->inputUser->email);
         self::assertSame($payload['password'], $this->createHandlerMock->inputUser->password);
+        self::assertSame($payload['confirmPassword'], $this->createHandlerMock->inputUser->confirmPassword);
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -102,7 +105,8 @@ final class CreateControllerTest extends TestCase
             'firstName' => 'test',
             'lastName' => 'test',
             'email' => 'test@web.de',
-            'password' => 'test',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
         ];
 
         yield 'empty firstName' => [\array_replace($payload, ['firstName' => '']), 'userFirstName'];
@@ -116,7 +120,8 @@ final class CreateControllerTest extends TestCase
             'firstName' => 'test',
             'lastName' => 'test',
             'email' => 'test',
-            'password' => 'test',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
         ];
 
         $expectedUserId = 'test';
@@ -148,6 +153,45 @@ final class CreateControllerTest extends TestCase
         ], $this->loggerMock->logs);
     }
 
+    public function testHandleWithInvalidPassword(): void
+    {
+        $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test124!',
+        ];
+
+        $expectedUserId = 'test';
+        $this->createHandlerMock->outputUserId = $expectedUserId;
+
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+
+        $response = $this->createController->__invoke($request);
+
+        self::assertSame(400, $response->getStatusCode());
+        self::assertSame('{"message":"Bad Request."}', $response->getContent());
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Request data for /api/v1/user is invalid.',
+                    'context' => [
+                        'exceptionMessage' => InvalidPasswordException::passwordNotSameAsConfirmPassword()->getMessage(),
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
     public function testHandleWithInternalServerError(): void
     {
         $expectedUserId = 'test';
@@ -158,7 +202,8 @@ final class CreateControllerTest extends TestCase
             'firstName' => 'test',
             'lastName' => 'test',
             'email' => 'test@web.de',
-            'password' => 'test',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
         ];
         $request = new Request(
             [],
@@ -178,6 +223,7 @@ final class CreateControllerTest extends TestCase
         self::assertSame($payload['lastName'], $this->createHandlerMock->inputUser->lastName);
         self::assertSame($payload['email'], $this->createHandlerMock->inputUser->email);
         self::assertSame($payload['password'], $this->createHandlerMock->inputUser->password);
+        self::assertSame($payload['confirmPassword'], $this->createHandlerMock->inputUser->confirmPassword);
         self::assertEquals([
             'notice' => [
                 [

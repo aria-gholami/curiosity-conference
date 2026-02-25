@@ -38,9 +38,8 @@ final class CreateHandlerTest extends TestCase
             'test',
             'test',
             'test@web.de',
-            'test',
-            'test',
-            '+4915112345678',
+            'Test123!',
+            'Test123!',
         );
 
         $userId = $this->createHandler->handle($user);
@@ -51,7 +50,5 @@ final class CreateHandlerTest extends TestCase
         self::assertSame($user->lastName, $this->persisterMock->inputUser->lastName);
         self::assertSame($user->email, $this->persisterMock->inputUser->email);
         self::assertSame($expectedHashedPassword, $this->persisterMock->inputUser->password);
-        self::assertSame($user->birthday, $this->persisterMock->inputUser->birthday);
-        self::assertSame($user->phoneNumber, $this->persisterMock->inputUser->phoneNumber);
     }
 }

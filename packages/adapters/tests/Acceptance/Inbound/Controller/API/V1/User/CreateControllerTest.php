@@ -20,7 +20,8 @@ class CreateControllerTest extends AbstractWebTestCase
             'firstName' => 'test',
             'lastName' => 'test',
             'email' => 'test@web.de',
-            'password' => 'test',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
         ];
         $this->client->request(
             'POST',
@@ -59,7 +60,8 @@ class CreateControllerTest extends AbstractWebTestCase
             'firstName' => 'test',
             'lastName' => 'test',
             'email' => 'test@web.de',
-            'password' => 'test',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
         ];
         $this->client->request(
             'POST',
@@ -88,7 +90,8 @@ class CreateControllerTest extends AbstractWebTestCase
             'firstName' => '',
             'lastName' => 'test',
             'email' => 'test@web.de',
-            'password' => 'test',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
         ];
         $this->client->request(
             'POST',
@@ -117,7 +120,8 @@ class CreateControllerTest extends AbstractWebTestCase
             'firstName' => 'test',
             'lastName' => 'test',
             'email' => 'test@web.de',
-            'password' => 'test',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
         ];
         $this->client->request(
             'POST',
