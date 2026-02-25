@@ -1,0 +1,58 @@
+parameters:
+  log_level: '%env(int:LOG_LEVEL)%'
+
+services:
+  _defaults:
+    autowire: false
+    autoconfigure: false
+
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\CreateController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\User\CreateHandler'
+      - '@api.v1.user.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
+
+  CuriosityConference\Adapters\Outbound\User\Persister:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@api.v1.user.logger'
+
+  CuriosityConference\Adapters\Outbound\Security\Argon2idHasher: ~
+
+  CuriosityConference\Adapters\Inbound\Security\ValidateApiKeySubscriber:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Security\ApiKeyValidator'
+      - '@api.v1.authentication.logger'
+    tags:
+      - { name: kernel.event_subscriber }
+
+  api.v1.user.logging-handler:
+    class: Monolog\Handler\RotatingFileHandler
+    arguments:
+      - '%kernel.logs_dir%/user_%kernel.environment%.log'
+      - 14
+      - '%log_level%'
+      - true
+      - 436
+  api.v1.user.logger:
+    class: Monolog\Logger
+    arguments:
+      - 'user'
+    calls:
+      - [ pushHandler, [ '@api.v1.user.logging-handler' ] ]
+
+  api.v1.authentication.logging-handler:
+    class: Monolog\Handler\RotatingFileHandler
+    arguments:
+      - '%kernel.logs_dir%/authentication_%kernel.environment%.log'
+      - 14
+      - '%log_level%'
+      - true
+      - 436
+  api.v1.authentication.logger:
+    class: Monolog\Logger
+    arguments:
+      - 'authentication'
+    calls:
+      - [ pushHandler, [ '@api.v1.authentication.logging-handler' ] ]

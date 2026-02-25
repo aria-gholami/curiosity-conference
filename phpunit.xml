@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.0/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory="var/cache/.phpunit.cache"
+         executionOrder="random"
+         requireCoverageMetadata="true"
+         beStrictAboutCoverageMetadata="true"
+         beStrictAboutOutputDuringTests="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         failOnPhpunitDeprecation="true"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true">
+
+    <php>
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_SECRET" value="51cb901c817499824a2e84fa17c40e91"/>
+        <env name="API_KEY" value="42b1ed2a3b0cdb29b75875f3c88d454d"/>
+        <env name="DEFAULT_URI" value="localhost"/>
+        <env name="KERNEL_CLASS" value="App\Kernel"/>
+        <env name="DATABASE_URL" value="mysql://root:root@db:3306/db"/>
+        <env name="LOG_LEVEL" value="100"/>
+        <env name="DATABASE_URL" value="mysql://root:root@db:3306/db?charset=utf8"/>
+    </php>
+
+    <testsuites>
+        <testsuite name="Acceptance-Tests">
+            <directory>packages/adapters/tests/Acceptance</directory>
+        </testsuite>
+        <testsuite name="Unit-Tests">
+            <directory>packages/*/tests/Unit</directory>
+        </testsuite>
+    </testsuites>
+
+    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
+            <directory>src</directory>
+            <directory>packages/*/src</directory>
+        </include>
+        <exclude>
+            <file>src/Kernel.php</file>
+        </exclude>
+    </source>
+</phpunit>

@@ -1,0 +1,22 @@
+{
+    "name": "curiosity-conference-backend/domain",
+    "description": "Domain Layer for Curiosity Conference App",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Aria Gholami",
+            "email": "ariagholami@web.de"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "CuriosityConference\\Domain\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CuriosityConference\\Domain\\Tests\\": "tests/"
+        }
+    }
+}

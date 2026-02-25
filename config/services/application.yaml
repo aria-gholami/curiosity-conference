@@ -1,0 +1,18 @@
+parameters:
+  api_key: '%env(API_KEY)%'
+
+services:
+  _defaults:
+    autowire: false
+    autoconfigure: false
+
+  CuriosityConference\Application\UseCase\User\CreateHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\User\Persister'
+      - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
+
+  CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
+    arguments:
+      - '%api_key%'
+      - '@api.v1.authentication.logger'
+

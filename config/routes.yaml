@@ -1,0 +1,4 @@
+CuriosityConference\Adapters\Inbound\Controller\API\V1\User\CreateController:
+    path: /api/v1/user
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\CreateController
+    methods: POST
