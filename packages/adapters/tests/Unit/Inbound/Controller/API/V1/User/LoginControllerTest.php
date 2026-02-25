@@ -34,9 +34,18 @@ final class LoginControllerTest extends TestCase
     {
         $userId = 'test';
         $this->loginHandlerMock->outputLoginHandler = $userId;
-
+        $payload = [
+            'email' => 'max.mustermann@example.com',
+            'password' => 'Str0ng!PassWord',
+        ];
         $request = new Request(
-            ['email' => 'max.mustermann@example.com', 'password' => 'Str0ng!PassWord'],
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
 
         $jsonResponse = $this->loginController->__invoke($request);
@@ -53,9 +62,18 @@ final class LoginControllerTest extends TestCase
     {
         $userId = 'test';
         $this->loginHandlerMock->outputLoginHandler = $userId;
-
+        $payload = [
+            'email' => null,
+            'password' => 'Str0ng!PassWord',
+        ];
         $request = new Request(
-            ['email' => null, 'password' => 'Str0ng!PassWord'],
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
 
         $jsonResponse = $this->loginController->__invoke($request);
@@ -78,9 +96,18 @@ final class LoginControllerTest extends TestCase
     {
         $userId = 'test';
         $this->loginHandlerMock->outputLoginHandler = $userId;
-
+        $payload = [
+            'email' => 'max.mustermann@example.com',
+            'password' => null,
+        ];
         $request = new Request(
-            ['email' => 'max.mustermann@example.com', 'password' => null],
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
 
         $jsonResponse = $this->loginController->__invoke($request);
@@ -104,9 +131,18 @@ final class LoginControllerTest extends TestCase
         $userId = 'test';
         $this->loginHandlerMock->outputLoginHandler = $userId;
         $this->loginHandlerMock->throwException = UserLoginFailedException::loginFailed('max.mustermann@example.com');
-
+        $payload = [
+            'email' => 'max.mustermann@example.com',
+            'password' => 'Str0ng!PassWord',
+        ];
         $request = new Request(
-            ['email' => 'max.mustermann@example.com', 'password' => 'Str0ng!PassWord'],
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
 
         $jsonResponse = $this->loginController->__invoke($request);

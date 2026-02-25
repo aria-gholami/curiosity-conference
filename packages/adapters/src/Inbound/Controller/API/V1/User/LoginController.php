@@ -24,9 +24,10 @@ final readonly class LoginController
     public function __invoke(Request $request): JsonResponse
     {
         try {
+            $data = \json_decode($request->getContent(), true);
             $userLogin = new UserLogin(
-                $request->query->getString('email'),
-                $request->query->getString('password'),
+                $data['email'] ?? '',
+                $data['password'] ?? '',
             );
             $id = $this->loginHandler->handle($userLogin);
 

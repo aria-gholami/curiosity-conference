@@ -33,12 +33,19 @@ final class LoginControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $payload = [
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+        ];
         $this->client->request(
-            'GET',
-            '/api/v1/user/login?email=test@web.de&password=Test123!',
+            'POST',
+            '/api/v1/user/login',
             server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
             ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
         $response = \json_decode(
             $this->client->getResponse()->getContent(),
@@ -70,12 +77,19 @@ final class LoginControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $payload = [
+            'email' => 'test@web.de',
+            'password' => null,
+        ];
         $this->client->request(
-            'GET',
-            '/api/v1/user/login?email=test@web.de',
+            'POST',
+            '/api/v1/user/login',
             server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
             ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
         $response = \json_decode(
             $this->client->getResponse()->getContent(),
@@ -107,12 +121,19 @@ final class LoginControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $payload = [
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+        ];
         $this->client->request(
-            'GET',
-            '/api/v1/user/login?email=test@web.de&password=Test123!',
+            'POST',
+            '/api/v1/user/login',
             server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'HTTP_API_KEY' => 'invalid',
             ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
         $response = \json_decode(
             $this->client->getResponse()->getContent(),
@@ -144,12 +165,19 @@ final class LoginControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $payload = [
+            'email' => 'test@web.de',
+            'password' => 'Test124!',
+        ];
         $this->client->request(
-            'GET',
-            '/api/v1/user/login?email=test@web.de&password=Test124!',
+            'POST',
+            '/api/v1/user/login',
             server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
             ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
         $response = \json_decode(
             $this->client->getResponse()->getContent(),
