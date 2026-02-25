@@ -9,7 +9,7 @@ use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\InvalidEmailException;
 use CuriosityConference\Domain\Exception\InvalidPasswordException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\User\Model\User;
+use CuriosityConference\Domain\User\Model\UserRegistration;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,14 +27,14 @@ final readonly class CreateController
     {
         try {
             $data = \json_decode($request->getContent(), true);
-            $user = new User(
+            $userRegistration = new UserRegistration(
                 $data['firstName'] ?? '',
                 $data['lastName'] ?? '',
                 $data['email'] ?? '',
                 $data['password'] ?? '',
                 $data['confirmPassword'] ?? '',
             );
-            $id = $this->createHandler->handle($user);
+            $id = $this->createHandler->handle($userRegistration);
 
             return new JsonResponse(['id' => $id], Response::HTTP_CREATED);
         } catch (EmptyStringException|InvalidEmailException|InvalidPasswordException $exception) {

@@ -13,10 +13,28 @@ services:
     tags:
       - { name: 'controller.service_arguments' }
 
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\User\LoginHandler'
+      - '@api.v1.user.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
+
+  CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
+      - '@api.v1.user.logger'
+
   CuriosityConference\Adapters\Outbound\User\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
+
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
 
   CuriosityConference\Adapters\Outbound\Security\Argon2idHasher: ~
 

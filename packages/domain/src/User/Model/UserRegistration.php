@@ -8,7 +8,7 @@ use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\InvalidEmailException;
 use CuriosityConference\Domain\Exception\InvalidPasswordException;
 
-final readonly class User
+final readonly class UserRegistration
 {
     public const string EMAIL_REGEX = '/^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/';
     public const string PASSWORD_REGEX = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/';
@@ -26,25 +26,25 @@ final readonly class User
         public string $confirmPassword,
     ) {
         if ('' === $this->firstName) {
-            throw EmptyStringException::stringIsEmpty('userFirstName');
+            throw EmptyStringException::stringIsEmpty('userRegistrationFirstName');
         }
         if ('' === $this->lastName) {
-            throw EmptyStringException::stringIsEmpty('userLastName');
+            throw EmptyStringException::stringIsEmpty('userRegistrationLastName');
         }
         if ('' === $this->email) {
-            throw EmptyStringException::stringIsEmpty('userEmail');
+            throw EmptyStringException::stringIsEmpty('userRegistrationEmail');
         }
         if (!\preg_match(self::EMAIL_REGEX, $this->email)) {
-            throw InvalidEmailException::emailIsInvalid('user');
+            throw InvalidEmailException::emailIsInvalid('userRegistration');
         }
         if ('' === $this->password) {
-            throw EmptyStringException::stringIsEmpty('userPassword');
+            throw EmptyStringException::stringIsEmpty('userRegistrationPassword');
         }
         if ('' === $this->confirmPassword) {
-            throw EmptyStringException::stringIsEmpty('userConfirmPassword');
+            throw EmptyStringException::stringIsEmpty('userRegistrationConfirmPassword');
         }
         if ($this->password !== $this->confirmPassword) {
-            throw InvalidPasswordException::passwordNotSameAsConfirmPassword();
+            throw InvalidPasswordException::passwordNotSameAsConfirmPassword('userRegistrationConfirmPassword');
         }
         if (!\preg_match(self::PASSWORD_REGEX, $this->password)) {
             throw InvalidPasswordException::invalidPassword($this->password);

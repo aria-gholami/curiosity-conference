@@ -15,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @infection-ignore-all
  */
-final class UserRepository extends ServiceEntityRepository
+class UserRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {

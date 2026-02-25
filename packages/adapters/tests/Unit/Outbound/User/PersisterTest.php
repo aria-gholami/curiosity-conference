@@ -9,14 +9,14 @@ use CuriosityConference\Adapters\Outbound\User\Persister;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\EntityManagerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\User\Model\User;
+use CuriosityConference\Domain\User\Model\UserRegistration;
 use CuriosityConference\Domain\User\Model\UserWithHashedPassword;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Persister::class)]
-#[UsesClass(User::class)]
+#[UsesClass(UserRegistration::class)]
 #[UsesClass(PersistFailedException::class)]
 final class PersisterTest extends TestCase
 {

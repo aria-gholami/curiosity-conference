@@ -7,13 +7,13 @@ namespace CuriosityConference\Application\Tests\Unit\UseCase\User;
 use CuriosityConference\Application\Tests\Unit\Mocks\Argon2idHasherMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PersisterMock;
 use CuriosityConference\Application\UseCase\User\CreateHandler;
-use CuriosityConference\Domain\User\Model\User;
+use CuriosityConference\Domain\User\Model\UserRegistration;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(CreateHandler::class)]
-#[UsesClass(User::class)]
+#[UsesClass(UserRegistration::class)]
 final class CreateHandlerTest extends TestCase
 {
     private PersisterMock $persisterMock;
@@ -34,7 +34,7 @@ final class CreateHandlerTest extends TestCase
         $expectedHashedPassword = '133243546456';
         $this->argon2idHasherMock->outputValue = $expectedHashedPassword;
 
-        $user = new User(
+        $user = new UserRegistration(
             'test',
             'test',
             'test@web.de',

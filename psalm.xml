@@ -16,4 +16,12 @@
             <file name="src/Kernel.php" />
         </ignoreFiles>
     </projectFiles>
+
+    <issueHandlers>
+        <ClassMustBeFinal>
+            <errorLevel type="suppress">
+                <directory name="packages/adapters/src/Outbound/Persistence/Repository" />
+            </errorLevel>
+        </ClassMustBeFinal>
+    </issueHandlers>
 </psalm>

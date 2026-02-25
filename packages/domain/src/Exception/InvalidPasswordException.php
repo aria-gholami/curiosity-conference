@@ -11,11 +11,11 @@ namespace CuriosityConference\Domain\Exception;
  */
 final class InvalidPasswordException extends ValidationException
 {
-    public static function passwordNotSameAsConfirmPassword(): self
+    public static function passwordNotSameAsConfirmPassword(string $identifier): self
     {
         return new self(
             parent::buildMessage(
-                'userConfirmPassword',
+                $identifier,
                 'Password is not the same as confirmPassword.',
             ),
         );
@@ -25,7 +25,7 @@ final class InvalidPasswordException extends ValidationException
     {
         return new self(
             parent::buildMessage(
-                'password',
+                'userRegistrationPassword',
                 \sprintf('Password "%s" is not confirmed: .', $password),
             ),
         );

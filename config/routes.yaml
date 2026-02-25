@@ -2,3 +2,8 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\CreateController:
     path: /api/v1/user
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\CreateController
     methods: POST
+
+CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController:
+    path: /api/v1/user/login
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController
+    methods: GET

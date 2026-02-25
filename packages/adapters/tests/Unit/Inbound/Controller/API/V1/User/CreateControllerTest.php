@@ -11,7 +11,7 @@ use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\InvalidEmailException;
 use CuriosityConference\Domain\Exception\InvalidPasswordException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\User\Model\User;
+use CuriosityConference\Domain\User\Model\UserRegistration;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 #[CoversClass(CreateController::class)]
-#[UsesClass(User::class)]
+#[UsesClass(UserRegistration::class)]
 final class CreateControllerTest extends TestCase
 {
     private CreateHandlerMock $createHandlerMock;
@@ -109,9 +109,9 @@ final class CreateControllerTest extends TestCase
             'confirmPassword' => 'Test123!',
         ];
 
-        yield 'empty firstName' => [\array_replace($payload, ['firstName' => '']), 'userFirstName'];
-        yield 'empty lastName' => [\array_replace($payload, ['lastName' => '']), 'userLastName'];
-        yield 'empty email' => [\array_replace($payload, ['email' => '']), 'userEmail'];
+        yield 'empty firstName' => [\array_replace($payload, ['firstName' => '']), 'userRegistrationFirstName'];
+        yield 'empty lastName' => [\array_replace($payload, ['lastName' => '']), 'userRegistrationLastName'];
+        yield 'empty email' => [\array_replace($payload, ['email' => '']), 'userRegistrationEmail'];
     }
 
     public function testHandleWithInvalidEmail(): void
@@ -146,7 +146,7 @@ final class CreateControllerTest extends TestCase
                 [
                     'message' => 'Request data for /api/v1/user is invalid.',
                     'context' => [
-                        'exceptionMessage' => InvalidEmailException::emailIsInvalid('user')->getMessage(),
+                        'exceptionMessage' => InvalidEmailException::emailIsInvalid('userRegistration')->getMessage(),
                     ],
                 ],
             ],
@@ -185,7 +185,7 @@ final class CreateControllerTest extends TestCase
                 [
                     'message' => 'Request data for /api/v1/user is invalid.',
                     'context' => [
-                        'exceptionMessage' => InvalidPasswordException::passwordNotSameAsConfirmPassword()->getMessage(),
+                        'exceptionMessage' => InvalidPasswordException::passwordNotSameAsConfirmPassword('userRegistrationConfirmPassword')->getMessage(),
                     ],
                 ],
             ],

@@ -11,6 +11,12 @@ services:
       - '@CuriosityConference\Adapters\Outbound\User\Persister'
       - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
 
+  CuriosityConference\Application\UseCase\User\LoginHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
+      - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
+      - '@api.v1.user.logger'
+
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:
       - '%api_key%'
