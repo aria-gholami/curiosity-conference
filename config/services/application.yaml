@@ -10,7 +10,6 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\Persister'
       - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
-
   CuriosityConference\Application\UseCase\User\LoginHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
@@ -20,10 +19,12 @@ services:
   CuriosityConference\Application\UseCase\Quiz\CreateHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\Persister'
-
   CuriosityConference\Application\UseCase\Quiz\ListHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\Loader'
+  CuriosityConference\Application\UseCase\Quiz\DeleteHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\ByTitleDeleter'
 
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:

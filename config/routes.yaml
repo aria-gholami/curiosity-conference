@@ -15,3 +15,7 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController:
     path: /api/v1/quiz
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController
     methods: GET
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController:
+    path: /api/v1/quiz
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController
+    methods: DELETE

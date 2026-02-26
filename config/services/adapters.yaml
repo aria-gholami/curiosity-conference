@@ -32,6 +32,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\DeleteHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
     arguments:
@@ -47,12 +53,14 @@ services:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
-
   CuriosityConference\Adapters\Outbound\Quiz\Loader:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
       - '@api.v1.quiz.logger'
-
+  CuriosityConference\Adapters\Outbound\Quiz\ByTitleDeleter:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
+      - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
     arguments:
