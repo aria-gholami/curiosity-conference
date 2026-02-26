@@ -12,6 +12,12 @@ services:
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\User\DeleteHandler'
+      - '@api.v1.user.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController:
     arguments:
@@ -48,6 +54,10 @@ services:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
+  CuriosityConference\Adapters\Outbound\User\ByEmailDeleter:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
+      - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Quiz\Persister:
     arguments:

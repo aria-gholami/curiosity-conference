@@ -1,0 +1,32 @@
+<?php
+
+declare(strict_types=1);
+
+namespace CuriosityConference\Application\UseCase\User;
+
+use CuriosityConference\Application\Port\Inbound\User\DeleteHandler as DeleteHandlerInterface;
+use CuriosityConference\Application\Port\Outbound\User\ByEmailDeleter;
+use CuriosityConference\Domain\Exception\DeleteFailedException;
+use CuriosityConference\Domain\User\Model\Email;
+
+/**
+ * @codeCoverageIgnore
+ *
+ * @infection-ignore-all
+ */
+final readonly class DeleteHandler implements DeleteHandlerInterface
+{
+    public function __construct(
+        private ByEmailDeleter $byEmailDeleter,
+    ) {
+    }
+
+    /**
+     * @throws DeleteFailedException
+     */
+    #[\Override]
+    public function handle(Email $email): void
+    {
+        $this->byEmailDeleter->delete($email);
+    }
+}

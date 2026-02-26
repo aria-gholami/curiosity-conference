@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[CoversNothing(DeleteController::class)]
 final class DeleteControllerTest extends AbstractWebTestCase
 {
-    public function testDeleteQuizUserIsValid(): void
+    public function testDeleteQuizIsValid(): void
     {
         $payload = [
             'title' => 'testDelete',
@@ -42,7 +42,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
     }
 
-    public function testDeleteQuizUserWithBadRequest(): void
+    public function testDeleteQuizWithBadRequest(): void
     {
         $payload = [
             'title' => 'testDelete',
@@ -77,7 +77,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         self::assertSame('Bad Request.', $response['message']);
     }
 
-    public function testDeleteQuizUserWithUnauthorized(): void
+    public function testDeleteQuizWithUnauthorized(): void
     {
         $payload = [
             'title' => 'testDelete',
@@ -109,7 +109,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         self::assertSame('Unauthorized.', $response['message']);
     }
 
-    public function testDeleteQuizUserWithNotExistingTitle(): void
+    public function testDeleteQuizWithNotExistingTitle(): void
     {
         $this->client->request(
             'DELETE',

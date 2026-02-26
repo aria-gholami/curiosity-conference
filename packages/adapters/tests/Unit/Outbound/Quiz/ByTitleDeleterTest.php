@@ -42,11 +42,11 @@ final class ByTitleDeleterTest extends TestCase
             'test',
         );
         $title = new Title('test');
-        $this->quizEntityRepositoryMock->expects($this->once())
+        $this->quizEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['title' => $title->value])
             ->willReturn($quiz);
-        $this->quizEntityRepositoryMock->expects($this->once())
+        $this->quizEntityRepositoryMock->expects(self::once())
             ->method('remove')
             ->with($quiz);
 
@@ -79,11 +79,11 @@ final class ByTitleDeleterTest extends TestCase
             'test',
         );
         $title = new Title('test');
-        $this->quizEntityRepositoryMock->expects($this->once())
+        $this->quizEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['title' => $title->value])
             ->willReturn(null);
-        $this->quizEntityRepositoryMock->expects($this->never())
+        $this->quizEntityRepositoryMock->expects(self::never())
             ->method('remove')
             ->with($quiz);
 
@@ -110,11 +110,11 @@ final class ByTitleDeleterTest extends TestCase
             'test',
         );
         $title = new Title('test');
-        $this->quizEntityRepositoryMock->expects($this->once())
+        $this->quizEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['title' => $title->value])
             ->willReturn($quiz);
-        $this->quizEntityRepositoryMock->expects($this->once())
+        $this->quizEntityRepositoryMock->expects(self::once())
             ->method('remove')
             ->with($quiz)
             ->willThrowException(new DeleteFailedException('test'));

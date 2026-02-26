@@ -15,6 +15,9 @@ services:
       - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
       - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
       - '@api.v1.user.logger'
+  CuriosityConference\Application\UseCase\User\DeleteHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\User\ByEmailDeleter'
 
   CuriosityConference\Application\UseCase\Quiz\CreateHandler:
     arguments:
