@@ -21,6 +21,9 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\Persister'
 
+  CuriosityConference\Application\UseCase\Quiz\ListHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\Loader'
 
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:

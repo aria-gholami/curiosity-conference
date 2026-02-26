@@ -26,6 +26,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\ListHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
     arguments:
@@ -42,11 +48,23 @@ services:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
 
+  CuriosityConference\Adapters\Outbound\Quiz\Loader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
+      - '@api.v1.quiz.logger'
+
+
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
     arguments:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+
 
   CuriosityConference\Adapters\Outbound\Security\Argon2idHasher: ~
 
