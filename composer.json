@@ -42,7 +42,7 @@
         "psr-4": {
             "CuriosityConference\\Adapters\\Tests\\": "packages/adapters/tests/",
             "CuriosityConference\\Application\\Tests\\": "packages/application/tests/",
-            "CuriosityConference\\Domain\\\\Tests\\": "packages/domain/tests/"
+            "CuriosityConference\\Domain\\Tests\\": "packages/domain/tests/"
         }
     },
     "config": {

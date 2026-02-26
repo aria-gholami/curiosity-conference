@@ -20,6 +20,13 @@ services:
     tags:
       - { name: 'controller.service_arguments' }
 
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\CreateHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
+
   CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
@@ -29,6 +36,11 @@ services:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
+
+  CuriosityConference\Adapters\Outbound\Quiz\Persister:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
     arguments:
@@ -59,6 +71,21 @@ services:
       - 'user'
     calls:
       - [ pushHandler, [ '@api.v1.user.logging-handler' ] ]
+
+  api.v1.quiz.logging-handler:
+    class: Monolog\Handler\RotatingFileHandler
+    arguments:
+      - '%kernel.logs_dir%/quiz_%kernel.environment%.log'
+      - 14
+      - '%log_level%'
+      - true
+      - 436
+  api.v1.quiz.logger:
+    class: Monolog\Logger
+    arguments:
+      - 'quiz'
+    calls:
+      - [ pushHandler, [ '@api.v1.quiz.logging-handler' ] ]
 
   api.v1.authentication.logging-handler:
     class: Monolog\Handler\RotatingFileHandler

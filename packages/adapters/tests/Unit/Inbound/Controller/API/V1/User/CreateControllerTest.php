@@ -17,6 +17,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 #[CoversClass(CreateController::class)]
 #[UsesClass(UserRegistration::class)]
@@ -33,7 +34,7 @@ final class CreateControllerTest extends TestCase
         $this->createController = new CreateController($this->createHandlerMock, $this->loggerMock);
     }
 
-    public function testHandleIsValid(): void
+    public function testCreateIsValid(): void
     {
         $expectedUserId = 'test';
         $this->createHandlerMock->outputUserId = $expectedUserId;
@@ -57,7 +58,7 @@ final class CreateControllerTest extends TestCase
 
         $response = $this->createController->__invoke($request);
 
-        self::assertSame(201, $response->getStatusCode());
+        self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
         self::assertSame('{"id":"test"}', $response->getContent());
         self::assertSame($payload['firstName'], $this->createHandlerMock->inputUser->firstName);
         self::assertSame($payload['lastName'], $this->createHandlerMock->inputUser->lastName);
@@ -68,7 +69,7 @@ final class CreateControllerTest extends TestCase
     }
 
     #[DataProvider('provideInvalidData')]
-    public function testHandleWithInvalidPayload(array $payload, string $missingFieldName): void
+    public function testCreateWithInvalidPayload(array $payload, string $missingFieldName): void
     {
         $expectedUserId = 'test';
         $this->createHandlerMock->outputUserId = $expectedUserId;
@@ -85,7 +86,7 @@ final class CreateControllerTest extends TestCase
 
         $response = $this->createController->__invoke($request);
 
-        self::assertSame(400, $response->getStatusCode());
+        self::assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         self::assertSame('{"message":"Bad Request."}', $response->getContent());
         self::assertEquals([
             'notice' => [
@@ -114,7 +115,7 @@ final class CreateControllerTest extends TestCase
         yield 'empty email' => [\array_replace($payload, ['email' => '']), 'userRegistrationEmail'];
     }
 
-    public function testHandleWithInvalidEmail(): void
+    public function testCreateWithInvalidEmail(): void
     {
         $payload = [
             'firstName' => 'test',
@@ -139,7 +140,7 @@ final class CreateControllerTest extends TestCase
 
         $response = $this->createController->__invoke($request);
 
-        self::assertSame(400, $response->getStatusCode());
+        self::assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         self::assertSame('{"message":"Bad Request."}', $response->getContent());
         self::assertEquals([
             'notice' => [
@@ -153,7 +154,7 @@ final class CreateControllerTest extends TestCase
         ], $this->loggerMock->logs);
     }
 
-    public function testHandleWithInvalidPassword(): void
+    public function testCreateWithInvalidPassword(): void
     {
         $payload = [
             'firstName' => 'test',
@@ -178,7 +179,7 @@ final class CreateControllerTest extends TestCase
 
         $response = $this->createController->__invoke($request);
 
-        self::assertSame(400, $response->getStatusCode());
+        self::assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
         self::assertSame('{"message":"Bad Request."}', $response->getContent());
         self::assertEquals([
             'notice' => [
@@ -192,7 +193,7 @@ final class CreateControllerTest extends TestCase
         ], $this->loggerMock->logs);
     }
 
-    public function testHandleWithInternalServerError(): void
+    public function testCreateWithInternalServerError(): void
     {
         $expectedUserId = 'test';
         $this->createHandlerMock->outputUserId = $expectedUserId;
@@ -217,7 +218,7 @@ final class CreateControllerTest extends TestCase
 
         $response = $this->createController->__invoke($request);
 
-        self::assertSame(500, $response->getStatusCode());
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
         self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
         self::assertSame($payload['firstName'], $this->createHandlerMock->inputUser->firstName);
         self::assertSame($payload['lastName'], $this->createHandlerMock->inputUser->lastName);

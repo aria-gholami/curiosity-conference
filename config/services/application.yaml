@@ -17,6 +17,11 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
       - '@api.v1.user.logger'
 
+  CuriosityConference\Application\UseCase\Quiz\CreateHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\Persister'
+
+
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:
       - '%api_key%'

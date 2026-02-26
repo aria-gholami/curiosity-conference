@@ -24,6 +24,9 @@ abstract class AbstractWebTestCase extends WebTestCase
 
     protected function tearDown(): void
     {
-        $this->connection->executeStatement('TRUNCATE TABLE user;');
+        $this->connection->executeStatement('DELETE FROM user;');
+        $this->connection->executeStatement('DELETE FROM answer;');
+        $this->connection->executeStatement('DELETE FROM question;');
+        $this->connection->executeStatement('DELETE FROM quiz;');
     }
 }
