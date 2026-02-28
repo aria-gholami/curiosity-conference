@@ -6,7 +6,7 @@ namespace CuriosityConference\Domain\Quiz;
 
 use CuriosityConference\Domain\Exception\EmptyStringException;
 
-final readonly class Title
+final readonly class Id
 {
     /**
      * @throws EmptyStringException
@@ -15,7 +15,7 @@ final readonly class Title
         public string $value,
     ) {
         if ('' === $this->value) {
-            throw EmptyStringException::stringIsEmpty('quizTitle');
+            throw EmptyStringException::stringIsEmpty('id');
         }
     }
 }

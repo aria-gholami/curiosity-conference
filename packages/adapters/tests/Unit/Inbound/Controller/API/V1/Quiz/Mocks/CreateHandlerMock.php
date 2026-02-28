@@ -11,17 +11,20 @@ use CuriosityConference\Domain\Quiz\Quiz;
 final class CreateHandlerMock implements CreateHandler
 {
     public Quiz $inputQuiz;
+    public string $outputId;
     public ?PersistFailedException $throwException = null;
 
     /**
      * @throws PersistFailedException
      */
     #[\Override]
-    public function handle(Quiz $quiz): void
+    public function handle(Quiz $quiz): string
     {
         $this->inputQuiz = $quiz;
         if ($this->throwException instanceof PersistFailedException) {
             throw $this->throwException;
         }
+
+        return $this->outputId;
     }
 }

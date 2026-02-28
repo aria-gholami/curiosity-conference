@@ -24,7 +24,7 @@ final readonly class Persister implements PersisterInterface
      * @throws PersistFailedException
      */
     #[\Override]
-    public function persist(Quiz $quiz): void
+    public function persist(Quiz $quiz): string
     {
         try {
             $this->logger->info('Start persisting quiz.');
@@ -48,6 +48,8 @@ final readonly class Persister implements PersisterInterface
                 'quizDescription' => $quiz->description,
                 'quizCategory' => $quiz->category,
             ]);
+
+            return $quizEntity->getId();
         } catch (\Throwable $exception) {
             $this->logger->notice('Persisting quiz was not successful.');
             $this->logger->debug('Persisting quiz was not successful.', [

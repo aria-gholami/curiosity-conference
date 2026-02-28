@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Tests\Acceptance\AbstractWebTestCase;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Uid\Uuid;
 
 #[Group('Acceptance')]
 #[CoversNothing(DeleteController::class)]
@@ -31,9 +32,14 @@ final class DeleteControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $this->client->request(
             'DELETE',
-            '/api/v1/quiz?title=testDelete',
+            '/api/v1/quiz?id=' . $response['id'],
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
             ],
@@ -94,9 +100,14 @@ final class DeleteControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $this->client->request(
             'DELETE',
-            '/api/v1/quiz?title=testDelete',
+            '/api/v1/quiz?id=' . $response['id'],
         );
         $response = \json_decode(
             $this->client->getResponse()->getContent(),
@@ -109,11 +120,11 @@ final class DeleteControllerTest extends AbstractWebTestCase
         self::assertSame('Unauthorized.', $response['message']);
     }
 
-    public function testDeleteQuizWithNotExistingTitle(): void
+    public function testDeleteQuizWithNotExistingId(): void
     {
         $this->client->request(
             'DELETE',
-            '/api/v1/quiz?title=testDelete',
+            '/api/v1/quiz?id=' . Uuid::v4()->toRfc4122(),
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
             ],

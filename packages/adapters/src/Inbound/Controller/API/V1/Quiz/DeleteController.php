@@ -7,7 +7,7 @@ namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz;
 use CuriosityConference\Application\Port\Inbound\Quiz\DeleteHandler;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Exception\EmptyStringException;
-use CuriosityConference\Domain\Quiz\Title;
+use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,10 +24,10 @@ final readonly class DeleteController
     public function __invoke(Request $request): JsonResponse
     {
         try {
-            $title = new Title(
-                $request->query->getString('title'),
+            $id = new Id(
+                $request->query->getString('id'),
             );
-            $this->deleteHandler->handle($title);
+            $this->deleteHandler->handle($id);
 
             return new JsonResponse([], Response::HTTP_NO_CONTENT);
         } catch (EmptyStringException $exception) {

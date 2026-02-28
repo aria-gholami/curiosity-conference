@@ -25,8 +25,8 @@ final readonly class CreateHandler implements CreateHandlerInterface
      * @throws PersistFailedException
      */
     #[\Override]
-    public function handle(Quiz $quiz): void
+    public function handle(Quiz $quiz): string
     {
-        $this->persister->persist($quiz);
+        return $this->persister->persist($quiz);
     }
 }

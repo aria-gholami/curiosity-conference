@@ -12,5 +12,5 @@ interface Persister
     /**
      * @throws PersistFailedException
      */
-    public function persist(Quiz $quiz): void;
+    public function persist(Quiz $quiz): string;
 }

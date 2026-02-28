@@ -34,6 +34,7 @@ final class CreateControllerTest extends TestCase
 
     public function testCreateIsValid(): void
     {
+        $this->createHandlerMock->outputId = '1';
         $payload = [
             'title' => 'test',
             'description' => 'test',
@@ -52,7 +53,7 @@ final class CreateControllerTest extends TestCase
         $response = $this->createController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"message":"Success."}', $response->getContent());
+        self::assertSame('{"id":"1"}', $response->getContent());
         self::assertSame($payload['title'], $this->createHandlerMock->inputQuiz->title);
         self::assertSame($payload['description'], $this->createHandlerMock->inputQuiz->description);
         self::assertSame($payload['category'], $this->createHandlerMock->inputQuiz->category);

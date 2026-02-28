@@ -8,7 +8,7 @@ use CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks\DeleteHandlerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
-use CuriosityConference\Domain\Quiz\Title;
+use CuriosityConference\Domain\Quiz\Id;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 #[CoversClass(DeleteController::class)]
-#[UsesClass(Title::class)]
+#[UsesClass(Id::class)]
 final class DeleteControllerTest extends TestCase
 {
     private DeleteHandlerMock $deleteHandlerMock;
@@ -36,13 +36,13 @@ final class DeleteControllerTest extends TestCase
     public function testDeleteIsValid(): void
     {
         $request = new Request(
-            ['title' => 'test'],
+            ['id' => 'test'],
         );
 
         $jsonResponse = $this->deleteController->__invoke($request);
 
         self::assertSame(Response::HTTP_NO_CONTENT, $jsonResponse->getStatusCode());
-        self::assertSame('test', $this->deleteHandlerMock->inputTitle->value);
+        self::assertSame('test', $this->deleteHandlerMock->inputId->value);
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -61,7 +61,7 @@ final class DeleteControllerTest extends TestCase
                 [
                     'message' => 'Request data for DELETE to /api/v1/quiz is invalid.',
                     'context' => [
-                        'exceptionMessage' => 'Validation failed for value "quizTitle" with error: "Value for "quizTitle" should not be empty."',
+                        'exceptionMessage' => 'Validation failed for value "id" with error: "Value for "id" should not be empty."',
                     ],
                 ],
             ],
@@ -72,7 +72,7 @@ final class DeleteControllerTest extends TestCase
     {
         $this->deleteHandlerMock->throwException = new DeleteFailedException('test');
         $request = new Request(
-            ['title' => 'test'],
+            ['id' => 'test'],
         );
 
         $jsonResponse = $this->deleteController->__invoke($request);

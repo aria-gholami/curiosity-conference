@@ -12,5 +12,5 @@ interface CreateHandler
     /**
      * @throws PersistFailedException
      */
-    public function handle(Quiz $quiz): void;
+    public function handle(Quiz $quiz): string;
 }

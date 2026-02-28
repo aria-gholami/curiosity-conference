@@ -9,14 +9,14 @@ use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository;
 use CuriosityConference\Adapters\Outbound\Quiz\ByTitleDeleter;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
-use CuriosityConference\Domain\Quiz\Title;
+use CuriosityConference\Domain\Quiz\Id;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(ByTitleDeleter::class)]
-#[UsesClass(Title::class)]
+#[UsesClass(Id::class)]
 final class ByTitleDeleterTest extends TestCase
 {
     private MockObject $quizEntityRepositoryMock;
@@ -41,29 +41,29 @@ final class ByTitleDeleterTest extends TestCase
             'test',
             'test',
         );
-        $title = new Title('test');
+        $id = new Id('test');
         $this->quizEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
-            ->with(['title' => $title->value])
+            ->with(['id' => $id->value])
             ->willReturn($quiz);
         $this->quizEntityRepositoryMock->expects(self::once())
             ->method('remove')
             ->with($quiz);
 
-        $this->byTitleDeleter->delete($title);
+        $this->byTitleDeleter->delete($id);
 
         self::assertEquals([
             'info' => [
                 [
                     'message' => 'Start deleting quiz.',
                     'context' => [
-                        'title' => 'test',
+                        'id' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Deleting quiz was successful.',
                     'context' => [
-                        'title' => 'test',
+                        'id' => 'test',
                     ],
                 ],
             ],
@@ -78,23 +78,23 @@ final class ByTitleDeleterTest extends TestCase
             'test',
             'test',
         );
-        $title = new Title('test');
+        $id = new Id('test');
         $this->quizEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
-            ->with(['title' => $title->value])
+            ->with(['id' => $id->value])
             ->willReturn(null);
         $this->quizEntityRepositoryMock->expects(self::never())
             ->method('remove')
             ->with($quiz);
 
-        $this->byTitleDeleter->delete($title);
+        $this->byTitleDeleter->delete($id);
 
         self::assertEquals([
             'info' => [
                 [
                     'message' => 'Start deleting quiz.',
                     'context' => [
-                        'title' => 'test',
+                        'id' => 'test',
                     ],
                 ],
             ],
@@ -109,10 +109,10 @@ final class ByTitleDeleterTest extends TestCase
             'test',
             'test',
         );
-        $title = new Title('test');
+        $id = new Id('test');
         $this->quizEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
-            ->with(['title' => $title->value])
+            ->with(['id' => $id->value])
             ->willReturn($quiz);
         $this->quizEntityRepositoryMock->expects(self::once())
             ->method('remove')
@@ -120,7 +120,7 @@ final class ByTitleDeleterTest extends TestCase
             ->willThrowException(new DeleteFailedException('test'));
 
         try {
-            $this->byTitleDeleter->delete($title);
+            $this->byTitleDeleter->delete($id);
             $this->fail('DeleteFailedException was expected to be thrown.');
         } catch (DeleteFailedException $exception) {
             self::assertSame('Delete entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz" was not successful.', $exception->getMessage());
@@ -131,7 +131,7 @@ final class ByTitleDeleterTest extends TestCase
                 [
                     'message' => 'Start deleting quiz.',
                     'context' => [
-                        'title' => 'test',
+                        'id' => 'test',
                     ],
                 ],
             ],
@@ -139,7 +139,7 @@ final class ByTitleDeleterTest extends TestCase
                 [
                     'message' => 'Deleting quiz was not successful.',
                     'context' => [
-                        'title' => 'test',
+                        'id' => 'test',
                     ],
                 ],
             ],
@@ -147,7 +147,7 @@ final class ByTitleDeleterTest extends TestCase
                 [
                     'message' => 'Deleting quiz was not successful.',
                     'context' => [
-                        'title' => 'test',
+                        'id' => 'test',
                         'exceptionMessage' => 'test',
                     ],
                 ],

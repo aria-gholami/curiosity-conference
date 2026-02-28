@@ -6,20 +6,20 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz
 
 use CuriosityConference\Application\Port\Inbound\Quiz\DeleteHandler;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
-use CuriosityConference\Domain\Quiz\Title;
+use CuriosityConference\Domain\Quiz\Id;
 
 final class DeleteHandlerMock implements DeleteHandler
 {
-    public Title $inputTitle;
+    public Id $inputId;
     public ?DeleteFailedException $throwException = null;
 
     /**
      * @throws DeleteFailedException
      */
     #[\Override]
-    public function handle(Title $title): void
+    public function handle(Id $id): void
     {
-        $this->inputTitle = $title;
+        $this->inputId = $id;
         if ($this->throwException instanceof DeleteFailedException) {
             throw $this->throwException;
         }

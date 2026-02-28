@@ -8,7 +8,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository;
 use CuriosityConference\Application\Port\Outbound\Quiz\ByTitleDeleter as ByTitleDeleterInterface;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
-use CuriosityConference\Domain\Quiz\Title;
+use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
 
 final readonly class ByTitleDeleter implements ByTitleDeleterInterface
@@ -23,14 +23,14 @@ final readonly class ByTitleDeleter implements ByTitleDeleterInterface
      * @throws DeleteFailedException
      */
     #[\Override]
-    public function delete(Title $title): void
+    public function delete(Id $id): void
     {
         try {
             $this->logger->info('Start deleting quiz.', [
-                'title' => $title->value,
+                'id' => $id->value,
             ]);
             $quizEntity = $this->quizRepository->findOneBy([
-                'title' => $title->value,
+                'id' => $id->value,
             ]);
             if (!$quizEntity instanceof Quiz) {
                 return;
@@ -39,14 +39,14 @@ final readonly class ByTitleDeleter implements ByTitleDeleterInterface
             $this->quizRepository->remove($quizEntity);
 
             $this->logger->info('Deleting quiz was successful.', [
-                'title' => $title->value,
+                'id' => $id->value,
             ]);
         } catch (\Throwable $exception) {
             $this->logger->notice('Deleting quiz was not successful.', [
-                'title' => $title->value,
+                'id' => $id->value,
             ]);
             $this->logger->debug('Deleting quiz was not successful.', [
-                'title' => $title->value,
+                'id' => $id->value,
                 'exceptionMessage' => $exception->getMessage(),
             ]);
 

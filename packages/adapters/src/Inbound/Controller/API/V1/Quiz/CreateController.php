@@ -30,9 +30,9 @@ final readonly class CreateController
                 $data['description'] ?? '',
                 $data['category'] ?? '',
             );
-            $this->createHandler->handle($quiz);
+            $id = $this->createHandler->handle($quiz);
 
-            return new JsonResponse(['message' => 'Success.'], Response::HTTP_CREATED);
+            return new JsonResponse(['id' => $id], Response::HTTP_CREATED);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/quiz is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),

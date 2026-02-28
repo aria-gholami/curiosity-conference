@@ -38,8 +38,8 @@ final class CreateControllerTest extends AbstractWebTestCase
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
-        self::assertArrayHasKey('message', $response);
-        self::assertSame('Success.', $response['message']);
+        self::assertArrayHasKey('id', $response);
+        self::assertIsString($response['id']);
 
         $row = $this->connection->fetchAssociative(
             'SELECT * FROM quiz WHERE title = :title',
