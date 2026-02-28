@@ -50,10 +50,10 @@ final class PersisterTest extends TestCase
             'Test123!',
         );
         self::assertIsString($expectedUserEntity->getId());
-        self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject->getFirstName());
-        self::assertSame($expectedUserEntity->getLastName(), $this->entityManagerMock->inputPersistedObject->getLastName());
-        self::assertSame($expectedUserEntity->getEmail(), $this->entityManagerMock->inputPersistedObject->getEmail());
-        self::assertSame($expectedUserEntity->getPassword(), $this->entityManagerMock->inputPersistedObject->getPassword());
+        self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject[0]->getFirstName());
+        self::assertSame($expectedUserEntity->getLastName(), $this->entityManagerMock->inputPersistedObject[0]->getLastName());
+        self::assertSame($expectedUserEntity->getEmail(), $this->entityManagerMock->inputPersistedObject[0]->getEmail());
+        self::assertSame($expectedUserEntity->getPassword(), $this->entityManagerMock->inputPersistedObject[0]->getPassword());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
@@ -112,10 +112,10 @@ final class PersisterTest extends TestCase
             'Test123!',
         );
         self::assertIsString($expectedUserEntity->getId());
-        self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject->getFirstName());
-        self::assertSame($expectedUserEntity->getLastName(), $this->entityManagerMock->inputPersistedObject->getLastName());
-        self::assertSame($expectedUserEntity->getEmail(), $this->entityManagerMock->inputPersistedObject->getEmail());
-        self::assertSame($expectedUserEntity->getPassword(), $this->entityManagerMock->inputPersistedObject->getPassword());
+        self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject[0]->getFirstName());
+        self::assertSame($expectedUserEntity->getLastName(), $this->entityManagerMock->inputPersistedObject[0]->getLastName());
+        self::assertSame($expectedUserEntity->getEmail(), $this->entityManagerMock->inputPersistedObject[0]->getEmail());
+        self::assertSame($expectedUserEntity->getPassword(), $this->entityManagerMock->inputPersistedObject[0]->getPassword());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [

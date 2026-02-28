@@ -46,9 +46,9 @@ final class PersisterTest extends TestCase
             'test',
         );
         self::assertIsString($expectedQuizEntity->getId());
-        self::assertSame($expectedQuizEntity->getTitle(), $this->entityManagerMock->inputPersistedObject->getTitle());
-        self::assertSame($expectedQuizEntity->getDescription(), $this->entityManagerMock->inputPersistedObject->getDescription());
-        self::assertSame($expectedQuizEntity->getCategory(), $this->entityManagerMock->inputPersistedObject->getCategory());
+        self::assertSame($expectedQuizEntity->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTitle());
+        self::assertSame($expectedQuizEntity->getDescription(), $this->entityManagerMock->inputPersistedObject[0]->getDescription());
+        self::assertSame($expectedQuizEntity->getCategory(), $this->entityManagerMock->inputPersistedObject[0]->getCategory());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
@@ -105,9 +105,9 @@ final class PersisterTest extends TestCase
             'test',
         );
         self::assertIsString($expectedQuizEntity->getId());
-        self::assertSame($expectedQuizEntity->getTitle(), $this->entityManagerMock->inputPersistedObject->getTitle());
-        self::assertSame($expectedQuizEntity->getDescription(), $this->entityManagerMock->inputPersistedObject->getDescription());
-        self::assertSame($expectedQuizEntity->getCategory(), $this->entityManagerMock->inputPersistedObject->getCategory());
+        self::assertSame($expectedQuizEntity->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTitle());
+        self::assertSame($expectedQuizEntity->getDescription(), $this->entityManagerMock->inputPersistedObject[0]->getDescription());
+        self::assertSame($expectedQuizEntity->getCategory(), $this->entityManagerMock->inputPersistedObject[0]->getCategory());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [

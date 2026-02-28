@@ -23,3 +23,8 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController:
     path: /api/v1/quiz
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController
     methods: DELETE
+
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
+    path: /api/v1/question
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController
+    methods: POST

@@ -25,7 +25,7 @@ use Doctrine\ORM\UnitOfWork;
 
 final class EntityManagerMock implements EntityManagerInterface
 {
-    public object $inputPersistedObject;
+    public array $inputPersistedObject;
     public ?\Exception $throwPersistException = null;
     public bool $isFlushCalled = false;
 
@@ -197,7 +197,7 @@ final class EntityManagerMock implements EntityManagerInterface
     #[\Override]
     public function persist(object $object): void
     {
-        $this->inputPersistedObject = $object;
+        $this->inputPersistedObject[] = $object;
         if ($this->throwPersistException instanceof \Exception) {
             throw $this->throwPersistException;
         }

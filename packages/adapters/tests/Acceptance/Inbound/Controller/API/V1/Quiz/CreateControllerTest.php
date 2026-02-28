@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[CoversNothing(CreateController::class)]
 final class CreateControllerTest extends AbstractWebTestCase
 {
-    public function testCreateQuizUserIsValid(): void
+    public function testCreateQuizIsValid(): void
     {
         $payload = [
             'title' => 'test',
@@ -51,7 +51,7 @@ final class CreateControllerTest extends AbstractWebTestCase
         self::assertSame('test', $row['category']);
     }
 
-    public function testCreateQuizUserWithBadRequest(): void
+    public function testCreateQuizWithBadRequest(): void
     {
         $payload = [
             'title' => 'test',
