@@ -115,7 +115,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         self::assertSame('Unauthorized.', $response['message']);
     }
 
-    public function testDeleteUserWithNotExistingTitle(): void
+    public function testDeleteUserWithNotExistingId(): void
     {
         $this->client->request(
             'DELETE',
