@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Domain\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz as QuizEntity;
+
 /**
- * @template-implements \IteratorAggregate<int, Quiz>
+ * @template-implements \IteratorAggregate<int, QuizEntity>
  *
  * @codeCoverageIgnore
  *

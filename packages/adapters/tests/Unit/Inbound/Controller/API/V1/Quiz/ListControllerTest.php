@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks\ListHandlerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
-use CuriosityConference\Domain\Quiz\Quiz;
 use CuriosityConference\Domain\Quiz\QuizCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -37,13 +37,16 @@ final class ListControllerTest extends TestCase
                 'test',
                 'test',
                 'test',
-            ),
-            new Quiz(
-                'test',
-                'test',
                 'test',
             ),
             new Quiz(
+                'test',
+                'test',
+                'test',
+                'test',
+            ),
+            new Quiz(
+                'test',
                 'test',
                 'test',
                 'test',
@@ -58,7 +61,8 @@ final class ListControllerTest extends TestCase
         self::assertCount(3, $jsonResponseAsArray['data']);
         foreach ($jsonResponseAsArray['data'] as $jsonResponseItem) {
             self::assertIsArray($jsonResponseItem);
-            self::assertSame(['title', 'description', 'category'], \array_keys($jsonResponseItem));
+            self::assertSame(['id', 'title', 'description', 'category'], \array_keys($jsonResponseItem));
+            self::assertSame('test', $jsonResponseItem['id']);
             self::assertSame('test', $jsonResponseItem['title']);
             self::assertSame('test', $jsonResponseItem['description']);
             self::assertSame('test', $jsonResponseItem['category']);
@@ -73,13 +77,16 @@ final class ListControllerTest extends TestCase
                 'test',
                 'test',
                 'test',
-            ),
-            new Quiz(
-                'test',
-                'test',
                 'test',
             ),
             new Quiz(
+                'test',
+                'test',
+                'test',
+                'test',
+            ),
+            new Quiz(
+                'test',
                 'test',
                 'test',
                 'test',

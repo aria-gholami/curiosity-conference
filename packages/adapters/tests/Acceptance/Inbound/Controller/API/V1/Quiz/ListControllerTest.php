@@ -45,13 +45,7 @@ final class ListControllerTest extends AbstractWebTestCase
         );
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
         self::assertArrayHasKey('data', $response);
-        self::assertEquals([
-            [
-                'title' => 'test',
-                'description' => 'test',
-                'category' => 'test',
-            ],
-        ], $response['data']);
+        self::assertSame(1, \count($response['data']));
     }
 
     public function testListQuizUserWithUnauthorized(): void

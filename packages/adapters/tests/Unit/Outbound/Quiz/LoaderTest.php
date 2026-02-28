@@ -58,9 +58,10 @@ final class LoaderTest extends TestCase
 
         $quizCollection = $this->loader->load();
 
-        self::assertSame('test', $quizCollection->data[0]->title);
-        self::assertSame('test', $quizCollection->data[0]->description);
-        self::assertSame('test', $quizCollection->data[0]->category);
+        self::assertSame('test', $quizCollection->data[0]->getId());
+        self::assertSame('test', $quizCollection->data[0]->getTitle());
+        self::assertSame('test', $quizCollection->data[0]->getDescription());
+        self::assertSame('test', $quizCollection->data[0]->getCategory());
         self::assertEquals([
             'info' => [
                 [

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Outbound\Quiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz as QuizEntity;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository;
 use CuriosityConference\Application\Port\Outbound\Quiz\Loader as LoaderInterface;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -26,13 +25,7 @@ final readonly class Loader implements LoaderInterface
         try {
             $this->logger->info('Start loading quizes.');
             $quizEntityGroup = $this->quizRepository->findAll();
-            $quizCollection = new QuizCollection(\array_map(static function (QuizEntity $quizEntity) {
-                return new Quiz(
-                    $quizEntity->getTitle(),
-                    $quizEntity->getDescription(),
-                    $quizEntity->getCategory(),
-                );
-            }, $quizEntityGroup));
+            $quizCollection = new QuizCollection($quizEntityGroup);
             if ($quizCollection->isEmpty()) {
                 throw LoadEntityFailedException::loadFailed(Quiz::class);
             }
