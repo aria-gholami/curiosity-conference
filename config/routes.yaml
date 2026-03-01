@@ -32,3 +32,7 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByQuizLoadContro
     path: /api/v1/question
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByQuizLoadController
     methods: GET
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\DeleteController:
+    path: /api/v1/question
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\DeleteController
+    methods: DELETE

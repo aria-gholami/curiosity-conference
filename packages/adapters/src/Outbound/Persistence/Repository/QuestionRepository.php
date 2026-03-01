@@ -21,4 +21,9 @@ class QuestionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Question::class);
     }
+
+    public function remove(Question $entity): void
+    {
+        $this->getEntityManager()->remove($entity);
+    }
 }

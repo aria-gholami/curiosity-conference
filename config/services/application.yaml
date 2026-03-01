@@ -39,6 +39,9 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Question\ByIdLoader'
       - '@api.v1.quiz.logger'
+  CuriosityConference\Application\UseCase\Question\DeleteHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Question\ByIdDeleter'
 
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:
