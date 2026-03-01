@@ -12,6 +12,7 @@ use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Question\QuestionCollection;
 use CuriosityConference\Domain\Quiz\Id;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -47,18 +48,21 @@ final class ByQuizLoadControllerTest extends TestCase
         $questionCollection = new QuestionCollection([
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
         ]);
         $this->byQuizLoadHandlerMock->outputQuestionCollection = $questionCollection;
@@ -90,18 +94,21 @@ final class ByQuizLoadControllerTest extends TestCase
         $questionCollection = new QuestionCollection([
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
         ]);
         $this->byQuizLoadHandlerMock->outputQuestionCollection = $questionCollection;
@@ -133,18 +140,21 @@ final class ByQuizLoadControllerTest extends TestCase
         $questionCollection = new QuestionCollection([
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
             new Question(
                 'test',
-                $quiz,
                 'test',
+                $quiz,
+                new ArrayCollection(),
             ),
         ]);
         $this->byQuizLoadHandlerMock->outputQuestionCollection = $questionCollection;

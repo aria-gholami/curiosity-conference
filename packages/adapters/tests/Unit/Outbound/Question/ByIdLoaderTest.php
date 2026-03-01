@@ -10,6 +10,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionReposit
 use CuriosityConference\Adapters\Outbound\Question\ByIdLoader;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -42,16 +43,18 @@ final class ByIdLoaderTest extends TestCase
         $questionGroup = [
             new Question(
                 '1',
-                $quiz,
                 'test1',
+                $quiz,
+                new ArrayCollection(),
             ),
             new Question(
                 '2',
-                $quiz,
                 'test2',
+                $quiz,
+                new ArrayCollection(),
             ),
         ];
-        $this->questionEntityRepositoryMock->expects($this->once())
+        $this->questionEntityRepositoryMock->expects(self::once())
             ->method('findBy')
             ->with(['quiz' => $quiz])
             ->willReturn($questionGroup);
@@ -125,19 +128,7 @@ final class ByIdLoaderTest extends TestCase
             'test',
             'test',
         );
-        $questionGroup = [
-            new Question(
-                '1',
-                $quiz,
-                'test1',
-            ),
-            new Question(
-                '2',
-                $quiz,
-                'test2',
-            ),
-        ];
-        $this->questionEntityRepositoryMock->expects($this->once())
+        $this->questionEntityRepositoryMock->expects(self::once())
             ->method('findBy')
             ->with(['quiz' => $quiz])
             ->willThrowException(new \Exception('test'));

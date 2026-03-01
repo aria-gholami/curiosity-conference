@@ -33,7 +33,6 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Question\Persister'
-      - '@CuriosityConference\Adapters\Outbound\Answer\Persister'
 
   CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:
     arguments:

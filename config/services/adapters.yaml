@@ -98,11 +98,6 @@ services:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
 
-  CuriosityConference\Adapters\Outbound\Answer\Persister:
-    arguments:
-      - '@doctrine.orm.entity_manager'
-      - '@api.v1.user.logger'
-
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
     arguments:
       - '@doctrine'
@@ -118,7 +113,6 @@ services:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
-
 
   CuriosityConference\Adapters\Outbound\Security\Argon2idHasher: ~
 

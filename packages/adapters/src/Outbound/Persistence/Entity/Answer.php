@@ -19,20 +19,19 @@ final class Answer
     #[ORM\Column(type: 'uuid')]
     private string $id;
 
-    #[ORM\ManyToOne(targetEntity: Question::class)]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private Question $question;
-
     #[ORM\Column(length: 255)]
     private string $title;
+
+    #[ORM\ManyToOne(targetEntity: Question::class, inversedBy: 'answerCollection')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    private ?Question $question = null;
 
     #[ORM\Column]
     private bool $isCorrect;
 
-    public function __construct(string $id, Question $question, string $title, bool $isCorrect)
+    public function __construct(string $id, string $title, bool $isCorrect)
     {
         $this->id = $id;
-        $this->question = $question;
         $this->title = $title;
         $this->isCorrect = $isCorrect;
     }
@@ -42,7 +41,12 @@ final class Answer
         return $this->id;
     }
 
-    public function getQuestion(): Question
+    public function setQuestion(?Question $question): void
+    {
+        $this->question = $question;
+    }
+
+    public function getQuestion(): ?Question
     {
         return $this->question;
     }

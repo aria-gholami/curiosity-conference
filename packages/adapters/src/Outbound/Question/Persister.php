@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Outbound\Question;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Answer;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question as QuestionEntity;
 use CuriosityConference\Application\Port\Outbound\Question\Persister as PersisterInterface;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 use CuriosityConference\Domain\Question\Question;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -29,9 +31,14 @@ final readonly class Persister implements PersisterInterface
             ]);
             $questionEntity = new QuestionEntity(
                 Uuid::v4()->toRfc4122(),
-                $question->quiz,
                 $question->title,
+                $question->quiz,
+                new ArrayCollection(),
             );
+            $questionEntity->addAnswer(new Answer(Uuid::v4()->toRfc4122(), $question->answers[0], 0 === $question->correctAnswerIndex));
+            $questionEntity->addAnswer(new Answer(Uuid::v4()->toRfc4122(), $question->answers[1], 1 === $question->correctAnswerIndex));
+            $questionEntity->addAnswer(new Answer(Uuid::v4()->toRfc4122(), $question->answers[2], 2 === $question->correctAnswerIndex));
+            $questionEntity->addAnswer(new Answer(Uuid::v4()->toRfc4122(), $question->answers[3], 3 === $question->correctAnswerIndex));
             $this->questionEntityManager->persist($questionEntity);
             $this->questionEntityManager->flush();
 

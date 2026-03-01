@@ -16,6 +16,8 @@ final readonly class Question
     public function __construct(
         public Quiz $quiz,
         public string $title,
+        public array $answers,
+        public int $correctAnswerIndex,
     ) {
     }
 }
