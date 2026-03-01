@@ -33,7 +33,7 @@ final readonly class ListController
                 ];
             }, $quizCollection->data)], Response::HTTP_OK);
         } catch (LoadEntityFailedException $exception) {
-            $this->logger->notice('Quiz could not be persisted.', [
+            $this->logger->notice('Quizes could not be loaded.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);
 

@@ -7,7 +7,7 @@ namespace CuriosityConference\Application\Port\Outbound\Quiz;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 
-interface ByTitleDeleter
+interface ByIdDeleter
 {
     /**
      * @throws DeleteFailedException

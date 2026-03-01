@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\UseCase\Quiz;
 
 use CuriosityConference\Application\Port\Inbound\Quiz\DeleteHandler as DeleteHandlerInterface;
-use CuriosityConference\Application\Port\Outbound\Quiz\ByTitleDeleter;
+use CuriosityConference\Application\Port\Outbound\Quiz\ByIdDeleter;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 
@@ -17,7 +17,7 @@ use CuriosityConference\Domain\Quiz\Id;
 final readonly class DeleteHandler implements DeleteHandlerInterface
 {
     public function __construct(
-        private ByTitleDeleter $byTitleDeleter,
+        private ByIdDeleter $byIdDeleter,
     ) {
     }
 
@@ -27,6 +27,6 @@ final readonly class DeleteHandler implements DeleteHandlerInterface
     #[\Override]
     public function handle(Id $id): void
     {
-        $this->byTitleDeleter->delete($id);
+        $this->byIdDeleter->delete($id);
     }
 }

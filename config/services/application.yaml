@@ -27,13 +27,19 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Quiz\Loader'
   CuriosityConference\Application\UseCase\Quiz\DeleteHandler:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Quiz\ByTitleDeleter'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdDeleter'
 
   CuriosityConference\Application\UseCase\Question\CreateHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Question\Persister'
       - '@CuriosityConference\Adapters\Outbound\Answer\Persister'
+
+  CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\Question\ByIdLoader'
+      - '@api.v1.quiz.logger'
 
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:

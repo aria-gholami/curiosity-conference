@@ -6,12 +6,12 @@ namespace CuriosityConference\Adapters\Outbound\Quiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository;
-use CuriosityConference\Application\Port\Outbound\Quiz\ByTitleDeleter as ByTitleDeleterInterface;
+use CuriosityConference\Application\Port\Outbound\Quiz\ByIdDeleter as ByIdLoaderInterface;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
 
-final readonly class ByTitleDeleter implements ByTitleDeleterInterface
+final readonly class ByIdDeleter implements ByIdLoaderInterface
 {
     public function __construct(
         private QuizRepository $quizRepository,

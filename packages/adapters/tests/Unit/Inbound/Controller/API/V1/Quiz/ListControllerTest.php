@@ -102,7 +102,7 @@ final class ListControllerTest extends TestCase
         self::assertEquals([
             'notice' => [
                 [
-                    'message' => 'Quiz could not be persisted.',
+                    'message' => 'Quizes could not be loaded.',
                     'context' => [
                         'exceptionMessage' => 'test',
                     ],

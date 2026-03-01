@@ -6,7 +6,7 @@ namespace CuriosityConference\Adapters\Tests\Unit\Outbound\Quiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository;
-use CuriosityConference\Adapters\Outbound\Quiz\ByTitleDeleter;
+use CuriosityConference\Adapters\Outbound\Quiz\ByIdDeleter;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Quiz\Id;
@@ -15,19 +15,19 @@ use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ByTitleDeleter::class)]
+#[CoversClass(ByIdDeleter::class)]
 #[UsesClass(Id::class)]
-final class ByTitleDeleterTest extends TestCase
+final class ByIdDeleterTest extends TestCase
 {
     private MockObject $quizEntityRepositoryMock;
     private LoggerMock $loggerMock;
-    private ByTitleDeleter $byTitleDeleter;
+    private ByIdDeleter $byIdDeleter;
 
     protected function setUp(): void
     {
         $this->quizEntityRepositoryMock = $this->createMock(QuizRepository::class);
         $this->loggerMock = new LoggerMock();
-        $this->byTitleDeleter = new ByTitleDeleter(
+        $this->byIdDeleter = new ByIdDeleter(
             $this->quizEntityRepositoryMock,
             $this->loggerMock,
         );
@@ -50,7 +50,7 @@ final class ByTitleDeleterTest extends TestCase
             ->method('remove')
             ->with($quiz);
 
-        $this->byTitleDeleter->delete($id);
+        $this->byIdDeleter->delete($id);
 
         self::assertEquals([
             'info' => [
@@ -87,7 +87,7 @@ final class ByTitleDeleterTest extends TestCase
             ->method('remove')
             ->with($quiz);
 
-        $this->byTitleDeleter->delete($id);
+        $this->byIdDeleter->delete($id);
 
         self::assertEquals([
             'info' => [
@@ -120,7 +120,7 @@ final class ByTitleDeleterTest extends TestCase
             ->willThrowException(new DeleteFailedException('test'));
 
         try {
-            $this->byTitleDeleter->delete($id);
+            $this->byIdDeleter->delete($id);
             $this->fail('DeleteFailedException was expected to be thrown.');
         } catch (DeleteFailedException $exception) {
             self::assertSame('Delete entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz" was not successful.', $exception->getMessage());

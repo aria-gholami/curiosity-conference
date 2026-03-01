@@ -28,3 +28,7 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController
     path: /api/v1/question
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController
     methods: POST
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByQuizLoadController:
+    path: /api/v1/question
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByQuizLoadController
+    methods: GET

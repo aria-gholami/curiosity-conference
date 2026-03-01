@@ -51,6 +51,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByQuizLoadController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
     arguments:
@@ -78,11 +84,15 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\ByTitleDeleter:
+  CuriosityConference\Adapters\Outbound\Quiz\ByIdDeleter:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
       - '@api.v1.quiz.logger'
 
+  CuriosityConference\Adapters\Outbound\Question\ByIdLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository'
+      - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\Question\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
@@ -99,6 +109,11 @@ services:
     tags:
       - 'doctrine.repository_service'
   CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository:
     arguments:
       - '@doctrine'
     tags:
