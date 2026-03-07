@@ -1,5 +1,6 @@
 parameters:
   log_level: '%env(int:LOG_LEVEL)%'
+  admin_email: '%env(ADMIN_EMAIL)%'
 
 services:
   _defaults:
@@ -22,6 +23,12 @@ services:
   CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController:
     arguments:
       - '@CuriosityConference\Application\UseCase\User\LoginHandler'
+      - '@api.v1.user.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\User\PasswordResetMailSendHandler'
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }
@@ -77,6 +84,14 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\User\PasswordResetTokenPersister:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@api.v1.user.logger'
+  CuriosityConference\Adapters\Outbound\User\PasswordResetMailSender:
+    arguments:
+      - '@mailer.mailer'
+      - '%admin_email%'
 
   CuriosityConference\Adapters\Outbound\Quiz\Persister:
     arguments:
