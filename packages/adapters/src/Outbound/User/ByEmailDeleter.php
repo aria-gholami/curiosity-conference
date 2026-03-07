@@ -14,7 +14,7 @@ use Psr\Log\LoggerInterface;
 final readonly class ByEmailDeleter implements ByEmailDeleterInterface
 {
     public function __construct(
-        private UserRepository $quizRepository,
+        private UserRepository $userRepository,
         private LoggerInterface $logger,
     ) {
     }
@@ -30,14 +30,14 @@ final readonly class ByEmailDeleter implements ByEmailDeleterInterface
             $this->logger->debug('Start deleting user.', [
                 'email' => $email->value,
             ]);
-            $quizEntity = $this->quizRepository->findOneBy([
+            $quizEntity = $this->userRepository->findOneBy([
                 'email' => $email->value,
             ]);
             if (!$quizEntity instanceof User) {
                 return;
             }
 
-            $this->quizRepository->remove($quizEntity);
+            $this->userRepository->remove($quizEntity);
 
             $this->logger->info('Deleting user was successful.');
             $this->logger->debug('Deleting user was successful.', [

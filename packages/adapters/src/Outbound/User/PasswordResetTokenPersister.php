@@ -35,8 +35,6 @@ final readonly class PasswordResetTokenPersister implements PasswordResetTokenPe
                 $user,
                 $this->generatePasswordResetToken(),
                 new \DateTimeImmutable()->modify('+30 minutes'),
-                null,
-                new \DateTimeImmutable(),
             );
             $this->passwordResetEntityManager->persist($passwordResetEntity);
             $this->passwordResetEntityManager->flush();

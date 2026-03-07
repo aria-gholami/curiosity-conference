@@ -21,4 +21,9 @@ class PasswordResetRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, PasswordReset::class);
     }
+
+    public function remove(PasswordReset $entity): void
+    {
+        $this->getEntityManager()->remove($entity);
+    }
 }

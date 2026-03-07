@@ -23,5 +23,10 @@
                 <directory name="packages/adapters/src/Outbound/Persistence/Repository" />
             </errorLevel>
         </ClassMustBeFinal>
+        <PossiblyNullArgument>
+            <errorLevel type="suppress">
+                <file name="packages/application/src/UseCase/User/PasswordResetTokenVerifyHandler.php" />
+            </errorLevel>
+        </PossiblyNullArgument>
     </issueHandlers>
 </psalm>

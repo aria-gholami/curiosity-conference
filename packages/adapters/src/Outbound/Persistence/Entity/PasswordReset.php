@@ -29,20 +29,12 @@ final class PasswordReset
     #[ORM\Column]
     private \DateTimeImmutable $expiresAt;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $usedAt = null;
-
-    #[ORM\Column]
-    private \DateTimeImmutable $createdAt;
-
-    public function __construct(string $id, User $user, int $token, \DateTimeImmutable $expiresAt, ?\DateTimeImmutable $usedAt, \DateTimeImmutable $createdAt)
+    public function __construct(string $id, User $user, int $token, \DateTimeImmutable $expiresAt)
     {
         $this->id = $id;
         $this->user = $user;
         $this->token = $token;
         $this->expiresAt = $expiresAt;
-        $this->usedAt = $usedAt;
-        $this->createdAt = $createdAt;
     }
 
     public function getId(): string
@@ -63,15 +55,5 @@ final class PasswordReset
     public function getExpiresAt(): \DateTimeImmutable
     {
         return $this->expiresAt;
-    }
-
-    public function getUsedAt(): ?\DateTimeImmutable
-    {
-        return $this->usedAt;
-    }
-
-    public function getCreatedAt(): \DateTimeImmutable
-    {
-        return $this->createdAt;
     }
 }

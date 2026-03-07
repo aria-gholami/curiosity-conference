@@ -14,6 +14,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSen
     path: /api/v1/password/reset
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController
     methods: POST
+CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetTokenVerifyController:
+    path: /api/v1/password/reset
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetTokenVerifyController
+    methods: GET
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
     path: /api/v1/quiz

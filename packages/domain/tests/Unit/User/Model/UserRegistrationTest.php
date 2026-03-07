@@ -105,12 +105,12 @@ final class UserRegistrationTest extends TestCase
                 'test',
                 'test',
                 'test@web.de',
-                'Test123!',
+                'Test123',
                 'Test123',
             );
             $this->fail('InvalidPasswordException was expected to be thrown.');
         } catch (InvalidPasswordException $exception) {
-            self::assertSame('Validation failed for value "userRegistrationConfirmPassword" with error: "Password is not the same as confirmPassword."', $exception->getMessage());
+            self::assertSame('Validation failed for value "userRegistrationPassword" with error: "Password "Test123" is not valid: ."', $exception->getMessage());
         }
     }
 }

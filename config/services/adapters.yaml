@@ -32,6 +32,12 @@ services:
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetTokenVerifyController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\User\PasswordResetTokenVerifyHandler'
+      - '@api.v1.user.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
     arguments:
@@ -84,6 +90,10 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\User\ByIdLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
+      - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\User\PasswordResetTokenPersister:
     arguments:
       - '@doctrine.orm.entity_manager'
@@ -92,6 +102,14 @@ services:
     arguments:
       - '@mailer.mailer'
       - '%admin_email%'
+  CuriosityConference\Adapters\Outbound\User\PasswordResetTokenDeleter:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'
+      - '@api.v1.user.logger'
+  CuriosityConference\Adapters\Outbound\User\PasswordResetTokenLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'
+      - '@api.v1.user.logger'
 
   CuriosityConference\Adapters\Outbound\Quiz\Persister:
     arguments:
@@ -124,6 +142,11 @@ services:
       - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository:
     arguments:
       - '@doctrine'
     tags:

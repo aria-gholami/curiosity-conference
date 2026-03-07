@@ -26,7 +26,7 @@ final class InvalidPasswordException extends ValidationException
         return new self(
             parent::buildMessage(
                 'userRegistrationPassword',
-                \sprintf('Password "%s" is not confirmed: .', $password),
+                \sprintf('Password "%s" is not valid: .', $password),
             ),
         );
     }

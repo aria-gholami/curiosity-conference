@@ -24,6 +24,12 @@ services:
       - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenPersister'
       - '@CuriosityConference\Adapters\Outbound\User\PasswordResetMailSender'
       - '@api.v1.user.logger'
+  CuriosityConference\Application\UseCase\User\PasswordResetTokenVerifyHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenLoader'
+      - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenDeleter'
+      - '@api.v1.user.logger'
 
   CuriosityConference\Application\UseCase\Quiz\CreateHandler:
     arguments:
