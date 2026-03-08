@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Outbound\Persistence\Repository;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\PasswordReset;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -25,5 +26,13 @@ class PasswordResetRepository extends ServiceEntityRepository
     public function remove(PasswordReset $entity): void
     {
         $this->getEntityManager()->remove($entity);
+    }
+
+    public function removeByUser(User $user): void
+    {
+        $tokens = $this->findBy(['user' => $user]);
+        foreach ($tokens as $token) {
+            $this->getEntityManager()->remove($token);
+        }
     }
 }

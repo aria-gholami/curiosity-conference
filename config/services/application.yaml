@@ -21,6 +21,7 @@ services:
   CuriosityConference\Application\UseCase\User\PasswordResetMailSendHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
+      - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenByUserDeleter'
       - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenPersister'
       - '@CuriosityConference\Adapters\Outbound\User\PasswordResetMailSender'
       - '@api.v1.user.logger'

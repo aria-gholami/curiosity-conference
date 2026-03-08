@@ -106,6 +106,10 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'
       - '@api.v1.user.logger'
+  CuriosityConference\Adapters\Outbound\User\PasswordResetTokenByUserDeleter:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'
+      - '@api.v1.user.logger'
   CuriosityConference\Adapters\Outbound\User\PasswordResetTokenLoader:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'

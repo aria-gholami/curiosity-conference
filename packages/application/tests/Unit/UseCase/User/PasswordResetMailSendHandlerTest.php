@@ -8,6 +8,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\ByEmailLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PasswordResetMailSenderMock;
+use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PasswordResetTokenByUserDeleterMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PasswordResetTokenPersisterMock;
 use CuriosityConference\Application\UseCase\User\PasswordResetMailSendHandler;
 use CuriosityConference\Domain\Exception\CouldNotSentMailException;
@@ -22,6 +23,7 @@ use PHPUnit\Framework\TestCase;
 final class PasswordResetMailSendHandlerTest extends TestCase
 {
     private ByEmailLoaderMock $byEmailLoaderMock;
+    private PasswordResetTokenByUserDeleterMock $passwordResetTokenByUserDeleterMock;
     private PasswordResetTokenPersisterMock $passwordResetTokenPersisterMock;
     private PasswordResetMailSenderMock $passwordResetMailSenderMock;
     private LoggerMock $loggerMock;
@@ -30,11 +32,13 @@ final class PasswordResetMailSendHandlerTest extends TestCase
     protected function setUp(): void
     {
         $this->byEmailLoaderMock = new ByEmailLoaderMock();
+        $this->passwordResetTokenByUserDeleterMock = new PasswordResetTokenByUserDeleterMock();
         $this->passwordResetTokenPersisterMock = new PasswordResetTokenPersisterMock();
         $this->passwordResetMailSenderMock = new PasswordResetMailSenderMock();
         $this->loggerMock = new LoggerMock();
         $this->passwordResetMailSendHandler = new PasswordResetMailSendHandler(
             $this->byEmailLoaderMock,
+            $this->passwordResetTokenByUserDeleterMock,
             $this->passwordResetTokenPersisterMock,
             $this->passwordResetMailSenderMock,
             $this->loggerMock,
@@ -58,6 +62,10 @@ final class PasswordResetMailSendHandlerTest extends TestCase
         $this->passwordResetMailSendHandler->handle($email);
 
         self::assertSame($email->value, $this->byEmailLoaderMock->inputEmail);
+        self::assertSame($user->getId(), $this->passwordResetTokenByUserDeleterMock->inputUser->getId());
+        self::assertSame($user->getEmail(), $this->passwordResetTokenByUserDeleterMock->inputUser->getEmail());
+        self::assertSame($user->getFirstName(), $this->passwordResetTokenByUserDeleterMock->inputUser->getFirstName());
+        self::assertSame($user->getLastName(), $this->passwordResetTokenByUserDeleterMock->inputUser->getLastName());
         self::assertSame($user->getId(), $this->passwordResetTokenPersisterMock->inputUser->getId());
         self::assertSame($user->getEmail(), $this->passwordResetTokenPersisterMock->inputUser->getEmail());
         self::assertSame($user->getFirstName(), $this->passwordResetTokenPersisterMock->inputUser->getFirstName());
