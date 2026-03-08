@@ -51,7 +51,7 @@ final class LoginControllerTest extends TestCase
         $jsonResponse = $this->loginController->__invoke($request);
 
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
-        self::assertSame('{"id":"test"}', $jsonResponse->getContent());
+        self::assertSame('{"token":"test"}', $jsonResponse->getContent());
         $expectedUserLogin = new UserLogin('max.mustermann@example.com', 'Str0ng!PassWord');
         self::assertSame($expectedUserLogin->email, $this->loginHandlerMock->inputUserLogin->email);
         self::assertSame($expectedUserLogin->password, $this->loginHandlerMock->inputUserLogin->password);

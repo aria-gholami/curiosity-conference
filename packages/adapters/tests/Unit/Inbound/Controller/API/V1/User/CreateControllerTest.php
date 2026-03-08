@@ -59,7 +59,7 @@ final class CreateControllerTest extends TestCase
         $response = $this->createController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"id":"test"}', $response->getContent());
+        self::assertSame('{"token":"test"}', $response->getContent());
         self::assertSame($payload['firstName'], $this->createHandlerMock->inputUser->firstName);
         self::assertSame($payload['lastName'], $this->createHandlerMock->inputUser->lastName);
         self::assertSame('test@web.de', $this->createHandlerMock->inputUser->email);

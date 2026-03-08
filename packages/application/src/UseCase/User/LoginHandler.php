@@ -6,6 +6,7 @@ namespace CuriosityConference\Application\UseCase\User;
 
 use CuriosityConference\Application\Port\Inbound\User\LoginHandler as LoginHandlerInterface;
 use CuriosityConference\Application\Port\Outbound\Security\Argon2idHasher;
+use CuriosityConference\Application\Port\Outbound\Security\JwtUserToken;
 use CuriosityConference\Application\Port\Outbound\User\ByEmailLoader;
 use CuriosityConference\Domain\User\Exception\UserLoginFailedException;
 use CuriosityConference\Domain\User\Model\UserLogin;
@@ -16,6 +17,7 @@ final readonly class LoginHandler implements LoginHandlerInterface
     public function __construct(
         private ByEmailLoader $byEmailLoader,
         private Argon2idHasher $argon2idHasher,
+        private JwtUserToken $jwtUserToken,
         private LoggerInterface $logger,
     ) {
     }
@@ -33,7 +35,7 @@ final readonly class LoginHandler implements LoginHandlerInterface
                 throw UserLoginFailedException::loginFailed($userLogin->email);
             }
 
-            return $user->getId();
+            return $this->jwtUserToken->encode($user);
         } catch (\Throwable $exception) {
             $this->logger->notice('User login failed.', [
                 'exceptionMessage' => $exception->getMessage(),

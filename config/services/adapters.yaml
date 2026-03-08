@@ -1,6 +1,7 @@
 parameters:
   log_level: '%env(int:LOG_LEVEL)%'
   admin_email: '%env(ADMIN_EMAIL)%'
+  app_secret: '%env(APP_SECRET)%'
 
 services:
   _defaults:
@@ -186,6 +187,9 @@ services:
       - 'doctrine.repository_service'
 
   CuriosityConference\Adapters\Outbound\Security\Argon2idHasher: ~
+  CuriosityConference\Adapters\Outbound\Security\JwtUserToken:
+    arguments:
+      - '%app_secret%'
 
   CuriosityConference\Adapters\Inbound\Security\ValidateApiKeySubscriber:
     arguments:

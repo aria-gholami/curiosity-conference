@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\Tests\Unit\UseCase\User;
 
 use CuriosityConference\Application\Tests\Unit\Mocks\Argon2idHasherMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\JwtUserTokenMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PersisterMock;
 use CuriosityConference\Application\UseCase\User\CreateHandler;
 use CuriosityConference\Domain\User\Model\UserRegistration;
@@ -18,13 +19,19 @@ final class CreateHandlerTest extends TestCase
 {
     private PersisterMock $persisterMock;
     private Argon2idHasherMock $argon2idHasherMock;
+    private JwtUserTokenMock $jwtUserTokenMock;
     private CreateHandler $createHandler;
 
     protected function setUp(): void
     {
         $this->persisterMock = new PersisterMock();
         $this->argon2idHasherMock = new Argon2idHasherMock();
-        $this->createHandler = new CreateHandler($this->persisterMock, $this->argon2idHasherMock);
+        $this->jwtUserTokenMock = new JwtUserTokenMock();
+        $this->createHandler = new CreateHandler(
+            $this->persisterMock,
+            $this->argon2idHasherMock,
+            $this->jwtUserTokenMock,
+        );
     }
 
     public function testHandleIsValid(): void
@@ -33,6 +40,7 @@ final class CreateHandlerTest extends TestCase
         $this->persisterMock->outputUserId = $expectedUserId;
         $expectedHashedPassword = '133243546456';
         $this->argon2idHasherMock->outputValue = $expectedHashedPassword;
+        $this->jwtUserTokenMock->outputJwtToken = 'test';
 
         $user = new UserRegistration(
             'test',
@@ -50,5 +58,8 @@ final class CreateHandlerTest extends TestCase
         self::assertSame($user->lastName, $this->persisterMock->inputUser->lastName);
         self::assertSame($user->email, $this->persisterMock->inputUser->email);
         self::assertSame($expectedHashedPassword, $this->persisterMock->inputUser->password);
+        self::assertSame($user->firstName, $this->jwtUserTokenMock->inputUser->getFirstName());
+        self::assertSame($user->lastName, $this->jwtUserTokenMock->inputUser->getLastName());
+        self::assertSame($user->email, $this->jwtUserTokenMock->inputUser->getEmail());
     }
 }

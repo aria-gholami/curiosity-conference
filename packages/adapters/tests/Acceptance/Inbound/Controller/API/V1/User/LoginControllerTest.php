@@ -54,8 +54,8 @@ final class LoginControllerTest extends AbstractWebTestCase
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
-        self::assertArrayHasKey('id', $response);
-        self::assertNotEmpty($response['id']);
+        self::assertArrayHasKey('token', $response);
+        self::assertNotEmpty($response['token']);
     }
 
     public function testCreateUserWithBadRequest(): void

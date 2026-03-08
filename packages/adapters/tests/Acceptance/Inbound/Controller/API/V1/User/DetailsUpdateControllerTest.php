@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Tests\Acceptance\AbstractWebTestCase;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Uid\Uuid;
 
 #[Group('Acceptance')]
 #[CoversNothing(DetailsUpdateController::class)]
@@ -33,13 +34,12 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $response = \json_decode(
-            $this->client->getResponse()->getContent(),
-            true,
-            flags: \JSON_THROW_ON_ERROR,
+        $row = $this->connection->fetchAssociative(
+            'SELECT * FROM user WHERE email = :email',
+            ['email' => 'test@web.de'],
         );
         $payload = [
-            'id' => $response['id'],
+            'id' => Uuid::fromBinary($row['id'])->toRfc4122(),
             'firstName' => 'test',
             'lastName' => 'test',
         ];
@@ -75,11 +75,6 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
-        );
-        $response = \json_decode(
-            $this->client->getResponse()->getContent(),
-            true,
-            flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
             'id' => '',
@@ -126,13 +121,12 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $response = \json_decode(
-            $this->client->getResponse()->getContent(),
-            true,
-            flags: \JSON_THROW_ON_ERROR,
+        $row = $this->connection->fetchAssociative(
+            'SELECT * FROM user WHERE email = :email',
+            ['email' => 'test@web.de'],
         );
         $payload = [
-            'id' => $response['id'],
+            'id' => Uuid::fromBinary($row['id'])->toRfc4122(),
             'firstName' => 'test',
             'lastName' => 'test',
         ];

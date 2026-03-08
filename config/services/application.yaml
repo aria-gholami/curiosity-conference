@@ -10,10 +10,12 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\Persister'
       - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
+      - '@CuriosityConference\Adapters\Outbound\Security\JwtUserToken'
   CuriosityConference\Application\UseCase\User\LoginHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
       - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
+      - '@CuriosityConference\Adapters\Outbound\Security\JwtUserToken'
       - '@api.v1.user.logger'
   CuriosityConference\Application\UseCase\User\DeleteHandler:
     arguments:

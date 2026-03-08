@@ -30,9 +30,9 @@ final readonly class LoginController
                 \lcfirst($email),
                 $data['password'] ?? '',
             );
-            $id = $this->loginHandler->handle($userLogin);
+            $token = $this->loginHandler->handle($userLogin);
 
-            return new JsonResponse(['id' => $id], Response::HTTP_OK);
+            return new JsonResponse(['token' => $token], Response::HTTP_OK);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/user/login is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),

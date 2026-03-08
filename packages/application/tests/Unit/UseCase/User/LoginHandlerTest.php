@@ -7,6 +7,7 @@ namespace CuriosityConference\Application\Tests\Unit\UseCase\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\Argon2idHasherMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\JwtUserTokenMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\ByEmailLoaderMock;
 use CuriosityConference\Application\UseCase\User\LoginHandler;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -22,6 +23,7 @@ final class LoginHandlerTest extends TestCase
 {
     private ByEmailLoaderMock $byEmailLoaderMock;
     private Argon2idHasherMock $argon2idHasherMock;
+    private JwtUserTokenMock $jwtUserTokenMock;
     private LoggerMock $loggerMock;
     private LoginHandler $loginHandler;
 
@@ -29,10 +31,12 @@ final class LoginHandlerTest extends TestCase
     {
         $this->byEmailLoaderMock = new ByEmailLoaderMock();
         $this->argon2idHasherMock = new Argon2idHasherMock();
+        $this->jwtUserTokenMock = new JwtUserTokenMock();
         $this->loggerMock = new LoggerMock();
         $this->loginHandler = new LoginHandler(
             $this->byEmailLoaderMock,
             $this->argon2idHasherMock,
+            $this->jwtUserTokenMock,
             $this->loggerMock,
         );
     }
@@ -48,6 +52,7 @@ final class LoginHandlerTest extends TestCase
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $this->argon2idHasherMock->outputVerified = true;
+        $this->jwtUserTokenMock->outputJwtToken = 'test';
 
         $userLogin = new UserLogin(
             'test@email.de',
@@ -59,6 +64,11 @@ final class LoginHandlerTest extends TestCase
         self::assertSame($user->getEmail(), $this->byEmailLoaderMock->inputEmail);
         self::assertSame($userLogin->password, $this->argon2idHasherMock->inputPlainPassword);
         self::assertSame($user->getPassword(), $this->argon2idHasherMock->inputHash);
+        self::assertSame($user->getId(), $this->jwtUserTokenMock->inputUser->getId());
+        self::assertSame($user->getFirstName(), $this->jwtUserTokenMock->inputUser->getFirstName());
+        self::assertSame($user->getLastName(), $this->jwtUserTokenMock->inputUser->getLastName());
+        self::assertSame($user->getEmail(), $this->jwtUserTokenMock->inputUser->getEmail());
+        self::assertSame($user->getPassword(), $this->jwtUserTokenMock->inputUser->getPassword());
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -73,6 +83,7 @@ final class LoginHandlerTest extends TestCase
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $this->argon2idHasherMock->outputVerified = false;
+        $this->jwtUserTokenMock->outputJwtToken = 'test';
 
         $userLogin = new UserLogin(
             'test@email.de',
@@ -112,6 +123,7 @@ final class LoginHandlerTest extends TestCase
         $this->byEmailLoaderMock->outputUser = $user;
         $this->byEmailLoaderMock->throwException = LoadEntityFailedException::loadFailed(User::class);
         $this->argon2idHasherMock->outputVerified = false;
+        $this->jwtUserTokenMock->outputJwtToken = 'test';
 
         $userLogin = new UserLogin(
             'test@email.de',
