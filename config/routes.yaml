@@ -10,6 +10,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteController:
     path: /api/v1/user
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteController
     methods: DELETE
+CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController:
+    path: /api/v1/user
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController
+    methods: PUT
 CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController:
     path: /api/v1/password/reset
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController

@@ -19,10 +19,15 @@ services:
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }
-
   CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController:
     arguments:
       - '@CuriosityConference\Application\UseCase\User\LoginHandler'
+      - '@api.v1.user.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\User\DetailsUpdateHandler'
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }
@@ -91,6 +96,10 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\User\ByIdLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\User\DetailsUpdater:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
