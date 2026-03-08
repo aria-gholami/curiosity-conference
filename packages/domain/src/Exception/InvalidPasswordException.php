@@ -21,11 +21,11 @@ final class InvalidPasswordException extends ValidationException
         );
     }
 
-    public static function invalidPassword(string $password): self
+    public static function invalidPassword(string $password, string $identifier): self
     {
         return new self(
             parent::buildMessage(
-                'userRegistrationPassword',
+                $identifier,
                 \sprintf('Password "%s" is not valid: .', $password),
             ),
         );

@@ -27,6 +27,6 @@ final readonly class DetailsUpdateHandler implements DetailsUpdateHandlerInterfa
     #[\Override]
     public function handle(UserDetails $userDetails): void
     {
-        $this->detailsUpdater->updateUserDetails($userDetails);
+        $this->detailsUpdater->update($userDetails);
     }
 }

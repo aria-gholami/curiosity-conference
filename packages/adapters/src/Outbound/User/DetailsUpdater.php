@@ -23,7 +23,7 @@ final readonly class DetailsUpdater implements DetailsUpdaterInterface
      * @throws UpdateFailedException
      */
     #[\Override]
-    public function updateUserDetails(UserDetails $userDetails): void
+    public function update(UserDetails $userDetails): void
     {
         try {
             $this->logger->info('Start updating user details.', [

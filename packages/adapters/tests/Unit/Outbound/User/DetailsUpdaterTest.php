@@ -40,7 +40,7 @@ final class DetailsUpdaterTest extends TestCase
             ->method('updateNameById')
             ->with($userDetails);
 
-        $this->detailsUpdater->updateUserDetails($userDetails);
+        $this->detailsUpdater->update($userDetails);
 
         self::assertEquals([
             'info' => [
@@ -72,7 +72,7 @@ final class DetailsUpdaterTest extends TestCase
             ->with($userDetails)
             ->willThrowException(new \Exception('test'));
         try {
-            $this->detailsUpdater->updateUserDetails($userDetails);
+            $this->detailsUpdater->update($userDetails);
             $this->fail('LoadEntityFailedException was expected to be thrown.');
         } catch (UpdateFailedException $exception) {
             self::assertSame('Update entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\User" was not successful.', $exception->getMessage());

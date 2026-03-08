@@ -6,6 +6,7 @@ namespace CuriosityConference\Adapters\Outbound\Persistence\Repository;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Domain\User\Model\UserDetails;
+use CuriosityConference\Domain\User\Model\UserPassword;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -38,6 +39,19 @@ class UserRepository extends ServiceEntityRepository
 
         $user->setFirstname($userDetails->firstName);
         $user->setLastname($userDetails->lastName);
+
+        $this->getEntityManager()->flush();
+    }
+
+    public function updatePasswordById(UserPassword $userPassword): void
+    {
+        /** @var ?User $user */
+        $user = $this->find($userPassword->id);
+        if (!$user instanceof User) {
+            return;
+        }
+
+        $user->setPassword($userPassword->password);
 
         $this->getEntityManager()->flush();
     }

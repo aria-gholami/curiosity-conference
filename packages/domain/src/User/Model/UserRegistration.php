@@ -47,7 +47,7 @@ final readonly class UserRegistration
             throw InvalidPasswordException::passwordNotSameAsConfirmPassword('userRegistrationConfirmPassword');
         }
         if (!\preg_match(self::PASSWORD_REGEX, $this->password)) {
-            throw InvalidPasswordException::invalidPassword($this->password);
+            throw InvalidPasswordException::invalidPassword($this->password, 'userRegistrationPassword');
         }
     }
 }

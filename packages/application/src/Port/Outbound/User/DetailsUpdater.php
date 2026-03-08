@@ -12,5 +12,5 @@ interface DetailsUpdater
     /**
      * @throws UpdateFailedException
      */
-    public function updateUserDetails(UserDetails $userDetails): void;
+    public function update(UserDetails $userDetails): void;
 }

@@ -21,6 +21,9 @@ services:
   CuriosityConference\Application\UseCase\User\DetailsUpdateHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\DetailsUpdater'
+  CuriosityConference\Application\UseCase\User\PasswordUpdateHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\User\PasswordUpdater'
   CuriosityConference\Application\UseCase\User\PasswordResetMailSendHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'

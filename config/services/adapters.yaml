@@ -31,6 +31,12 @@ services:
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordUpdateController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\User\PasswordUpdateHandler'
+      - '@api.v1.user.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
   CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController:
     arguments:
       - '@CuriosityConference\Application\UseCase\User\PasswordResetMailSendHandler'
@@ -100,6 +106,10 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\User\DetailsUpdater:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\User\PasswordUpdater:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'

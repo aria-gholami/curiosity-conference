@@ -14,6 +14,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateControl
     path: /api/v1/user
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController
     methods: PUT
+CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordUpdateController:
+    path: /api/v1/user/password
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordUpdateController
+    methods: PUT
 CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController:
     path: /api/v1/password/reset
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController

@@ -70,6 +70,11 @@ final class User
         return $this->email;
     }
 
+    public function setPassword(string $password): void
+    {
+        $this->password = $password;
+    }
+
     public function getPassword(): string
     {
         return $this->password;

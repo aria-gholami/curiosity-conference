@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 final readonly class DetailsUpdateController
 {
     public function __construct(
-        private DetailsUpdateHandler $editHandler,
+        private DetailsUpdateHandler $detailsUpdateHandler,
         private LoggerInterface $logger,
     ) {
     }
@@ -30,7 +30,7 @@ final readonly class DetailsUpdateController
                 $data['firstName'] ?? '',
                 $data['lastName'] ?? '',
             );
-            $this->editHandler->handle($userDetails);
+            $this->detailsUpdateHandler->handle($userDetails);
 
             return new JsonResponse([], Response::HTTP_NO_CONTENT);
         } catch (EmptyStringException $exception) {
