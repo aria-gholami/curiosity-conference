@@ -27,10 +27,11 @@ final readonly class CreateController
     {
         try {
             $data = \json_decode($request->getContent(), true);
+            $email = $data['email'] ?? '';
             $userRegistration = new UserRegistration(
                 $data['firstName'] ?? '',
                 $data['lastName'] ?? '',
-                $data['email'] ?? '',
+                \lcfirst($email),
                 $data['password'] ?? '',
                 $data['confirmPassword'] ?? '',
             );

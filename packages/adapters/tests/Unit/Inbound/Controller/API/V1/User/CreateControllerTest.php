@@ -42,7 +42,7 @@ final class CreateControllerTest extends TestCase
         $payload = [
             'firstName' => 'test',
             'lastName' => 'test',
-            'email' => 'test@web.de',
+            'email' => 'Test@web.de',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];
@@ -62,7 +62,7 @@ final class CreateControllerTest extends TestCase
         self::assertSame('{"id":"test"}', $response->getContent());
         self::assertSame($payload['firstName'], $this->createHandlerMock->inputUser->firstName);
         self::assertSame($payload['lastName'], $this->createHandlerMock->inputUser->lastName);
-        self::assertSame($payload['email'], $this->createHandlerMock->inputUser->email);
+        self::assertSame('test@web.de', $this->createHandlerMock->inputUser->email);
         self::assertSame($payload['password'], $this->createHandlerMock->inputUser->password);
         self::assertSame($payload['confirmPassword'], $this->createHandlerMock->inputUser->confirmPassword);
         self::assertEquals([], $this->loggerMock->logs);
@@ -105,7 +105,7 @@ final class CreateControllerTest extends TestCase
         $payload = [
             'firstName' => 'test',
             'lastName' => 'test',
-            'email' => 'test@web.de',
+            'email' => 'Test@web.de',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];
@@ -159,7 +159,7 @@ final class CreateControllerTest extends TestCase
         $payload = [
             'firstName' => 'test',
             'lastName' => 'test',
-            'email' => 'test@web.de',
+            'email' => 'Test@web.de',
             'password' => 'Test123!',
             'confirmPassword' => 'Test124!',
         ];
@@ -202,7 +202,7 @@ final class CreateControllerTest extends TestCase
         $payload = [
             'firstName' => 'test',
             'lastName' => 'test',
-            'email' => 'test@web.de',
+            'email' => 'Test@web.de',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];
@@ -222,7 +222,7 @@ final class CreateControllerTest extends TestCase
         self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
         self::assertSame($payload['firstName'], $this->createHandlerMock->inputUser->firstName);
         self::assertSame($payload['lastName'], $this->createHandlerMock->inputUser->lastName);
-        self::assertSame($payload['email'], $this->createHandlerMock->inputUser->email);
+        self::assertSame('test@web.de', $this->createHandlerMock->inputUser->email);
         self::assertSame($payload['password'], $this->createHandlerMock->inputUser->password);
         self::assertSame($payload['confirmPassword'], $this->createHandlerMock->inputUser->confirmPassword);
         self::assertEquals([

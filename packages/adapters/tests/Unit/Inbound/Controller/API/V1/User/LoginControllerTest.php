@@ -35,7 +35,7 @@ final class LoginControllerTest extends TestCase
         $userId = 'test';
         $this->loginHandlerMock->outputLoginHandler = $userId;
         $payload = [
-            'email' => 'max.mustermann@example.com',
+            'email' => 'Max.mustermann@example.com',
             'password' => 'Str0ng!PassWord',
         ];
         $request = new Request(
@@ -97,7 +97,7 @@ final class LoginControllerTest extends TestCase
         $userId = 'test';
         $this->loginHandlerMock->outputLoginHandler = $userId;
         $payload = [
-            'email' => 'max.mustermann@example.com',
+            'email' => 'Max.mustermann@example.com',
             'password' => null,
         ];
         $request = new Request(
@@ -132,7 +132,7 @@ final class LoginControllerTest extends TestCase
         $this->loginHandlerMock->outputLoginHandler = $userId;
         $this->loginHandlerMock->throwException = UserLoginFailedException::loginFailed('max.mustermann@example.com');
         $payload = [
-            'email' => 'max.mustermann@example.com',
+            'email' => 'Max.mustermann@example.com',
             'password' => 'Str0ng!PassWord',
         ];
         $request = new Request(

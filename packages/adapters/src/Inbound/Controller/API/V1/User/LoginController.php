@@ -25,8 +25,9 @@ final readonly class LoginController
     {
         try {
             $data = \json_decode($request->getContent(), true);
+            $email = $data['email'] ?? '';
             $userLogin = new UserLogin(
-                $data['email'] ?? '',
+                \lcfirst($email),
                 $data['password'] ?? '',
             );
             $id = $this->loginHandler->handle($userLogin);
