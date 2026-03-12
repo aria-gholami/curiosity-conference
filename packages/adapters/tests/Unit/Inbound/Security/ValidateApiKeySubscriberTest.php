@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CuriosityConference\Adapters\Tests\Unit\Outbound\Security;
+namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Security;
 
 use CuriosityConference\Adapters\Inbound\Security\ValidateApiKeySubscriber;
+use CuriosityConference\Adapters\Tests\Unit\Inbound\Security\Mocks\ApiKeyValidatorMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
-use CuriosityConference\Adapters\Tests\Unit\Outbound\Security\Mocks\ApiKeyValidatorMock;
 use CuriosityConference\Application\UseCase\Security\ApiKeyValidator;
 use CuriosityConference\Domain\Exception\InvalidApiKeyException;
 use PHPUnit\Framework\Attributes\CoversClass;

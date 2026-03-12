@@ -8,6 +8,7 @@ use CuriosityConference\Application\Tests\Unit\Mocks\Argon2idHasherMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\JwtUserTokenMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PersisterMock;
 use CuriosityConference\Application\UseCase\User\CreateHandler;
+use CuriosityConference\Domain\User\Model\UserLoginResponse;
 use CuriosityConference\Domain\User\Model\UserRegistration;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -15,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 #[CoversClass(CreateHandler::class)]
 #[UsesClass(UserRegistration::class)]
+#[UsesClass(UserLoginResponse::class)]
 final class CreateHandlerTest extends TestCase
 {
     private PersisterMock $persisterMock;
@@ -50,9 +52,10 @@ final class CreateHandlerTest extends TestCase
             'Test123!',
         );
 
-        $userId = $this->createHandler->handle($user);
+        $userLoginResponse = $this->createHandler->handle($user);
 
-        self::assertSame($expectedUserId, $userId);
+        self::assertSame($expectedUserId, $userLoginResponse->id);
+        self::assertSame('test', $userLoginResponse->token);
         self::assertSame($user->password, $this->argon2idHasherMock->inputValue);
         self::assertSame($user->firstName, $this->persisterMock->inputUser->firstName);
         self::assertSame($user->lastName, $this->persisterMock->inputUser->lastName);

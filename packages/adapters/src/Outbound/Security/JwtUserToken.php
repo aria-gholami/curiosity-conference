@@ -6,6 +6,8 @@ namespace CuriosityConference\Adapters\Outbound\Security;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Port\Outbound\Security\JwtUserToken as JwtUserTokenInterface;
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -34,6 +36,13 @@ final readonly class JwtUserToken implements JwtUserTokenInterface
         return JWT::encode($payload, $this->secret, 'HS256');
     }
 
+    /**
+     * @throws \InvalidArgumentException
+     * @throws \DomainException
+     * @throws \UnexpectedValueException
+     * @throws BeforeValidException
+     * @throws ExpiredException
+     */
     #[\Override]
     public function decode(string $token): User
     {

@@ -35,9 +35,9 @@ final readonly class CreateController
                 $data['password'] ?? '',
                 $data['confirmPassword'] ?? '',
             );
-            $token = $this->createHandler->handle($userRegistration);
+            $userLoginResponse = $this->createHandler->handle($userRegistration);
 
-            return new JsonResponse(['token' => $token], Response::HTTP_CREATED);
+            return new JsonResponse(['id' => $userLoginResponse->id, 'token' => $userLoginResponse->token], Response::HTTP_CREATED);
         } catch (EmptyStringException|InvalidEmailException|InvalidPasswordException $exception) {
             $this->logger->notice('Request data for /api/v1/user is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),

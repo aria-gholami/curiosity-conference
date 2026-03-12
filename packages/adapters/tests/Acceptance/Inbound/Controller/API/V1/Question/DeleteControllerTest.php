@@ -18,6 +18,28 @@ final class DeleteControllerTest extends AbstractWebTestCase
     public function testDeleteQuestionIsValid(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'title' => 'test',
             'description' => 'test',
             'category' => 'test',
@@ -29,6 +51,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -53,6 +76,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -66,6 +90,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
             '/api/v1/question?id=' . $response['id'],
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
         );
         self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
@@ -73,6 +98,28 @@ final class DeleteControllerTest extends AbstractWebTestCase
 
     public function testDeleteQuestionWithBadRequest(): void
     {
+        $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $payload = [
             'title' => 'test',
             'description' => 'test',
@@ -85,6 +132,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -109,6 +157,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -117,6 +166,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
             '/api/v1/question',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
         );
         $response = \json_decode(
@@ -133,6 +183,28 @@ final class DeleteControllerTest extends AbstractWebTestCase
     public function testDeleteQuestionWithUnauthorized(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'title' => 'test',
             'description' => 'test',
             'category' => 'test',
@@ -144,6 +216,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -168,6 +241,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -193,11 +267,34 @@ final class DeleteControllerTest extends AbstractWebTestCase
 
     public function testDeleteQuestionWithNotExistingId(): void
     {
+        $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $this->client->request(
             'DELETE',
             '/api/v1/question?id=' . Uuid::v4()->toRfc4122(),
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
         );
         self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);

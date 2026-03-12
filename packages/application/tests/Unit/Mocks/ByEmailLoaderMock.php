@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks;
+namespace CuriosityConference\Application\Tests\Unit\Mocks;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Port\Outbound\User\ByEmailLoader;
@@ -10,7 +10,7 @@ use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 
 final class ByEmailLoaderMock implements ByEmailLoader
 {
-    public string $inputEmail;
+    public string $inputEmail = '';
     public User $outputUser;
     public ?LoadEntityFailedException $throwException = null;
 

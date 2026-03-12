@@ -17,6 +17,28 @@ final class CreateControllerTest extends AbstractWebTestCase
     public function testCreateQuizIsValid(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'title' => 'test',
             'description' => 'test',
             'category' => 'test',
@@ -28,6 +50,7 @@ final class CreateControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -54,6 +77,28 @@ final class CreateControllerTest extends AbstractWebTestCase
     public function testCreateQuizWithBadRequest(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'title' => 'test',
             'description' => '',
             'category' => 'test',
@@ -65,6 +110,7 @@ final class CreateControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -82,6 +128,28 @@ final class CreateControllerTest extends AbstractWebTestCase
     public function testCreateQuizWithInvalidApiKey(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'title' => 'test',
             'description' => 'test',
             'category' => 'test',
@@ -92,6 +160,7 @@ final class CreateControllerTest extends AbstractWebTestCase
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -109,6 +178,28 @@ final class CreateControllerTest extends AbstractWebTestCase
     public function testCreateQuizWithInternalServerError(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'title' => 'test',
             'description' => 'test',
             'category' => 'test',
@@ -120,6 +211,7 @@ final class CreateControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -130,6 +222,7 @@ final class CreateControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );

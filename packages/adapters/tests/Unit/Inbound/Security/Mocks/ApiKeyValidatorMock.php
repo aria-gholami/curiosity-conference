@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CuriosityConference\Adapters\Tests\Unit\Outbound\Security\Mocks;
+namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Security\Mocks;
 
 use CuriosityConference\Application\Port\Inbound\Security\ApiKeyValidator;
 use CuriosityConference\Domain\Exception\InvalidApiKeyException;

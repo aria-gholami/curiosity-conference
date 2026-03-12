@@ -1,5 +1,6 @@
 parameters:
   api_key: '%env(API_KEY)%'
+  app_secret: '%env(APP_SECRET)%'
 
 services:
   _defaults:
@@ -68,4 +69,8 @@ services:
     arguments:
       - '%api_key%'
       - '@api.v1.authentication.logger'
-
+  CuriosityConference\Application\UseCase\Security\JwtValidator:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Security\JwtUserToken'
+      - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
+      - '@api.v1.authentication.logger'

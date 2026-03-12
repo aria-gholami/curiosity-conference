@@ -11,7 +11,7 @@ final class JwtUserTokenMock implements JwtUserToken
 {
     public User $inputUser;
     public string $outputJwtToken;
-    public string $inputJwtToken;
+    public string $inputJwtToken = '';
     public User $outputUser;
 
     #[\Override]

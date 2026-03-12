@@ -34,6 +34,11 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $payload = [
             'email' => 'test@web.de',
         ];
@@ -44,6 +49,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -60,6 +66,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
             '/api/v1/password/reset?id=' . Uuid::fromBinary($rowUser['id'])->toRfc4122() . '&token=' . $rowPasswordReset['token'],
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
         );
         $response = \json_decode(
@@ -93,6 +100,11 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $payload = [
             'email' => 'test@web.de',
         ];
@@ -103,6 +115,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -115,6 +128,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
             '/api/v1/password/reset?id=' . Uuid::fromBinary($rowUser['id'])->toRfc4122() . '&token=' . 12345678,
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
         );
         $response = \json_decode(
@@ -148,6 +162,11 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $payload = [
             'email' => 'test@web.de',
         ];
@@ -158,6 +177,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -170,6 +190,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
             '/api/v1/password/reset?id=' . Uuid::fromBinary($rowUser['id'])->toRfc4122() . '&token=' . 123456789,
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
         );
         $response = \json_decode(
@@ -203,6 +224,11 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $payload = [
             'email' => 'test@web.de',
         ];
@@ -213,6 +239,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -238,11 +265,34 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
 
     public function testResetPasswordWithInternalServerError(): void
     {
+        $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $this->client->request(
             'GET',
             '/api/v1/password/reset?id=1234567test&token=' . 12345678,
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
         );
         $response = \json_decode(

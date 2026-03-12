@@ -197,6 +197,12 @@ services:
       - '@api.v1.authentication.logger'
     tags:
       - { name: kernel.event_subscriber }
+  CuriosityConference\Adapters\Inbound\Security\ValidateJwtSubscriber:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Security\JwtValidator'
+      - '@api.v1.authentication.logger'
+    tags:
+      - { name: kernel.event_subscriber }
 
   api.v1.user.logging-handler:
     class: Monolog\Handler\RotatingFileHandler

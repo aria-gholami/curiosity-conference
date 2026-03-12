@@ -33,11 +33,17 @@ final class DeleteControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $this->client->request(
             'DELETE',
             '/api/v1/user?email=test@web.de',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
         );
 
@@ -63,11 +69,17 @@ final class DeleteControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $this->client->request(
             'DELETE',
             '/api/v1/user',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
         );
         $response = \json_decode(
@@ -117,11 +129,34 @@ final class DeleteControllerTest extends AbstractWebTestCase
 
     public function testDeleteUserWithNotExistingTitle(): void
     {
+        $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $this->client->request(
             'DELETE',
-            '/api/v1/user?email=test@web.de',
+            '/api/v1/user?email=test2@web.de',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
         );
         self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);

@@ -7,18 +7,20 @@ namespace CuriosityConference\Application\Tests\Unit\UseCase\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\Argon2idHasherMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\ByEmailLoaderMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\JwtUserTokenMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\ByEmailLoaderMock;
 use CuriosityConference\Application\UseCase\User\LoginHandler;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\User\Exception\UserLoginFailedException;
 use CuriosityConference\Domain\User\Model\UserLogin;
+use CuriosityConference\Domain\User\Model\UserLoginResponse;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(LoginHandler::class)]
 #[UsesClass(UserLogin::class)]
+#[UsesClass(UserLoginResponse::class)]
 final class LoginHandlerTest extends TestCase
 {
     private ByEmailLoaderMock $byEmailLoaderMock;
@@ -58,9 +60,10 @@ final class LoginHandlerTest extends TestCase
             'test@email.de',
             'test',
         );
-        $userId = $this->loginHandler->handle($userLogin);
+        $userLoginResponse = $this->loginHandler->handle($userLogin);
 
-        self::assertSame('test', $userId);
+        self::assertSame('test', $userLoginResponse->token);
+        self::assertSame('test', $userLoginResponse->id);
         self::assertSame($user->getEmail(), $this->byEmailLoaderMock->inputEmail);
         self::assertSame($userLogin->password, $this->argon2idHasherMock->inputPlainPassword);
         self::assertSame($user->getPassword(), $this->argon2idHasherMock->inputHash);

@@ -42,6 +42,7 @@ class CreateControllerTest extends AbstractWebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
         self::assertArrayHasKey('token', $response);
         self::assertNotEmpty($response['token']);
+        self::assertNotEmpty($response['id']);
 
         $row = $this->connection->fetchAssociative(
             'SELECT * FROM user WHERE email = :email',

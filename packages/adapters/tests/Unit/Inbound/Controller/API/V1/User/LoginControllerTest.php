@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\User\Mocks
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\User\Exception\UserLoginFailedException;
 use CuriosityConference\Domain\User\Model\UserLogin;
+use CuriosityConference\Domain\User\Model\UserLoginResponse;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 #[CoversClass(LoginController::class)]
 #[UsesClass(UserLogin::class)]
+#[UsesClass(UserLoginResponse::class)]
 final class LoginControllerTest extends TestCase
 {
     private LoginHandlerMock $loginHandlerMock;
@@ -32,8 +34,8 @@ final class LoginControllerTest extends TestCase
 
     public function testLoginIsValid(): void
     {
-        $userId = 'test';
-        $this->loginHandlerMock->outputLoginHandler = $userId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id', 'test token');
+        $this->loginHandlerMock->outputLoginHandler = $expectedUserLoginResponse;
         $payload = [
             'email' => 'Max.mustermann@example.com',
             'password' => 'Str0ng!PassWord',
@@ -51,7 +53,7 @@ final class LoginControllerTest extends TestCase
         $jsonResponse = $this->loginController->__invoke($request);
 
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
-        self::assertSame('{"token":"test"}', $jsonResponse->getContent());
+        self::assertSame('{"id":"test id","token":"test token"}', $jsonResponse->getContent());
         $expectedUserLogin = new UserLogin('max.mustermann@example.com', 'Str0ng!PassWord');
         self::assertSame($expectedUserLogin->email, $this->loginHandlerMock->inputUserLogin->email);
         self::assertSame($expectedUserLogin->password, $this->loginHandlerMock->inputUserLogin->password);
@@ -60,8 +62,8 @@ final class LoginControllerTest extends TestCase
 
     public function testLoginWithEmailEmptyStringException(): void
     {
-        $userId = 'test';
-        $this->loginHandlerMock->outputLoginHandler = $userId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id 2', 'test token 2');
+        $this->loginHandlerMock->outputLoginHandler = $expectedUserLoginResponse;
         $payload = [
             'email' => null,
             'password' => 'Str0ng!PassWord',
@@ -94,8 +96,8 @@ final class LoginControllerTest extends TestCase
 
     public function testLoginWithPasswordEmptyStringException(): void
     {
-        $userId = 'test';
-        $this->loginHandlerMock->outputLoginHandler = $userId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id 3', 'test token 3');
+        $this->loginHandlerMock->outputLoginHandler = $expectedUserLoginResponse;
         $payload = [
             'email' => 'Max.mustermann@example.com',
             'password' => null,
@@ -128,8 +130,8 @@ final class LoginControllerTest extends TestCase
 
     public function testLoginWithUserLoginFailedException(): void
     {
-        $userId = 'test';
-        $this->loginHandlerMock->outputLoginHandler = $userId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id 4', 'test token 4');
+        $this->loginHandlerMock->outputLoginHandler = $expectedUserLoginResponse;
         $this->loginHandlerMock->throwException = UserLoginFailedException::loginFailed('max.mustermann@example.com');
         $payload = [
             'email' => 'Max.mustermann@example.com',

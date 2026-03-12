@@ -17,6 +17,28 @@ final class ListControllerTest extends AbstractWebTestCase
     public function testListQuizUserIsValid(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'title' => 'test',
             'description' => 'test',
             'category' => 'test',
@@ -28,6 +50,7 @@ final class ListControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -36,6 +59,7 @@ final class ListControllerTest extends AbstractWebTestCase
             '/api/v1/quiz',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
         );
         $response = \json_decode(
@@ -51,6 +75,28 @@ final class ListControllerTest extends AbstractWebTestCase
     public function testListQuizUserWithUnauthorized(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'title' => 'test',
             'description' => 'test',
             'category' => 'test',
@@ -62,6 +108,7 @@ final class ListControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -81,11 +128,34 @@ final class ListControllerTest extends AbstractWebTestCase
 
     public function testListQuizUserWithInternalServerError(): void
     {
+        $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $responseUser = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $this->client->request(
             'GET',
             '/api/v1/quiz',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
         );
         $response = \json_decode(

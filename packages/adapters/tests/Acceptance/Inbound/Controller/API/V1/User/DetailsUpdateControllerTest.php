@@ -34,6 +34,11 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $row = $this->connection->fetchAssociative(
             'SELECT * FROM user WHERE email = :email',
             ['email' => 'test@web.de'],
@@ -50,6 +55,7 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -76,6 +82,11 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $payload = [
             'id' => '',
             'firstName' => 'test',
@@ -88,6 +99,7 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -121,6 +133,11 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
         $row = $this->connection->fetchAssociative(
             'SELECT * FROM user WHERE email = :email',
             ['email' => 'test@web.de'],
@@ -136,6 +153,7 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
@@ -153,6 +171,28 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
     public function testUpdateUserWithInternalServerError(): void
     {
         $payload = [
+            'firstName' => 'test',
+            'lastName' => 'test',
+            'email' => 'test@web.de',
+            'password' => 'Test123!',
+            'confirmPassword' => 'Test123!',
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/user',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+        $payload = [
             'id' => 'invalid',
             'firstName' => 'test',
             'lastName' => 'test',
@@ -164,6 +204,7 @@ final class DetailsUpdateControllerTest extends AbstractWebTestCase
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );

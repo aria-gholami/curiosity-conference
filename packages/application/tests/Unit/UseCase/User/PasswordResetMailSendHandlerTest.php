@@ -6,7 +6,7 @@ namespace CuriosityConference\Application\Tests\Unit\UseCase\User;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\ByEmailLoaderMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\ByEmailLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PasswordResetMailSenderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PasswordResetTokenByUserDeleterMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PasswordResetTokenPersisterMock;

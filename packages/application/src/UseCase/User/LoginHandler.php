@@ -10,6 +10,7 @@ use CuriosityConference\Application\Port\Outbound\Security\JwtUserToken;
 use CuriosityConference\Application\Port\Outbound\User\ByEmailLoader;
 use CuriosityConference\Domain\User\Exception\UserLoginFailedException;
 use CuriosityConference\Domain\User\Model\UserLogin;
+use CuriosityConference\Domain\User\Model\UserLoginResponse;
 use Psr\Log\LoggerInterface;
 
 final readonly class LoginHandler implements LoginHandlerInterface
@@ -26,7 +27,7 @@ final readonly class LoginHandler implements LoginHandlerInterface
      * @throws UserLoginFailedException
      */
     #[\Override]
-    public function handle(UserLogin $userLogin): string
+    public function handle(UserLogin $userLogin): UserLoginResponse
     {
         try {
             $user = $this->byEmailLoader->load($userLogin->email);
@@ -35,7 +36,7 @@ final readonly class LoginHandler implements LoginHandlerInterface
                 throw UserLoginFailedException::loginFailed($userLogin->email);
             }
 
-            return $this->jwtUserToken->encode($user);
+            return new UserLoginResponse($user->getId(), $this->jwtUserToken->encode($user));
         } catch (\Throwable $exception) {
             $this->logger->notice('User login failed.', [
                 'exceptionMessage' => $exception->getMessage(),

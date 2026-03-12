@@ -11,6 +11,7 @@ use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\InvalidEmailException;
 use CuriosityConference\Domain\Exception\InvalidPasswordException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\User\Model\UserLoginResponse;
 use CuriosityConference\Domain\User\Model\UserRegistration;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 #[CoversClass(CreateController::class)]
 #[UsesClass(UserRegistration::class)]
+#[UsesClass(UserLoginResponse::class)]
 final class CreateControllerTest extends TestCase
 {
     private CreateHandlerMock $createHandlerMock;
@@ -36,8 +38,8 @@ final class CreateControllerTest extends TestCase
 
     public function testCreateIsValid(): void
     {
-        $expectedUserId = 'test';
-        $this->createHandlerMock->outputUserId = $expectedUserId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id', 'test token');
+        $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
 
         $payload = [
             'firstName' => 'test',
@@ -59,7 +61,7 @@ final class CreateControllerTest extends TestCase
         $response = $this->createController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"token":"test"}', $response->getContent());
+        self::assertSame('{"id":"test id","token":"test token"}', $response->getContent());
         self::assertSame($payload['firstName'], $this->createHandlerMock->inputUser->firstName);
         self::assertSame($payload['lastName'], $this->createHandlerMock->inputUser->lastName);
         self::assertSame('test@web.de', $this->createHandlerMock->inputUser->email);
@@ -71,8 +73,8 @@ final class CreateControllerTest extends TestCase
     #[DataProvider('provideInvalidData')]
     public function testCreateWithInvalidPayload(array $payload, string $missingFieldName): void
     {
-        $expectedUserId = 'test';
-        $this->createHandlerMock->outputUserId = $expectedUserId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id 2', 'test token 2');
+        $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
 
         $request = new Request(
             [],
@@ -125,8 +127,8 @@ final class CreateControllerTest extends TestCase
             'confirmPassword' => 'Test123!',
         ];
 
-        $expectedUserId = 'test';
-        $this->createHandlerMock->outputUserId = $expectedUserId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id 3', 'test token 3');
+        $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
 
         $request = new Request(
             [],
@@ -164,8 +166,8 @@ final class CreateControllerTest extends TestCase
             'confirmPassword' => 'Test124!',
         ];
 
-        $expectedUserId = 'test';
-        $this->createHandlerMock->outputUserId = $expectedUserId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id 4', 'test token 4');
+        $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
 
         $request = new Request(
             [],
@@ -195,8 +197,8 @@ final class CreateControllerTest extends TestCase
 
     public function testCreateWithInternalServerError(): void
     {
-        $expectedUserId = 'test';
-        $this->createHandlerMock->outputUserId = $expectedUserId;
+        $expectedUserLoginResponse = new UserLoginResponse('test id 5', 'test token 5');
+        $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
         $this->createHandlerMock->thrownException = new PersistFailedException('test');
 
         $payload = [

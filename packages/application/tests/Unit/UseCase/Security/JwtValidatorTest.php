@@ -1,0 +1,239 @@
+<?php
+
+declare(strict_types=1);
+
+namespace CuriosityConference\Application\Tests\Unit\UseCase\Security;
+
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
+use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\ByEmailLoaderMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\JwtUserTokenMock;
+use CuriosityConference\Application\UseCase\Security\JwtValidator;
+use CuriosityConference\Domain\Exception\InvalidJwtException;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\HttpFoundation\Request;
+
+#[CoversClass(JwtValidator::class)]
+final class JwtValidatorTest extends TestCase
+{
+    private JwtUserTokenMock $jwtUserTokenMock;
+    private ByEmailLoaderMock $byEmailLoaderMock;
+    private LoggerMock $loggerMock;
+    private JwtValidator $jwtValidator;
+
+    protected function setUp(): void
+    {
+        $this->jwtUserTokenMock = new JwtUserTokenMock();
+        $this->byEmailLoaderMock = new ByEmailLoaderMock();
+        $this->loggerMock = new LoggerMock();
+        $this->jwtValidator = new JwtValidator(
+            $this->jwtUserTokenMock,
+            $this->byEmailLoaderMock,
+            $this->loggerMock,
+        );
+    }
+
+    public function testValidateRequestIsValid(): void
+    {
+        $user = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $this->jwtUserTokenMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
+
+        $request = Request::create('/api/v1/test', 'POST');
+        $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer jwt-token');
+        $this->jwtValidator->validateRequest($request);
+
+        self::assertEquals('jwt-token', $this->jwtUserTokenMock->inputJwtToken);
+        self::assertSame('test', $this->byEmailLoaderMock->inputEmail);
+        self::assertEquals([], $this->loggerMock->logs);
+    }
+
+    #[DataProvider('provideUserLoginUrlData')]
+    public function testValidateRequestWithWrongUrls(string $path, string $method): void
+    {
+        $user = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $this->jwtUserTokenMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
+
+        $request = Request::create($path, $method);
+        $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer jwt-token');
+        $this->jwtValidator->validateRequest($request);
+
+        self::assertSame('', $this->jwtUserTokenMock->inputJwtToken);
+        self::assertSame('', $this->byEmailLoaderMock->inputEmail);
+        self::assertEquals([
+            'info' => [
+                [
+                    'message' => 'Skip jwt validation.',
+                    'context' => [
+                        'isLogin' => \str_starts_with($path, '/api/v1/user/login') && 'POST' === $method,
+                        'isUserCreate' => \str_starts_with($path, '/api/v1/user') && 'POST' === $method,
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public static function provideUserLoginUrlData(): iterable
+    {
+        yield 'login endpoint' => ['/api/v1/user/login', 'POST'];
+        yield 'user create endpoint' => ['/api/v1/user', 'POST'];
+    }
+
+    public function testValidateRequestWithMissingHeader(): void
+    {
+        $user = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $this->jwtUserTokenMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
+
+        $request = Request::create('/api/v1/test', 'POST');
+        try {
+            $this->jwtValidator->validateRequest($request);
+            $this->fail('InvalidJwtException was expected to be thrown.');
+        } catch (InvalidJwtException $exception) {
+            self::assertSame('Authentication failed with error: "Jwt is invalid."', $exception->getMessage());
+        }
+
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'No authorization header found in request.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                    ],
+                ],
+                [
+                    'message' => 'Bearer token is invalid.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                    ],
+                ],
+            ],
+            'debug' => [
+                [
+                    'message' => 'Bearer token is invalid.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                        'exceptionMessage' => 'Authentication failed with error: "Header "Authorization" is not set."',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testValidateRequestWithMissingBearer(): void
+    {
+        $user = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $this->jwtUserTokenMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
+
+        $request = Request::create('/api/v1/test', 'POST');
+        $request->headers->set(JwtValidator::HEADER_NAME, '');
+        try {
+            $this->jwtValidator->validateRequest($request);
+            $this->fail('InvalidJwtException was expected to be thrown.');
+        } catch (InvalidJwtException $exception) {
+            self::assertSame('Authentication failed with error: "Jwt is invalid."', $exception->getMessage());
+        }
+
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'No bearer token header found in request.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                    ],
+                ],
+                [
+                    'message' => 'Bearer token is invalid.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                    ],
+                ],
+            ],
+            'debug' => [
+                [
+                    'message' => 'Bearer token is invalid.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                        'exceptionMessage' => 'Authentication failed with error: "Jwt is invalid."',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testValidateRequestWithMissingBearerToken(): void
+    {
+        $user = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $this->jwtUserTokenMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
+
+        $request = Request::create('/api/v1/test', 'POST');
+        $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer ');
+        try {
+            $this->jwtValidator->validateRequest($request);
+            $this->fail('InvalidJwtException was expected to be thrown.');
+        } catch (InvalidJwtException $exception) {
+            self::assertSame('Authentication failed with error: "Jwt is invalid."', $exception->getMessage());
+        }
+
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Bearer token is undefined.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                    ],
+                ],
+                [
+                    'message' => 'Bearer token is invalid.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                    ],
+                ],
+            ],
+            'debug' => [
+                [
+                    'message' => 'Bearer token is invalid.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                        'exceptionMessage' => 'Authentication failed with error: "Jwt is invalid."',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+}

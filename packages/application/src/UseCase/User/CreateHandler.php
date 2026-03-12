@@ -10,6 +10,7 @@ use CuriosityConference\Application\Port\Outbound\Security\Argon2idHasher;
 use CuriosityConference\Application\Port\Outbound\Security\JwtUserToken;
 use CuriosityConference\Application\Port\Outbound\User\Persister;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\User\Model\UserLoginResponse;
 use CuriosityConference\Domain\User\Model\UserRegistration;
 use CuriosityConference\Domain\User\Model\UserWithHashedPassword;
 
@@ -26,7 +27,7 @@ final readonly class CreateHandler implements CreateHandlerInterface
      * @throws PersistFailedException
      */
     #[\Override]
-    public function handle(UserRegistration $user): string
+    public function handle(UserRegistration $user): UserLoginResponse
     {
         $passwordHash = $this->hashGenerator->hash($user->password);
         $userWithHashedPassword = new UserWithHashedPassword(
@@ -37,12 +38,15 @@ final readonly class CreateHandler implements CreateHandlerInterface
         );
         $id = $this->userPersister->persist($userWithHashedPassword);
 
-        return $this->jwtUserToken->encode(new User(
+        return new UserLoginResponse(
             $id,
-            $user->firstName,
-            $user->lastName,
-            $user->email,
-            '',
-        ));
+            $this->jwtUserToken->encode(new User(
+                $id,
+                $user->firstName,
+                $user->lastName,
+                $user->email,
+                '',
+            )),
+        );
     }
 }
