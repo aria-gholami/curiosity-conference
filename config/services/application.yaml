@@ -21,6 +21,9 @@ services:
   CuriosityConference\Application\UseCase\User\DeleteHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByEmailDeleter'
+  CuriosityConference\Application\UseCase\User\DetailsGetHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
   CuriosityConference\Application\UseCase\User\DetailsUpdateHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\DetailsUpdater'

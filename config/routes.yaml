@@ -10,6 +10,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteController:
     path: /api/v1/user
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteController
     methods: DELETE
+CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController:
+    path: /api/v1/user
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController
+    methods: GET
 CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController:
     path: /api/v1/user
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController
