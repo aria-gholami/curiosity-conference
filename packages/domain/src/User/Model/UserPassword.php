@@ -16,12 +16,12 @@ final readonly class UserPassword
      * @throws InvalidPasswordException
      */
     public function __construct(
-        public string $id,
+        public string $email,
         public string $password,
         public string $confirmPassword,
     ) {
-        if ('' === $this->id) {
-            throw EmptyStringException::stringIsEmpty('userPasswordId');
+        if ('' === $this->email) {
+            throw EmptyStringException::stringIsEmpty('userPasswordEmail');
         }
         if ('' === $this->password) {
             throw EmptyStringException::stringIsEmpty('userPasswordPassword');

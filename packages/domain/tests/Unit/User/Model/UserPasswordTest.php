@@ -22,7 +22,7 @@ final class UserPasswordTest extends TestCase
             'Test123!',
         );
 
-        self::assertSame('test', $userPassword->id);
+        self::assertSame('test', $userPassword->email);
         self::assertSame('Test123!', $userPassword->password);
         self::assertSame('Test123!', $userPassword->confirmPassword);
     }
@@ -50,7 +50,7 @@ final class UserPasswordTest extends TestCase
             'confirmPassword' => 'Test123!',
         ];
 
-        yield 'empty id' => [\array_replace($payload, ['id' => '']), 'userPasswordId'];
+        yield 'empty id' => [\array_replace($payload, ['id' => '']), 'userPasswordEmail'];
         yield 'empty password' => [\array_replace($payload, ['password' => '']), 'userPasswordPassword'];
         yield 'empty confirm password' => [\array_replace($payload, ['confirmPassword' => '']), 'userPasswordConfirmPassword'];
     }

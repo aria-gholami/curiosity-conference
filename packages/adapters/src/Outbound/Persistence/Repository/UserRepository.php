@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Outbound\Persistence\Repository;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\User\Model\UserDetails;
 use CuriosityConference\Domain\User\Model\UserPassword;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -43,12 +44,15 @@ class UserRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function updatePasswordById(UserPassword $userPassword): void
+    /**
+     * @throws UpdateFailedException
+     */
+    public function updatePasswordByEmail(UserPassword $userPassword): void
     {
         /** @var ?User $user */
-        $user = $this->find($userPassword->id);
+        $user = $this->findOneBy(['email' => $userPassword->email]);
         if (!$user instanceof User) {
-            return;
+            throw UpdateFailedException::updateFailed(User::class);
         }
 
         $user->setPassword($userPassword->password);

@@ -38,7 +38,7 @@ final class PasswordUpdateControllerTest extends TestCase
     public function testUpdateDetailsIsValid(): void
     {
         $payload = [
-            'id' => 'test',
+            'email' => 'test',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];
@@ -55,7 +55,7 @@ final class PasswordUpdateControllerTest extends TestCase
         $response = $this->passwordUpdateController->__invoke($request);
 
         self::assertSame(Response::HTTP_NO_CONTENT, $response->getStatusCode());
-        self::assertSame($payload['id'], $this->passwordUpdateHandlerMock->inputUserPassword->id);
+        self::assertSame($payload['email'], $this->passwordUpdateHandlerMock->inputUserPassword->email);
         self::assertSame($payload['password'], $this->passwordUpdateHandlerMock->inputUserPassword->password);
         self::assertSame($payload['confirmPassword'], $this->passwordUpdateHandlerMock->inputUserPassword->confirmPassword);
         self::assertEquals([], $this->loggerMock->logs);
@@ -64,7 +64,7 @@ final class PasswordUpdateControllerTest extends TestCase
     public function testUpdateDetailsWithEmptyStringException(): void
     {
         $payload = [
-            'id' => '',
+            'email' => '',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];
@@ -87,7 +87,7 @@ final class PasswordUpdateControllerTest extends TestCase
                 [
                     'message' => 'Request data for PUT to /api/v1/user/password is invalid.',
                     'context' => [
-                        'exceptionMessage' => EmptyStringException::stringIsEmpty('userPasswordId')->getMessage(),
+                        'exceptionMessage' => EmptyStringException::stringIsEmpty('userPasswordEmail')->getMessage(),
                     ],
                 ],
             ],
@@ -97,7 +97,7 @@ final class PasswordUpdateControllerTest extends TestCase
     public function testUpdateDetailsWithInvalidPasswordException(): void
     {
         $payload = [
-            'id' => 'test',
+            'email' => 'test',
             'password' => 'Test123!',
             'confirmPassword' => 'Test124!',
         ];
@@ -131,7 +131,7 @@ final class PasswordUpdateControllerTest extends TestCase
     {
         $this->passwordUpdateHandlerMock->throwException = new UpdateFailedException('test');
         $payload = [
-            'id' => 'test',
+            'email' => 'test',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];

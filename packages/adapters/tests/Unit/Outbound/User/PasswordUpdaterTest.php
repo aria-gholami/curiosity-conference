@@ -37,7 +37,7 @@ final class PasswordUpdaterTest extends TestCase
             'Test123!',
         );
         $this->userEntityRepositoryMock->expects($this->once())
-            ->method('updatePasswordById')
+            ->method('updatePasswordByEmail')
             ->with($userPassword);
 
         $this->passwordUpdater->update($userPassword);
@@ -47,13 +47,13 @@ final class PasswordUpdaterTest extends TestCase
                 [
                     'message' => 'Start updating user password.',
                     'context' => [
-                        'userId' => 'test',
+                        'userEmail' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Updating user password was successful.',
                     'context' => [
-                        'userId' => 'test',
+                        'userEmail' => 'test',
                     ],
                 ],
             ],
@@ -68,7 +68,7 @@ final class PasswordUpdaterTest extends TestCase
             'Test123!',
         );
         $this->userEntityRepositoryMock->expects($this->once())
-            ->method('updatePasswordById')
+            ->method('updatePasswordByEmail')
             ->with($userPassword)
             ->willThrowException(new \Exception('test'));
 
@@ -84,7 +84,7 @@ final class PasswordUpdaterTest extends TestCase
                 [
                     'message' => 'Start updating user password.',
                     'context' => [
-                        'userId' => 'test',
+                        'userEmail' => 'test',
                     ],
                 ],
             ],
@@ -92,7 +92,7 @@ final class PasswordUpdaterTest extends TestCase
                 [
                     'message' => 'Updating user password was not successful.',
                     'context' => [
-                        'userId' => 'test',
+                        'userEmail' => 'test',
                     ],
                 ],
             ],
@@ -100,7 +100,7 @@ final class PasswordUpdaterTest extends TestCase
                 [
                     'message' => 'Updating user password was not successful.',
                     'context' => [
-                        'userId' => 'test',
+                        'userEmail' => 'test',
                         'exceptionMessage' => 'test',
                     ],
                 ],

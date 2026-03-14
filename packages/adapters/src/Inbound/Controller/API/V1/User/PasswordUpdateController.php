@@ -27,7 +27,7 @@ final readonly class PasswordUpdateController
         try {
             $data = \json_decode($request->getContent(), true);
             $userPassword = new UserPassword(
-                $data['id'] ?? '',
+                $data['email'] ?? '',
                 $data['password'] ?? '',
                 $data['confirmPassword'] ?? '',
             );

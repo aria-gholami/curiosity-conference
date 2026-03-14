@@ -9,7 +9,6 @@ use CuriosityConference\Adapters\Tests\Acceptance\AbstractWebTestCase;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Uid\Uuid;
 
 #[Group('Acceptance')]
 #[CoversNothing(PasswordUpdateController::class)]
@@ -39,12 +38,8 @@ final class PasswordUpdateControllerTest extends AbstractWebTestCase
             true,
             flags: \JSON_THROW_ON_ERROR,
         );
-        $row = $this->connection->fetchAssociative(
-            'SELECT * FROM user WHERE email = :email',
-            ['email' => 'test@web.de'],
-        );
         $payload = [
-            'id' => Uuid::fromBinary($row['id'])->toRfc4122(),
+            'email' => 'test@web.de',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];
@@ -88,7 +83,7 @@ final class PasswordUpdateControllerTest extends AbstractWebTestCase
             flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
-            'id' => '',
+            'email' => '',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];
@@ -143,7 +138,7 @@ final class PasswordUpdateControllerTest extends AbstractWebTestCase
             ['email' => 'test@web.de'],
         );
         $payload = [
-            'id' => Uuid::fromBinary($row['id'])->toRfc4122(),
+            'email' => 'test@web.de',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];
@@ -193,7 +188,7 @@ final class PasswordUpdateControllerTest extends AbstractWebTestCase
             flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
-            'id' => 'invalid',
+            'email' => 'invalid',
             'password' => 'Test123!',
             'confirmPassword' => 'Test123!',
         ];

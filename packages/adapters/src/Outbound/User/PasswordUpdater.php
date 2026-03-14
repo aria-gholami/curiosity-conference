@@ -27,20 +27,20 @@ final readonly class PasswordUpdater implements PasswordUpdaterInterface
     {
         try {
             $this->logger->info('Start updating user password.', [
-                'userId' => $userPassword->id,
+                'userEmail' => $userPassword->email,
             ]);
-            $this->userRepository->updatePasswordById($userPassword);
+            $this->userRepository->updatePasswordByEmail($userPassword);
 
             $this->logger->info('Updating user password was successful.', [
-                'userId' => $userPassword->id,
+                'userEmail' => $userPassword->email,
             ]);
         } catch (\Throwable $exception) {
             $this->logger->notice('Updating user password was not successful.', [
-                'userId' => $userPassword->id,
+                'userEmail' => $userPassword->email,
             ]);
             $this->logger->debug('Updating user password was not successful.', [
                 'exceptionMessage' => $exception->getMessage(),
-                'userId' => $userPassword->id,
+                'userEmail' => $userPassword->email,
             ]);
 
             throw UpdateFailedException::updateFailed(User::class);
