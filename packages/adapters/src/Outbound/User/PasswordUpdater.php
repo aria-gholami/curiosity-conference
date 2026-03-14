@@ -6,6 +6,7 @@ namespace CuriosityConference\Adapters\Outbound\User;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository;
+use CuriosityConference\Application\Port\Outbound\Security\Argon2idHasher;
 use CuriosityConference\Application\Port\Outbound\User\PasswordUpdater as PasswordUpdaterInterface;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\User\Model\UserPassword;
@@ -15,6 +16,7 @@ final readonly class PasswordUpdater implements PasswordUpdaterInterface
 {
     public function __construct(
         private UserRepository $userRepository,
+        private Argon2idHasher $argon2idHasher,
         private LoggerInterface $logger,
     ) {
     }
@@ -29,7 +31,8 @@ final readonly class PasswordUpdater implements PasswordUpdaterInterface
             $this->logger->info('Start updating user password.', [
                 'userEmail' => $userPassword->email,
             ]);
-            $this->userRepository->updatePasswordByEmail($userPassword);
+            $passwordHash = $this->argon2idHasher->hash($userPassword->password);
+            $this->userRepository->updatePasswordByEmail(new UserPassword($userPassword->email, $passwordHash, $passwordHash));
 
             $this->logger->info('Updating user password was successful.', [
                 'userEmail' => $userPassword->email,

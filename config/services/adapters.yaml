@@ -119,6 +119,7 @@ services:
   CuriosityConference\Adapters\Outbound\User\PasswordUpdater:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
+      - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
       - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\User\PasswordResetTokenPersister:
     arguments:

@@ -7,6 +7,7 @@ namespace CuriosityConference\Adapters\Tests\Unit\Outbound\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository;
 use CuriosityConference\Adapters\Outbound\User\PasswordUpdater;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\Argon2idHasherMock;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\User\Model\UserPassword;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -19,14 +20,16 @@ use PHPUnit\Framework\TestCase;
 final class PasswordUpdaterTest extends TestCase
 {
     private MockObject $userEntityRepositoryMock;
+    private Argon2idHasherMock $argon2idHasherMock;
     private LoggerMock $loggerMock;
     private PasswordUpdater $passwordUpdater;
 
     protected function setUp(): void
     {
         $this->userEntityRepositoryMock = $this->createMock(UserRepository::class);
+        $this->argon2idHasherMock = new Argon2idHasherMock();
         $this->loggerMock = new LoggerMock();
-        $this->passwordUpdater = new PasswordUpdater($this->userEntityRepositoryMock, $this->loggerMock);
+        $this->passwordUpdater = new PasswordUpdater($this->userEntityRepositoryMock, $this->argon2idHasherMock, $this->loggerMock);
     }
 
     public function testUpdateIsValid(): void
@@ -39,9 +42,11 @@ final class PasswordUpdaterTest extends TestCase
         $this->userEntityRepositoryMock->expects($this->once())
             ->method('updatePasswordByEmail')
             ->with($userPassword);
+        $this->argon2idHasherMock->outputValue = 'Test123!';
 
         $this->passwordUpdater->update($userPassword);
 
+        self::assertSame($userPassword->password, $this->argon2idHasherMock->inputValue);
         self::assertEquals([
             'info' => [
                 [
@@ -71,6 +76,7 @@ final class PasswordUpdaterTest extends TestCase
             ->method('updatePasswordByEmail')
             ->with($userPassword)
             ->willThrowException(new \Exception('test'));
+        $this->argon2idHasherMock->outputValue = 'Test123!';
 
         try {
             $this->passwordUpdater->update($userPassword);
