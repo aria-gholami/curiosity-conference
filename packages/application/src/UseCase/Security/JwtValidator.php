@@ -33,7 +33,8 @@ final readonly class JwtValidator implements JwtValidatorInterface
             $method = $request->getMethod();
             $isLogin = \str_starts_with($path, '/api/v1/user/login') && 'POST' === $method;
             $isUserCreate = \str_starts_with($path, '/api/v1/user') && 'POST' === $method;
-            if ($isLogin || $isUserCreate) {
+            $isPasswordReset = \str_starts_with($path, '/api/v1/password/reset') || \str_starts_with($path, '/api/v1/user/password');
+            if ($isLogin || $isUserCreate || $isPasswordReset) {
                 $this->logger->info('Skip jwt validation.', ['isLogin' => $isLogin, 'isUserCreate' => $isUserCreate]);
 
                 return;

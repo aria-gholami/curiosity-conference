@@ -92,6 +92,8 @@ final class JwtValidatorTest extends TestCase
     {
         yield 'login endpoint' => ['/api/v1/user/login', 'POST'];
         yield 'user create endpoint' => ['/api/v1/user', 'POST'];
+        yield 'user password reset' => ['/api/v1/password/reset', 'POST'];
+        yield 'user password update' => ['/api/v1/user/password', 'PUT'];
     }
 
     public function testValidateRequestWithMissingHeader(): void
