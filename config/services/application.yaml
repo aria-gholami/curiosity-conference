@@ -48,6 +48,9 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Device\Persister'
+  CuriosityConference\Application\UseCase\Device\DeleteHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Device\ByRegistrationTokenDeleter'
 
   CuriosityConference\Application\UseCase\Quiz\CreateHandler:
     arguments:

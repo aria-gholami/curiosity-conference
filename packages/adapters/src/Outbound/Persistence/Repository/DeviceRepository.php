@@ -15,10 +15,15 @@ use Doctrine\Persistence\ManagerRegistry;
  *
  * @infection-ignore-all
  */
-final class DeviceRepository extends ServiceEntityRepository
+class DeviceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Device::class);
+    }
+
+    public function remove(Device $entity): void
+    {
+        $this->getEntityManager()->remove($entity);
     }
 }

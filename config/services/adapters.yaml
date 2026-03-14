@@ -63,6 +63,12 @@ services:
       - '@api.v1.device.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\DeleteController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Device\DeleteHandler'
+      - '@api.v1.device.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
     arguments:
@@ -153,6 +159,10 @@ services:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.device.logger'
+  CuriosityConference\Adapters\Outbound\Device\ByRegistrationTokenDeleter:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\DeviceRepository'
+      - '@api.v1.device.logger'
 
   CuriosityConference\Adapters\Outbound\Quiz\Persister:
     arguments:
@@ -185,6 +195,11 @@ services:
       - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\DeviceRepository:
     arguments:
       - '@doctrine'
     tags:

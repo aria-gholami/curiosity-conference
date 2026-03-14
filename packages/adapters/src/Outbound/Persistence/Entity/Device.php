@@ -23,7 +23,7 @@ final class Device
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private User $user;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     private string $registrationToken;
 
     public function __construct(string $id, string $registrationToken, User $user)

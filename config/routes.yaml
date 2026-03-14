@@ -35,6 +35,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\RegistrationContro
     path: /api/v1/device
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\RegistrationController
     methods: POST
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\DeleteController:
+    path: /api/v1/device
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\DeleteController
+    methods: DELETE
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
     path: /api/v1/quiz

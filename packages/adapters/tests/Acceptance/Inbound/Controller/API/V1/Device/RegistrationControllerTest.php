@@ -60,8 +60,8 @@ final class RegistrationControllerTest extends AbstractWebTestCase
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
-        self::assertArrayHasKey('message', $response);
-        self::assertSame('Device is registered.', $response['message']);
+        self::assertArrayHasKey('registrationToken', $response);
+        self::assertIsString($response['registrationToken']);
     }
 
     public function testCreateDeviceWithInvalidApiKey(): void

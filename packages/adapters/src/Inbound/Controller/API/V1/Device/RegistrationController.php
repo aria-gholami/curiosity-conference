@@ -32,7 +32,7 @@ final readonly class RegistrationController
             );
             $this->deviceRegistrationHandler->handle($deviceRegistration);
 
-            return new JsonResponse(['message' => 'Device is registered.'], Response::HTTP_CREATED);
+            return new JsonResponse(['registrationToken' => $deviceRegistration->registrationToken], Response::HTTP_CREATED);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/device is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),

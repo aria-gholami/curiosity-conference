@@ -53,7 +53,9 @@ final class RegistrationControllerTest extends TestCase
         $response = $this->registrationController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"message":"Device is registered."}', $response->getContent());
+        $responseAsArray = \json_decode($response->getContent(), true);
+        self::assertArrayHasKey('registrationToken', $responseAsArray);
+        self::assertIsString($responseAsArray['registrationToken']);
         self::assertSame($payload['registrationToken'], $this->registrationHandlerMock->inputDeviceRegistration->registrationToken);
         self::assertSame($payload['userId'], $this->registrationHandlerMock->inputDeviceRegistration->userId);
         self::assertEquals([], $this->loggerMock->logs);
