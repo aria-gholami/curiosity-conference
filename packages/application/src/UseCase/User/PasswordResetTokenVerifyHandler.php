@@ -6,7 +6,7 @@ namespace CuriosityConference\Application\UseCase\User;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\PasswordReset;
 use CuriosityConference\Application\Port\Inbound\User\PasswordResetTokenVerifyHandler as PasswordResetTokenVerifyHandlerInterface;
-use CuriosityConference\Application\Port\Outbound\User\ByIdLoader;
+use CuriosityConference\Application\Port\Outbound\User\ByEmailLoader;
 use CuriosityConference\Application\Port\Outbound\User\PasswordResetTokenDeleter;
 use CuriosityConference\Application\Port\Outbound\User\PasswordResetTokenLoader;
 use CuriosityConference\Domain\User\Exception\PasswordResetTokenVerifyFailedException;
@@ -16,7 +16,7 @@ use Psr\Log\LoggerInterface;
 final readonly class PasswordResetTokenVerifyHandler implements PasswordResetTokenVerifyHandlerInterface
 {
     public function __construct(
-        private ByIdLoader $byIdLoader,
+        private ByEmailLoader $byEmailLoader,
         private PasswordResetTokenLoader $passwordResetTokenLoader,
         private PasswordResetTokenDeleter $passwordResetTokenDeleter,
         private LoggerInterface $logger,
@@ -30,7 +30,7 @@ final readonly class PasswordResetTokenVerifyHandler implements PasswordResetTok
     public function handleAndGet(PasswordResetToken $passwordResetToken): bool
     {
         try {
-            $user = $this->byIdLoader->load($passwordResetToken->userId);
+            $user = $this->byEmailLoader->load($passwordResetToken->email);
             $passwordReset = $this->passwordResetTokenLoader->load($user, $passwordResetToken);
             if (!$this->isPasswordResetTokenValid($passwordReset)) {
                 return false;

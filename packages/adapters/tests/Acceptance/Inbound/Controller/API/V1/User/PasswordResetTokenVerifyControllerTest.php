@@ -9,7 +9,6 @@ use CuriosityConference\Adapters\Tests\Acceptance\AbstractWebTestCase;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Uid\Uuid;
 
 #[Group('Acceptance')]
 #[CoversNothing(PasswordResetTokenVerifyController::class)]
@@ -63,7 +62,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'GET',
-            '/api/v1/password/reset?id=' . Uuid::fromBinary($rowUser['id'])->toRfc4122() . '&token=' . $rowPasswordReset['token'],
+            '/api/v1/password/reset?email=' . $payload['email'] . '&token=' . $rowPasswordReset['token'],
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
@@ -125,7 +124,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'GET',
-            '/api/v1/password/reset?id=' . Uuid::fromBinary($rowUser['id'])->toRfc4122() . '&token=' . 12345678,
+            '/api/v1/password/reset?email=' . $payload['email'] . '&token=' . 12345678,
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
@@ -187,7 +186,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'GET',
-            '/api/v1/password/reset?id=' . Uuid::fromBinary($rowUser['id'])->toRfc4122() . '&token=' . 123456789,
+            '/api/v1/password/reset?email=' . $payload['email'] . '&token=' . 123456789,
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
@@ -249,7 +248,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'GET',
-            '/api/v1/password/reset?id=' . Uuid::fromBinary($rowUser['id'])->toRfc4122() . '&token=' . 12345678,
+            '/api/v1/password/reset?email=' . $payload['email'] . '&token=' . 12345678,
         );
         $response = \json_decode(
             $this->client->getResponse()->getContent(),
@@ -289,7 +288,7 @@ final class PasswordResetTokenVerifyControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'GET',
-            '/api/v1/password/reset?id=1234567test&token=' . 12345678,
+            '/api/v1/password/reset?email=invalid&token=' . 12345678,
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],

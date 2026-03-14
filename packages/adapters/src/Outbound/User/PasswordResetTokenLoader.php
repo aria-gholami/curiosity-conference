@@ -28,23 +28,23 @@ final readonly class PasswordResetTokenLoader implements PasswordResetTokenLoade
     {
         try {
             $this->logger->info('Start loading password reset token data.', [
-                'userId' => $passwordResetToken->userId,
+                'userId' => $passwordResetToken->email,
                 'token' => $passwordResetToken->token,
             ]);
             $passwordReset = $this->passwordResetRepository->findOneBy(['user' => $user, 'token' => $passwordResetToken->token]);
             $this->logger->info('Loading password reset token data was successful.', [
-                'userId' => $passwordResetToken->userId,
+                'userId' => $passwordResetToken->email,
                 'token' => $passwordResetToken->token,
             ]);
 
             return $passwordReset;
         } catch (\Throwable $exception) {
             $this->logger->notice('Loading password reset token data was not successful.', [
-                'userId' => $passwordResetToken->userId,
+                'userId' => $passwordResetToken->email,
                 'token' => $passwordResetToken->token,
             ]);
             $this->logger->debug('Loading password reset token data was not successful.', [
-                'userId' => $passwordResetToken->userId,
+                'userId' => $passwordResetToken->email,
                 'token' => $passwordResetToken->token,
                 'exceptionMessage' => $exception->getMessage(),
             ]);

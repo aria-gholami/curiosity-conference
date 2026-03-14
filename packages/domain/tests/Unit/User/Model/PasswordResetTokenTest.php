@@ -23,7 +23,7 @@ final class PasswordResetTokenTest extends TestCase
         );
 
         self::assertSame($payload['token'], $passwordResetToken->token);
-        self::assertSame('test', $passwordResetToken->userId);
+        self::assertSame('test', $passwordResetToken->email);
     }
 
     public function testPasswordResetTokenWithEmptyStringException(): void
@@ -35,7 +35,7 @@ final class PasswordResetTokenTest extends TestCase
             );
             $this->fail('EmptyStringException was expected to be thrown.');
         } catch (EmptyStringException $exception) {
-            self::assertSame('Validation failed for value "passwordResetTokenUserId" with error: "Value for "passwordResetTokenUserId" should not be empty."', $exception->getMessage());
+            self::assertSame('Validation failed for value "passwordResetTokenUserEmail" with error: "Value for "passwordResetTokenUserEmail" should not be empty."', $exception->getMessage());
         }
     }
 

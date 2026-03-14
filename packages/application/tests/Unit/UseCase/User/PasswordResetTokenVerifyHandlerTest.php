@@ -7,7 +7,7 @@ namespace CuriosityConference\Application\Tests\Unit\UseCase\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\PasswordReset;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\ByIdLoaderMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\ByEmailLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PasswordResetTokenDeleterMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\PasswordResetTokenLoaderMock;
 use CuriosityConference\Application\UseCase\User\PasswordResetTokenVerifyHandler;
@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 #[UsesClass(PasswordResetToken::class)]
 final class PasswordResetTokenVerifyHandlerTest extends TestCase
 {
-    private ByIdLoaderMock $byIdLoaderMock;
+    private ByEmailLoaderMock $byEmailLoaderMock;
     private PasswordResetTokenLoaderMock $passwordResetTokenLoaderMock;
     private PasswordResetTokenDeleterMock $passwordResetTokenDeleterMock;
     private LoggerMock $loggerMock;
@@ -31,12 +31,12 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->byIdLoaderMock = new ByIdLoaderMock();
+        $this->byEmailLoaderMock = new ByEmailLoaderMock();
         $this->passwordResetTokenLoaderMock = new PasswordResetTokenLoaderMock();
         $this->passwordResetTokenDeleterMock = new PasswordResetTokenDeleterMock();
         $this->loggerMock = new LoggerMock();
         $this->passwordResetTokenVerifyHandler = new PasswordResetTokenVerifyHandler(
-            $this->byIdLoaderMock,
+            $this->byEmailLoaderMock,
             $this->passwordResetTokenLoaderMock,
             $this->passwordResetTokenDeleterMock,
             $this->loggerMock,
@@ -52,7 +52,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
             'test',
             'test',
         );
-        $this->byIdLoaderMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
         $passwordReset = new PasswordReset(
             'test',
             $user,
@@ -68,7 +68,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
         $verified = $this->passwordResetTokenVerifyHandler->handleAndGet($passwordResetToken);
 
         self::assertTrue($verified);
-        self::assertSame('test', $this->byIdLoaderMock->inputId);
+        self::assertSame('test', $this->byEmailLoaderMock->inputEmail);
         self::assertEquals($user, $this->passwordResetTokenLoaderMock->inputUser);
         self::assertEquals($passwordResetToken, $this->passwordResetTokenLoaderMock->inputPasswordResetToken);
         self::assertEquals($passwordReset, $this->passwordResetTokenDeleterMock->inputPasswordReset);
@@ -85,7 +85,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
             'test',
             'test',
         );
-        $this->byIdLoaderMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
         $this->passwordResetTokenLoaderMock->outputPasswordReset = $payload['passwordReset'];
         $passwordResetToken = new PasswordResetToken(
             12345678,
@@ -95,7 +95,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
         $verified = $this->passwordResetTokenVerifyHandler->handleAndGet($passwordResetToken);
 
         self::assertFalse($verified);
-        self::assertSame('test', $this->byIdLoaderMock->inputId);
+        self::assertSame('test', $this->byEmailLoaderMock->inputEmail);
         self::assertEquals($user, $this->passwordResetTokenLoaderMock->inputUser);
         self::assertEquals($passwordResetToken, $this->passwordResetTokenLoaderMock->inputPasswordResetToken);
         self::assertEquals([], $this->loggerMock->logs);
@@ -138,8 +138,8 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
             'test',
             'test',
         );
-        $this->byIdLoaderMock->outputUser = $user;
-        $this->byIdLoaderMock->throwException = new LoadEntityFailedException('test');
+        $this->byEmailLoaderMock->outputUser = $user;
+        $this->byEmailLoaderMock->throwException = new LoadEntityFailedException('test');
         $passwordReset = new PasswordReset(
             'test',
             $user,
@@ -159,7 +159,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
             self::assertSame('Password reset token verification failed.', $exception->getMessage());
         }
 
-        self::assertSame('test', $this->byIdLoaderMock->inputId);
+        self::assertSame('test', $this->byEmailLoaderMock->inputEmail);
         self::assertEquals([
             'notice' => [
                 [

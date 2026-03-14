@@ -37,14 +37,14 @@ final class PasswordResetTokenVerifyControllerTest extends TestCase
     {
         $this->passwordResetTokenVerifyHandlerMock->outputVerified = true;
         $request = new Request(
-            ['token' => 12345678, 'id' => 'test'],
+            ['token' => 12345678, 'email' => 'test'],
         );
 
         $jsonResponse = $this->passwordResetTokenVerifyController->__invoke($request);
 
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
         self::assertSame('{"verified":true}', $jsonResponse->getContent());
-        self::assertSame('test', $this->passwordResetTokenVerifyHandlerMock->inputPasswordResetToken->userId);
+        self::assertSame('test', $this->passwordResetTokenVerifyHandlerMock->inputPasswordResetToken->email);
         self::assertSame(12345678, $this->passwordResetTokenVerifyHandlerMock->inputPasswordResetToken->token);
         self::assertEquals([], $this->loggerMock->logs);
     }
@@ -53,7 +53,7 @@ final class PasswordResetTokenVerifyControllerTest extends TestCase
     {
         $this->passwordResetTokenVerifyHandlerMock->outputVerified = true;
         $request = new Request(
-            ['token' => 12345678, 'id' => ''],
+            ['token' => 12345678, 'email' => ''],
         );
 
         $jsonResponse = $this->passwordResetTokenVerifyController->__invoke($request);
@@ -65,7 +65,7 @@ final class PasswordResetTokenVerifyControllerTest extends TestCase
                 [
                     'message' => 'Request data for GET to /api/v1/password/reset is invalid.',
                     'context' => [
-                        'exceptionMessage' => 'Validation failed for value "passwordResetTokenUserId" with error: "Value for "passwordResetTokenUserId" should not be empty."',
+                        'exceptionMessage' => 'Validation failed for value "passwordResetTokenUserEmail" with error: "Value for "passwordResetTokenUserEmail" should not be empty."',
                     ],
                 ],
             ],
@@ -76,7 +76,7 @@ final class PasswordResetTokenVerifyControllerTest extends TestCase
     {
         $this->passwordResetTokenVerifyHandlerMock->outputVerified = true;
         $request = new Request(
-            ['token' => 123456789, 'id' => 'test'],
+            ['token' => 123456789, 'email' => 'test'],
         );
 
         $jsonResponse = $this->passwordResetTokenVerifyController->__invoke($request);
@@ -100,14 +100,14 @@ final class PasswordResetTokenVerifyControllerTest extends TestCase
         $this->passwordResetTokenVerifyHandlerMock->outputVerified = true;
         $this->passwordResetTokenVerifyHandlerMock->throwException = new PasswordResetTokenVerifyFailedException('test');
         $request = new Request(
-            ['token' => 12345678, 'id' => 'test'],
+            ['token' => 12345678, 'email' => 'test'],
         );
 
         $jsonResponse = $this->passwordResetTokenVerifyController->__invoke($request);
 
         self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $jsonResponse->getStatusCode());
         self::assertSame('{"message":"Internal Server Error."}', $jsonResponse->getContent());
-        self::assertSame('test', $this->passwordResetTokenVerifyHandlerMock->inputPasswordResetToken->userId);
+        self::assertSame('test', $this->passwordResetTokenVerifyHandlerMock->inputPasswordResetToken->email);
         self::assertSame(12345678, $this->passwordResetTokenVerifyHandlerMock->inputPasswordResetToken->token);
         self::assertEquals([
             'notice' => [

@@ -15,10 +15,10 @@ final readonly class PasswordResetToken
      */
     public function __construct(
         public int $token,
-        public string $userId,
+        public string $email,
     ) {
-        if ('' === $this->userId) {
-            throw EmptyStringException::stringIsEmpty('passwordResetTokenUserId');
+        if ('' === $this->email) {
+            throw EmptyStringException::stringIsEmpty('passwordResetTokenUserEmail');
         }
         if ($this->token < 10000000 || $this->token > 99999999) {
             throw InvalidPasswordResetTokenException::invalidToken(

@@ -27,7 +27,7 @@ final readonly class PasswordResetTokenVerifyController
         try {
             $passwordResetToken = new PasswordResetToken(
                 $request->query->getInt('token'),
-                $request->query->getString('id'),
+                $request->query->getString('email'),
             );
             $verified = $this->passwordResetTokenVerifyHandler->handleAndGet($passwordResetToken);
 
