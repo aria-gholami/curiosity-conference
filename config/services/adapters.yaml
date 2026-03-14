@@ -57,6 +57,13 @@ services:
     tags:
       - { name: 'controller.service_arguments' }
 
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\RegistrationController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Device\RegistrationHandler'
+      - '@api.v1.device.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
+
   CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
     arguments:
       - '@CuriosityConference\Application\UseCase\Quiz\CreateHandler'
@@ -142,6 +149,11 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'
       - '@api.v1.user.logger'
 
+  CuriosityConference\Adapters\Outbound\Device\Persister:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@api.v1.device.logger'
+
   CuriosityConference\Adapters\Outbound\Quiz\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
@@ -225,6 +237,21 @@ services:
       - 'user'
     calls:
       - [ pushHandler, [ '@api.v1.user.logging-handler' ] ]
+
+  api.v1.device.logging-handler:
+    class: Monolog\Handler\RotatingFileHandler
+    arguments:
+      - '%kernel.logs_dir%/device_%kernel.environment%.log'
+      - 14
+      - '%log_level%'
+      - true
+      - 436
+  api.v1.device.logger:
+    class: Monolog\Logger
+    arguments:
+      - 'device'
+    calls:
+      - [ pushHandler, [ '@api.v1.device.logging-handler' ] ]
 
   api.v1.quiz.logging-handler:
     class: Monolog\Handler\RotatingFileHandler

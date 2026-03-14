@@ -44,6 +44,11 @@ services:
       - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenDeleter'
       - '@api.v1.user.logger'
 
+  CuriosityConference\Application\UseCase\Device\RegistrationHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\Device\Persister'
+
   CuriosityConference\Application\UseCase\Quiz\CreateHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\Persister'
