@@ -42,6 +42,7 @@ final class DetailsGetControllerTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->detailsGetHandlerMock->outputUser = $user;
         $request = new Request(
@@ -64,6 +65,7 @@ final class DetailsGetControllerTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->detailsGetHandlerMock->outputUser = $user;
         $request = new Request(
@@ -94,6 +96,7 @@ final class DetailsGetControllerTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->detailsGetHandlerMock->outputUser = $user;
         $this->detailsGetHandlerMock->throwException = new LoadEntityFailedException('test');

@@ -48,6 +48,7 @@ final class PersisterTest extends TestCase
             'test',
             'test@web.de',
             'Test123!',
+            false,
         );
         self::assertIsString($expectedUserEntity->getId());
         self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject[0]->getFirstName());
@@ -110,12 +111,14 @@ final class PersisterTest extends TestCase
             'test',
             'test@web.de',
             'Test123!',
+            false,
         );
         self::assertIsString($expectedUserEntity->getId());
         self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject[0]->getFirstName());
         self::assertSame($expectedUserEntity->getLastName(), $this->entityManagerMock->inputPersistedObject[0]->getLastName());
         self::assertSame($expectedUserEntity->getEmail(), $this->entityManagerMock->inputPersistedObject[0]->getEmail());
         self::assertSame($expectedUserEntity->getPassword(), $this->entityManagerMock->inputPersistedObject[0]->getPassword());
+        self::assertFalse($this->entityManagerMock->inputPersistedObject[0]->isAdmin());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [

@@ -35,6 +35,7 @@ final class ByIdLoaderTest extends TestCase
             'test',
             'test@email.de',
             'test',
+            false,
         );
         $this->userEntityRepositoryMock->expects($this->once())
             ->method('findOneBy')

@@ -9,6 +9,7 @@ final readonly class UserLoginResponse
     public function __construct(
         public string $id,
         public string $token,
+        public bool $isAdmin,
     ) {
     }
 }

@@ -39,6 +39,7 @@ final class PasswordResetTokenDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $passwordReset = new PasswordReset(
             'test',
@@ -80,6 +81,7 @@ final class PasswordResetTokenDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $passwordReset = new PasswordReset(
             'test',

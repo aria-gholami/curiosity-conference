@@ -43,6 +43,7 @@ final class JwtValidatorTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->jwtUserTokenMock->outputUser = $user;
         $this->byEmailLoaderMock->outputUser = $user;
@@ -65,6 +66,7 @@ final class JwtValidatorTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->jwtUserTokenMock->outputUser = $user;
         $this->byEmailLoaderMock->outputUser = $user;
@@ -104,6 +106,7 @@ final class JwtValidatorTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->jwtUserTokenMock->outputUser = $user;
         $this->byEmailLoaderMock->outputUser = $user;
@@ -151,6 +154,7 @@ final class JwtValidatorTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->jwtUserTokenMock->outputUser = $user;
         $this->byEmailLoaderMock->outputUser = $user;
@@ -199,6 +203,7 @@ final class JwtValidatorTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->jwtUserTokenMock->outputUser = $user;
         $this->byEmailLoaderMock->outputUser = $user;

@@ -46,7 +46,9 @@ final readonly class CreateHandler implements CreateHandlerInterface
                 $user->lastName,
                 $user->email,
                 '',
+                false,
             )),
+            false,
         );
     }
 }

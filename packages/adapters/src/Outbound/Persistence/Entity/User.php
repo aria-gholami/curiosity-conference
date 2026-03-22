@@ -31,13 +31,17 @@ final class User
     #[ORM\Column(length: 255)]
     private string $password;
 
-    public function __construct(string $id, string $firstName, string $lastName, string $email, string $password)
+    #[ORM\Column(type: 'boolean')]
+    private bool $isAdmin;
+
+    public function __construct(string $id, string $firstName, string $lastName, string $email, string $password, bool $isAdmin)
     {
         $this->id = $id;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
         $this->email = $email;
         $this->password = $password;
+        $this->isAdmin = $isAdmin;
     }
 
     public function getId(): string
@@ -78,5 +82,10 @@ final class User
     public function getPassword(): string
     {
         return $this->password;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->isAdmin;
     }
 }

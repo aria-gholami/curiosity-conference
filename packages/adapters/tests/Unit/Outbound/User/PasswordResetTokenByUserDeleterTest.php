@@ -38,6 +38,7 @@ final class PasswordResetTokenByUserDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->passwordResetRepositoryMock->expects(self::once())
             ->method('removeByUser')
@@ -71,6 +72,7 @@ final class PasswordResetTokenByUserDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->passwordResetRepositoryMock->expects(self::once())
             ->method('removeByUser')

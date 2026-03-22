@@ -56,6 +56,7 @@ final class CreateHandlerTest extends TestCase
 
         self::assertSame($expectedUserId, $userLoginResponse->id);
         self::assertSame('test', $userLoginResponse->token);
+        self::assertFalse($userLoginResponse->isAdmin);
         self::assertSame($user->password, $this->argon2idHasherMock->inputValue);
         self::assertSame($user->firstName, $this->persisterMock->inputUser->firstName);
         self::assertSame($user->lastName, $this->persisterMock->inputUser->lastName);
@@ -64,5 +65,6 @@ final class CreateHandlerTest extends TestCase
         self::assertSame($user->firstName, $this->jwtUserTokenMock->inputUser->getFirstName());
         self::assertSame($user->lastName, $this->jwtUserTokenMock->inputUser->getLastName());
         self::assertSame($user->email, $this->jwtUserTokenMock->inputUser->getEmail());
+        self::assertFalse($this->jwtUserTokenMock->inputUser->isAdmin());
     }
 }

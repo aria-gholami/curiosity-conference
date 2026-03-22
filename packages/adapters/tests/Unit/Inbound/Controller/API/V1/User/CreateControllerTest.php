@@ -38,7 +38,7 @@ final class CreateControllerTest extends TestCase
 
     public function testCreateIsValid(): void
     {
-        $expectedUserLoginResponse = new UserLoginResponse('test id', 'test token');
+        $expectedUserLoginResponse = new UserLoginResponse('test id', 'test token', false);
         $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
 
         $payload = [
@@ -73,7 +73,7 @@ final class CreateControllerTest extends TestCase
     #[DataProvider('provideInvalidData')]
     public function testCreateWithInvalidPayload(array $payload, string $missingFieldName): void
     {
-        $expectedUserLoginResponse = new UserLoginResponse('test id 2', 'test token 2');
+        $expectedUserLoginResponse = new UserLoginResponse('test id 2', 'test token 2', false);
         $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
 
         $request = new Request(
@@ -127,7 +127,7 @@ final class CreateControllerTest extends TestCase
             'confirmPassword' => 'Test123!',
         ];
 
-        $expectedUserLoginResponse = new UserLoginResponse('test id 3', 'test token 3');
+        $expectedUserLoginResponse = new UserLoginResponse('test id 3', 'test token 3', false);
         $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
 
         $request = new Request(
@@ -166,7 +166,7 @@ final class CreateControllerTest extends TestCase
             'confirmPassword' => 'Test124!',
         ];
 
-        $expectedUserLoginResponse = new UserLoginResponse('test id 4', 'test token 4');
+        $expectedUserLoginResponse = new UserLoginResponse('test id 4', 'test token 4', false);
         $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
 
         $request = new Request(
@@ -197,7 +197,7 @@ final class CreateControllerTest extends TestCase
 
     public function testCreateWithInternalServerError(): void
     {
-        $expectedUserLoginResponse = new UserLoginResponse('test id 5', 'test token 5');
+        $expectedUserLoginResponse = new UserLoginResponse('test id 5', 'test token 5', false);
         $this->createHandlerMock->outputUserLoginResponse = $expectedUserLoginResponse;
         $this->createHandlerMock->thrownException = new PersistFailedException('test');
 

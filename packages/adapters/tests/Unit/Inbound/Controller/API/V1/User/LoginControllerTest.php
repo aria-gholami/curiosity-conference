@@ -34,7 +34,7 @@ final class LoginControllerTest extends TestCase
 
     public function testLoginIsValid(): void
     {
-        $expectedUserLoginResponse = new UserLoginResponse('test id', 'test token');
+        $expectedUserLoginResponse = new UserLoginResponse('test id', 'test token', false);
         $this->loginHandlerMock->outputLoginHandler = $expectedUserLoginResponse;
         $payload = [
             'email' => 'Max.mustermann@example.com',
@@ -53,7 +53,7 @@ final class LoginControllerTest extends TestCase
         $jsonResponse = $this->loginController->__invoke($request);
 
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
-        self::assertSame('{"id":"test id","token":"test token"}', $jsonResponse->getContent());
+        self::assertSame('{"id":"test id","token":"test token","isAdmin":false}', $jsonResponse->getContent());
         $expectedUserLogin = new UserLogin('max.mustermann@example.com', 'Str0ng!PassWord');
         self::assertSame($expectedUserLogin->email, $this->loginHandlerMock->inputUserLogin->email);
         self::assertSame($expectedUserLogin->password, $this->loginHandlerMock->inputUserLogin->password);
@@ -62,7 +62,7 @@ final class LoginControllerTest extends TestCase
 
     public function testLoginWithEmailEmptyStringException(): void
     {
-        $expectedUserLoginResponse = new UserLoginResponse('test id 2', 'test token 2');
+        $expectedUserLoginResponse = new UserLoginResponse('test id 2', 'test token 2', false);
         $this->loginHandlerMock->outputLoginHandler = $expectedUserLoginResponse;
         $payload = [
             'email' => null,
@@ -96,7 +96,7 @@ final class LoginControllerTest extends TestCase
 
     public function testLoginWithPasswordEmptyStringException(): void
     {
-        $expectedUserLoginResponse = new UserLoginResponse('test id 3', 'test token 3');
+        $expectedUserLoginResponse = new UserLoginResponse('test id 3', 'test token 3', false);
         $this->loginHandlerMock->outputLoginHandler = $expectedUserLoginResponse;
         $payload = [
             'email' => 'Max.mustermann@example.com',
@@ -130,7 +130,7 @@ final class LoginControllerTest extends TestCase
 
     public function testLoginWithUserLoginFailedException(): void
     {
-        $expectedUserLoginResponse = new UserLoginResponse('test id 4', 'test token 4');
+        $expectedUserLoginResponse = new UserLoginResponse('test id 4', 'test token 4', false);
         $this->loginHandlerMock->outputLoginHandler = $expectedUserLoginResponse;
         $this->loginHandlerMock->throwException = UserLoginFailedException::loginFailed('max.mustermann@example.com');
         $payload = [

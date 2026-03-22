@@ -36,6 +36,7 @@ final class PasswordResetTokenPersisterTest extends TestCase
             'test',
             'test@web.de',
             'Test123!',
+            false,
         );
         $token = $this->passwordResetTokenPersister->persist($user);
 
@@ -76,6 +77,7 @@ final class PasswordResetTokenPersisterTest extends TestCase
             'test',
             'test@web.de',
             'Test123!',
+            false,
         );
         try {
             $this->passwordResetTokenPersister->persist($user);

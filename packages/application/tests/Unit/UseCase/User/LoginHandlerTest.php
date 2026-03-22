@@ -51,6 +51,7 @@ final class LoginHandlerTest extends TestCase
             'test',
             'test@email.de',
             'test',
+            false,
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $this->argon2idHasherMock->outputVerified = true;
@@ -83,6 +84,7 @@ final class LoginHandlerTest extends TestCase
             'test',
             'test@email.de',
             'test',
+            false,
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $this->argon2idHasherMock->outputVerified = false;
@@ -122,6 +124,7 @@ final class LoginHandlerTest extends TestCase
             'test',
             'test@email.de',
             'test',
+            false,
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $this->byEmailLoaderMock->throwException = LoadEntityFailedException::loadFailed(User::class);

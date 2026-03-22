@@ -53,6 +53,7 @@ final class PasswordResetMailSendHandlerTest extends TestCase
             'test',
             'test@email.de',
             'test',
+            false,
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $token = 12345678;
@@ -86,6 +87,7 @@ final class PasswordResetMailSendHandlerTest extends TestCase
             'test',
             'test@email.de',
             'test',
+            false,
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $this->byEmailLoaderMock->throwException = LoadEntityFailedException::loadFailed(User::class);

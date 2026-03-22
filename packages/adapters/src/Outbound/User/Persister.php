@@ -39,6 +39,7 @@ final readonly class Persister implements PersisterInterface
                 $user->lastName,
                 $user->email,
                 $user->password,
+                false,
             );
             $this->userEntityManager->persist($userEntity);
             $this->userEntityManager->flush();

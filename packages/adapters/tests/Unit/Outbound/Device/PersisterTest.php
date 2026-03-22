@@ -35,6 +35,7 @@ final class PersisterTest extends TestCase
             'test',
             'test@web.de',
             'Test123!',
+            false,
         );
         $this->persister->persist($registrationToken, $user);
 
@@ -72,6 +73,7 @@ final class PersisterTest extends TestCase
             'test',
             'test@web.de',
             'Test123!',
+            false,
         );
         try {
             $this->persister->persist($registrationToken, $user);

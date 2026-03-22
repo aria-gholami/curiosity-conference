@@ -45,6 +45,7 @@ final class ByRegistrationTokenDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $device = new Device(
             'test',
@@ -90,6 +91,7 @@ final class ByRegistrationTokenDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $device = new Device(
             'test',
@@ -129,6 +131,7 @@ final class ByRegistrationTokenDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $device = new Device(
             'test',

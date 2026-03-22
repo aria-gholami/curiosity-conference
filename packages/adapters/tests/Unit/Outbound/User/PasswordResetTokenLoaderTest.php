@@ -39,6 +39,7 @@ final class PasswordResetTokenLoaderTest extends TestCase
             'test',
             'test@email.de',
             'test',
+            false,
         );
         $passwordResetToken = new PasswordResetToken(
             12345678,
@@ -94,6 +95,7 @@ final class PasswordResetTokenLoaderTest extends TestCase
             'test',
             'test@email.de',
             'test',
+            false,
         );
         $passwordResetToken = new PasswordResetToken(
             12345678,

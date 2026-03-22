@@ -41,6 +41,7 @@ final class ByEmailDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $email = new Email('test');
         $this->userEntityRepositoryMock->expects(self::once())
@@ -89,6 +90,7 @@ final class ByEmailDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $email = new Email('test');
         $this->userEntityRepositoryMock->expects(self::once())
@@ -127,6 +129,7 @@ final class ByEmailDeleterTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $email = new Email('test');
         $this->userEntityRepositoryMock->expects(self::once())

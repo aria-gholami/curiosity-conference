@@ -32,7 +32,7 @@ final readonly class LoginController
             );
             $userLoginResponse = $this->loginHandler->handle($userLogin);
 
-            return new JsonResponse(['id' => $userLoginResponse->id, 'token' => $userLoginResponse->token], Response::HTTP_OK);
+            return new JsonResponse(['id' => $userLoginResponse->id, 'token' => $userLoginResponse->token, 'isAdmin' => $userLoginResponse->isAdmin], Response::HTTP_OK);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/user/login is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),

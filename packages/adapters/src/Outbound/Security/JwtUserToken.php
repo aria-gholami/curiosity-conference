@@ -54,6 +54,7 @@ final readonly class JwtUserToken implements JwtUserTokenInterface
             $decoded->lastName,
             $decoded->email,
             '',
+            false,
         );
     }
 }

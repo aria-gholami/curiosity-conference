@@ -51,6 +51,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $passwordReset = new PasswordReset(
@@ -84,6 +85,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $this->passwordResetTokenLoaderMock->outputPasswordReset = $payload['passwordReset'];
@@ -109,6 +111,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $payload = [
             'passwordReset' => new PasswordReset(
@@ -137,6 +140,7 @@ final class PasswordResetTokenVerifyHandlerTest extends TestCase
             'test',
             'test',
             'test',
+            false,
         );
         $this->byEmailLoaderMock->outputUser = $user;
         $this->byEmailLoaderMock->throwException = new LoadEntityFailedException('test');

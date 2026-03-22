@@ -36,7 +36,7 @@ final readonly class LoginHandler implements LoginHandlerInterface
                 throw UserLoginFailedException::loginFailed($userLogin->email);
             }
 
-            return new UserLoginResponse($user->getId(), $this->jwtUserToken->encode($user));
+            return new UserLoginResponse($user->getId(), $this->jwtUserToken->encode($user), $user->isAdmin());
         } catch (\Throwable $exception) {
             $this->logger->notice('User login failed.', [
                 'exceptionMessage' => $exception->getMessage(),
