@@ -12,14 +12,14 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(Id::class)]
 final class IdTest extends TestCase
 {
-    public function testTitleIsValid(): void
+    public function testIdIsValid(): void
     {
         $id = new Id('test');
 
         self::assertSame('test', $id->value);
     }
 
-    public function testTitleWithEmptyStringException(): void
+    public function testIdWithEmptyStringException(): void
     {
         try {
             new Id('');

@@ -66,6 +66,11 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Question\Persister'
+  CuriosityConference\Application\UseCase\Quiz\CreateRoomHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\QuizRoomPersister'
 
   CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:
     arguments:

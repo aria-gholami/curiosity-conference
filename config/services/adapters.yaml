@@ -107,6 +107,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateRoomController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\CreateRoomHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
     arguments:
@@ -179,6 +185,10 @@ services:
   CuriosityConference\Adapters\Outbound\Quiz\ByIdDeleter:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\QuizRoomPersister:
+    arguments:
+      - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Question\ByIdLoader:
