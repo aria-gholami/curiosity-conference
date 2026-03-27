@@ -52,11 +52,13 @@ final class RoomPersisterTest extends TestCase
             $quiz,
             $user,
             new ArrayCollection(),
+            false,
         );
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
         self::assertSame($expectedQuizEntity->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
         self::assertEquals($expectedQuizEntity->getParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getParticipants());
+        self::assertFalse($this->entityManagerMock->inputPersistedObject[0]->isStarted());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
@@ -105,11 +107,13 @@ final class RoomPersisterTest extends TestCase
             $quiz,
             $user,
             new ArrayCollection(),
+            false,
         );
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
         self::assertSame($expectedQuizEntity->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
         self::assertEquals($expectedQuizEntity->getParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getParticipants());
+        self::assertFalse($this->entityManagerMock->inputPersistedObject[0]->isStarted());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [

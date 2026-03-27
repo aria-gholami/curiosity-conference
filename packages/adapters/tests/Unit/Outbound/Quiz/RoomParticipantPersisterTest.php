@@ -38,7 +38,7 @@ final class RoomParticipantPersisterTest extends TestCase
             'test',
         );
         $host = new User('test', 'test', 'test', 'test', 'test', true);
-        $quizRoom = new QuizRoom('test', $quiz, $host, new ArrayCollection());
+        $quizRoom = new QuizRoom('test', $quiz, $host, new ArrayCollection(), false);
         $this->roomParticipantPersister->persist($quizRoom);
 
         self::assertSame($quizRoom->getId(), $this->entityManagerMock->inputPersistedObject[0]->getId());
@@ -74,7 +74,7 @@ final class RoomParticipantPersisterTest extends TestCase
             'test',
         );
         $host = new User('test', 'test', 'test', 'test', 'test', true);
-        $quizRoom = new QuizRoom('test', $quiz, $host, new ArrayCollection());
+        $quizRoom = new QuizRoom('test', $quiz, $host, new ArrayCollection(), false);
         try {
             $this->roomParticipantPersister->persist($quizRoom);
             $this->fail('PersistFailedException was expected to be thrown.');

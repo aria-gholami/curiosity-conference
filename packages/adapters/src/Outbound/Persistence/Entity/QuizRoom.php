@@ -35,12 +35,16 @@ final class QuizRoom
     #[ORM\JoinTable(name: 'quiz_room_participants')]
     private Collection $participants;
 
-    public function __construct(string $id, Quiz $quiz, User $host, Collection $participants)
+    #[ORM\Column(type: 'boolean')]
+    private bool $isStarted;
+
+    public function __construct(string $id, Quiz $quiz, User $host, Collection $participants, bool $isStarted)
     {
         $this->id = $id;
         $this->quiz = $quiz;
         $this->host = $host;
         $this->participants = $participants;
+        $this->isStarted = $isStarted;
     }
 
     public function getId(): string
@@ -70,5 +74,15 @@ final class QuizRoom
         }
 
         $this->participants->add($user);
+    }
+
+    public function setIsStarted(bool $isStarted): void
+    {
+        $this->isStarted = $isStarted;
+    }
+
+    public function isStarted(): bool
+    {
+        return $this->isStarted;
     }
 }

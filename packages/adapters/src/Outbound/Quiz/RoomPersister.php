@@ -37,6 +37,7 @@ final readonly class RoomPersister implements RoomPersisterInterface
                 $quiz,
                 $host,
                 new ArrayCollection(),
+                false,
             );
             $this->quizRoomEntityManager->persist($quizRoom);
             $this->quizRoomEntityManager->flush();

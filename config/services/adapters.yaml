@@ -119,6 +119,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\StartController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\StartHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
     arguments:
@@ -201,6 +207,10 @@ services:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\QuizRoomUpdater:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
       - '@api.v1.quiz.logger'
