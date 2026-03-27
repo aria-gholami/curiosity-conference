@@ -7,7 +7,7 @@ namespace CuriosityConference\Adapters\Tests\Unit\Outbound\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
-use CuriosityConference\Adapters\Outbound\Quiz\QuizRoomPersister;
+use CuriosityConference\Adapters\Outbound\Quiz\RoomParticipantPersister;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\EntityManagerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\PersistFailedException;
@@ -15,18 +15,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(QuizRoomPersister::class)]
-final class QuizRoomPersisterTest extends TestCase
+#[CoversClass(RoomParticipantPersister::class)]
+final class RoomParticipantPersisterTest extends TestCase
 {
     private EntityManagerMock $entityManagerMock;
     private LoggerMock $loggerMock;
-    private QuizRoomPersister $quizRoomPersister;
+    private RoomParticipantPersister $roomParticipantPersister;
 
     protected function setUp(): void
     {
         $this->entityManagerMock = new EntityManagerMock();
         $this->loggerMock = new LoggerMock();
-        $this->quizRoomPersister = new QuizRoomPersister($this->entityManagerMock, $this->loggerMock);
+        $this->roomParticipantPersister = new RoomParticipantPersister($this->entityManagerMock, $this->loggerMock);
     }
 
     public function testPersistIsValid(): void
@@ -37,39 +37,27 @@ final class QuizRoomPersisterTest extends TestCase
             'test',
             'test',
         );
-        $user = new User(
-            'test',
-            'test',
-            'test',
-            'test',
-            'test',
-            false,
-        );
-        $this->quizRoomPersister->persist($quiz, $user);
+        $host = new User('test', 'test', 'test', 'test', 'test', true);
+        $quizRoom = new QuizRoom('test', $quiz, $host, new ArrayCollection());
+        $this->roomParticipantPersister->persist($quizRoom);
 
-        $expectedQuizEntity = new QuizRoom(
-            'test',
-            $quiz,
-            $user,
-            new ArrayCollection(),
-        );
-        self::assertIsString($expectedQuizEntity->getId());
-        self::assertSame($expectedQuizEntity->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
-        self::assertSame($expectedQuizEntity->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
-        self::assertEquals($expectedQuizEntity->getParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getParticipants());
+        self::assertSame($quizRoom->getId(), $this->entityManagerMock->inputPersistedObject[0]->getId());
+        self::assertSame($quizRoom->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
+        self::assertSame($quizRoom->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
+        self::assertSame($quizRoom->getParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getParticipants());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
                 [
-                    'message' => 'Start persisting new quiz room.',
+                    'message' => 'Start persisting new quiz room participant.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizId' => $quizRoom->getId(),
                     ],
                 ],
                 [
-                    'message' => 'Persisting new quiz room was successful.',
+                    'message' => 'Persisting new quiz room participant was successful.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizId' => $quizRoom->getId(),
                     ],
                 ],
             ],
@@ -85,55 +73,43 @@ final class QuizRoomPersisterTest extends TestCase
             'test',
             'test',
         );
-        $user = new User(
-            'test',
-            'test',
-            'test',
-            'test',
-            'test',
-            false,
-        );
+        $host = new User('test', 'test', 'test', 'test', 'test', true);
+        $quizRoom = new QuizRoom('test', $quiz, $host, new ArrayCollection());
         try {
-            $this->quizRoomPersister->persist($quiz, $user);
+            $this->roomParticipantPersister->persist($quizRoom);
             $this->fail('PersistFailedException was expected to be thrown.');
         } catch (PersistFailedException $exception) {
             self::assertSame('Persist entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom" was not successful.', $exception->getMessage());
         }
 
-        $expectedQuizEntity = new QuizRoom(
-            'test',
-            $quiz,
-            $user,
-            new ArrayCollection(),
-        );
-        self::assertIsString($expectedQuizEntity->getId());
-        self::assertSame($expectedQuizEntity->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
-        self::assertSame($expectedQuizEntity->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
-        self::assertEquals($expectedQuizEntity->getParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getParticipants());
+        self::assertSame($quizRoom->getId(), $this->entityManagerMock->inputPersistedObject[0]->getId());
+        self::assertSame($quizRoom->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
+        self::assertSame($quizRoom->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
+        self::assertSame($quizRoom->getParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getParticipants());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
                 [
-                    'message' => 'Start persisting new quiz room.',
+                    'message' => 'Start persisting new quiz room participant.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizId' => $quizRoom->getId(),
                     ],
                 ],
             ],
             'notice' => [
                 [
-                    'message' => 'Persisting new quiz room was not successful.',
+                    'message' => 'Persisting new quiz room participant was not successful.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizId' => $quizRoom->getId(),
                     ],
                 ],
             ],
             'debug' => [
                 [
-                    'message' => 'Persisting new quiz room was not successful.',
+                    'message' => 'Persisting new quiz room participant was not successful.',
                     'context' => [
-                        'quizId' => 'test',
                         'exceptionMessage' => 'test',
+                        'quizId' => $quizRoom->getId(),
                     ],
                 ],
             ],

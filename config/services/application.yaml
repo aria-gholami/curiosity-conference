@@ -70,7 +70,12 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\Quiz\QuizRoomPersister'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomPersister'
+  CuriosityConference\Application\UseCase\Quiz\JoinRoomHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomParticipantPersister'
 
   CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:
     arguments:

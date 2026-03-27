@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[CoversNothing(CreateRoomController::class)]
 final class CreateRoomControllerTest extends AbstractWebTestCase
 {
-    public function testCreateQuizIsValid(): void
+    public function testCreateQuizRoomIsValid(): void
     {
         $payload = [
             'firstName' => 'test',
@@ -92,7 +92,7 @@ final class CreateRoomControllerTest extends AbstractWebTestCase
         self::assertIsString($row['host_id']);
     }
 
-    public function testCreateQuizWithBadRequest(): void
+    public function testCreateQuizRoomWithBadRequest(): void
     {
         $payload = [
             'firstName' => 'test',
@@ -158,7 +158,7 @@ final class CreateRoomControllerTest extends AbstractWebTestCase
         self::assertSame('Bad Request.', $response['message']);
     }
 
-    public function testCreateQuizWithInvalidApiKey(): void
+    public function testCreateQuizRoomWithInvalidApiKey(): void
     {
         $payload = [
             'firstName' => 'test',
@@ -228,7 +228,7 @@ final class CreateRoomControllerTest extends AbstractWebTestCase
         self::assertSame('Unauthorized.', $response['message']);
     }
 
-    public function testCreateQuizWithInternalServerError(): void
+    public function testCreateQuizRoomWithInternalServerError(): void
     {
         $payload = [
             'firstName' => 'test',

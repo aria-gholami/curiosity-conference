@@ -6,7 +6,7 @@ namespace CuriosityConference\Application\UseCase\Quiz;
 
 use CuriosityConference\Application\Port\Inbound\Quiz\CreateRoomHandler as CreateRoomHandlerInterface;
 use CuriosityConference\Application\Port\Outbound\Quiz\ByIdLoader as QuizByIdLoader;
-use CuriosityConference\Application\Port\Outbound\Quiz\QuizRoomPersister;
+use CuriosityConference\Application\Port\Outbound\Quiz\RoomPersister;
 use CuriosityConference\Application\Port\Outbound\User\ByIdLoader as UserByIdLoader;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -24,7 +24,7 @@ final readonly class CreateRoomHandler implements CreateRoomHandlerInterface
     public function __construct(
         private QuizByIdLoader $quizByIdLoader,
         private UserByIdLoader $userByIdLoader,
-        private QuizRoomPersister $quizRoomPersister,
+        private RoomPersister $quizRoomPersister,
     ) {
     }
 

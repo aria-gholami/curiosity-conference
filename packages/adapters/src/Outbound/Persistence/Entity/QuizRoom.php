@@ -28,6 +28,9 @@ final class QuizRoom
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private User $host;
 
+    /**
+     * @var Collection<int, User>
+     */
     #[ORM\ManyToMany(targetEntity: User::class)]
     #[ORM\JoinTable(name: 'quiz_room_participants')]
     private Collection $participants;
@@ -58,5 +61,14 @@ final class QuizRoom
     public function getParticipants(): Collection
     {
         return $this->participants;
+    }
+
+    public function addParticipant(User $user): void
+    {
+        if ($this->participants->contains($user)) {
+            return;
+        }
+
+        $this->participants->add($user);
     }
 }

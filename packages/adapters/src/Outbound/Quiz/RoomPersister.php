@@ -7,14 +7,14 @@ namespace CuriosityConference\Adapters\Outbound\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
-use CuriosityConference\Application\Port\Outbound\Quiz\QuizRoomPersister as QuizRoomPersisterInterface;
+use CuriosityConference\Application\Port\Outbound\Quiz\RoomPersister as RoomPersisterInterface;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
 
-final readonly class QuizRoomPersister implements QuizRoomPersisterInterface
+final readonly class RoomPersister implements RoomPersisterInterface
 {
     public function __construct(
         private EntityManagerInterface $quizRoomEntityManager,
@@ -40,7 +40,6 @@ final readonly class QuizRoomPersister implements QuizRoomPersisterInterface
             );
             $this->quizRoomEntityManager->persist($quizRoom);
             $this->quizRoomEntityManager->flush();
-
             $this->logger->info('Persisting new quiz room was successful.', [
                 'quizId' => $quiz->getId(),
             ]);

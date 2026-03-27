@@ -56,6 +56,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateRoomController
     path: /api/v1/quiz/room
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateRoomController
     methods: POST
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\JoinRoomController:
+    path: /api/v1/quiz/room/join
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\JoinRoomController
+    methods: POST
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
     path: /api/v1/question

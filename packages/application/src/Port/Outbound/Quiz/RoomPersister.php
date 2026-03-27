@@ -8,7 +8,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 
-interface QuizRoomPersister
+interface RoomPersister
 {
     /**
      * @throws PersistFailedException
