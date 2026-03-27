@@ -11,6 +11,7 @@ use CuriosityConference\Domain\Quiz\Id;
 
 /**
  * @codeCoverageIgnore
+ *
  * @infection-ignore-all
  */
 final readonly class StartHandler implements StartHandlerInterface

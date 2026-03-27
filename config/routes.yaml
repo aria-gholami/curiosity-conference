@@ -64,6 +64,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\StartController:
     path: /api/v1/quiz/room/start
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\StartController
     methods: PUT
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteRoomController:
+    path: /api/v1/quiz/room
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteRoomController
+    methods: DELETE
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
     path: /api/v1/question

@@ -38,4 +38,9 @@ class QuizRoomRepository extends ServiceEntityRepository
         $quizRoom->setIsStarted(!$quizRoom->isStarted());
         $this->getEntityManager()->flush();
     }
+
+    public function remove(QuizRoom $entity): void
+    {
+        $this->getEntityManager()->remove($entity);
+    }
 }

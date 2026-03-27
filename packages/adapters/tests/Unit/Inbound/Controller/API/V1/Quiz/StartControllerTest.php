@@ -33,7 +33,7 @@ final class StartControllerTest extends TestCase
     public function testStartUpdatedIsValid(): void
     {
         $payload = [
-            'quizRoomId' => 'test'
+            'quizRoomId' => 'test',
         ];
         $request = new Request(
             [],
@@ -54,7 +54,7 @@ final class StartControllerTest extends TestCase
     public function testStartUpdatedWithEmptyStringException(): void
     {
         $payload = [
-            'quizRoomId' => ''
+            'quizRoomId' => '',
         ];
         $request = new Request(
             [],
@@ -74,10 +74,10 @@ final class StartControllerTest extends TestCase
                 [
                     'message' => 'Request data for PUT to /api/v1/quiz/room/start is invalid.',
                     'context' => [
-                        'exceptionMessage' => 'Validation failed for value "id" with error: "Value for "id" should not be empty."'
-                    ]
-                ]
-            ]
+                        'exceptionMessage' => 'Validation failed for value "id" with error: "Value for "id" should not be empty."',
+                    ],
+                ],
+            ],
         ], $this->loggerMock->logs);
     }
 
@@ -85,7 +85,7 @@ final class StartControllerTest extends TestCase
     {
         $this->startHandlerMock->throwException = new UpdateFailedException('test');
         $payload = [
-            'quizRoomId' => 'test'
+            'quizRoomId' => 'test',
         ];
         $request = new Request(
             [],
@@ -105,10 +105,10 @@ final class StartControllerTest extends TestCase
                 [
                     'message' => 'Quiz room could not be started.',
                     'context' => [
-                        'exceptionMessage' => 'test'
-                    ]
-                ]
-            ]
+                        'exceptionMessage' => 'test',
+                    ],
+                ],
+            ],
         ], $this->loggerMock->logs);
     }
 }

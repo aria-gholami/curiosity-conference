@@ -26,7 +26,7 @@ final readonly class StartController
         try {
             $data = \json_decode($request->getContent(), true);
             $quizRoomId = new Id(
-                $data['quizRoomId'] ?? ''
+                $data['quizRoomId'] ?? '',
             );
             $this->startHandler->handle($quizRoomId);
 

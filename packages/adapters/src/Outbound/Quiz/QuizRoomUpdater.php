@@ -15,7 +15,7 @@ final readonly class QuizRoomUpdater implements QuizRoomUpdaterInterface
 {
     public function __construct(
         private QuizRoomRepository $quizRoomRepository,
-        private LoggerInterface    $logger,
+        private LoggerInterface $logger,
     ) {
     }
 

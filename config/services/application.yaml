@@ -64,6 +64,9 @@ services:
   CuriosityConference\Application\UseCase\Quiz\StartHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\QuizRoomUpdater'
+  CuriosityConference\Application\UseCase\Quiz\DeleteRoomHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdDeleter'
 
   CuriosityConference\Application\UseCase\Question\CreateHandler:
     arguments:
