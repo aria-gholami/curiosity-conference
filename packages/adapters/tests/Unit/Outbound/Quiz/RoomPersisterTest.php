@@ -11,7 +11,6 @@ use CuriosityConference\Adapters\Outbound\Quiz\RoomPersister;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\EntityManagerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -51,7 +50,6 @@ final class RoomPersisterTest extends TestCase
             'test',
             $quiz,
             $user,
-            new ArrayCollection(),
             false,
         );
         self::assertIsString($expectedQuizEntity->getId());
@@ -106,7 +104,6 @@ final class RoomPersisterTest extends TestCase
             'test',
             $quiz,
             $user,
-            new ArrayCollection(),
             false,
         );
         self::assertIsString($expectedQuizEntity->getId());

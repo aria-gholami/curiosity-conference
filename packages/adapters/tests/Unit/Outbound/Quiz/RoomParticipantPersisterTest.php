@@ -11,7 +11,6 @@ use CuriosityConference\Adapters\Outbound\Quiz\RoomParticipantPersister;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\EntityManagerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
@@ -38,7 +37,7 @@ final class RoomParticipantPersisterTest extends TestCase
             'test',
         );
         $host = new User('test', 'test', 'test', 'test', 'test', true);
-        $quizRoom = new QuizRoom('test', $quiz, $host, new ArrayCollection(), false);
+        $quizRoom = new QuizRoom('test', $quiz, $host, false);
         $this->roomParticipantPersister->persist($quizRoom);
 
         self::assertSame($quizRoom->getId(), $this->entityManagerMock->inputPersistedObject[0]->getId());
@@ -74,7 +73,7 @@ final class RoomParticipantPersisterTest extends TestCase
             'test',
         );
         $host = new User('test', 'test', 'test', 'test', 'test', true);
-        $quizRoom = new QuizRoom('test', $quiz, $host, new ArrayCollection(), false);
+        $quizRoom = new QuizRoom('test', $quiz, $host, false);
         try {
             $this->roomParticipantPersister->persist($quizRoom);
             $this->fail('PersistFailedException was expected to be thrown.');

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Outbound\Persistence\Entity;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,15 +36,22 @@ final class QuizRoom
     #[ORM\JoinTable(name: 'quiz_room_participants')]
     private Collection $participants;
 
+    /**
+     * @var Collection<int, Highscore>
+     */
+    #[ORM\OneToMany(mappedBy: 'quizRoom', targetEntity: Highscore::class, orphanRemoval: true)]
+    private Collection $highscores;
+
     #[ORM\Column(type: 'boolean')]
     private bool $isStarted;
 
-    public function __construct(string $id, Quiz $quiz, User $host, Collection $participants, bool $isStarted)
+    public function __construct(string $id, Quiz $quiz, User $host, bool $isStarted)
     {
         $this->id = $id;
         $this->quiz = $quiz;
         $this->host = $host;
-        $this->participants = $participants;
+        $this->participants = new ArrayCollection();
+        $this->highscores = new ArrayCollection();
         $this->isStarted = $isStarted;
     }
 
@@ -74,6 +82,11 @@ final class QuizRoom
         }
 
         $this->participants->add($user);
+    }
+
+    public function getHighscores(): Collection
+    {
+        return $this->highscores;
     }
 
     public function setIsStarted(bool $isStarted): void

@@ -9,7 +9,6 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Port\Outbound\Quiz\RoomPersister as RoomPersisterInterface;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Uid\Uuid;
@@ -36,7 +35,6 @@ final readonly class RoomPersister implements RoomPersisterInterface
                 Uuid::v4()->toRfc4122(),
                 $quiz,
                 $host,
-                new ArrayCollection(),
                 false,
             );
             $this->quizRoomEntityManager->persist($quizRoom);

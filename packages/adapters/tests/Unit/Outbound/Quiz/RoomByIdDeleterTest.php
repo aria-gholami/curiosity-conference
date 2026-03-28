@@ -12,7 +12,6 @@ use CuriosityConference\Adapters\Outbound\Quiz\RoomByIdDeleter;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Quiz\Id;
-use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -56,7 +55,6 @@ final class RoomByIdDeleterTest extends TestCase
             'test',
             $quiz,
             $user,
-            new ArrayCollection(),
             false,
         );
         $id = new Id('test');
@@ -108,7 +106,6 @@ final class RoomByIdDeleterTest extends TestCase
             'test',
             $quiz,
             $user,
-            new ArrayCollection(),
             false,
         );
         $id = new Id('test');
@@ -154,7 +151,6 @@ final class RoomByIdDeleterTest extends TestCase
             'test',
             $quiz,
             $user,
-            new ArrayCollection(),
             false,
         );
         $id = new Id('test');

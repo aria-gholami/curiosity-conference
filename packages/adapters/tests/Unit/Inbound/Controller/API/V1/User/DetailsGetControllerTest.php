@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\User;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Highscore;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\User\Mocks\DetailsGetHandlerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
@@ -36,6 +39,12 @@ final class DetailsGetControllerTest extends TestCase
 
     public function testGetUserIsValid(): void
     {
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
         $user = new User(
             'test',
             'test',
@@ -44,6 +53,24 @@ final class DetailsGetControllerTest extends TestCase
             'test',
             false,
         );
+        $quizRoom = new QuizRoom(
+            'test',
+            $quiz,
+            $user,
+            false,
+        );
+        $user->addHighscore(new Highscore(
+            'test',
+            $quizRoom,
+            $user,
+            1,
+        ));
+        $user->addHighscore(new Highscore(
+            'test2',
+            $quizRoom,
+            $user,
+            2,
+        ));
         $this->detailsGetHandlerMock->outputUser = $user;
         $request = new Request(
             ['id' => 'test'],
@@ -51,7 +78,7 @@ final class DetailsGetControllerTest extends TestCase
 
         $jsonResponse = $this->detailsGetController->__invoke($request);
 
-        self::assertSame('{"email":"test","firstName":"test","lastName":"test"}', $jsonResponse->getContent());
+        self::assertSame('{"email":"test","firstName":"test","lastName":"test","highscores":[{"id":"test","quizRoomId":"test","quizRoomIsStarted":false,"quizId":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","score":1},{"id":"test2","quizRoomId":"test","quizRoomIsStarted":false,"quizId":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","score":2}]}', $jsonResponse->getContent());
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
         self::assertSame('test', $this->detailsGetHandlerMock->inputId->value);
         self::assertEquals([], $this->loggerMock->logs);

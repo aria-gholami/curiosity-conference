@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Outbound\Persistence\Entity;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,6 +36,12 @@ final class User
     #[ORM\Column(type: 'boolean')]
     private bool $isAdmin;
 
+    /**
+     * @var Collection<int, Highscore>
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Highscore::class, orphanRemoval: true)]
+    private Collection $highscores;
+
     public function __construct(string $id, string $firstName, string $lastName, string $email, string $password, bool $isAdmin)
     {
         $this->id = $id;
@@ -42,6 +50,7 @@ final class User
         $this->email = $email;
         $this->password = $password;
         $this->isAdmin = $isAdmin;
+        $this->highscores = new ArrayCollection();
     }
 
     public function getId(): string
@@ -87,5 +96,15 @@ final class User
     public function isAdmin(): bool
     {
         return $this->isAdmin;
+    }
+
+    public function getHighscores(): Collection
+    {
+        return $this->highscores;
+    }
+
+    public function addHighscore(Highscore $highscore): void
+    {
+        $this->highscores->add($highscore);
     }
 }
