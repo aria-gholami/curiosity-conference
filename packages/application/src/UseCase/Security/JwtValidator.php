@@ -61,7 +61,8 @@ final readonly class JwtValidator implements JwtValidatorInterface
             $user = $this->jwtUserToken->decode($token);
             $userByDatabase = $this->byEmailLoader->load($user->getEmail());
             $isRoomCreated = \str_starts_with($path, '/api/v1/quiz/room') && 'POST' === $method;
-            if ($isRoomCreated && !$userByDatabase->isAdmin()) {
+            $isRoomStarted = \str_starts_with($path, '/api/v1/quiz/room/start') && 'PUT' === $method;
+            if (($isRoomCreated || $isRoomStarted) && !$userByDatabase->isAdmin()) {
                 $this->logger->notice('User is not admin.');
                 throw InvalidJwtException::invalidRole();
             }
