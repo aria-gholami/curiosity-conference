@@ -38,6 +38,9 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
             true,
             flags: \JSON_THROW_ON_ERROR,
         );
+        $this->connection->executeStatement(
+            'UPDATE user SET is_admin = 1',
+        );
         $payload = [
             'title' => 'test',
             'description' => 'test',
@@ -135,6 +138,9 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
             true,
             flags: \JSON_THROW_ON_ERROR,
         );
+        $this->connection->executeStatement(
+            'UPDATE user SET is_admin = 1',
+        );
         $payload = [
             'title' => 'test',
             'description' => 'test',
@@ -226,6 +232,9 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
             true,
             flags: \JSON_THROW_ON_ERROR,
         );
+        $this->connection->executeStatement(
+            'UPDATE user SET is_admin = 1',
+        );
         $payload = [
             'title' => 'test',
             'description' => 'test',
@@ -316,6 +325,9 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
             true,
             flags: \JSON_THROW_ON_ERROR,
         );
+        $this->connection->executeStatement(
+            'UPDATE user SET is_admin = 1',
+        );
         $payload = [
             'title' => 'test',
             'description' => 'test',
@@ -351,11 +363,6 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
-        );
-        $responseQuizRoom = \json_decode(
-            $this->client->getResponse()->getContent(),
-            true,
-            flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
             'quizRoomId' => 'invalid',

@@ -38,6 +38,9 @@ final class StartControllerTest extends AbstractWebTestCase
             true,
             flags: \JSON_THROW_ON_ERROR,
         );
+        $this->connection->executeStatement(
+            'UPDATE user SET is_admin = 1',
+        );
         $payload = [
             'title' => 'test',
             'description' => 'test',
@@ -126,6 +129,9 @@ final class StartControllerTest extends AbstractWebTestCase
             true,
             flags: \JSON_THROW_ON_ERROR,
         );
+        $this->connection->executeStatement(
+            'UPDATE user SET is_admin = 1',
+        );
         $payload = [
             'title' => 'test',
             'description' => 'test',
@@ -210,6 +216,9 @@ final class StartControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
+        );
+        $this->connection->executeStatement(
+            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',
@@ -299,6 +308,9 @@ final class StartControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
+        );
+        $this->connection->executeStatement(
+            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',

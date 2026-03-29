@@ -243,4 +243,53 @@ final class JwtValidatorTest extends TestCase
             ],
         ], $this->loggerMock->logs);
     }
+
+    public function testValidateRequestWithRoomCreateAndNoAdminRole(): void
+    {
+        $user = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+            false,
+        );
+        $this->jwtUserTokenMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
+
+        $request = Request::create('/api/v1/quiz/room', 'POST');
+        $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer jwt-token');
+        try {
+            $this->jwtValidator->validateRequest($request);
+            $this->fail('InvalidJwtException was expected to be thrown.');
+        } catch (InvalidJwtException $exception) {
+            self::assertSame('Authentication failed with error: "Jwt is invalid."', $exception->getMessage());
+        }
+
+        self::assertEquals('jwt-token', $this->jwtUserTokenMock->inputJwtToken);
+        self::assertSame('test', $this->byEmailLoaderMock->inputEmail);
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'User is not admin.',
+                    'context' => [],
+                ],
+                [
+                    'message' => 'Bearer token is invalid.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                    ],
+                ],
+            ],
+            'debug' => [
+                [
+                    'message' => 'Bearer token is invalid.',
+                    'context' => [
+                        'required-header' => 'Authorization',
+                        'exceptionMessage' => 'Authentication failed with error: "Role is invalid."',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
 }

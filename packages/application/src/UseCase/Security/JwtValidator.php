@@ -59,7 +59,12 @@ final readonly class JwtValidator implements JwtValidatorInterface
             }
 
             $user = $this->jwtUserToken->decode($token);
-            $this->byEmailLoader->load($user->getEmail());
+            $userByDatabase = $this->byEmailLoader->load($user->getEmail());
+            $isRoomCreated = \str_starts_with($path, '/api/v1/quiz/room') && 'POST' === $method;
+            if ($isRoomCreated && !$userByDatabase->isAdmin()) {
+                $this->logger->notice('User is not admin.');
+                throw InvalidJwtException::invalidRole();
+            }
         } catch (\Throwable $exception) {
             $this->logger->notice('Bearer token is invalid.', ['required-header' => self::HEADER_NAME]);
             $this->logger->debug('Bearer token is invalid.', [

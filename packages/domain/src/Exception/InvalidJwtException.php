@@ -32,4 +32,9 @@ final class InvalidJwtException extends \Exception
     {
         return new self(\sprintf(self::MESSAGE_TEMPLATE, 'Jwt is invalid.'));
     }
+
+    public static function invalidRole(): self
+    {
+        return new self(\sprintf(self::MESSAGE_TEMPLATE, 'Role is invalid.'));
+    }
 }
