@@ -44,19 +44,20 @@ final class RoomPersisterTest extends TestCase
             'test',
             false,
         );
-        $this->quizRoomPersister->persist($quiz, $user);
+        $this->quizRoomPersister->persist($quiz, $user, QuizRoom::STATUS_STARTED);
 
         $expectedQuizEntity = new QuizRoom(
             'test',
             $quiz,
+            null,
             $user,
-            false,
+            QuizRoom::STATUS_STARTED,
         );
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
         self::assertSame($expectedQuizEntity->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
         self::assertEquals($expectedQuizEntity->getParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getParticipants());
-        self::assertFalse($this->entityManagerMock->inputPersistedObject[0]->isStarted());
+        self::assertSame(QuizRoom::STATUS_STARTED, $this->entityManagerMock->inputPersistedObject[0]->getStatus());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
@@ -94,7 +95,7 @@ final class RoomPersisterTest extends TestCase
             false,
         );
         try {
-            $this->quizRoomPersister->persist($quiz, $user);
+            $this->quizRoomPersister->persist($quiz, $user, QuizRoom::STATUS_STARTED);
             $this->fail('PersistFailedException was expected to be thrown.');
         } catch (PersistFailedException $exception) {
             self::assertSame('Persist entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom" was not successful.', $exception->getMessage());
@@ -103,14 +104,15 @@ final class RoomPersisterTest extends TestCase
         $expectedQuizEntity = new QuizRoom(
             'test',
             $quiz,
+            null,
             $user,
-            false,
+            QuizRoom::STATUS_STARTED,
         );
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
         self::assertSame($expectedQuizEntity->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
         self::assertEquals($expectedQuizEntity->getParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getParticipants());
-        self::assertFalse($this->entityManagerMock->inputPersistedObject[0]->isStarted());
+        self::assertSame(QuizRoom::STATUS_STARTED, $this->entityManagerMock->inputPersistedObject[0]->getStatus());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Acceptance\Inbound\Controller\API\V1\Quiz;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\StartController;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Tests\Acceptance\AbstractWebTestCase;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Group;
@@ -102,7 +103,7 @@ final class StartControllerTest extends AbstractWebTestCase
         $row = $this->connection->fetchAssociative(
             'SELECT * FROM quiz_room',
         );
-        self::assertSame(1, $row['is_started']);
+        self::assertSame(QuizRoom::STATUS_STARTED, $row['status']);
     }
 
     public function testStartQuizRoomWithBadRequest(): void

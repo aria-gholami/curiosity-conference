@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\UseCase\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Application\Port\Inbound\Quiz\StartHandler as StartHandlerInterface;
 use CuriosityConference\Application\Port\Outbound\Quiz\QuizRoomUpdater;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
@@ -27,6 +28,6 @@ final readonly class StartHandler implements StartHandlerInterface
     #[\Override]
     public function Handle(Id $quizRoomId): void
     {
-        $this->quizRoomUpdater->updateIsStartedToTrue($quizRoomId);
+        $this->quizRoomUpdater->updateStatus($quizRoomId, QuizRoom::STATUS_STARTED);
     }
 }

@@ -54,8 +54,9 @@ final class RoomByIdDeleterTest extends TestCase
         $expectedQuizEntity = new QuizRoom(
             'test',
             $quiz,
+            null,
             $user,
-            false,
+            QuizRoom::STATUS_STARTED,
         );
         $id = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())
@@ -105,8 +106,9 @@ final class RoomByIdDeleterTest extends TestCase
         $expectedQuizEntity = new QuizRoom(
             'test',
             $quiz,
+            null,
             $user,
-            false,
+            QuizRoom::STATUS_STARTED,
         );
         $id = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())
@@ -150,8 +152,9 @@ final class RoomByIdDeleterTest extends TestCase
         $expectedQuizEntity = new QuizRoom(
             'test',
             $quiz,
+            null,
             $user,
-            false,
+            QuizRoom::STATUS_STARTED,
         );
         $id = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())

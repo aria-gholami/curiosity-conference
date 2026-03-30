@@ -137,6 +137,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\HighscoreUpdateHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
     arguments:
@@ -234,6 +240,14 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
       - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\HighscoreLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\HighscoreUpdater:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
+      - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Question\ByIdLoader:
     arguments:
@@ -246,6 +260,11 @@ services:
   CuriosityConference\Adapters\Outbound\Question\ByIdDeleter:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository'
+      - '@api.v1.quiz.logger'
+
+  CuriosityConference\Adapters\Outbound\Answer\ByIdLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\AnswerRepository'
       - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
@@ -268,12 +287,22 @@ services:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\AnswerRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
   CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository:
     arguments:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
   CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository:
     arguments:
       - '@doctrine'
     tags:

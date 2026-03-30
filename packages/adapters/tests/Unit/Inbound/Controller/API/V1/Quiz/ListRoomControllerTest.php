@@ -52,8 +52,9 @@ final class ListRoomControllerTest extends TestCase
         $quizRoom = new QuizRoom(
             'test',
             $quiz,
+            null,
             $user,
-            false,
+            QuizRoom::STATUS_STARTED,
         );
         $quizRoom->addParticipant($user);
         $quizRoom->addParticipant($user);
@@ -104,20 +105,23 @@ final class ListRoomControllerTest extends TestCase
             new QuizRoom(
                 'test',
                 $quiz,
+                null,
                 $user,
-                false,
+                QuizRoom::STATUS_STARTED,
             ),
             new QuizRoom(
                 'test',
                 $quiz,
+                null,
                 $user,
-                false,
+                QuizRoom::STATUS_STARTED,
             ),
             new QuizRoom(
                 'test',
                 $quiz,
+                null,
                 $user,
-                false,
+                QuizRoom::STATUS_STARTED,
             ),
         ];
         $this->listRoomHandlerMock->outputQuizRoomCollection = new QuizRoomCollection($quizRoomGroup);

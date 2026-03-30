@@ -49,20 +49,23 @@ final class RoomLoaderTest extends TestCase
             new QuizRoom(
                 'test',
                 $quiz,
+                null,
                 $user,
-                false,
+                QuizRoom::STATUS_STARTED,
             ),
             new QuizRoom(
                 'test',
                 $quiz,
+                null,
                 $user,
-                false,
+                QuizRoom::STATUS_STARTED,
             ),
             new QuizRoom(
                 'test',
                 $quiz,
+                null,
                 $user,
-                false,
+                QuizRoom::STATUS_STARTED,
             ),
         ];
         $this->quizRoomEntityRepositoryMock->expects(self::once())

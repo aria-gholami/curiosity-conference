@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository;
 use CuriosityConference\Adapters\Outbound\Quiz\QuizRoomUpdater;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
@@ -31,24 +32,26 @@ final class QuizRoomUpdaterTest extends TestCase
 
     public function testUpdateIsValid(): void
     {
-        $quizId = new Id('test');
+        $quizRoomId = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('updateIsStarted')
-            ->with($quizId);
-        $this->quizRoomUpdater->updateIsStartedToTrue($quizId);
+            ->method('updateStatus')
+            ->with($quizRoomId, QuizRoom::STATUS_STARTED);
+        $this->quizRoomUpdater->updateStatus($quizRoomId, QuizRoom::STATUS_STARTED);
 
         self::assertEquals([
             'info' => [
                 [
-                    'message' => 'Start updating isStarted.',
+                    'message' => 'Start updating status.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizRoomId' => 'test',
+                        'status' => QuizRoom::STATUS_STARTED,
                     ],
                 ],
                 [
-                    'message' => 'Updating isStarted was successful.',
+                    'message' => 'Updating status was successful.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizRoomId' => 'test',
+                        'status' => QuizRoom::STATUS_STARTED,
                     ],
                 ],
             ],
@@ -57,39 +60,42 @@ final class QuizRoomUpdaterTest extends TestCase
 
     public function testUpdateWithUpdateFailedException(): void
     {
-        $quizId = new Id('test');
+        $quizRoomId = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('updateIsStarted')
+            ->method('updateStatus')
             ->willThrowException(new UpdateFailedException('test'));
         try {
-            $this->quizRoomUpdater->updateIsStartedToTrue($quizId);
+            $this->quizRoomUpdater->updateStatus($quizRoomId, QuizRoom::STATUS_STARTED);
             $this->fail('UpdateFailedException was expected to be thrown.');
         } catch (UpdateFailedException $exception) {
-            self::assertSame('Update entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz" was not successful.', $exception->getMessage());
+            self::assertSame('Update entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom" was not successful.', $exception->getMessage());
         }
 
         self::assertEquals([
             'info' => [
                 [
-                    'message' => 'Start updating isStarted.',
+                    'message' => 'Start updating status.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizRoomId' => 'test',
+                        'status' => QuizRoom::STATUS_STARTED,
                     ],
                 ],
             ],
             'notice' => [
                 [
-                    'message' => 'Updating isStarted was not successful.',
+                    'message' => 'Updating status was not successful.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizRoomId' => 'test',
+                        'status' => QuizRoom::STATUS_STARTED,
                     ],
                 ],
             ],
             'debug' => [
                 [
-                    'message' => 'Updating isStarted was not successful.',
+                    'message' => 'Updating status was not successful.',
                     'context' => [
-                        'quizId' => 'test',
+                        'quizRoomId' => 'test',
+                        'status' => QuizRoom::STATUS_STARTED,
                         'exceptionMessage' => 'test',
                     ],
                 ],

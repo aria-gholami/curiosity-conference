@@ -17,6 +17,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: QuizRoomRepository::class)]
 final class QuizRoom
 {
+    public const string STATUS_CREATED = 'created';
+    public const string STATUS_STARTED = 'started';
+    public const string STATUS_FINISHED = 'finished';
+
     #[ORM\Id]
     #[ORM\Column(type: 'uuid')]
     private string $id;
@@ -24,6 +28,10 @@ final class QuizRoom
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private Quiz $quiz;
+
+    #[ORM\ManyToOne(targetEntity: Question::class)]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    private ?Question $currentQuestion;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
@@ -42,17 +50,18 @@ final class QuizRoom
     #[ORM\OneToMany(mappedBy: 'quizRoom', targetEntity: Highscore::class, orphanRemoval: true)]
     private Collection $highscores;
 
-    #[ORM\Column(type: 'boolean')]
-    private bool $isStarted;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $status;
 
-    public function __construct(string $id, Quiz $quiz, User $host, bool $isStarted)
+    public function __construct(string $id, Quiz $quiz, ?Question $currentQuestion, User $host, string $status)
     {
         $this->id = $id;
         $this->quiz = $quiz;
+        $this->currentQuestion = $currentQuestion;
         $this->host = $host;
         $this->participants = new ArrayCollection();
         $this->highscores = new ArrayCollection();
-        $this->isStarted = $isStarted;
+        $this->status = $status;
     }
 
     public function getId(): string
@@ -63,6 +72,11 @@ final class QuizRoom
     public function getQuiz(): Quiz
     {
         return $this->quiz;
+    }
+
+    public function getCurrentQuestion(): ?Question
+    {
+        return $this->currentQuestion;
     }
 
     public function getHost(): User
@@ -89,13 +103,13 @@ final class QuizRoom
         return $this->highscores;
     }
 
-    public function setIsStarted(bool $isStarted): void
+    public function setStatus(string $status): void
     {
-        $this->isStarted = $isStarted;
+        $this->status = $status;
     }
 
-    public function isStarted(): bool
+    public function getStatus(): string
     {
-        return $this->isStarted;
+        return $this->status;
     }
 }

@@ -38,7 +38,7 @@ final readonly class DetailsGetController
                     return [
                         'id' => $highscore->getId(),
                         'quizRoomId' => $highscore->getQuizRoom()->getId(),
-                        'quizRoomIsStarted' => $highscore->getQuizRoom()->isStarted(),
+                        'quizRoomStatus' => $highscore->getQuizRoom()->getStatus(),
                         'quizId' => $highscore->getQuizRoom()->getQuiz()->getId(),
                         'quizTitle' => $highscore->getQuizRoom()->getQuiz()->getTitle(),
                         'quizDescription' => $highscore->getQuizRoom()->getQuiz()->getDescription(),

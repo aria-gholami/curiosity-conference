@@ -13,5 +13,5 @@ interface RoomPersister
     /**
      * @throws PersistFailedException
      */
-    public function persist(Quiz $quiz, User $host): string;
+    public function persist(Quiz $quiz, User $host, string $status): string;
 }

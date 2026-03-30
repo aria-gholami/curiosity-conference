@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Outbound\Quiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository;
 use CuriosityConference\Application\Port\Outbound\Quiz\QuizRoomUpdater as QuizRoomUpdaterInterface;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
@@ -23,26 +23,30 @@ final readonly class QuizRoomUpdater implements QuizRoomUpdaterInterface
      * @throws UpdateFailedException
      */
     #[\Override]
-    public function updateIsStartedToTrue(Id $quizId): void
+    public function updateStatus(Id $quizRoomId, string $status): void
     {
         try {
-            $this->logger->info('Start updating isStarted.', [
-                'quizId' => $quizId->value,
+            $this->logger->info('Start updating status.', [
+                'quizRoomId' => $quizRoomId->value,
+                'status' => $status,
             ]);
-            $this->quizRoomRepository->updateIsStarted($quizId);
-            $this->logger->info('Updating isStarted was successful.', [
-                'quizId' => $quizId->value,
+            $this->quizRoomRepository->updateStatus($quizRoomId, $status);
+            $this->logger->info('Updating status was successful.', [
+                'quizRoomId' => $quizRoomId->value,
+                'status' => $status,
             ]);
         } catch (\Throwable $exception) {
-            $this->logger->notice('Updating isStarted was not successful.', [
-                'quizId' => $quizId->value,
+            $this->logger->notice('Updating status was not successful.', [
+                'quizRoomId' => $quizRoomId->value,
+                'status' => $status,
             ]);
-            $this->logger->debug('Updating isStarted was not successful.', [
+            $this->logger->debug('Updating status was not successful.', [
                 'exceptionMessage' => $exception->getMessage(),
-                'quizId' => $quizId->value,
+                'status' => $status,
+                'quizRoomId' => $quizRoomId->value,
             ]);
 
-            throw UpdateFailedException::updateFailed(Quiz::class);
+            throw UpdateFailedException::updateFailed(QuizRoom::class);
         }
     }
 }

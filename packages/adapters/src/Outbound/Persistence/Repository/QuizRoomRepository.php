@@ -27,7 +27,7 @@ class QuizRoomRepository extends ServiceEntityRepository
     /**
      * @throws UpdateFailedException
      */
-    public function updateIsStarted(Id $quizId): void
+    public function updateStatus(Id $quizId, string $status): void
     {
         /** @var ?QuizRoom $quizRoom */
         $quizRoom = $this->findOneBy(['id' => $quizId->value]);
@@ -35,7 +35,7 @@ class QuizRoomRepository extends ServiceEntityRepository
             throw UpdateFailedException::updateFailed(QuizRoom::class);
         }
 
-        $quizRoom->setIsStarted(!$quizRoom->isStarted());
+        $quizRoom->setStatus($status);
         $this->getEntityManager()->flush();
     }
 

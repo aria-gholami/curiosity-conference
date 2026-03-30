@@ -39,7 +39,7 @@ final class RoomByIdLoaderTest extends TestCase
             'test',
         );
         $host = new User('test', 'test', 'test', 'test', 'test', true);
-        $expectedQuizRoom = new QuizRoom('test', $quiz, $host, false);
+        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $host, QuizRoom::STATUS_STARTED);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => $expectedQuizRoom->getId()])
@@ -77,7 +77,7 @@ final class RoomByIdLoaderTest extends TestCase
             'test',
         );
         $host = new User('test', 'test', 'test', 'test', 'test', true);
-        $expectedQuizRoom = new QuizRoom('test', $quiz, $host, false);
+        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $host, QuizRoom::STATUS_STARTED);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => $expectedQuizRoom->getId()])

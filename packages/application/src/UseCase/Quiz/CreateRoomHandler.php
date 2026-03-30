@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\UseCase\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom as QuizRoomEntity;
 use CuriosityConference\Application\Port\Inbound\Quiz\CreateRoomHandler as CreateRoomHandlerInterface;
 use CuriosityConference\Application\Port\Outbound\Quiz\ByIdLoader as QuizByIdLoader;
 use CuriosityConference\Application\Port\Outbound\Quiz\RoomPersister;
@@ -39,6 +40,6 @@ final readonly class CreateRoomHandler implements CreateRoomHandlerInterface
         $quiz = $this->quizByIdLoader->load(new Id($quizRoom->quizId));
         $host = $this->userByIdLoader->load($quizRoom->hostId);
 
-        return $this->quizRoomPersister->persist($quiz, $host);
+        return $this->quizRoomPersister->persist($quiz, $host, QuizRoomEntity::STATUS_CREATED);
     }
 }

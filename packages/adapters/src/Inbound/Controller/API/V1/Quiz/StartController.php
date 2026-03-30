@@ -21,6 +21,10 @@ final readonly class StartController
     ) {
     }
 
+    /**
+     * @return JsonResponse
+     *                      TODO: Erstelle Highscore hier für alle Teilnehmer und setze derzeitige Frage auf die erste vom Quiz
+     */
     public function __invoke(Request $request): JsonResponse
     {
         try {

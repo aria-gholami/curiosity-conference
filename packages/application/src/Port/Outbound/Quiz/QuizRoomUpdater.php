@@ -12,5 +12,5 @@ interface QuizRoomUpdater
     /**
      * @throws UpdateFailedException
      */
-    public function updateIsStartedToTrue(Id $quizId): void;
+    public function updateStatus(Id $quizRoomId, string $status): void;
 }

@@ -293,7 +293,8 @@ final class JwtValidatorTest extends TestCase
         ], $this->loggerMock->logs);
     }
 
-    public function testValidateRequestWithRoomStartAndNoAdminRole(): void
+    #[DataProvider('provideAdminUrlData')]
+    public function testValidateRequestWithRoomStartAndNoAdminRole(string $path, string $method): void
     {
         $user = new User(
             'test',
@@ -306,7 +307,7 @@ final class JwtValidatorTest extends TestCase
         $this->jwtUserTokenMock->outputUser = $user;
         $this->byEmailLoaderMock->outputUser = $user;
 
-        $request = Request::create('/api/v1/quiz/room/start', 'PUT');
+        $request = Request::create($path, $method);
         $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer jwt-token');
         try {
             $this->jwtValidator->validateRequest($request);
@@ -340,5 +341,33 @@ final class JwtValidatorTest extends TestCase
                 ],
             ],
         ], $this->loggerMock->logs);
+    }
+
+    public static function provideAdminUrlData(): iterable
+    {
+        yield 'room create endpoint' => ['/api/v1/quiz/room', 'POST'];
+        yield 'room start endpoint' => ['/api/v1/quiz/room/start', 'PUT'];
+    }
+
+    public function testValidatePUTRequestWithRoomStartAndNoAdminRole(): void
+    {
+        $user = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+            false,
+        );
+        $this->jwtUserTokenMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
+
+        $request = Request::create('/api/v1/test', 'PUT');
+        $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer jwt-token');
+        $this->jwtValidator->validateRequest($request);
+
+        self::assertEquals('jwt-token', $this->jwtUserTokenMock->inputJwtToken);
+        self::assertSame('test', $this->byEmailLoaderMock->inputEmail);
+        self::assertEquals([], $this->loggerMock->logs);
     }
 }

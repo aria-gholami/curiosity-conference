@@ -57,4 +57,9 @@ final class Highscore
     {
         return $this->score;
     }
+
+    public function addScore(int $score): void
+    {
+        $this->score += $score;
+    }
 }

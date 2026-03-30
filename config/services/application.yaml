@@ -86,6 +86,11 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomParticipantPersister'
+  CuriosityConference\Application\UseCase\Quiz\HighscoreUpdateHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Answer\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\HighscoreLoader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\HighscoreUpdater'
 
   CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:
     arguments:
