@@ -79,6 +79,11 @@ final class QuizRoom
         return $this->currentQuestion;
     }
 
+    public function setCurrentQuestion(?Question $question): void
+    {
+        $this->currentQuestion = $question;
+    }
+
     public function getHost(): User
     {
         return $this->host;

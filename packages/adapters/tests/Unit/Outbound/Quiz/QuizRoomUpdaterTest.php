@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository;
 use CuriosityConference\Adapters\Outbound\Quiz\QuizRoomUpdater;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Id;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -32,11 +35,23 @@ final class QuizRoomUpdaterTest extends TestCase
 
     public function testUpdateIsValid(): void
     {
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $question = new Question(
+            '1',
+            'test1',
+            $quiz,
+            new ArrayCollection(),
+        );
         $quizRoomId = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('updateStatus')
-            ->with($quizRoomId, QuizRoom::STATUS_STARTED);
-        $this->quizRoomUpdater->updateStatus($quizRoomId, QuizRoom::STATUS_STARTED);
+            ->method('update')
+            ->with($quizRoomId, $question, QuizRoom::STATUS_STARTED);
+        $this->quizRoomUpdater->update($quizRoomId, $question, QuizRoom::STATUS_STARTED);
 
         self::assertEquals([
             'info' => [
@@ -60,12 +75,24 @@ final class QuizRoomUpdaterTest extends TestCase
 
     public function testUpdateWithUpdateFailedException(): void
     {
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $question = new Question(
+            '1',
+            'test1',
+            $quiz,
+            new ArrayCollection(),
+        );
         $quizRoomId = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('updateStatus')
+            ->method('update')
             ->willThrowException(new UpdateFailedException('test'));
         try {
-            $this->quizRoomUpdater->updateStatus($quizRoomId, QuizRoom::STATUS_STARTED);
+            $this->quizRoomUpdater->update($quizRoomId, $question, QuizRoom::STATUS_STARTED);
             $this->fail('UpdateFailedException was expected to be thrown.');
         } catch (UpdateFailedException $exception) {
             self::assertSame('Update entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom" was not successful.', $exception->getMessage());

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Outbound\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository;
 use CuriosityConference\Application\Port\Outbound\Quiz\QuizRoomUpdater as QuizRoomUpdaterInterface;
@@ -23,14 +24,14 @@ final readonly class QuizRoomUpdater implements QuizRoomUpdaterInterface
      * @throws UpdateFailedException
      */
     #[\Override]
-    public function updateStatus(Id $quizRoomId, string $status): void
+    public function update(Id $quizRoomId, Question $currentQuestion, string $status): void
     {
         try {
             $this->logger->info('Start updating status.', [
                 'quizRoomId' => $quizRoomId->value,
                 'status' => $status,
             ]);
-            $this->quizRoomRepository->updateStatus($quizRoomId, $status);
+            $this->quizRoomRepository->update($quizRoomId, $currentQuestion, $status);
             $this->logger->info('Updating status was successful.', [
                 'quizRoomId' => $quizRoomId->value,
                 'status' => $status,

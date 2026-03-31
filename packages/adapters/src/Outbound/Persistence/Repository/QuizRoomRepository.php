@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Outbound\Persistence\Repository;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Id;
@@ -27,7 +28,7 @@ class QuizRoomRepository extends ServiceEntityRepository
     /**
      * @throws UpdateFailedException
      */
-    public function updateStatus(Id $quizId, string $status): void
+    public function update(Id $quizId, Question $currentQuestion, string $status): void
     {
         /** @var ?QuizRoom $quizRoom */
         $quizRoom = $this->findOneBy(['id' => $quizId->value]);
@@ -36,6 +37,7 @@ class QuizRoomRepository extends ServiceEntityRepository
         }
 
         $quizRoom->setStatus($status);
+        $quizRoom->setCurrentQuestion($currentQuestion);
         $this->getEntityManager()->flush();
     }
 
