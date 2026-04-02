@@ -45,4 +45,9 @@ class QuizRoomRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($entity);
     }
+
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
 }

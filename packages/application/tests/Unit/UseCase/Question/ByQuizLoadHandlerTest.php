@@ -7,7 +7,7 @@ namespace CuriosityConference\Application\Tests\Unit\UseCase\Question;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\Question\Mocks\QuestionByIdLoaderMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\QuestionByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Question\Mocks\QuizByIdLoaderMock;
 use CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;

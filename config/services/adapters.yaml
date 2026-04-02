@@ -137,9 +137,9 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ContinueOrFinishController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\HighscoreUpdateHandler'
+      - '@CuriosityConference\Application\UseCase\Quiz\ContinueOrFinishHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
@@ -219,6 +219,10 @@ services:
   CuriosityConference\Adapters\Outbound\Quiz\RoomPersister:
     arguments:
       - '@doctrine.orm.entity_manager'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
       - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\Quiz\RoomParticipantPersister:
     arguments:

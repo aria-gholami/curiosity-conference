@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CuriosityConference\Application\Tests\Unit\UseCase\Question\Mocks;
+namespace CuriosityConference\Application\Tests\Unit\Mocks;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Application\Port\Outbound\Question\ByIdLoader;

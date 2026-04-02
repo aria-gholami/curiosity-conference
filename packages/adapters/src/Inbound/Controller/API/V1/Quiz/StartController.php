@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 final readonly class StartController
 {
     public function __construct(
-        private StartHandler    $startHandler,
+        private StartHandler $startHandler,
         private LoggerInterface $logger,
     ) {
     }

@@ -6,7 +6,7 @@ namespace CuriosityConference\Domain\Quiz;
 
 use CuriosityConference\Domain\Exception\EmptyStringException;
 
-final readonly class HighscoreUpdateRequestBody
+final readonly class ContinueOrFinishRequestBody
 {
     /**
      * @throws EmptyStringException
@@ -17,13 +17,13 @@ final readonly class HighscoreUpdateRequestBody
         public string $answerId,
     ) {
         if ('' === $this->quizRoomId) {
-            throw EmptyStringException::stringIsEmpty('quizHighscoreQuizRoomId');
+            throw EmptyStringException::stringIsEmpty('continueOrFinishRequestBodyQuizRoomId');
         }
         if ('' === $this->userId) {
-            throw EmptyStringException::stringIsEmpty('quizHighscoreUserId');
+            throw EmptyStringException::stringIsEmpty('continueOrFinishRequestBodyUserId');
         }
         if ('' === $this->answerId) {
-            throw EmptyStringException::stringIsEmpty('quizHighscoreAnswerId');
+            throw EmptyStringException::stringIsEmpty('continueOrFinishRequestBodyAnswerId');
         }
     }
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CuriosityConference\Domain\Answer;
+namespace CuriosityConference\Domain\Device;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question;
 

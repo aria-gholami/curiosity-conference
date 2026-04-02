@@ -12,27 +12,31 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\ByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\HighscoreLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\HighscoreUpdaterMock;
-use CuriosityConference\Application\UseCase\Quiz\HighscoreUpdateHandler;
-use CuriosityConference\Domain\Quiz\HighscoreUpdateRequestBody;
+use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\NextQuestionPersistHandlerMock;
+use CuriosityConference\Application\UseCase\Quiz\ContinueOrFinishHandler;
+use CuriosityConference\Domain\Quiz\ContinueOrFinishRequestBody;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(HighscoreUpdateHandler::class)]
-#[UsesClass(HighscoreUpdateRequestBody::class)]
-final class HighscoreUpdateHandlerTest extends TestCase
+#[CoversClass(ContinueOrFinishHandler::class)]
+#[UsesClass(ContinueOrFinishRequestBody::class)]
+final class ContinueOrFinishHandlerTest extends TestCase
 {
+    private NextQuestionPersistHandlerMock $nextQuestionPersistHandlerMock;
     private ByIdLoaderMock $byIdLoaderMock;
     private HighscoreLoaderMock $highscoreLoaderMock;
     private HighscoreUpdaterMock $highscoreUpdaterMock;
-    private HighscoreUpdateHandler $highscoreUpdateHandler;
+    private ContinueOrFinishHandler $continueOrFinishHandler;
 
     protected function setUp(): void
     {
+        $this->nextQuestionPersistHandlerMock = new NextQuestionPersistHandlerMock();
         $this->byIdLoaderMock = new ByIdLoaderMock();
         $this->highscoreLoaderMock = new HighscoreLoaderMock();
         $this->highscoreUpdaterMock = new HighscoreUpdaterMock();
-        $this->highscoreUpdateHandler = new HighscoreUpdateHandler(
+        $this->continueOrFinishHandler = new ContinueOrFinishHandler(
+            $this->nextQuestionPersistHandlerMock,
             $this->byIdLoaderMock,
             $this->highscoreLoaderMock,
             $this->highscoreUpdaterMock,
@@ -66,9 +70,10 @@ final class HighscoreUpdateHandlerTest extends TestCase
         );
         $this->highscoreLoaderMock->outputHighscore = $expectedHighscore;
 
-        $highscoreUpdateRequestBody = new HighscoreUpdateRequestBody('test', 'test', 'test');
-        $highscoreUpdateResponse = $this->highscoreUpdateHandler->handleAndGet($highscoreUpdateRequestBody);
+        $highscoreUpdateRequestBody = new ContinueOrFinishRequestBody('test', 'test', 'test');
+        $highscoreUpdateResponse = $this->continueOrFinishHandler->handleAndGet($highscoreUpdateRequestBody);
 
+        self::assertSame('test', $this->nextQuestionPersistHandlerMock->inputQuizRoomId);
         self::assertSame($expectedHighscore->getId(), $highscoreUpdateResponse->highscore->getId());
         self::assertSame(1, $highscoreUpdateResponse->highscore->getScore());
         self::assertSame($answer->getId(), $this->byIdLoaderMock->inputId);
@@ -105,9 +110,10 @@ final class HighscoreUpdateHandlerTest extends TestCase
         );
         $this->highscoreLoaderMock->outputHighscore = $expectedHighscore;
 
-        $highscoreUpdateRequestBody = new HighscoreUpdateRequestBody('test', 'test', 'test');
-        $highscoreUpdateResponse = $this->highscoreUpdateHandler->handleAndGet($highscoreUpdateRequestBody);
+        $highscoreUpdateRequestBody = new ContinueOrFinishRequestBody('test', 'test', 'test');
+        $highscoreUpdateResponse = $this->continueOrFinishHandler->handleAndGet($highscoreUpdateRequestBody);
 
+        self::assertSame('test', $this->nextQuestionPersistHandlerMock->inputQuizRoomId);
         self::assertSame($expectedHighscore->getId(), $highscoreUpdateResponse->highscore->getId());
         self::assertSame(0, $highscoreUpdateResponse->highscore->getScore());
         self::assertSame($answer->getId(), $this->byIdLoaderMock->inputId);
