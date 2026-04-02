@@ -90,15 +90,14 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomParticipantPersister'
-  CuriosityConference\Application\UseCase\Quiz\ContinueOrFinishHandler:
+  CuriosityConference\Application\UseCase\Quiz\HighscoreUpdateHandler:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\NextQuestionPersistHandler'
       - '@CuriosityConference\Adapters\Outbound\Answer\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\HighscoreLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\HighscoreUpdater'
-  CuriosityConference\Application\UseCase\Quiz\NextQuestionPersistHandler:
+  CuriosityConference\Application\UseCase\Quiz\ContinueOrFinishHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Question\ByIdLoader'

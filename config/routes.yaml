@@ -76,6 +76,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ContinueOrFinishCont
     path: /api/v1/quiz/room/continue
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ContinueOrFinishController
     methods: POST
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateController:
+    path: /api/v1/highscore
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateController
+    methods: PUT
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
     path: /api/v1/question

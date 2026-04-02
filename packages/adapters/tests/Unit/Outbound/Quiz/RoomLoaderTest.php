@@ -93,9 +93,10 @@ final class RoomLoaderTest extends TestCase
 
     public function testLoadWithLoadEntityFailedException(): void
     {
+        $quizRoomGroup = [];
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findAll')
-            ->willThrowException(new LoadEntityFailedException('test'));
+            ->willReturn($quizRoomGroup);
         try {
             $this->roomLoader->load();
             $this->fail('LoadEntityFailedException was expected to be thrown.');
@@ -120,7 +121,7 @@ final class RoomLoaderTest extends TestCase
                 [
                     'message' => 'Loading quiz rooms was not successful.',
                     'context' => [
-                        'exceptionMessage' => 'test',
+                        'exceptionMessage' => 'Load entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom" was not successful.',
                     ],
                 ],
             ],

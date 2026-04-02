@@ -4,64 +4,58 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\Tests\Unit\UseCase\Quiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\Answer;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\Highscore;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
-use CuriosityConference\Application\Tests\Unit\Mocks\UserByIdLoaderMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\ByIdLoaderMock as AnswerByIdLoaderMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\HighscoreLoaderMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\HighscoreUpdaterMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\NextQuestionPersistHandlerMock;
+use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\QuestionByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\RoomByIdLoaderMock;
+use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\RoomUpdaterMock;
 use CuriosityConference\Application\UseCase\Quiz\ContinueOrFinishHandler;
-use CuriosityConference\Domain\Quiz\ContinueOrFinishRequestBody;
+use CuriosityConference\Domain\Question\QuestionCollection;
+use CuriosityConference\Domain\Quiz\Exception\CurrentQuestionNotFoundException;
+use CuriosityConference\Domain\Quiz\Id;
+use Doctrine\Common\Collections\ArrayCollection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(ContinueOrFinishHandler::class)]
-#[UsesClass(ContinueOrFinishRequestBody::class)]
+#[UsesClass(CurrentQuestionNotFoundException::class)]
+#[UsesClass(Id::class)]
 final class ContinueOrFinishHandlerTest extends TestCase
 {
-    private NextQuestionPersistHandlerMock $nextQuestionPersistHandlerMock;
-    private AnswerByIdLoaderMock $answerByIdLoaderMock;
-    private UserByIdLoaderMock $userByIdLoaderMock;
     private RoomByIdLoaderMock $roomByIdLoaderMock;
-    private HighscoreLoaderMock $highscoreLoaderMock;
-    private HighscoreUpdaterMock $highscoreUpdaterMock;
+    private QuestionByIdLoaderMock $questionByIdLoaderMock;
+    private RoomUpdaterMock $roomUpdaterMock;
+    private LoggerMock $loggerMock;
     private ContinueOrFinishHandler $continueOrFinishHandler;
 
     protected function setUp(): void
     {
-        $this->nextQuestionPersistHandlerMock = new NextQuestionPersistHandlerMock();
-        $this->answerByIdLoaderMock = new AnswerByIdLoaderMock();
-        $this->userByIdLoaderMock = new UserByIdLoaderMock();
         $this->roomByIdLoaderMock = new RoomByIdLoaderMock();
-        $this->highscoreLoaderMock = new HighscoreLoaderMock();
-        $this->highscoreUpdaterMock = new HighscoreUpdaterMock();
+        $this->questionByIdLoaderMock = new QuestionByIdLoaderMock();
+        $this->roomUpdaterMock = new RoomUpdaterMock();
+        $this->loggerMock = new LoggerMock();
         $this->continueOrFinishHandler = new ContinueOrFinishHandler(
-            $this->nextQuestionPersistHandlerMock,
-            $this->answerByIdLoaderMock,
-            $this->userByIdLoaderMock,
             $this->roomByIdLoaderMock,
-            $this->highscoreLoaderMock,
-            $this->highscoreUpdaterMock,
+            $this->questionByIdLoaderMock,
+            $this->roomUpdaterMock,
+            $this->loggerMock,
         );
     }
 
-    public function testHandleAndGetWithCorrectAnswer(): void
+    public function testHandleWithStartedStatusIsValid(): void
     {
-        $answer = new Answer('test', 'test', true);
-        $this->answerByIdLoaderMock->outputAnswer = $answer;
+        $quizRoomId = 'test';
         $quiz = new Quiz(
             'test',
             'test',
             'test',
             'test',
         );
-        $user = new User(
+        $host = new User(
             'test',
             'test',
             'test',
@@ -69,43 +63,68 @@ final class ContinueOrFinishHandlerTest extends TestCase
             'test',
             false,
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
-        $expectedHighscore = new Highscore(
+        $quizRoom = new QuizRoom(
             'test',
-            $quizRoom,
-            $user,
-            0,
+            $quiz,
+            new Question(
+                'test',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            $host,
+            QuizRoom::STATUS_STARTED,
         );
-        $this->highscoreLoaderMock->outputHighscore = $expectedHighscore;
-        $this->userByIdLoaderMock->outputUser = $user;
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
+        $questionCollection = new QuestionCollection([
+            new Question(
+                'test',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            new Question(
+                'test2',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            new Question(
+                'test3',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            new Question(
+                'test4',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+        ]);
+        $this->questionByIdLoaderMock->outputQuestionCollection = $questionCollection;
 
-        $highscoreUpdateRequestBody = new ContinueOrFinishRequestBody('test', 'test', 'test');
-        $highscoreUpdateResponse = $this->continueOrFinishHandler->handleAndGet($highscoreUpdateRequestBody);
+        $this->continueOrFinishHandler->handle(new Id($quizRoomId));
 
-        self::assertSame('test', $this->nextQuestionPersistHandlerMock->inputQuizRoomId);
-        self::assertSame($expectedHighscore->getId(), $highscoreUpdateResponse->highscore->getId());
-        self::assertSame(1, $highscoreUpdateResponse->highscore->getScore());
-        self::assertSame($answer->getId(), $this->answerByIdLoaderMock->inputId);
-        self::assertSame($user->getId(), $this->userByIdLoaderMock->inputId);
-        self::assertSame($quizRoom->getId(), $this->roomByIdLoaderMock->inputId);
-        self::assertSame($quizRoom->getId(), $this->highscoreLoaderMock->inputQuizRoom->getId());
-        self::assertSame($user->getId(), $this->highscoreLoaderMock->inputUser->getId());
-        self::assertSame($expectedHighscore->getId(), $this->highscoreUpdaterMock->inputHighscore->getId());
-        self::assertSame($expectedHighscore->getScore(), $this->highscoreUpdaterMock->inputHighscore->getScore());
+        self::assertSame('test', $this->roomByIdLoaderMock->inputId);
+        self::assertSame($quiz->getId(), $this->questionByIdLoaderMock->inputQuiz->getId());
+        self::assertSame($quiz->getId(), $this->roomUpdaterMock->inputQuizRoom->getQuiz()->getId());
+        self::assertSame($host->getId(), $this->roomUpdaterMock->inputQuizRoom->getHost()->getId());
+        self::assertSame(QuizRoom::STATUS_STARTED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
+        self::assertSame('test2', $this->roomUpdaterMock->inputQuizRoom->getCurrentQuestion()->getId());
+        self::assertEquals([], $this->loggerMock->logs);
     }
 
-    public function testHandleAndGetWithNoCorrectAnswer(): void
+    public function testHandleWithStartedFinishedIsValid(): void
     {
-        $answer = new Answer('test', 'test', false);
-        $this->answerByIdLoaderMock->outputAnswer = $answer;
+        $quizRoomId = 'test';
         $quiz = new Quiz(
             'test',
             'test',
             'test',
             'test',
         );
-        $user = new User(
+        $host = new User(
             'test',
             'test',
             'test',
@@ -113,27 +132,126 @@ final class ContinueOrFinishHandlerTest extends TestCase
             'test',
             false,
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
-        $expectedHighscore = new Highscore(
+        $currentQuestion = new Question(
+            'test4',
             'test',
-            $quizRoom,
-            $user,
-            0,
+            $quiz,
+            new ArrayCollection(),
         );
-        $this->highscoreLoaderMock->outputHighscore = $expectedHighscore;
-        $this->userByIdLoaderMock->outputUser = $user;
+        $quizRoom = new QuizRoom(
+            'test',
+            $quiz,
+            $currentQuestion,
+            $host,
+            QuizRoom::STATUS_STARTED,
+        );
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
+        $questionCollection = new QuestionCollection([
+            new Question(
+                'test',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            new Question(
+                'test2',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            new Question(
+                'test3',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            $currentQuestion,
+        ]);
+        $this->questionByIdLoaderMock->outputQuestionCollection = $questionCollection;
 
-        $highscoreUpdateRequestBody = new ContinueOrFinishRequestBody('test', 'test', 'test');
-        $highscoreUpdateResponse = $this->continueOrFinishHandler->handleAndGet($highscoreUpdateRequestBody);
+        $this->continueOrFinishHandler->handle(new Id($quizRoomId));
 
-        self::assertSame('test', $this->nextQuestionPersistHandlerMock->inputQuizRoomId);
-        self::assertSame($expectedHighscore->getId(), $highscoreUpdateResponse->highscore->getId());
-        self::assertSame(0, $highscoreUpdateResponse->highscore->getScore());
-        self::assertSame($answer->getId(), $this->answerByIdLoaderMock->inputId);
-        self::assertSame($user->getId(), $this->userByIdLoaderMock->inputId);
-        self::assertSame($quizRoom->getId(), $this->roomByIdLoaderMock->inputId);
-        self::assertSame($quizRoom->getId(), $this->highscoreLoaderMock->inputQuizRoom->getId());
-        self::assertSame($user->getId(), $this->highscoreLoaderMock->inputUser->getId());
+        self::assertSame('test', $this->roomByIdLoaderMock->inputId);
+        self::assertSame($quiz->getId(), $this->questionByIdLoaderMock->inputQuiz->getId());
+        self::assertSame($quiz->getId(), $this->roomUpdaterMock->inputQuizRoom->getQuiz()->getId());
+        self::assertSame($host->getId(), $this->roomUpdaterMock->inputQuizRoom->getHost()->getId());
+        self::assertSame(QuizRoom::STATUS_FINISHED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
+        self::assertNull($this->roomUpdaterMock->inputQuizRoom->getCurrentQuestion());
+        self::assertEquals([], $this->loggerMock->logs);
+    }
+
+    public function testHandleWithNoCurrentQuestion(): void
+    {
+        $quizRoomId = 'test';
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $host = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+            false,
+        );
+
+        $quizRoom = new QuizRoom(
+            'test',
+            $quiz,
+            null,
+            $host,
+            QuizRoom::STATUS_STARTED,
+        );
+        $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
+        $questionCollection = new QuestionCollection([
+            new Question(
+                'test',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            new Question(
+                'test2',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+            new Question(
+                'test3',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+
+            new Question(
+                'test4',
+                'test',
+                $quiz,
+                new ArrayCollection(),
+            ),
+        ]);
+        $this->questionByIdLoaderMock->outputQuestionCollection = $questionCollection;
+
+        try {
+            $this->continueOrFinishHandler->handle(new Id($quizRoomId));
+            $this->fail('CurrentQuestionNotFoundException was expected to be thrown.');
+        } catch (CurrentQuestionNotFoundException $exception) {
+            self::assertSame('No current question for quiz.', $exception->getMessage());
+        }
+
+        self::assertSame('test', $this->roomByIdLoaderMock->inputId);
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Current question is not found for quiz room.',
+                    'context' => [
+                        'quizRoomId' => 'test',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
     }
 }

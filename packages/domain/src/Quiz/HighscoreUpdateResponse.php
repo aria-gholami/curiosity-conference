@@ -12,7 +12,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\Highscore;
  *
  * @infection-ignore-all
  */
-final readonly class ContinueOrFinishResponse
+final readonly class HighscoreUpdateResponse
 {
     public function __construct(
         public Highscore $highscore,

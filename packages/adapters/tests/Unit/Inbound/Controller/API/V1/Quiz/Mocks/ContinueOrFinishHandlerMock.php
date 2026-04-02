@@ -7,31 +7,24 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz
 use CuriosityConference\Application\Port\Inbound\Quiz\ContinueOrFinishHandler;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\Exception\UpdateFailedException;
-use CuriosityConference\Domain\Quiz\ContinueOrFinishRequestBody;
-use CuriosityConference\Domain\Quiz\ContinueOrFinishResponse;
 use CuriosityConference\Domain\Quiz\Exception\CurrentQuestionNotFoundException;
+use CuriosityConference\Domain\Quiz\Id;
 
 final class ContinueOrFinishHandlerMock implements ContinueOrFinishHandler
 {
-    public ContinueOrFinishRequestBody $inputHighscoreUpdateRequestBody;
-    public ContinueOrFinishResponse $outputHighscoreUpdateResponse;
+    public Id $inputQuizRoomId;
     public ?\Exception $throwException = null;
 
     /**
      * @throws CurrentQuestionNotFoundException
      * @throws LoadEntityFailedException
      * @throws PersistFailedException
-     * @throws UpdateFailedException
      */
     #[\Override]
-    public function handleAndGet(ContinueOrFinishRequestBody $continueOrFinishRequestBody): ContinueOrFinishResponse
+    public function handle(Id $quizRoomId): void
     {
-        $this->inputHighscoreUpdateRequestBody = $continueOrFinishRequestBody;
+        $this->inputQuizRoomId = $quizRoomId;
         if ($this->throwException instanceof LoadEntityFailedException) {
-            throw $this->throwException;
-        }
-        if ($this->throwException instanceof UpdateFailedException) {
             throw $this->throwException;
         }
         if ($this->throwException instanceof CurrentQuestionNotFoundException) {
@@ -40,7 +33,5 @@ final class ContinueOrFinishHandlerMock implements ContinueOrFinishHandler
         if ($this->throwException instanceof PersistFailedException) {
             throw $this->throwException;
         }
-
-        return $this->outputHighscoreUpdateResponse;
     }
 }

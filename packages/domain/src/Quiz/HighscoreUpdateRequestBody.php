@@ -6,7 +6,7 @@ namespace CuriosityConference\Domain\Quiz;
 
 use CuriosityConference\Domain\Exception\EmptyStringException;
 
-final readonly class ContinueOrFinishRequestBody
+final readonly class HighscoreUpdateRequestBody
 {
     /**
      * @throws EmptyStringException

@@ -4,29 +4,25 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\UseCase\Quiz;
 
-use CuriosityConference\Application\Port\Inbound\Quiz\ContinueOrFinishHandler as HighscoreUpdateHandlerInterface;
-use CuriosityConference\Application\Port\Inbound\Quiz\NextQuestionPersistHandler;
-use CuriosityConference\Application\Port\Outbound\Answer\ByIdLoader as AnswerByIdLoader;
-use CuriosityConference\Application\Port\Outbound\Quiz\HighscoreLoader;
-use CuriosityConference\Application\Port\Outbound\Quiz\HighscoreUpdater;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
+use CuriosityConference\Application\Port\Inbound\Quiz\ContinueOrFinishHandler as ContinueOrFinishHandlerInterface;
+use CuriosityConference\Application\Port\Outbound\Question\ByIdLoader as QuestionByIdLoader;
 use CuriosityConference\Application\Port\Outbound\Quiz\RoomByIdLoader;
-use CuriosityConference\Application\Port\Outbound\User\ByIdLoader as UserByIdLoader;
+use CuriosityConference\Application\Port\Outbound\Quiz\RoomUpdater;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\Exception\UpdateFailedException;
-use CuriosityConference\Domain\Quiz\ContinueOrFinishRequestBody;
-use CuriosityConference\Domain\Quiz\ContinueOrFinishResponse;
 use CuriosityConference\Domain\Quiz\Exception\CurrentQuestionNotFoundException;
+use CuriosityConference\Domain\Quiz\Id;
+use Psr\Log\LoggerInterface;
 
-final readonly class ContinueOrFinishHandler implements HighscoreUpdateHandlerInterface
+final readonly class ContinueOrFinishHandler implements ContinueOrFinishHandlerInterface
 {
     public function __construct(
-        private NextQuestionPersistHandler $nextQuestionPersistHandler,
-        private AnswerByIdLoader $answerByIdLoader,
-        private UserByIdLoader $userByIdLoader,
         private RoomByIdLoader $roomByIdLoader,
-        private HighscoreLoader $highscoreLoader,
-        private HighscoreUpdater $highscoreUpdater,
+        private QuestionByIdLoader $questionByIdLoader,
+        private RoomUpdater $roomUpdater,
+        private LoggerInterface $logger,
     ) {
     }
 
@@ -34,23 +30,35 @@ final readonly class ContinueOrFinishHandler implements HighscoreUpdateHandlerIn
      * @throws CurrentQuestionNotFoundException
      * @throws LoadEntityFailedException
      * @throws PersistFailedException
-     * @throws UpdateFailedException
      */
     #[\Override]
-    public function handleAndGet(ContinueOrFinishRequestBody $continueOrFinishRequestBody): ContinueOrFinishResponse
+    public function handle(Id $quizRoomId): void
     {
-        $this->nextQuestionPersistHandler->handle($continueOrFinishRequestBody->quizRoomId);
-        $answer = $this->answerByIdLoader->load($continueOrFinishRequestBody->answerId);
-        $user = $this->userByIdLoader->load($continueOrFinishRequestBody->userId);
-        $quizRoom = $this->roomByIdLoader->load($continueOrFinishRequestBody->quizRoomId);
-        $highscore = $this->highscoreLoader->load($user, $quizRoom);
-        if (!$answer->isCorrect()) {
-            return new ContinueOrFinishResponse($highscore, $answer);
+        $quizRoom = $this->roomByIdLoader->load($quizRoomId->value);
+        $currentQuestion = $quizRoom->getCurrentQuestion() ?? null;
+        if (!$currentQuestion instanceof Question) {
+            $this->logger->notice('Current question is not found for quiz room.', [
+                'quizRoomId' => $quizRoomId->value,
+            ]);
+            throw CurrentQuestionNotFoundException::notFound();
         }
 
-        $highscore->addScore(1);
-        $this->highscoreUpdater->update($highscore);
+        $questionCollection = $this->questionByIdLoader->load($quizRoom->getQuiz());
+        $questionCounter = 0;
+        foreach ($questionCollection as $question) {
+            if ($question->getId() === $currentQuestion->getId()) {
+                ++$questionCounter;
+                break;
+            }
+            ++$questionCounter;
+        }
 
-        return new ContinueOrFinishResponse($highscore, $answer);
+        $quizRoom->setCurrentQuestion($questionCollection->data[$questionCounter] ?? null);
+        $nextStatus = QuizRoom::STATUS_STARTED;
+        if ($questionCounter >= \count($questionCollection->data)) {
+            $nextStatus = QuizRoom::STATUS_FINISHED;
+        }
+        $quizRoom->setStatus($nextStatus);
+        $this->roomUpdater->update($quizRoom);
     }
 }

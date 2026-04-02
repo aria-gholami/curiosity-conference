@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace CuriosityConference\Domain\Tests\Unit\Quiz;
 
 use CuriosityConference\Domain\Exception\EmptyStringException;
-use CuriosityConference\Domain\Quiz\ContinueOrFinishRequestBody;
+use CuriosityConference\Domain\Quiz\HighscoreUpdateRequestBody;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ContinueOrFinishRequestBody::class)]
+#[CoversClass(HighscoreUpdateRequestBody::class)]
 final class ContinueOrFinishRequestBodyTest extends TestCase
 {
     public function testContinueOrFinishRequestBodyIsValid(): void
     {
-        $continueOrFinishRequestBody = new ContinueOrFinishRequestBody(
+        $continueOrFinishRequestBody = new HighscoreUpdateRequestBody(
             'test',
             'test',
             'test',
@@ -30,7 +30,7 @@ final class ContinueOrFinishRequestBodyTest extends TestCase
     public function testContinueOrFinishRequestBodyWithInvalidData(array $payload, string $missingFieldName): void
     {
         try {
-            new ContinueOrFinishRequestBody(
+            new HighscoreUpdateRequestBody(
                 $payload['quizRoomId'] ?? '',
                 $payload['userId'] ?? '',
                 $payload['answerId'] ?? '',

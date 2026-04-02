@@ -9,7 +9,6 @@ use CuriosityConference\Adapters\Tests\Acceptance\AbstractWebTestCase;
 use PHPUnit\Framework\Attributes\CoversNothing;
 use PHPUnit\Framework\Attributes\Group;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Uid\Uuid;
 
 #[Group('Acceptance')]
 #[CoversNothing(ContinueOrFinishController::class)]
@@ -132,13 +131,8 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $row = $this->connection->fetchAssociative(
-            'SELECT * FROM answer',
-        );
         $payload = [
             'quizRoomId' => $responseQuizRoom['id'],
-            'userId' => $responseUser['id'],
-            'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(
             'POST',
@@ -152,7 +146,7 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
 
-        self::assertResponseStatusCodeSame(Response::HTTP_OK);
+        self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
     }
 
     public function testContinueQuestionWithBadRequest(): void
@@ -272,13 +266,8 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $row = $this->connection->fetchAssociative(
-            'SELECT * FROM answer',
-        );
         $payload = [
             'quizRoomId' => '',
-            'userId' => $responseUser['id'],
-            'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(
             'POST',
@@ -419,13 +408,8 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $row = $this->connection->fetchAssociative(
-            'SELECT * FROM answer',
-        );
         $payload = [
             'quizRoomId' => $responseQuizRoom['id'],
-            'userId' => $responseUser['id'],
-            'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(
             'POST',
@@ -565,13 +549,8 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $row = $this->connection->fetchAssociative(
-            'SELECT * FROM answer',
-        );
         $payload = [
             'quizRoomId' => 'invalid',
-            'userId' => $responseUser['id'],
-            'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(
             'POST',
