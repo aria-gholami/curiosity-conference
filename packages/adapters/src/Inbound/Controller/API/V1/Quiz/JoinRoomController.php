@@ -8,6 +8,7 @@ use CuriosityConference\Application\Port\Inbound\Quiz\JoinRoomHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
+use CuriosityConference\Domain\Quiz\Exception\QuizRoomIsAlreadyStartedException;
 use CuriosityConference\Domain\Quiz\JoinQuizRoom;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -39,7 +40,7 @@ final readonly class JoinRoomController
             ]);
 
             return new JsonResponse(['message' => 'Bad Request.'], Response::HTTP_BAD_REQUEST);
-        } catch (UpdateFailedException|LoadEntityFailedException $exception) {
+        } catch (UpdateFailedException|LoadEntityFailedException|QuizRoomIsAlreadyStartedException $exception) {
             $this->logger->notice('Quiz room could not be joined.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);

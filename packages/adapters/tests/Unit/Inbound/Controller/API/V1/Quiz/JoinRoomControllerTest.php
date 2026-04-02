@@ -10,6 +10,7 @@ use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
+use CuriosityConference\Domain\Quiz\Exception\QuizRoomIsAlreadyStartedException;
 use CuriosityConference\Domain\Quiz\JoinQuizRoom;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -134,6 +135,42 @@ final class JoinRoomControllerTest extends TestCase
     {
         $this->joinRoomHandlerMock->outputJoinQuizRoomId = '1';
         $this->joinRoomHandlerMock->throwException = new UpdateFailedException('test');
+        $payload = [
+            'quizRoomId' => 'test',
+            'userId' => 'test',
+        ];
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+
+        $response = $this->joinRoomController->__invoke($request);
+
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
+        self::assertSame($payload['quizRoomId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->quizRoomId);
+        self::assertSame($payload['userId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->userId);
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Quiz room could not be joined.',
+                    'context' => [
+                        'exceptionMessage' => 'test',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testJoinRoomWithQuizRoomIsAlreadyStartedException(): void
+    {
+        $this->joinRoomHandlerMock->outputJoinQuizRoomId = '1';
+        $this->joinRoomHandlerMock->throwException = new QuizRoomIsAlreadyStartedException('test');
         $payload = [
             'quizRoomId' => 'test',
             'userId' => 'test',

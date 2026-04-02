@@ -7,6 +7,7 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz
 use CuriosityConference\Application\Port\Inbound\Quiz\JoinRoomHandler;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
+use CuriosityConference\Domain\Quiz\Exception\QuizRoomIsAlreadyStartedException;
 use CuriosityConference\Domain\Quiz\JoinQuizRoom;
 
 final class JoinRoomHandlerMock implements JoinRoomHandler
@@ -18,6 +19,7 @@ final class JoinRoomHandlerMock implements JoinRoomHandler
     /**
      * @throws LoadEntityFailedException
      * @throws UpdateFailedException
+     * @throws QuizRoomIsAlreadyStartedException
      */
     #[\Override]
     public function handleAndGet(JoinQuizRoom $joinQuizRoom): string
@@ -27,6 +29,9 @@ final class JoinRoomHandlerMock implements JoinRoomHandler
             throw $this->throwException;
         }
         if ($this->throwException instanceof UpdateFailedException) {
+            throw $this->throwException;
+        }
+        if ($this->throwException instanceof QuizRoomIsAlreadyStartedException) {
             throw $this->throwException;
         }
 

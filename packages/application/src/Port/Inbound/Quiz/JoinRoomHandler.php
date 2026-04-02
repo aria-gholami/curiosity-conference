@@ -6,6 +6,7 @@ namespace CuriosityConference\Application\Port\Inbound\Quiz;
 
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
+use CuriosityConference\Domain\Quiz\Exception\QuizRoomIsAlreadyStartedException;
 use CuriosityConference\Domain\Quiz\JoinQuizRoom;
 
 interface JoinRoomHandler
@@ -13,6 +14,7 @@ interface JoinRoomHandler
     /**
      * @throws LoadEntityFailedException
      * @throws UpdateFailedException
+     * @throws QuizRoomIsAlreadyStartedException
      */
     public function handleAndGet(JoinQuizRoom $joinQuizRoom): string;
 }
