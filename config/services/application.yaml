@@ -64,9 +64,10 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdDeleter'
   CuriosityConference\Application\UseCase\Quiz\StartHandler:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Quiz\QuizRoomUpdater'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater'
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Question\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\HighscorePersister'
   CuriosityConference\Application\UseCase\Quiz\DeleteRoomHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdDeleter'
@@ -93,6 +94,8 @@ services:
     arguments:
       - '@CuriosityConference\Application\UseCase\Quiz\NextQuestionPersistHandler'
       - '@CuriosityConference\Adapters\Outbound\Answer\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\HighscoreLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\HighscoreUpdater'
   CuriosityConference\Application\UseCase\Quiz\NextQuestionPersistHandler:

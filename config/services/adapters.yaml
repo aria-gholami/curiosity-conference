@@ -232,10 +232,6 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\QuizRoomUpdater:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
-      - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\Quiz\RoomByIdDeleter:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
@@ -251,6 +247,10 @@ services:
   CuriosityConference\Adapters\Outbound\Quiz\HighscoreUpdater:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\HighscorePersister:
+    arguments:
+      - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Question\ByIdLoader:

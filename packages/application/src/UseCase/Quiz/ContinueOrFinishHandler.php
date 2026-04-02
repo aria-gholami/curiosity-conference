@@ -9,6 +9,8 @@ use CuriosityConference\Application\Port\Inbound\Quiz\NextQuestionPersistHandler
 use CuriosityConference\Application\Port\Outbound\Answer\ByIdLoader as AnswerByIdLoader;
 use CuriosityConference\Application\Port\Outbound\Quiz\HighscoreLoader;
 use CuriosityConference\Application\Port\Outbound\Quiz\HighscoreUpdater;
+use CuriosityConference\Application\Port\Outbound\Quiz\RoomByIdLoader;
+use CuriosityConference\Application\Port\Outbound\User\ByIdLoader as UserByIdLoader;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
@@ -21,6 +23,8 @@ final readonly class ContinueOrFinishHandler implements HighscoreUpdateHandlerIn
     public function __construct(
         private NextQuestionPersistHandler $nextQuestionPersistHandler,
         private AnswerByIdLoader $answerByIdLoader,
+        private UserByIdLoader $userByIdLoader,
+        private RoomByIdLoader $roomByIdLoader,
         private HighscoreLoader $highscoreLoader,
         private HighscoreUpdater $highscoreUpdater,
     ) {
@@ -37,10 +41,9 @@ final readonly class ContinueOrFinishHandler implements HighscoreUpdateHandlerIn
     {
         $this->nextQuestionPersistHandler->handle($continueOrFinishRequestBody->quizRoomId);
         $answer = $this->answerByIdLoader->load($continueOrFinishRequestBody->answerId);
-        $highscore = $this->highscoreLoader->load(
-            $continueOrFinishRequestBody->userId,
-            $continueOrFinishRequestBody->quizRoomId,
-        );
+        $user = $this->userByIdLoader->load($continueOrFinishRequestBody->userId);
+        $quizRoom = $this->roomByIdLoader->load($continueOrFinishRequestBody->quizRoomId);
+        $highscore = $this->highscoreLoader->load($user, $quizRoom);
         if (!$answer->isCorrect()) {
             return new ContinueOrFinishResponse($highscore, $answer);
         }

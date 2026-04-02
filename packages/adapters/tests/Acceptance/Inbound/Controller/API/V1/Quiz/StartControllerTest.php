@@ -107,7 +107,7 @@ final class StartControllerTest extends AbstractWebTestCase
             'quizRoomId' => $responseQuizRoom['id'],
         ];
         $this->client->request(
-            'PUT',
+            'POST',
             '/api/v1/quiz/room/start',
             server: [
                 'Content-Type' => 'application/json',
@@ -213,7 +213,7 @@ final class StartControllerTest extends AbstractWebTestCase
             'quizRoomId' => '',
         ];
         $this->client->request(
-            'PUT',
+            'POST',
             '/api/v1/quiz/room/start',
             server: [
                 'Content-Type' => 'application/json',
@@ -326,7 +326,7 @@ final class StartControllerTest extends AbstractWebTestCase
             'quizRoomId' => $responseQuizRoom['id'],
         ];
         $this->client->request(
-            'PUT',
+            'POST',
             '/api/v1/quiz/room/start',
             server: [
                 'Content-Type' => 'application/json',

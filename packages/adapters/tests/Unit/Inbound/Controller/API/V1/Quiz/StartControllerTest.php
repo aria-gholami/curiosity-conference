@@ -7,7 +7,8 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\StartController;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks\StartHandlerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
-use CuriosityConference\Domain\Exception\UpdateFailedException;
+use CuriosityConference\Domain\Exception\LoadEntityFailedException;
+use CuriosityConference\Domain\Exception\PersistFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -72,7 +73,7 @@ final class StartControllerTest extends TestCase
         self::assertEquals([
             'notice' => [
                 [
-                    'message' => 'Request data for PUT to /api/v1/quiz/room/start is invalid.',
+                    'message' => 'Request data to /api/v1/quiz/room/start is invalid.',
                     'context' => [
                         'exceptionMessage' => 'Validation failed for value "id" with error: "Value for "id" should not be empty."',
                     ],
@@ -81,9 +82,40 @@ final class StartControllerTest extends TestCase
         ], $this->loggerMock->logs);
     }
 
-    public function testStartUpdatedWithUpdateFailedException(): void
+    public function testStartUpdatedWithLoadEntityFailedException(): void
     {
-        $this->startHandlerMock->throwException = new UpdateFailedException('test');
+        $this->startHandlerMock->throwException = new LoadEntityFailedException('test');
+        $payload = [
+            'quizRoomId' => 'test',
+        ];
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $response = $this->startController->__invoke($request);
+
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Quiz room could not be started.',
+                    'context' => [
+                        'exceptionMessage' => 'test',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testStartUpdatedWithPersistFailedException(): void
+    {
+        $this->startHandlerMock->throwException = new PersistFailedException('test');
         $payload = [
             'quizRoomId' => 'test',
         ];

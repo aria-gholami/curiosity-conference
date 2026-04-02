@@ -6,7 +6,8 @@ namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz;
 
 use CuriosityConference\Application\Port\Inbound\Quiz\StartHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
-use CuriosityConference\Domain\Exception\UpdateFailedException;
+use CuriosityConference\Domain\Exception\LoadEntityFailedException;
+use CuriosityConference\Domain\Exception\PersistFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -32,12 +33,12 @@ final readonly class StartController
 
             return new JsonResponse([], Response::HTTP_NO_CONTENT);
         } catch (EmptyStringException $exception) {
-            $this->logger->notice('Request data for PUT to /api/v1/quiz/room/start is invalid.', [
+            $this->logger->notice('Request data to /api/v1/quiz/room/start is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);
 
             return new JsonResponse(['message' => 'Bad Request.'], Response::HTTP_BAD_REQUEST);
-        } catch (UpdateFailedException $exception) {
+        } catch (LoadEntityFailedException|PersistFailedException $exception) {
             $this->logger->notice('Quiz room could not be started.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);

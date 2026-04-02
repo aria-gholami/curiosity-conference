@@ -9,10 +9,12 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\Highscore;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
-use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\ByIdLoaderMock;
+use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\ByIdLoaderMock as AnswerByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\HighscoreLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\HighscoreUpdaterMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\NextQuestionPersistHandlerMock;
+use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\RoomByIdLoaderMock;
+use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\ByIdLoaderMock as UserByIdLoaderMock;
 use CuriosityConference\Application\UseCase\Quiz\ContinueOrFinishHandler;
 use CuriosityConference\Domain\Quiz\ContinueOrFinishRequestBody;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -24,7 +26,9 @@ use PHPUnit\Framework\TestCase;
 final class ContinueOrFinishHandlerTest extends TestCase
 {
     private NextQuestionPersistHandlerMock $nextQuestionPersistHandlerMock;
-    private ByIdLoaderMock $byIdLoaderMock;
+    private AnswerByIdLoaderMock $answerByIdLoaderMock;
+    private UserByIdLoaderMock $userByIdLoaderMock;
+    private RoomByIdLoaderMock $roomByIdLoaderMock;
     private HighscoreLoaderMock $highscoreLoaderMock;
     private HighscoreUpdaterMock $highscoreUpdaterMock;
     private ContinueOrFinishHandler $continueOrFinishHandler;
@@ -32,12 +36,16 @@ final class ContinueOrFinishHandlerTest extends TestCase
     protected function setUp(): void
     {
         $this->nextQuestionPersistHandlerMock = new NextQuestionPersistHandlerMock();
-        $this->byIdLoaderMock = new ByIdLoaderMock();
+        $this->answerByIdLoaderMock = new AnswerByIdLoaderMock();
+        $this->userByIdLoaderMock = new UserByIdLoaderMock();
+        $this->roomByIdLoaderMock = new RoomByIdLoaderMock();
         $this->highscoreLoaderMock = new HighscoreLoaderMock();
         $this->highscoreUpdaterMock = new HighscoreUpdaterMock();
         $this->continueOrFinishHandler = new ContinueOrFinishHandler(
             $this->nextQuestionPersistHandlerMock,
-            $this->byIdLoaderMock,
+            $this->answerByIdLoaderMock,
+            $this->userByIdLoaderMock,
+            $this->roomByIdLoaderMock,
             $this->highscoreLoaderMock,
             $this->highscoreUpdaterMock,
         );
@@ -46,7 +54,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
     public function testHandleAndGetWithCorrectAnswer(): void
     {
         $answer = new Answer('test', 'test', true);
-        $this->byIdLoaderMock->outputAnswer = $answer;
+        $this->answerByIdLoaderMock->outputAnswer = $answer;
         $quiz = new Quiz(
             'test',
             'test',
@@ -69,6 +77,8 @@ final class ContinueOrFinishHandlerTest extends TestCase
             0,
         );
         $this->highscoreLoaderMock->outputHighscore = $expectedHighscore;
+        $this->userByIdLoaderMock->outputUser = $user;
+        $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
 
         $highscoreUpdateRequestBody = new ContinueOrFinishRequestBody('test', 'test', 'test');
         $highscoreUpdateResponse = $this->continueOrFinishHandler->handleAndGet($highscoreUpdateRequestBody);
@@ -76,9 +86,11 @@ final class ContinueOrFinishHandlerTest extends TestCase
         self::assertSame('test', $this->nextQuestionPersistHandlerMock->inputQuizRoomId);
         self::assertSame($expectedHighscore->getId(), $highscoreUpdateResponse->highscore->getId());
         self::assertSame(1, $highscoreUpdateResponse->highscore->getScore());
-        self::assertSame($answer->getId(), $this->byIdLoaderMock->inputId);
-        self::assertSame($quizRoom->getId(), $this->highscoreLoaderMock->inputQuizRoomId);
-        self::assertSame($user->getId(), $this->highscoreLoaderMock->inputUserId);
+        self::assertSame($answer->getId(), $this->answerByIdLoaderMock->inputId);
+        self::assertSame($user->getId(), $this->userByIdLoaderMock->inputId);
+        self::assertSame($quizRoom->getId(), $this->roomByIdLoaderMock->inputId);
+        self::assertSame($quizRoom->getId(), $this->highscoreLoaderMock->inputQuizRoom->getId());
+        self::assertSame($user->getId(), $this->highscoreLoaderMock->inputUser->getId());
         self::assertSame($expectedHighscore->getId(), $this->highscoreUpdaterMock->inputHighscore->getId());
         self::assertSame($expectedHighscore->getScore(), $this->highscoreUpdaterMock->inputHighscore->getScore());
     }
@@ -86,7 +98,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
     public function testHandleAndGetWithNoCorrectAnswer(): void
     {
         $answer = new Answer('test', 'test', false);
-        $this->byIdLoaderMock->outputAnswer = $answer;
+        $this->answerByIdLoaderMock->outputAnswer = $answer;
         $quiz = new Quiz(
             'test',
             'test',
@@ -109,6 +121,8 @@ final class ContinueOrFinishHandlerTest extends TestCase
             0,
         );
         $this->highscoreLoaderMock->outputHighscore = $expectedHighscore;
+        $this->userByIdLoaderMock->outputUser = $user;
+        $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
 
         $highscoreUpdateRequestBody = new ContinueOrFinishRequestBody('test', 'test', 'test');
         $highscoreUpdateResponse = $this->continueOrFinishHandler->handleAndGet($highscoreUpdateRequestBody);
@@ -116,8 +130,10 @@ final class ContinueOrFinishHandlerTest extends TestCase
         self::assertSame('test', $this->nextQuestionPersistHandlerMock->inputQuizRoomId);
         self::assertSame($expectedHighscore->getId(), $highscoreUpdateResponse->highscore->getId());
         self::assertSame(0, $highscoreUpdateResponse->highscore->getScore());
-        self::assertSame($answer->getId(), $this->byIdLoaderMock->inputId);
-        self::assertSame($quizRoom->getId(), $this->highscoreLoaderMock->inputQuizRoomId);
-        self::assertSame($user->getId(), $this->highscoreLoaderMock->inputUserId);
+        self::assertSame($answer->getId(), $this->answerByIdLoaderMock->inputId);
+        self::assertSame($user->getId(), $this->userByIdLoaderMock->inputId);
+        self::assertSame($quizRoom->getId(), $this->roomByIdLoaderMock->inputId);
+        self::assertSame($quizRoom->getId(), $this->highscoreLoaderMock->inputQuizRoom->getId());
+        self::assertSame($user->getId(), $this->highscoreLoaderMock->inputUser->getId());
     }
 }

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Outbound\Quiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Highscore;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository;
 use CuriosityConference\Application\Port\Outbound\Quiz\HighscoreLoader as HighscoreLoaderInterface;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -19,27 +21,27 @@ final readonly class HighscoreLoader implements HighscoreLoaderInterface
     }
 
     #[\Override]
-    public function load(string $userId, string $quizRoomId): Highscore
+    public function load(User $user, QuizRoom $quizRoom): Highscore
     {
         try {
             $this->logger->info('Start loading highscore.', [
-                'quizRoomId' => $quizRoomId,
+                'quizRoomId' => $quizRoom->getId(),
             ]);
-            $highscore = $this->highscoreRepository->findOneBy(['userId' => $userId, 'quizRoomId' => $quizRoomId]);
+            $highscore = $this->highscoreRepository->findOneBy(['user' => $user, 'quizRoom' => $quizRoom]);
             if (!$highscore instanceof Highscore) {
                 throw LoadEntityFailedException::loadFailed(Highscore::class);
             }
             $this->logger->info('Loading highscore was successful.', [
-                'quizRoomId' => $quizRoomId,
+                'quizRoomId' => $quizRoom->getId(),
             ]);
 
             return $highscore;
         } catch (\Throwable $exception) {
             $this->logger->notice('Loading highscore was not successful.', [
-                'quizRoomId' => $quizRoomId,
+                'quizRoomId' => $quizRoom->getId(),
             ]);
             $this->logger->debug('Loading highscore was not successful.', [
-                'quizRoomId' => $quizRoomId,
+                'quizRoomId' => $quizRoom->getId(),
                 'exceptionMessage' => $exception->getMessage(),
             ]);
 
