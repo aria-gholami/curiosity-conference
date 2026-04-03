@@ -7,6 +7,7 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz
 use CuriosityConference\Application\Port\Inbound\Quiz\StartHandler;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 
 final class StartHandlerMock implements StartHandler
@@ -17,6 +18,7 @@ final class StartHandlerMock implements StartHandler
     /**
      * @throws LoadEntityFailedException
      * @throws PersistFailedException
+     * @throws UpdateFailedException
      */
     #[\Override]
     public function handle(Id $quizRoomId): void
@@ -26,6 +28,9 @@ final class StartHandlerMock implements StartHandler
             throw $this->throwException;
         }
         if ($this->throwException instanceof PersistFailedException) {
+            throw $this->throwException;
+        }
+        if ($this->throwException instanceof UpdateFailedException) {
             throw $this->throwException;
         }
     }

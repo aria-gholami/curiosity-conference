@@ -63,7 +63,11 @@ final readonly class JwtValidator implements JwtValidatorInterface
             $isRoomCreated = '/api/v1/quiz/room' === $path && 'POST' === $method;
             $isRoomStarted = '/api/v1/quiz/room/start' === $path && 'POST' === $method;
             $isRoomContinued = '/api/v1/quiz/room/continue' === $path && 'POST' === $method;
-            if (($isRoomCreated || $isRoomStarted || $isRoomContinued) && !$userByDatabase->isAdmin()) {
+            $isParticipantDeleted =
+                \str_starts_with($path, '/api/v1/quiz/room/')
+                && \str_contains($path, '/participant/')
+                && 'DELETE' === $method;
+            if (($isRoomCreated || $isRoomStarted || $isRoomContinued || $isParticipantDeleted) && !$userByDatabase->isAdmin()) {
                 $this->logger->notice('User is not admin.');
                 throw InvalidJwtException::invalidRole();
             }

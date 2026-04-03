@@ -8,6 +8,7 @@ use CuriosityConference\Application\Port\Inbound\Quiz\StartHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -38,7 +39,7 @@ final readonly class StartController
             ]);
 
             return new JsonResponse(['message' => 'Bad Request.'], Response::HTTP_BAD_REQUEST);
-        } catch (LoadEntityFailedException|PersistFailedException $exception) {
+        } catch (LoadEntityFailedException|PersistFailedException|UpdateFailedException $exception) {
             $this->logger->notice('Quiz room could not be started.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);

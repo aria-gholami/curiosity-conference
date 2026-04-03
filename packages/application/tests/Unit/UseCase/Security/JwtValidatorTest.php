@@ -348,6 +348,7 @@ final class JwtValidatorTest extends TestCase
         yield 'room create endpoint' => ['/api/v1/quiz/room', 'POST'];
         yield 'room start endpoint' => ['/api/v1/quiz/room/start', 'POST'];
         yield 'room continue endpoint' => ['/api/v1/quiz/room/continue', 'POST'];
+        yield 'participant delete endpoint' => ['/api/v1/quiz/room/1234/participant/1234', 'DELETE'];
     }
 
     public function testValidatePOSTRequestWithRoomStartAndNoAdminRole(): void
@@ -364,6 +365,28 @@ final class JwtValidatorTest extends TestCase
         $this->byEmailLoaderMock->outputUser = $user;
 
         $request = Request::create('/api/v1/test', 'POST');
+        $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer jwt-token');
+        $this->jwtValidator->validateRequest($request);
+
+        self::assertEquals('jwt-token', $this->jwtUserTokenMock->inputJwtToken);
+        self::assertSame('test', $this->byEmailLoaderMock->inputEmail);
+        self::assertEquals([], $this->loggerMock->logs);
+    }
+
+    public function testValidateDELETERequestWithRoomParticipantAndNoAdminRole(): void
+    {
+        $user = new User(
+            'test',
+            'test',
+            'test',
+            'test',
+            'test',
+            false,
+        );
+        $this->jwtUserTokenMock->outputUser = $user;
+        $this->byEmailLoaderMock->outputUser = $user;
+
+        $request = Request::create('/api/v1/test/participant/1234', 'DELETE');
         $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer jwt-token');
         $this->jwtValidator->validateRequest($request);
 

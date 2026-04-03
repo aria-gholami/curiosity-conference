@@ -6,7 +6,7 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz
 
 use CuriosityConference\Application\Port\Inbound\Quiz\ContinueOrFinishHandler;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
-use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Exception\CurrentQuestionNotFoundException;
 use CuriosityConference\Domain\Quiz\Id;
 
@@ -18,7 +18,7 @@ final class ContinueOrFinishHandlerMock implements ContinueOrFinishHandler
     /**
      * @throws CurrentQuestionNotFoundException
      * @throws LoadEntityFailedException
-     * @throws PersistFailedException
+     * @throws UpdateFailedException
      */
     #[\Override]
     public function handle(Id $quizRoomId): void
@@ -30,7 +30,7 @@ final class ContinueOrFinishHandlerMock implements ContinueOrFinishHandler
         if ($this->throwException instanceof CurrentQuestionNotFoundException) {
             throw $this->throwException;
         }
-        if ($this->throwException instanceof PersistFailedException) {
+        if ($this->throwException instanceof UpdateFailedException) {
             throw $this->throwException;
         }
     }

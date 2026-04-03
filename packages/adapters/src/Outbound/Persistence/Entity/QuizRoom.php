@@ -103,6 +103,15 @@ final class QuizRoom
         $this->participants->add($user);
     }
 
+    public function removeParticipant(User $user): void
+    {
+        if (!$this->participants->contains($user)) {
+            return;
+        }
+
+        $this->participants->removeElement($user);
+    }
+
     public function getHighscores(): Collection
     {
         return $this->highscores;

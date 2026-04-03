@@ -12,6 +12,7 @@ use CuriosityConference\Application\Port\Outbound\Quiz\RoomByIdLoader;
 use CuriosityConference\Application\Port\Outbound\Quiz\RoomUpdater;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 
 final readonly class StartHandler implements StartHandlerInterface
@@ -27,6 +28,7 @@ final readonly class StartHandler implements StartHandlerInterface
     /**
      * @throws LoadEntityFailedException
      * @throws PersistFailedException
+     * @throws UpdateFailedException
      */
     #[\Override]
     public function handle(Id $quizRoomId): void

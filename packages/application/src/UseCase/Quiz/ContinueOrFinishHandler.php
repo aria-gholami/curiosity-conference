@@ -11,7 +11,7 @@ use CuriosityConference\Application\Port\Outbound\Question\ByIdLoader as Questio
 use CuriosityConference\Application\Port\Outbound\Quiz\RoomByIdLoader;
 use CuriosityConference\Application\Port\Outbound\Quiz\RoomUpdater;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
-use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Exception\CurrentQuestionNotFoundException;
 use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
@@ -29,7 +29,7 @@ final readonly class ContinueOrFinishHandler implements ContinueOrFinishHandlerI
     /**
      * @throws CurrentQuestionNotFoundException
      * @throws LoadEntityFailedException
-     * @throws PersistFailedException
+     * @throws UpdateFailedException
      */
     #[\Override]
     public function handle(Id $quizRoomId): void

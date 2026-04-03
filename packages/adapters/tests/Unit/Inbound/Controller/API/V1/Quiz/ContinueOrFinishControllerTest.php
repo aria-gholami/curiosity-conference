@@ -8,7 +8,7 @@ use CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ContinueOrFinish
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks\ContinueOrFinishHandlerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
-use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Exception\CurrentQuestionNotFoundException;
 use CuriosityConference\Domain\Quiz\HighscoreUpdateRequestBody;
 use CuriosityConference\Domain\Quiz\Id;
@@ -122,9 +122,9 @@ final class ContinueOrFinishControllerTest extends TestCase
         ], $this->loggerMock->logs);
     }
 
-    public function testContinueQuestionWithPersistFailedException(): void
+    public function testContinueQuestionWithUpdateFailedException(): void
     {
-        $this->continueOrFinishHandlerMock->throwException = new PersistFailedException('test');
+        $this->continueOrFinishHandlerMock->throwException = new UpdateFailedException('test');
         $payload = [
             'quizRoomId' => 'test',
         ];

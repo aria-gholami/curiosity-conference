@@ -7,7 +7,7 @@ namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz;
 use CuriosityConference\Application\Port\Inbound\Quiz\ContinueOrFinishHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
-use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Exception\CurrentQuestionNotFoundException;
 use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
@@ -37,7 +37,7 @@ final readonly class ContinueOrFinishController
             ]);
 
             return new JsonResponse(['message' => 'Bad Request.'], Response::HTTP_BAD_REQUEST);
-        } catch (LoadEntityFailedException|PersistFailedException|CurrentQuestionNotFoundException $exception) {
+        } catch (LoadEntityFailedException|UpdateFailedException|CurrentQuestionNotFoundException $exception) {
             $this->logger->notice('Question could not be continues or quiz could not be finished.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);

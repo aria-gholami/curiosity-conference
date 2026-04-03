@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -116,6 +117,37 @@ final class StartControllerTest extends TestCase
     public function testStartUpdatedWithPersistFailedException(): void
     {
         $this->startHandlerMock->throwException = new PersistFailedException('test');
+        $payload = [
+            'quizRoomId' => 'test',
+        ];
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+        $response = $this->startController->__invoke($request);
+
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Quiz room could not be started.',
+                    'context' => [
+                        'exceptionMessage' => 'test',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testStartUpdatedWithUpdateFailedException(): void
+    {
+        $this->startHandlerMock->throwException = new UpdateFailedException('test');
         $payload = [
             'quizRoomId' => 'test',
         ];
