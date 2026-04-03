@@ -38,6 +38,7 @@ final readonly class RoomPersister implements RoomPersisterInterface
                 $host,
                 $status,
             );
+            $quizRoom->addParticipant($host);
             $this->quizRoomEntityManager->persist($quizRoom);
             $this->quizRoomEntityManager->flush();
             $this->logger->info('Persisting new quiz room was successful.', [

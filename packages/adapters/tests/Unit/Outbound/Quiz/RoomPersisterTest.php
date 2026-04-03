@@ -53,6 +53,7 @@ final class RoomPersisterTest extends TestCase
             $user,
             QuizRoom::STATUS_STARTED,
         );
+        $expectedQuizEntity->addParticipant($user);
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
         self::assertSame($expectedQuizEntity->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
@@ -108,6 +109,7 @@ final class RoomPersisterTest extends TestCase
             $user,
             QuizRoom::STATUS_STARTED,
         );
+        $expectedQuizEntity->addParticipant($user);
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getQuiz());
         self::assertSame($expectedQuizEntity->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());

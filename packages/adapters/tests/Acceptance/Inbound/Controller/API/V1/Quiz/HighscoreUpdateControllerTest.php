@@ -555,7 +555,7 @@ final class HighscoreUpdateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'quizRoomId' => $responseQuizRoom['id'],
-            'userId' => $responseUser['id'],
+            'userId' => 'invalid',
             'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(
