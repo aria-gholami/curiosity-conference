@@ -82,8 +82,8 @@ final class JwtValidatorTest extends TestCase
                 [
                     'message' => 'Skip jwt validation.',
                     'context' => [
-                        'isLogin' => \str_starts_with($path, '/api/v1/user/login') && 'POST' === $method,
-                        'isUserCreate' => \str_starts_with($path, '/api/v1/user') && 'POST' === $method,
+                        'isLogin' => '/api/v1/user/login' === $path && 'POST' === $method,
+                        'isUserCreate' => '/api/v1/user' === $path && 'POST' === $method,
                     ],
                 ],
             ],
@@ -346,10 +346,11 @@ final class JwtValidatorTest extends TestCase
     public static function provideAdminUrlData(): iterable
     {
         yield 'room create endpoint' => ['/api/v1/quiz/room', 'POST'];
-        yield 'room start endpoint' => ['/api/v1/quiz/room/start', 'PUT'];
+        yield 'room start endpoint' => ['/api/v1/quiz/room/start', 'POST'];
+        yield 'room continue endpoint' => ['/api/v1/quiz/room/continue', 'POST'];
     }
 
-    public function testValidatePUTRequestWithRoomStartAndNoAdminRole(): void
+    public function testValidatePOSTRequestWithRoomStartAndNoAdminRole(): void
     {
         $user = new User(
             'test',
@@ -362,7 +363,7 @@ final class JwtValidatorTest extends TestCase
         $this->jwtUserTokenMock->outputUser = $user;
         $this->byEmailLoaderMock->outputUser = $user;
 
-        $request = Request::create('/api/v1/test', 'PUT');
+        $request = Request::create('/api/v1/test', 'POST');
         $request->headers->set(JwtValidator::HEADER_NAME, 'Bearer jwt-token');
         $this->jwtValidator->validateRequest($request);
 

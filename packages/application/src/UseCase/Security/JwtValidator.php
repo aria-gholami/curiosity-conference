@@ -31,9 +31,9 @@ final readonly class JwtValidator implements JwtValidatorInterface
         try {
             $path = $request->getPathInfo();
             $method = $request->getMethod();
-            $isLogin = \str_starts_with($path, '/api/v1/user/login') && 'POST' === $method;
-            $isUserCreate = \str_starts_with($path, '/api/v1/user') && 'POST' === $method;
-            $isPasswordReset = \str_starts_with($path, '/api/v1/password/reset') || \str_starts_with($path, '/api/v1/user/password');
+            $isLogin = '/api/v1/user/login' === $path && 'POST' === $method;
+            $isUserCreate = '/api/v1/user' === $path && 'POST' === $method;
+            $isPasswordReset = '/api/v1/password/reset' === $path || '/api/v1/user/password' === $path;
             if ($isLogin || $isUserCreate || $isPasswordReset) {
                 $this->logger->info('Skip jwt validation.', ['isLogin' => $isLogin, 'isUserCreate' => $isUserCreate]);
 
@@ -60,9 +60,10 @@ final readonly class JwtValidator implements JwtValidatorInterface
 
             $user = $this->jwtUserToken->decode($token);
             $userByDatabase = $this->byEmailLoader->load($user->getEmail());
-            $isRoomCreated = \str_starts_with($path, '/api/v1/quiz/room') && 'POST' === $method;
-            $isRoomStarted = \str_starts_with($path, '/api/v1/quiz/room/start') && 'PUT' === $method;
-            if (($isRoomCreated || $isRoomStarted) && !$userByDatabase->isAdmin()) {
+            $isRoomCreated = '/api/v1/quiz/room' === $path && 'POST' === $method;
+            $isRoomStarted = '/api/v1/quiz/room/start' === $path && 'POST' === $method;
+            $isRoomContinued = '/api/v1/quiz/room/continue' === $path && 'POST' === $method;
+            if (($isRoomCreated || $isRoomStarted || $isRoomContinued) && !$userByDatabase->isAdmin()) {
                 $this->logger->notice('User is not admin.');
                 throw InvalidJwtException::invalidRole();
             }
