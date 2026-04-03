@@ -101,3 +101,7 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\DeleteController
     path: /api/v1/question
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\DeleteController
     methods: DELETE
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByRoomLoadController:
+    path: /api/v1/quiz/room/{quizRoomId}/question
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByRoomLoadController
+    methods: GET

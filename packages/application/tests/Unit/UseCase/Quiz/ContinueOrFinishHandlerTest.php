@@ -10,7 +10,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\QuestionByIdLoaderMock;
-use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\RoomByIdLoaderMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\RoomByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\RoomUpdaterMock;
 use CuriosityConference\Application\UseCase\Quiz\ContinueOrFinishHandler;
 use CuriosityConference\Domain\Question\QuestionCollection;

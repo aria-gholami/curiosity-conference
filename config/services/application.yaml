@@ -121,6 +121,10 @@ services:
   CuriosityConference\Application\UseCase\Question\DeleteHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Question\ByIdDeleter'
+  CuriosityConference\Application\UseCase\Question\ByRoomLoadHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
+      - '@api.v1.quiz.logger'
 
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:
