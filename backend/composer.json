@@ -26,7 +26,18 @@
         "curiosity-conference-backend/adapters": "dev-main",
         "curiosity-conference-backend/application": "dev-main",
         "curiosity-conference-backend/domain": "dev-main",
-        "symfony/flex": "^2.10"
+        "doctrine/doctrine-bundle": "^3.2.2",
+        "doctrine/doctrine-migrations-bundle": "^4.0",
+        "doctrine/orm": "^3.6.3",
+        "symfony/console": "8.0.*",
+        "symfony/dotenv": "8.0.*",
+        "symfony/framework-bundle": "8.0.*",
+        "symfony/monolog-bundle": "^4.0.2",
+        "symfony/runtime": "8.0.*",
+        "symfony/yaml": "8.0.*",
+        "symfony/flex": "^2.10",
+        "symfony/http-foundation": "^8.0.8",
+        "symfony/uid": "8.0.*"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.67",

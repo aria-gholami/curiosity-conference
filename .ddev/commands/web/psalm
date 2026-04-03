@@ -1,1 +1,1 @@
-./backend/bin/psalm --threads=4 --no-cache --show-info=true
+cd backend && ./bin/psalm --config=psalm.xml --threads=4 --no-cache --show-info=true

@@ -1,1 +1,1 @@
-./backend/bin/phpcs fix --sequential
+./backend/bin/phpcs --config=backend/.php-cs-fixer.dist.php --cache-file=backend/.php-cs-fixer.cache fix --sequential
