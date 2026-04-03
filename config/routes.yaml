@@ -30,6 +30,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetTokenVe
     path: /api/v1/password/reset
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetTokenVerifyController
     methods: GET
+CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController:
+    path: /api/v1/quiz/room/{quizRoomId}/participant/{participantId}
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController
+    methods: DELETE
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\RegistrationController:
     path: /api/v1/device
