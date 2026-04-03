@@ -1,6 +1,6 @@
-name: curiosity-conference-backend
+name: curiosity-conference
 type: php
-docroot: public
+docroot: backend/public
 php_version: "8.4"
 webserver_type: nginx-fpm
 xdebug_enabled: false
@@ -15,15 +15,15 @@ web_environment: []
 corepack_enable: false
 hooks:
     post-start:
-        - exec: cp .env.dev .env.local
-        - exec: composer install --no-interaction --optimize-autoloader
-        - exec: php bin/console doctrine:database:drop --force && php bin/console doctrine:database:drop --env=test --force
-        - exec: php bin/console doctrine:database:create && php bin/console doctrine:database:create --env=test
-        - exec: php bin/console doctrine:schema:create && php bin/console doctrine:schema:create --env=test
-        - exec: wget -O phpunit https://phar.phpunit.de/phpunit-13.phar && chmod +x phpunit && mv phpunit bin/phpunit
-        - exec: wget -O phpcs https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/v3.94.0/php-cs-fixer.phar && chmod +x phpcs && mv phpcs bin/phpcs
-        - exec: wget -O psalm https://github.com/vimeo/psalm/releases/download/6.15.1/psalm.phar && chmod +x psalm && mv psalm bin/psalm
-        - exec: wget -O infection https://github.com/infection/infection/releases/download/0.32.4/infection.phar && chmod +x infection && mv infection bin/infection
+        - exec: cd backend && cp .env.dev .env.local
+        - exec: cd backend && composer install --no-interaction --optimize-autoloader
+        - exec: cd backend && php bin/console doctrine:database:drop --force && php bin/console doctrine:database:drop --env=test --force
+        - exec: cd backend && php bin/console doctrine:database:create && php bin/console doctrine:database:create --env=test
+        - exec: cd backend && php bin/console doctrine:schema:create && php bin/console doctrine:schema:create --env=test
+        - exec: cd backend && wget -O phpunit https://phar.phpunit.de/phpunit-13.phar && chmod +x phpunit && mv phpunit bin/phpunit
+        - exec: cd backend && wget -O phpcs https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/v3.94.0/php-cs-fixer.phar && chmod +x phpcs && mv phpcs bin/phpcs
+        - exec: cd backend && wget -O psalm https://github.com/vimeo/psalm/releases/download/6.15.1/psalm.phar && chmod +x psalm && mv psalm bin/psalm
+        - exec: cd backend && wget -O infection https://github.com/infection/infection/releases/download/0.32.4/infection.phar && chmod +x infection && mv infection bin/infection
 
 # Key features of DDEV's config.yaml:
 

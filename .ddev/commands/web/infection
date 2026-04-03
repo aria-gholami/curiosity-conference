@@ -1,1 +1,1 @@
-./bin/infection --threads=4
+./backend/bin/infection --threads=4
