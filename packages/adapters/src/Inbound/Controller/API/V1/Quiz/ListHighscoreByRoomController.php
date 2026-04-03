@@ -30,8 +30,7 @@ final readonly class ListHighscoreByRoomController
 
             return new JsonResponse(['data' => \array_map(static function (Highscore $highscore) {
                 return [
-                    'firstName' => $highscore->getUser()->getFirstName(),
-                    'lastName' => $highscore->getUser()->getLastName(),
+                    'userName' => $highscore->getUser()->getUserName(),
                     'score' => $highscore->getScore(),
                 ];
             }, $quizCollection->data)], Response::HTTP_OK);

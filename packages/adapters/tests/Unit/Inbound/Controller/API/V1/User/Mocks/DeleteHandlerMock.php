@@ -6,20 +6,20 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\User
 
 use CuriosityConference\Application\Port\Inbound\User\DeleteHandler;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
-use CuriosityConference\Domain\User\Model\Email;
+use CuriosityConference\Domain\User\Model\UserName;
 
 final class DeleteHandlerMock implements DeleteHandler
 {
-    public Email $inputEmail;
+    public UserName $inputUserName;
     public ?DeleteFailedException $throwException = null;
 
     /**
      * @throws DeleteFailedException
      */
     #[\Override]
-    public function handle(Email $email): void
+    public function handle(UserName $userName): void
     {
-        $this->inputEmail = $email;
+        $this->inputUserName = $userName;
         if ($this->throwException instanceof DeleteFailedException) {
             throw $this->throwException;
         }

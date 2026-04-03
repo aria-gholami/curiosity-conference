@@ -17,11 +17,7 @@ final class ByRoomLoadControllerTest extends AbstractWebTestCase
     public function testLoadCurrentQuestionIsValid(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -37,9 +33,6 @@ final class ByRoomLoadControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',
@@ -147,11 +140,7 @@ final class ByRoomLoadControllerTest extends AbstractWebTestCase
     public function testLoadCurrentQuestionWithUnauthorized(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -167,9 +156,6 @@ final class ByRoomLoadControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',
@@ -283,11 +269,7 @@ final class ByRoomLoadControllerTest extends AbstractWebTestCase
     public function testLoadCurrentQuestionWithInternalServerError(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -303,9 +285,6 @@ final class ByRoomLoadControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',

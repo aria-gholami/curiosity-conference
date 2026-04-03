@@ -17,11 +17,7 @@ final class ListHighscoreByRoomControllerTest extends AbstractWebTestCase
     public function testContinueQuestionIsValid(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -37,9 +33,6 @@ final class ListHighscoreByRoomControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',
@@ -152,11 +145,7 @@ final class ListHighscoreByRoomControllerTest extends AbstractWebTestCase
     public function testContinueQuestionWithInvalidApiKey(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -172,9 +161,6 @@ final class ListHighscoreByRoomControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',
@@ -293,11 +279,7 @@ final class ListHighscoreByRoomControllerTest extends AbstractWebTestCase
     public function testContinueQuestionWithInternalServerError(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -313,9 +295,6 @@ final class ListHighscoreByRoomControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',

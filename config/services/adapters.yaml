@@ -1,7 +1,6 @@
 parameters:
   log_level: '%env(int:LOG_LEVEL)%'
   admin_email: '%env(ADMIN_EMAIL)%'
-  app_secret: '%env(APP_SECRET)%'
 
 services:
   _defaults:
@@ -26,53 +25,10 @@ services:
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\User\LoginHandler'
-      - '@api.v1.user.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\User\DetailsUpdateHandler'
-      - '@api.v1.user.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordUpdateController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\User\PasswordUpdateHandler'
-      - '@api.v1.user.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\User\PasswordResetMailSendHandler'
-      - '@api.v1.user.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetTokenVerifyController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\User\PasswordResetTokenVerifyHandler'
-      - '@api.v1.user.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
   CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController:
     arguments:
       - '@CuriosityConference\Application\UseCase\User\DeleteQuizRoomParticipantHandler'
       - '@api.v1.user.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
-
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\RegistrationController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\Device\RegistrationHandler'
-      - '@api.v1.device.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\DeleteController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\Device\DeleteHandler'
-      - '@api.v1.device.logger'
     tags:
       - { name: 'controller.service_arguments' }
 
@@ -168,16 +124,11 @@ services:
     tags:
       - { name: 'controller.service_arguments' }
 
-  CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
-      - '@api.v1.user.logger'
-
   CuriosityConference\Adapters\Outbound\User\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
-  CuriosityConference\Adapters\Outbound\User\ByEmailDeleter:
+  CuriosityConference\Adapters\Outbound\User\ByUserNameDeleter:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
@@ -185,44 +136,6 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\User\DetailsUpdater:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
-      - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\User\PasswordUpdater:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
-      - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
-      - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\User\PasswordResetTokenPersister:
-    arguments:
-      - '@doctrine.orm.entity_manager'
-      - '@api.v1.user.logger'
-  CuriosityConference\Adapters\Outbound\User\PasswordResetMailSender:
-    arguments:
-      - '@mailer.mailer'
-      - '%admin_email%'
-  CuriosityConference\Adapters\Outbound\User\PasswordResetTokenDeleter:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'
-      - '@api.v1.user.logger'
-  CuriosityConference\Adapters\Outbound\User\PasswordResetTokenByUserDeleter:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'
-      - '@api.v1.user.logger'
-  CuriosityConference\Adapters\Outbound\User\PasswordResetTokenLoader:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository'
-      - '@api.v1.user.logger'
-
-  CuriosityConference\Adapters\Outbound\Device\Persister:
-    arguments:
-      - '@doctrine.orm.entity_manager'
-      - '@api.v1.device.logger'
-  CuriosityConference\Adapters\Outbound\Device\ByRegistrationTokenDeleter:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\DeviceRepository'
-      - '@api.v1.device.logger'
 
   CuriosityConference\Adapters\Outbound\Quiz\Persister:
     arguments:
@@ -304,16 +217,6 @@ services:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
-  CuriosityConference\Adapters\Outbound\Persistence\Repository\DeviceRepository:
-    arguments:
-      - '@doctrine'
-    tags:
-      - 'doctrine.repository_service'
-  CuriosityConference\Adapters\Outbound\Persistence\Repository\PasswordResetRepository:
-    arguments:
-      - '@doctrine'
-    tags:
-      - 'doctrine.repository_service'
   CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository:
     arguments:
       - '@doctrine'
@@ -340,20 +243,9 @@ services:
     tags:
       - 'doctrine.repository_service'
 
-  CuriosityConference\Adapters\Outbound\Security\Argon2idHasher: ~
-  CuriosityConference\Adapters\Outbound\Security\JwtUserToken:
-    arguments:
-      - '%app_secret%'
-
   CuriosityConference\Adapters\Inbound\Security\ValidateApiKeySubscriber:
     arguments:
       - '@CuriosityConference\Application\UseCase\Security\ApiKeyValidator'
-      - '@api.v1.authentication.logger'
-    tags:
-      - { name: kernel.event_subscriber }
-  CuriosityConference\Adapters\Inbound\Security\ValidateJwtSubscriber:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\Security\JwtValidator'
       - '@api.v1.authentication.logger'
     tags:
       - { name: kernel.event_subscriber }
@@ -372,21 +264,6 @@ services:
       - 'user'
     calls:
       - [ pushHandler, [ '@api.v1.user.logging-handler' ] ]
-
-  api.v1.device.logging-handler:
-    class: Monolog\Handler\RotatingFileHandler
-    arguments:
-      - '%kernel.logs_dir%/device_%kernel.environment%.log'
-      - 14
-      - '%log_level%'
-      - true
-      - 436
-  api.v1.device.logger:
-    class: Monolog\Logger
-    arguments:
-      - 'device'
-    calls:
-      - [ pushHandler, [ '@api.v1.device.logging-handler' ] ]
 
   api.v1.quiz.logging-handler:
     class: Monolog\Handler\RotatingFileHandler

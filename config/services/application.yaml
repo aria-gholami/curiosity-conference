@@ -1,7 +1,6 @@
 # yaml-language-server: $schema=../../packages/adapters/vendor/symfony/dependency-injection/Loader/schema/services.schema.json
 parameters:
   api_key: '%env(API_KEY)%'
-  app_secret: '%env(APP_SECRET)%'
 
 services:
   _defaults:
@@ -11,52 +10,17 @@ services:
   CuriosityConference\Application\UseCase\User\CreateHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\Persister'
-      - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
-      - '@CuriosityConference\Adapters\Outbound\Security\JwtUserToken'
-  CuriosityConference\Application\UseCase\User\LoginHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
-      - '@CuriosityConference\Adapters\Outbound\Security\Argon2idHasher'
-      - '@CuriosityConference\Adapters\Outbound\Security\JwtUserToken'
-      - '@api.v1.user.logger'
   CuriosityConference\Application\UseCase\User\DeleteHandler:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\ByEmailDeleter'
+      - '@CuriosityConference\Adapters\Outbound\User\ByUserNameDeleter'
   CuriosityConference\Application\UseCase\User\DetailsGetHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
-  CuriosityConference\Application\UseCase\User\DetailsUpdateHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\DetailsUpdater'
-  CuriosityConference\Application\UseCase\User\PasswordUpdateHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\PasswordUpdater'
-  CuriosityConference\Application\UseCase\User\PasswordResetMailSendHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
-      - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenByUserDeleter'
-      - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenPersister'
-      - '@CuriosityConference\Adapters\Outbound\User\PasswordResetMailSender'
-      - '@api.v1.user.logger'
-  CuriosityConference\Application\UseCase\User\PasswordResetTokenVerifyHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
-      - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenLoader'
-      - '@CuriosityConference\Adapters\Outbound\User\PasswordResetTokenDeleter'
-      - '@api.v1.user.logger'
   CuriosityConference\Application\UseCase\User\DeleteQuizRoomParticipantHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater'
-
-  CuriosityConference\Application\UseCase\Device\RegistrationHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\Device\Persister'
-  CuriosityConference\Application\UseCase\Device\DeleteHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Device\ByRegistrationTokenDeleter'
 
   CuriosityConference\Application\UseCase\Quiz\CreateHandler:
     arguments:
@@ -129,9 +93,4 @@ services:
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:
       - '%api_key%'
-      - '@api.v1.authentication.logger'
-  CuriosityConference\Application\UseCase\Security\JwtValidator:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Security\JwtUserToken'
-      - '@CuriosityConference\Adapters\Outbound\User\ByEmailLoader'
       - '@api.v1.authentication.logger'

@@ -17,11 +17,7 @@ final class DetailsGetControllerTest extends AbstractWebTestCase
     public function testGetUserIsValid(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -53,19 +49,13 @@ final class DetailsGetControllerTest extends AbstractWebTestCase
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_OK);
-        self::assertSame('test', $response['firstName']);
-        self::assertSame('test', $response['lastName']);
-        self::assertSame('test@web.de', $response['email']);
+        self::assertSame('test', $response['userName']);
     }
 
     public function testGetUserWithBadRequest(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -104,11 +94,7 @@ final class DetailsGetControllerTest extends AbstractWebTestCase
     public function testGetUserWithInvalidApiKey(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -146,11 +132,7 @@ final class DetailsGetControllerTest extends AbstractWebTestCase
     public function testGetUserWithMissingUser(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',

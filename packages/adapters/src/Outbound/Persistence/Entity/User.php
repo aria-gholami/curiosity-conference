@@ -21,20 +21,8 @@ final class User
     #[ORM\Column(type: 'uuid')]
     private string $id;
 
-    #[ORM\Column(length: 255)]
-    private string $firstName;
-
-    #[ORM\Column(length: 255)]
-    private string $lastName;
-
     #[ORM\Column(length: 255, unique: true)]
-    private string $email;
-
-    #[ORM\Column(length: 255)]
-    private string $password;
-
-    #[ORM\Column(type: 'boolean')]
-    private bool $isAdmin;
+    private string $userName;
 
     /**
      * @var Collection<int, Highscore>
@@ -42,14 +30,10 @@ final class User
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Highscore::class, orphanRemoval: true)]
     private Collection $highscores;
 
-    public function __construct(string $id, string $firstName, string $lastName, string $email, string $password, bool $isAdmin)
+    public function __construct(string $id, string $userName)
     {
         $this->id = $id;
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->email = $email;
-        $this->password = $password;
-        $this->isAdmin = $isAdmin;
+        $this->userName = $userName;
         $this->highscores = new ArrayCollection();
     }
 
@@ -58,44 +42,9 @@ final class User
         return $this->id;
     }
 
-    public function setFirstName(string $firstName): void
+    public function getUserName(): string
     {
-        $this->firstName = $firstName;
-    }
-
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    public function setLastName(string $lastName): void
-    {
-        $this->lastName = $lastName;
-    }
-
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setPassword(string $password): void
-    {
-        $this->password = $password;
-    }
-
-    public function getPassword(): string
-    {
-        return $this->password;
-    }
-
-    public function isAdmin(): bool
-    {
-        return $this->isAdmin;
+        return $this->userName;
     }
 
     public function getHighscores(): Collection

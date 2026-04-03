@@ -6,28 +6,28 @@ namespace CuriosityConference\Adapters\Tests\Unit\Outbound\User;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository;
-use CuriosityConference\Adapters\Outbound\User\ByEmailDeleter;
+use CuriosityConference\Adapters\Outbound\User\ByUserNameDeleter;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
-use CuriosityConference\Domain\User\Model\Email;
+use CuriosityConference\Domain\User\Model\UserName;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(ByEmailDeleter::class)]
-#[UsesClass(Email::class)]
-final class ByEmailDeleterTest extends TestCase
+#[CoversClass(ByUserNameDeleter::class)]
+#[UsesClass(UserName::class)]
+final class ByUserNameDeleterTest extends TestCase
 {
     private MockObject $userEntityRepositoryMock;
     private LoggerMock $loggerMock;
-    private ByEmailDeleter $byEmailDeleter;
+    private ByUserNameDeleter $byUserNameDeleter;
 
     protected function setUp(): void
     {
         $this->userEntityRepositoryMock = $this->createMock(UserRepository::class);
         $this->loggerMock = new LoggerMock();
-        $this->byEmailDeleter = new ByEmailDeleter(
+        $this->byUserNameDeleter = new ByUserNameDeleter(
             $this->userEntityRepositoryMock,
             $this->loggerMock,
         );
@@ -38,21 +38,17 @@ final class ByEmailDeleterTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $email = new Email('test');
+        $userName = new UserName('test');
         $this->userEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
-            ->with(['email' => $email->value])
+            ->with(['userName' => $userName->value])
             ->willReturn($user);
         $this->userEntityRepositoryMock->expects(self::once())
             ->method('remove')
             ->with($user);
 
-        $this->byEmailDeleter->delete($email);
+        $this->byUserNameDeleter->delete($userName);
 
         self::assertEquals([
             'info' => [
@@ -69,13 +65,13 @@ final class ByEmailDeleterTest extends TestCase
                 [
                     'message' => 'Start deleting user.',
                     'context' => [
-                        'email' => 'test',
+                        'userName' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Deleting user was successful.',
                     'context' => [
-                        'email' => 'test',
+                        'userName' => 'test',
                     ],
                 ],
             ],
@@ -87,21 +83,17 @@ final class ByEmailDeleterTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $email = new Email('test');
+        $userName = new UserName('test');
         $this->userEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
-            ->with(['email' => $email->value])
+            ->with(['userName' => $userName->value])
             ->willReturn(null);
         $this->userEntityRepositoryMock->expects(self::never())
             ->method('remove')
             ->with($user);
 
-        $this->byEmailDeleter->delete($email);
+        $this->byUserNameDeleter->delete($userName);
 
         self::assertEquals([
             'info' => [
@@ -114,7 +106,7 @@ final class ByEmailDeleterTest extends TestCase
                 [
                     'message' => 'Start deleting user.',
                     'context' => [
-                        'email' => 'test',
+                        'userName' => 'test',
                     ],
                 ],
             ],
@@ -126,15 +118,11 @@ final class ByEmailDeleterTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $email = new Email('test');
+        $userName = new UserName('test');
         $this->userEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
-            ->with(['email' => $email->value])
+            ->with(['userName' => $userName->value])
             ->willReturn($user);
         $this->userEntityRepositoryMock->expects(self::once())
             ->method('remove')
@@ -142,7 +130,7 @@ final class ByEmailDeleterTest extends TestCase
             ->willThrowException(new DeleteFailedException('test'));
 
         try {
-            $this->byEmailDeleter->delete($email);
+            $this->byUserNameDeleter->delete($userName);
             $this->fail('DeleteFailedException was expected to be thrown.');
         } catch (DeleteFailedException $exception) {
             self::assertSame('Delete entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\User" was not successful.', $exception->getMessage());
@@ -165,13 +153,13 @@ final class ByEmailDeleterTest extends TestCase
                 [
                     'message' => 'Start deleting user.',
                     'context' => [
-                        'email' => 'test',
+                        'userName' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Deleting user was not successful.',
                     'context' => [
-                        'email' => 'test',
+                        'userName' => 'test',
                         'exceptionMessage' => 'test',
                     ],
                 ],

@@ -17,11 +17,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
     public function testDeleteUserIsValid(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -40,7 +36,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'DELETE',
-            '/api/v1/user?email=test@web.de',
+            '/api/v1/user?userName=test',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
@@ -53,11 +49,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
     public function testDeleteUserWithBadRequest(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -96,11 +88,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
     public function testDeleteUserWithUnauthorized(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -114,7 +102,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'DELETE',
-            '/api/v1/user?email=test@web.de',
+            '/api/v1/user?userName=test',
         );
         $response = \json_decode(
             $this->client->getResponse()->getContent(),
@@ -127,14 +115,10 @@ final class DeleteControllerTest extends AbstractWebTestCase
         self::assertSame('Unauthorized.', $response['message']);
     }
 
-    public function testDeleteUserWithNotExistingTitle(): void
+    public function testDeleteUserWithNotExistingUserName(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -153,7 +137,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'DELETE',
-            '/api/v1/user?email=test2@web.de',
+            '/api/v1/user?userName=invalid',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],

@@ -17,11 +17,7 @@ class CreateControllerTest extends AbstractWebTestCase
     public function testCreateUserIsValid(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -40,29 +36,22 @@ class CreateControllerTest extends AbstractWebTestCase
         );
 
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
-        self::assertArrayHasKey('token', $response);
-        self::assertNotEmpty($response['token']);
+        self::assertArrayHasKey('userName', $response);
+        self::assertNotEmpty($response['userName']);
         self::assertNotEmpty($response['id']);
 
         $row = $this->connection->fetchAssociative(
-            'SELECT * FROM user WHERE email = :email',
-            ['email' => 'test@web.de'],
+            'SELECT * FROM user WHERE user_name = :userName',
+            ['userName' => 'test'],
         );
         self::assertIsString($row['id']);
-        self::assertSame('test', $row['first_name']);
-        self::assertSame('test', $row['last_name']);
-        self::assertSame('test@web.de', $row['email']);
-        self::assertIsString($row['password']);
+        self::assertSame('test', $row['user_name']);
     }
 
     public function testCreateUserWithInvalidApiKey(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -88,11 +77,7 @@ class CreateControllerTest extends AbstractWebTestCase
     public function testCreateUserWithInvalidInput(): void
     {
         $payload = [
-            'firstName' => '',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => '',
         ];
         $this->client->request(
             'POST',
@@ -118,11 +103,7 @@ class CreateControllerTest extends AbstractWebTestCase
     public function testCreateUserWithInternalServerError(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',

@@ -31,9 +31,7 @@ final readonly class DetailsGetController
             $user = $this->detailsGetHandler->handleAndGet($id);
 
             return new JsonResponse([
-                'email' => $user->getEmail(),
-                'firstName' => $user->getFirstName(),
-                'lastName' => $user->getLastName(),
+                'userName' => $user->getUserName(),
                 'highscores' => \array_map(static function (Highscore $highscore) {
                     return [
                         'id' => $highscore->getId(),

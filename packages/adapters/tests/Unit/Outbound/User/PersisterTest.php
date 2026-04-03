@@ -9,14 +9,13 @@ use CuriosityConference\Adapters\Outbound\User\Persister;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\EntityManagerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\User\Model\UserRegistration;
-use CuriosityConference\Domain\User\Model\UserWithHashedPassword;
+use CuriosityConference\Domain\User\Model\UserName;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 
 #[CoversClass(Persister::class)]
-#[UsesClass(UserRegistration::class)]
+#[UsesClass(UserName::class)]
 #[UsesClass(PersistFailedException::class)]
 final class PersisterTest extends TestCase
 {
@@ -33,28 +32,18 @@ final class PersisterTest extends TestCase
 
     public function testPersistIsValid(): void
     {
-        $user = new UserWithHashedPassword(
+        $userName = new UserName(
             'test',
-            'test',
-            'test@web.de',
-            'Test123!',
         );
-        $userId = $this->persister->persist($user);
+        $userId = $this->persister->persist($userName);
 
         self::assertIsString($userId);
         $expectedUserEntity = new UserEntity(
             'test',
             'test',
-            'test',
-            'test@web.de',
-            'Test123!',
-            false,
         );
         self::assertIsString($expectedUserEntity->getId());
-        self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject[0]->getFirstName());
-        self::assertSame($expectedUserEntity->getLastName(), $this->entityManagerMock->inputPersistedObject[0]->getLastName());
-        self::assertSame($expectedUserEntity->getEmail(), $this->entityManagerMock->inputPersistedObject[0]->getEmail());
-        self::assertSame($expectedUserEntity->getPassword(), $this->entityManagerMock->inputPersistedObject[0]->getPassword());
+        self::assertSame($expectedUserEntity->getUserName(), $this->entityManagerMock->inputPersistedObject[0]->getUserName());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
@@ -71,17 +60,13 @@ final class PersisterTest extends TestCase
                 [
                     'message' => 'Start persisting user.',
                     'context' => [
-                        'userFirstName' => 'test',
-                        'userLastName' => 'test',
-                        'userEmail' => 'test@web.de',
+                        'userName' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Persisting user was successful.',
                     'context' => [
-                        'userFirstName' => 'test',
-                        'userLastName' => 'test',
-                        'userEmail' => 'test@web.de',
+                        'userName' => 'test',
                     ],
                 ],
             ],
@@ -92,14 +77,11 @@ final class PersisterTest extends TestCase
     {
         $this->entityManagerMock->throwPersistException = new \Exception('test');
 
-        $user = new UserWithHashedPassword(
+        $userName = new UserName(
             'test',
-            'test',
-            'test@web.de',
-            'Test123!',
         );
         try {
-            $this->persister->persist($user);
+            $this->persister->persist($userName);
             $this->fail('PersistFailedException was expected to be thrown.');
         } catch (PersistFailedException $exception) {
             self::assertSame('Persist entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\User" was not successful.', $exception->getMessage());
@@ -108,17 +90,9 @@ final class PersisterTest extends TestCase
         $expectedUserEntity = new UserEntity(
             'test',
             'test',
-            'test',
-            'test@web.de',
-            'Test123!',
-            false,
         );
         self::assertIsString($expectedUserEntity->getId());
-        self::assertSame($expectedUserEntity->getFirstName(), $this->entityManagerMock->inputPersistedObject[0]->getFirstName());
-        self::assertSame($expectedUserEntity->getLastName(), $this->entityManagerMock->inputPersistedObject[0]->getLastName());
-        self::assertSame($expectedUserEntity->getEmail(), $this->entityManagerMock->inputPersistedObject[0]->getEmail());
-        self::assertSame($expectedUserEntity->getPassword(), $this->entityManagerMock->inputPersistedObject[0]->getPassword());
-        self::assertFalse($this->entityManagerMock->inputPersistedObject[0]->isAdmin());
+        self::assertSame($expectedUserEntity->getUserName(), $this->entityManagerMock->inputPersistedObject[0]->getUserName());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
@@ -131,17 +105,13 @@ final class PersisterTest extends TestCase
                 [
                     'message' => 'Start persisting user.',
                     'context' => [
-                        'userFirstName' => 'test',
-                        'userLastName' => 'test',
-                        'userEmail' => 'test@web.de',
+                        'userName' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Persisting user was not successful.',
                     'context' => [
-                        'userFirstName' => 'test',
-                        'userLastName' => 'test',
-                        'userEmail' => 'test@web.de',
+                        'userName' => 'test',
                         'exceptionMessage' => 'test',
                     ],
                 ],

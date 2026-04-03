@@ -18,11 +18,7 @@ final class StartControllerTest extends AbstractWebTestCase
     public function testStartQuizRoomIsValid(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -38,9 +34,6 @@ final class StartControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',
@@ -129,11 +122,7 @@ final class StartControllerTest extends AbstractWebTestCase
     public function testStartQuizRoomWithBadRequest(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -149,9 +138,6 @@ final class StartControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',
@@ -237,11 +223,7 @@ final class StartControllerTest extends AbstractWebTestCase
     public function testStartQuizRoomWithInvalidApiToken(): void
     {
         $payload = [
-            'firstName' => 'test',
-            'lastName' => 'test',
-            'email' => 'test@web.de',
-            'password' => 'Test123!',
-            'confirmPassword' => 'Test123!',
+            'userName' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -257,9 +239,6 @@ final class StartControllerTest extends AbstractWebTestCase
             $this->client->getResponse()->getContent(),
             true,
             flags: \JSON_THROW_ON_ERROR,
-        );
-        $this->connection->executeStatement(
-            'UPDATE user SET is_admin = 1',
         );
         $payload = [
             'title' => 'test',

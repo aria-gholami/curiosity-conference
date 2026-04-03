@@ -6,10 +6,8 @@ namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\User;
 
 use CuriosityConference\Application\Port\Inbound\User\CreateHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
-use CuriosityConference\Domain\Exception\InvalidEmailException;
-use CuriosityConference\Domain\Exception\InvalidPasswordException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\User\Model\UserRegistration;
+use CuriosityConference\Domain\User\Model\UserName;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,18 +25,13 @@ final readonly class CreateController
     {
         try {
             $data = \json_decode($request->getContent(), true);
-            $email = $data['email'] ?? '';
-            $userRegistration = new UserRegistration(
-                $data['firstName'] ?? '',
-                $data['lastName'] ?? '',
-                \lcfirst($email),
-                $data['password'] ?? '',
-                $data['confirmPassword'] ?? '',
+            $userName = new UserName(
+                $data['userName'] ?? '',
             );
-            $userLoginResponse = $this->createHandler->handle($userRegistration);
+            $userId = $this->createHandler->handle($userName);
 
-            return new JsonResponse(['id' => $userLoginResponse->id, 'token' => $userLoginResponse->token], Response::HTTP_CREATED);
-        } catch (EmptyStringException|InvalidEmailException|InvalidPasswordException $exception) {
+            return new JsonResponse(['id' => $userId->value, 'userName' => $userName->value], Response::HTTP_CREATED);
+        } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/user is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);

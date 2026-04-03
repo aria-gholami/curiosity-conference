@@ -46,10 +46,6 @@ final class ListHighscoreByRoomControllerTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $expectedHighscoreCollection = new HighscoreCollection(
@@ -85,9 +81,8 @@ final class ListHighscoreByRoomControllerTest extends TestCase
         self::assertCount(3, $jsonResponseAsArray['data']);
         foreach ($jsonResponseAsArray['data'] as $jsonResponseItem) {
             self::assertIsArray($jsonResponseItem);
-            self::assertSame(['firstName', 'lastName', 'score'], \array_keys($jsonResponseItem));
-            self::assertSame('test', $jsonResponseItem['firstName']);
-            self::assertSame('test', $jsonResponseItem['lastName']);
+            self::assertSame(['userName', 'score'], \array_keys($jsonResponseItem));
+            self::assertSame('test', $jsonResponseItem['userName']);
             self::assertSame(0, $jsonResponseItem['score']);
         }
         self::assertEquals([], $this->loggerMock->logs);
@@ -104,10 +99,6 @@ final class ListHighscoreByRoomControllerTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $expectedHighscoreCollection = new HighscoreCollection(
@@ -163,10 +154,6 @@ final class ListHighscoreByRoomControllerTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $expectedHighscoreCollection = new HighscoreCollection(

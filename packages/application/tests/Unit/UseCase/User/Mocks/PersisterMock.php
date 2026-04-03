@@ -5,17 +5,17 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks;
 
 use CuriosityConference\Application\Port\Outbound\User\Persister;
-use CuriosityConference\Domain\User\Model\UserWithHashedPassword;
+use CuriosityConference\Domain\User\Model\UserName;
 
 final class PersisterMock implements Persister
 {
-    public UserWithHashedPassword $inputUser;
+    public UserName $inputUserName;
     public string $outputUserId;
 
     #[\Override]
-    public function persist(UserWithHashedPassword $user): string
+    public function persist(UserName $userName): string
     {
-        $this->inputUser = $user;
+        $this->inputUserName = $userName;
 
         return $this->outputUserId;
     }

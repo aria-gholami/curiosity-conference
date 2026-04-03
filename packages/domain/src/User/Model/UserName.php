@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace CuriosityConference\Domain\Device;
+namespace CuriosityConference\Domain\User\Model;
 
 use CuriosityConference\Domain\Exception\EmptyStringException;
 
-final readonly class RegistrationToken
+final readonly class UserName
 {
     /**
      * @throws EmptyStringException
@@ -15,7 +15,7 @@ final readonly class RegistrationToken
         public string $value,
     ) {
         if ('' === $this->value) {
-            throw EmptyStringException::stringIsEmpty('registrationToken');
+            throw EmptyStringException::stringIsEmpty('userName');
         }
     }
 }

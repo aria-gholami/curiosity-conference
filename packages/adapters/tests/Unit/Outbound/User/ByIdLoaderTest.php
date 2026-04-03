@@ -45,7 +45,7 @@ final class ByIdLoaderTest extends TestCase
 
         $user = $this->byIdLoader->load($id);
 
-        self::assertSame($outputUser->getEmail(), $user->getEmail());
+        self::assertSame($outputUser->getUserName(), $user->getUserName());
         self::assertEquals([
             'info' => [
                 [

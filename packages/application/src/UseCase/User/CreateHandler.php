@@ -4,51 +4,31 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\UseCase\User;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Port\Inbound\User\CreateHandler as CreateHandlerInterface;
-use CuriosityConference\Application\Port\Outbound\Security\Argon2idHasher;
-use CuriosityConference\Application\Port\Outbound\Security\JwtUserToken;
 use CuriosityConference\Application\Port\Outbound\User\Persister;
+use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
-use CuriosityConference\Domain\User\Model\UserLoginResponse;
-use CuriosityConference\Domain\User\Model\UserRegistration;
-use CuriosityConference\Domain\User\Model\UserWithHashedPassword;
+use CuriosityConference\Domain\User\Model\Id;
+use CuriosityConference\Domain\User\Model\UserName;
 
 final readonly class CreateHandler implements CreateHandlerInterface
 {
     public function __construct(
         private Persister $userPersister,
-        private Argon2idHasher $hashGenerator,
-        private JwtUserToken $jwtUserToken,
     ) {
     }
 
     /**
      * @throws PersistFailedException
+     * @throws EmptyStringException
      */
     #[\Override]
-    public function handle(UserRegistration $user): UserLoginResponse
+    public function handle(UserName $userName): Id
     {
-        $passwordHash = $this->hashGenerator->hash($user->password);
-        $userWithHashedPassword = new UserWithHashedPassword(
-            $user->firstName,
-            $user->lastName,
-            $user->email,
-            $passwordHash,
-        );
-        $id = $this->userPersister->persist($userWithHashedPassword);
+        $id = $this->userPersister->persist($userName);
 
-        return new UserLoginResponse(
+        return new Id(
             $id,
-            $this->jwtUserToken->encode(new User(
-                $id,
-                $user->firstName,
-                $user->lastName,
-                $user->email,
-                '',
-                false,
-            )),
-            false,
         );
     }
 }

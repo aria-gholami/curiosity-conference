@@ -2,10 +2,6 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\CreateController:
     path: /api/v1/user
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\CreateController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController:
-    path: /api/v1/user/login
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\LoginController
-    methods: POST
 CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteController:
     path: /api/v1/user
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteController
@@ -14,34 +10,9 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController
     path: /api/v1/user
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController
     methods: GET
-CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController:
-    path: /api/v1/user
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsUpdateController
-    methods: PUT
-CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordUpdateController:
-    path: /api/v1/user/password
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordUpdateController
-    methods: PUT
-CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController:
-    path: /api/v1/password/reset
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetMailSendController
-    methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetTokenVerifyController:
-    path: /api/v1/password/reset
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\PasswordResetTokenVerifyController
-    methods: GET
 CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController:
     path: /api/v1/quiz/room/{quizRoomId}/participant/{participantId}
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController
-    methods: DELETE
-
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\RegistrationController:
-    path: /api/v1/device
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\RegistrationController
-    methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\DeleteController:
-    path: /api/v1/device
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Device\DeleteController
     methods: DELETE
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:

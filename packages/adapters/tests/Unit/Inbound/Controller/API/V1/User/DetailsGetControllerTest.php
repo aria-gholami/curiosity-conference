@@ -48,10 +48,6 @@ final class DetailsGetControllerTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $quizRoom = new QuizRoom(
             'test',
@@ -79,7 +75,7 @@ final class DetailsGetControllerTest extends TestCase
 
         $jsonResponse = $this->detailsGetController->__invoke($request);
 
-        self::assertSame('{"email":"test","firstName":"test","lastName":"test","highscores":[{"id":"test","quizRoomId":"test","quizRoomStatus":"started","quizId":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","score":1},{"id":"test2","quizRoomId":"test","quizRoomStatus":"started","quizId":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","score":2}]}', $jsonResponse->getContent());
+        self::assertSame('{"userName":"test","highscores":[{"id":"test","quizRoomId":"test","quizRoomStatus":"started","quizId":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","score":1},{"id":"test2","quizRoomId":"test","quizRoomStatus":"started","quizId":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","score":2}]}', $jsonResponse->getContent());
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
         self::assertSame('test', $this->detailsGetHandlerMock->inputId->value);
         self::assertEquals([], $this->loggerMock->logs);
@@ -90,10 +86,6 @@ final class DetailsGetControllerTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $this->detailsGetHandlerMock->outputUser = $user;
         $request = new Request(
@@ -121,10 +113,6 @@ final class DetailsGetControllerTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $this->detailsGetHandlerMock->outputUser = $user;
         $this->detailsGetHandlerMock->throwException = new LoadEntityFailedException('test');

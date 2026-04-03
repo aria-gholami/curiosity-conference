@@ -31,12 +31,10 @@ final readonly class ListRoomController
                     'quizTitle' => $quizRoom->getQuiz()->getTitle(),
                     'quizDescription' => $quizRoom->getQuiz()->getDescription(),
                     'quizCategory' => $quizRoom->getQuiz()->getCategory(),
-                    'hostFirstName' => $quizRoom->getHost()->getFirstName(),
-                    'hostLastName' => $quizRoom->getHost()->getLastName(),
+                    'hostUserName' => $quizRoom->getHost()->getUserName(),
                     'participants' => \array_map(static function (User $participant) {
                         return [
-                            'firstName' => $participant->getFirstName(),
-                            'lastName' => $participant->getLastName(),
+                            'userName' => $participant->getUserName(),
                         ];
                     }, $quizRoom->getParticipants()->toArray()),
                 ];
