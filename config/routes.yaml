@@ -84,6 +84,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateContr
     path: /api/v1/highscore
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateController
     methods: PUT
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByRoomController:
+    path: /api/v1/quiz/room/{quizRoomId}/highscores
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByRoomController
+    methods: GET
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
     path: /api/v1/question

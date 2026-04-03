@@ -155,6 +155,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByRoomController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\ListHighscoreByRoomHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\ByEmailLoader:
     arguments:
@@ -253,6 +259,10 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
       - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\Quiz\HighscoreLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\HighscoreCollectionByQuizRoomLoader:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
       - '@api.v1.quiz.logger'
