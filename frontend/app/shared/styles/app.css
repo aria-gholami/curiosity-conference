@@ -1,0 +1,78 @@
+@import 'tailwindcss';
+
+@theme {
+    --color-turquoise: #3DD6E0;
+    --color-accent-orange: #E66727;
+    --color-accent-orange-hover: #cf5a1f;
+    --color-dark-blue: #093C66;
+    --color-card-text: #54607D;
+
+    --background-main: linear-gradient(
+            135deg,
+            #07192F 0%,
+            #0B2545 45%,
+            #093C66 100%
+    );
+    --background-overlay:
+            radial-gradient(ellipse 120% 80% at 60% 0%, rgba(0,122,138,0.18) 0%, transparent 55%),
+            radial-gradient(ellipse 80% 60% at 0% 100%, rgba(9,60,102,0.28) 0%, transparent 50%),
+            radial-gradient(ellipse 70% 70% at 100% 60%, rgba(122,154,170,0.16) 0%, transparent 50%);
+    --color-turquoise-glow: rgba(0, 122, 138, 0.16);
+    --color-dark-blue-glow: rgba(9, 60, 102, 0.18);
+    --color-light-blue-glow: rgba(122, 154, 170, 0.14);
+
+    --color-text-light: #D7DFEE;
+    --color-text-soft: #B9C4D8;
+    --color-text-button: #E6ECF5;
+    --color-text-muted: #AAB6CB;
+}
+
+@layer components {
+    .btn {
+        @apply inline-flex items-center justify-center rounded-full font-semibold transition-all duration-150 active:scale-95 active:shadow-sm active:brightness-95;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center rounded-full font-semibold transition-all duration-150 active:scale-95 active:shadow-sm active:brightness-95 cursor-pointer bg-accent-orange text-white shadow-sm hover:-translate-y-0.5 hover:bg-accent-orange-hover hover:shadow-md;
+    }
+
+    .btn-secondary {
+        @apply inline-flex items-center justify-center rounded-full font-semibold transition-all duration-150 active:scale-95 active:shadow-sm active:brightness-95 cursor-pointer border border-white/20 bg-white/10 text-text-button shadow-sm backdrop-blur-sm hover:bg-white/20 hover:shadow-md;
+    }
+
+    .btn-sm {
+        @apply px-4 py-2 text-xs;
+    }
+
+    .btn-md {
+        @apply px-5 py-2.5 text-xs;
+    }
+
+    .btn-lg {
+        @apply px-7 py-3.5;
+    }
+
+    .card {
+        @apply relative flex flex-col overflow-hidden rounded-[2rem] border border-white/20 bg-white/90 shadow-[0_8px_32px_rgba(0,0,0,0.20)] transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_16px_40px_rgba(0,0,0,0.28)];
+    }
+
+    .glass {
+        @apply border border-white/10 bg-white/10 backdrop-blur-2xl shadow-[0_32px_80px_rgba(0,0,0,0.25)];
+    }
+
+    .icon-box {
+        @apply inline-flex items-center justify-center rounded-xl border shadow-sm transition-transform duration-300 group-hover:-rotate-3 group-hover:scale-110;
+    }
+
+    .input {
+        @apply w-full rounded-2xl px-4 py-3 text-sm outline-none transition
+        border border-white/20 bg-white text-dark-blue
+        placeholder:text-card-text/70
+        focus:border-turquoise focus:ring-4 focus:ring-turquoise/15
+        focus:shadow-sm;
+    }
+
+    .input-label {
+        @apply mb-2 block text-sm font-medium text-card-text;
+    }
+}
