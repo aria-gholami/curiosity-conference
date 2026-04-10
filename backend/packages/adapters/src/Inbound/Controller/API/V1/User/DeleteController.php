@@ -7,7 +7,7 @@ namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\User;
 use CuriosityConference\Application\Port\Inbound\User\DeleteHandler;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Exception\EmptyStringException;
-use CuriosityConference\Domain\User\Model\UserName;
+use CuriosityConference\Domain\User\Model\Id;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,10 +24,10 @@ final readonly class DeleteController
     public function __invoke(Request $request): JsonResponse
     {
         try {
-            $userName = new UserName(
-                $request->query->getString('userName'),
+            $userId = new Id(
+                $request->query->getString('userId'),
             );
-            $this->deleteHandler->handle($userName);
+            $this->deleteHandler->handle($userId);
 
             return new JsonResponse([], Response::HTTP_NO_CONTENT);
         } catch (EmptyStringException $exception) {

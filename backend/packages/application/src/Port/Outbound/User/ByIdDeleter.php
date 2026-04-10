@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\Port\Outbound\User;
 
 use CuriosityConference\Domain\Exception\DeleteFailedException;
-use CuriosityConference\Domain\User\Model\UserName;
+use CuriosityConference\Domain\User\Model\Id;
 
-interface ByUserNameDeleter
+interface ByIdDeleter
 {
     /**
      * @throws DeleteFailedException
      */
-    public function delete(UserName $userName): void;
+    public function delete(Id $userId): void;
 }

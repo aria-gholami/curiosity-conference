@@ -12,7 +12,7 @@ services:
       - '@CuriosityConference\Adapters\Outbound\User\Persister'
   CuriosityConference\Application\UseCase\User\DeleteHandler:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\ByUserNameDeleter'
+      - '@CuriosityConference\Adapters\Outbound\User\ByIdDeleter'
   CuriosityConference\Application\UseCase\User\DetailsGetHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'

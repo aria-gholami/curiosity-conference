@@ -128,7 +128,7 @@ services:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
-  CuriosityConference\Adapters\Outbound\User\ByUserNameDeleter:
+  CuriosityConference\Adapters\Outbound\User\ByIdDeleter:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'

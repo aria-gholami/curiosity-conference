@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\UseCase\User;
 
 use CuriosityConference\Application\Port\Inbound\User\DeleteHandler as DeleteHandlerInterface;
-use CuriosityConference\Application\Port\Outbound\User\ByUserNameDeleter;
+use CuriosityConference\Application\Port\Outbound\User\ByIdDeleter;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
-use CuriosityConference\Domain\User\Model\UserName;
+use CuriosityConference\Domain\User\Model\Id;
 
 /**
  * @codeCoverageIgnore
@@ -17,7 +17,7 @@ use CuriosityConference\Domain\User\Model\UserName;
 final readonly class DeleteHandler implements DeleteHandlerInterface
 {
     public function __construct(
-        private ByUserNameDeleter $byEmailDeleter,
+        private ByIdDeleter $byIdDeleter,
     ) {
     }
 
@@ -25,8 +25,8 @@ final readonly class DeleteHandler implements DeleteHandlerInterface
      * @throws DeleteFailedException
      */
     #[\Override]
-    public function handle(UserName $userName): void
+    public function handle(Id $userId): void
     {
-        $this->byEmailDeleter->delete($userName);
+        $this->byIdDeleter->delete($userId);
     }
 }

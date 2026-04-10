@@ -36,7 +36,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'DELETE',
-            '/api/v1/user?userName=test',
+            '/api/v1/user?userId=' . $response['id'],
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
@@ -115,7 +115,7 @@ final class DeleteControllerTest extends AbstractWebTestCase
         self::assertSame('Unauthorized.', $response['message']);
     }
 
-    public function testDeleteUserWithNotExistingUserName(): void
+    public function testDeleteUserWithNotExistingUserId(): void
     {
         $payload = [
             'userName' => 'test',
@@ -137,12 +137,20 @@ final class DeleteControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'DELETE',
-            '/api/v1/user?userName=invalid',
+            '/api/v1/user?userId=invalid',
             server: [
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
                 'HTTP_AUTHORIZATION' => 'Bearer ' . $response['token'],
             ],
         );
-        self::assertResponseStatusCodeSame(Response::HTTP_NO_CONTENT);
+        $response = \json_decode(
+            $this->client->getResponse()->getContent(),
+            true,
+            flags: \JSON_THROW_ON_ERROR,
+        );
+
+        self::assertResponseStatusCodeSame(Response::HTTP_INTERNAL_SERVER_ERROR);
+        self::assertArrayHasKey('message', $response);
+        self::assertSame('Internal Server Error.', $response['message']);
     }
 }
