@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\Port\Inbound\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom as QuizRoomEntity;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
@@ -16,5 +17,5 @@ interface CreateRoomHandler
      * @throws LoadEntityFailedException
      * @throws PersistFailedException
      */
-    public function handleAndGet(QuizRoom $quizRoom): string;
+    public function handleAndGet(QuizRoom $quizRoom): QuizRoomEntity;
 }

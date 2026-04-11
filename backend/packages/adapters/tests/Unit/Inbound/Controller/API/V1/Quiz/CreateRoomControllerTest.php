@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateRoomController;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom as QuizRoomEntity;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks\CreateRoomHandlerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\EmptyStringException;
@@ -37,7 +40,26 @@ final class CreateRoomControllerTest extends TestCase
 
     public function testCreateRoomIsValid(): void
     {
-        $this->createRoomHandlerMock->outputQuizRoomId = '1';
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $user = new User(
+            'test',
+            'test',
+        );
+        $quizRoom = new QuizRoomEntity(
+            'test',
+            $quiz,
+            null,
+            $user,
+            QuizRoomEntity::STATUS_STARTED,
+        );
+        $quizRoom->addParticipant($user);
+        $quizRoom->addParticipant($user);
+        $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $payload = [
             'quizId' => 'test',
             'hostId' => 'test',
@@ -55,7 +77,7 @@ final class CreateRoomControllerTest extends TestCase
         $response = $this->createRoomController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"id":"1"}', $response->getContent());
+        self::assertSame('{"id":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","hostUserName":"test","status":"started","participants":[{"userName":"test"}]}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
         self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
         self::assertEquals([], $this->loggerMock->logs);
@@ -63,7 +85,26 @@ final class CreateRoomControllerTest extends TestCase
 
     public function testCreateRoomWithEmptyStringException(): void
     {
-        $this->createRoomHandlerMock->outputQuizRoomId = '1';
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $user = new User(
+            'test',
+            'test',
+        );
+        $quizRoom = new QuizRoomEntity(
+            'test',
+            $quiz,
+            null,
+            $user,
+            QuizRoomEntity::STATUS_STARTED,
+        );
+        $quizRoom->addParticipant($user);
+        $quizRoom->addParticipant($user);
+        $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $payload = [
             'quizId' => '',
             'hostId' => 'test',
@@ -97,7 +138,26 @@ final class CreateRoomControllerTest extends TestCase
     public function testCreateRoomWithPersistFailedException(): void
     {
         $this->createRoomHandlerMock->throwException = new PersistFailedException('test');
-        $this->createRoomHandlerMock->outputQuizRoomId = '1';
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $user = new User(
+            'test',
+            'test',
+        );
+        $quizRoom = new QuizRoomEntity(
+            'test',
+            $quiz,
+            null,
+            $user,
+            QuizRoomEntity::STATUS_STARTED,
+        );
+        $quizRoom->addParticipant($user);
+        $quizRoom->addParticipant($user);
+        $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $payload = [
             'quizId' => 'test',
             'hostId' => 'test',
@@ -133,7 +193,26 @@ final class CreateRoomControllerTest extends TestCase
     public function testCreateRoomWithLoadEntityFailedException(): void
     {
         $this->createRoomHandlerMock->throwException = new LoadEntityFailedException('test');
-        $this->createRoomHandlerMock->outputQuizRoomId = '1';
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $user = new User(
+            'test',
+            'test',
+        );
+        $quizRoom = new QuizRoomEntity(
+            'test',
+            $quiz,
+            null,
+            $user,
+            QuizRoomEntity::STATUS_STARTED,
+        );
+        $quizRoom->addParticipant($user);
+        $quizRoom->addParticipant($user);
+        $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $payload = [
             'quizId' => 'test',
             'hostId' => 'test',

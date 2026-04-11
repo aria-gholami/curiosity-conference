@@ -35,7 +35,7 @@ final readonly class CreateRoomHandler implements CreateRoomHandlerInterface
      * @throws PersistFailedException
      */
     #[\Override]
-    public function handleAndGet(QuizRoom $quizRoom): string
+    public function handleAndGet(QuizRoom $quizRoom): QuizRoomEntity
     {
         $quiz = $this->quizByIdLoader->load(new Id($quizRoom->quizId));
         $host = $this->userByIdLoader->load($quizRoom->hostId);

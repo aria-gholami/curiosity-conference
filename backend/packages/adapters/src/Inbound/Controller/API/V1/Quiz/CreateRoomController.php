@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Port\Inbound\Quiz\CreateRoomHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -30,9 +31,21 @@ final readonly class CreateRoomController
                 $data['quizId'] ?? '',
                 $data['hostId'] ?? '',
             );
-            $id = $this->createRoomHandler->handleAndGet($quizRoom);
+            $quizRoom = $this->createRoomHandler->handleAndGet($quizRoom);
 
-            return new JsonResponse(['id' => $id], Response::HTTP_CREATED);
+            return new JsonResponse([
+                'id' => $quizRoom->getId(),
+                'quizTitle' => $quizRoom->getQuiz()->getTitle(),
+                'quizDescription' => $quizRoom->getQuiz()->getDescription(),
+                'quizCategory' => $quizRoom->getQuiz()->getCategory(),
+                'hostUserName' => $quizRoom->getHost()->getUserName(),
+                'status' => $quizRoom->getStatus(),
+                'participants' => \array_map(static function (User $participant) {
+                    return [
+                        'userName' => $participant->getUserName(),
+                    ];
+                }, $quizRoom->getParticipants()->toArray()),
+            ], Response::HTTP_CREATED);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/quiz/room is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),

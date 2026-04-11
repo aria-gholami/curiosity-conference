@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom as QuizRoomEntity;
 use CuriosityConference\Application\Port\Inbound\Quiz\CreateRoomHandler;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
@@ -12,7 +13,7 @@ use CuriosityConference\Domain\Quiz\QuizRoom;
 final class CreateRoomHandlerMock implements CreateRoomHandler
 {
     public QuizRoom $inputQuizRoom;
-    public string $outputQuizRoomId;
+    public QuizRoomEntity $outputQuizRoom;
     public ?\Exception $throwException = null;
 
     /**
@@ -20,7 +21,7 @@ final class CreateRoomHandlerMock implements CreateRoomHandler
      * @throws PersistFailedException
      */
     #[\Override]
-    public function handleAndGet(QuizRoom $quizRoom): string
+    public function handleAndGet(QuizRoom $quizRoom): QuizRoomEntity
     {
         $this->inputQuizRoom = $quizRoom;
         if ($this->throwException instanceof PersistFailedException) {
@@ -30,6 +31,6 @@ final class CreateRoomHandlerMock implements CreateRoomHandler
             throw $this->throwException;
         }
 
-        return $this->outputQuizRoomId;
+        return $this->outputQuizRoom;
     }
 }

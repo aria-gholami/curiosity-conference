@@ -21,6 +21,7 @@ use Symfony\Component\Uid\Uuid;
  */
 final class QuizRoomFixture extends Fixture
 {
+    #[\Override]
     public function load(ObjectManager $manager): void
     {
         $quiz = new Quiz(
