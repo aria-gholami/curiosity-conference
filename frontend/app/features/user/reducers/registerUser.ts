@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type {UserState} from "~/features/user/state/Initial";
-import type {RegistrationRequestBody} from "~/features/user/state/RegistrationRequestBody";
-import type {RootState} from "~/redux/store";
-import type RegistrationResponse from "~/features/user/state/RegistrationResponse";
+import type { UserState } from '~/features/user/state/Initial';
+import type { RegistrationRequestBody } from '~/features/user/state/RegistrationRequestBody';
+import type { RootState } from '~/redux/store';
+import type RegistrationResponse from '~/features/user/state/RegistrationResponse';
 
 export const registerUser = createAsyncThunk<
     UserState,

@@ -1,7 +1,7 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import initialState, {type UserState} from "~/features/user/state/Initial";
-import {registerUser} from "~/features/user/reducers/registerUser";
-import {deleteUser} from "~/features/user/reducers/deleteUser";
+import initialState, { type UserState } from '~/features/user/state/Initial';
+import { registerUser } from '~/features/user/reducers/registerUser';
+import { deleteUser } from '~/features/user/reducers/deleteUser';
 
 const userSlice = createSlice({
     name: 'user',
@@ -34,17 +34,14 @@ const userSlice = createSlice({
             .addCase(deleteUser.pending, (state: UserState) => {
                 state.isLoading = true;
             })
-            .addCase(
-                deleteUser.fulfilled,
-                (state: UserState) => {
-                    state.userId = '';
-                    state.userName = '';
-                    state.isLoading = false;
-                },
-            )
+            .addCase(deleteUser.fulfilled, (state: UserState) => {
+                state.userId = '';
+                state.userName = '';
+                state.isLoading = false;
+            })
             .addCase(deleteUser.rejected, (state: UserState) => {
                 state.isLoading = false;
-            });;
+            });
     },
 });
 

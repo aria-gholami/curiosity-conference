@@ -1,14 +1,16 @@
 import { ArrowRightIcon } from '@heroicons/react/24/solid';
-import { useState } from "react";
-import type { RegistrationRequestBody } from "~/features/user/state/RegistrationRequestBody";
-import { registerUser } from "~/features/user/reducers/registerUser";
-import { useAppDispatch } from "~/redux/hooks";
+import { useState } from 'react';
+import type { RegistrationRequestBody } from '~/features/user/state/RegistrationRequestBody';
+import { registerUser } from '~/features/user/reducers/registerUser';
+import { useAppDispatch } from '~/redux/hooks';
+import { useNavigate } from 'react-router';
 
 type RegistrationPopupProps = {
     open: boolean;
 };
 
 export default function RegistrationPopup({ open }: RegistrationPopupProps) {
+    const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [userName, setUserName] = useState('');
 
@@ -42,9 +44,7 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
 
                     <div className="mt-8 space-y-4">
                         <div>
-                            <label className="input-label">
-                                Username
-                            </label>
+                            <label className="input-label">Username</label>
 
                             <input
                                 type="text"
@@ -59,9 +59,10 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
                         <button
                             onClick={() => {
                                 const registrationRequestBody: RegistrationRequestBody = {
-                                    userName: userName
+                                    userName: userName,
                                 };
                                 dispatch(registerUser(registrationRequestBody) as any);
+                                navigate('/');
                             }}
                             className="btn-primary group gap-2.5 px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)]"
                         >

@@ -1,12 +1,11 @@
-import {useEffect} from "react";
-import type {UserState} from "~/features/user/state/Initial";
-import {useAppSelector} from "~/redux/hooks";
+import { useEffect } from 'react';
+import type { UserState } from '~/features/user/state/Initial';
+import { useAppSelector } from '~/redux/hooks';
 
 export const useDisplayRegistrationPopup = (
-    setIsPopupOpen: (shouldDisplayPopup: boolean) => void) => {
-    const userState: UserState = useAppSelector(
-        (state) => state.user,
-    );
+    setIsPopupOpen: (shouldDisplayPopup: boolean) => void,
+) => {
+    const userState: UserState = useAppSelector((state) => state.user);
 
     useEffect(() => {
         if (userState.userId === '') {

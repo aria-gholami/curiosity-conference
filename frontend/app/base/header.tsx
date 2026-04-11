@@ -1,9 +1,9 @@
 import { SparklesIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
-import type { UserState } from "~/features/user/state/Initial";
-import { useAppDispatch, useAppSelector } from "~/redux/hooks";
-import { deleteUser } from "~/features/user/reducers/deleteUser";
-import type { UserDeleteRequestBody } from "~/features/user/state/UserDeleteRequestBody";
+import type { UserState } from '~/features/user/state/Initial';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { deleteUser } from '~/features/user/reducers/deleteUser';
+import type { UserDeleteRequestBody } from '~/features/user/state/UserDeleteRequestBody';
 
 export default function Header() {
     const dispatch = useAppDispatch();
@@ -38,10 +38,7 @@ export default function Header() {
                 </a>
 
                 <div className="hidden md:block">
-                    <a
-                        className="btn-primary btn-sm select-none"
-                        onClick={handleLogout}
-                    >
+                    <a className="btn-primary btn-sm select-none" onClick={handleLogout}>
                         {isLoggedIn ? 'Logout' : 'Login'}
                     </a>
                 </div>
@@ -79,9 +76,7 @@ export default function Header() {
                     <nav className="flex flex-col">
                         <a
                             className={`btn-primary btn-md mt-3 text-center select-none ${
-                                mobileOpen
-                                    ? 'translate-y-0 opacity-100'
-                                    : 'translate-y-2 opacity-0'
+                                mobileOpen ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
                             }`}
                             onClick={handleLogout}
                         >

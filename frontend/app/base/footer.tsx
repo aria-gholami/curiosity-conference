@@ -1,4 +1,4 @@
-import {SparklesIcon} from "@heroicons/react/24/solid";
+import { SparklesIcon } from '@heroicons/react/24/solid';
 
 export default function Footer() {
     const links = [
@@ -7,9 +7,7 @@ export default function Footer() {
     ];
 
     return (
-        <footer
-            className="border-t border-slate-300/60 bg-white/70 font-sans shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-[20px]"
-        >
+        <footer className="border-t border-slate-300/60 bg-white/70 font-sans shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-[20px]">
             <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-5 sm:px-8 md:flex-row md:justify-between">
                 <div className="flex items-center gap-2">
                     <SparklesIcon className="h-3.5 w-3.5 text-indigo-400" />
@@ -18,8 +16,7 @@ export default function Footer() {
                     </span>
                 </div>
 
-                <div
-                    className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent md:hidden"/>
+                <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent md:hidden" />
 
                 <nav aria-label="Footer navigation">
                     <ul className="flex items-center gap-1" role="list">

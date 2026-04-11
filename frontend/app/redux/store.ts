@@ -1,8 +1,9 @@
 import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import quizRoomCreateSlice from '~/features/quizRoomCreate/quizRoomCreateSlice';
-import userSlice from "~/features/user/userSlice";
+import quizRoomSlice from '~/features/quizRoom/quizRoomSlice';
+import userSlice from '~/features/user/userSlice';
+import quizSlice from '~/features/quiz/quizSlice';
 
 const createNoopStorage = () => ({
     getItem(_key: string) {
@@ -34,8 +35,9 @@ const getStorage = () => {
 const storageEngine = getStorage();
 
 const rootReducer = combineReducers({
-    quizRoomCreate: quizRoomCreateSlice.reducer,
+    quizRoom: quizRoomSlice.reducer,
     user: userSlice.reducer,
+    quiz: quizSlice.reducer,
 });
 const persistConfig = {
     key: 'root',

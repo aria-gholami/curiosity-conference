@@ -12,7 +12,7 @@ import { Provider } from 'react-redux';
 import { persistor, store } from './redux/store';
 import { PersistGate } from 'redux-persist/integration/react';
 import Header from './base/header';
-import Footer from "~/base/footer";
+import Footer from '~/base/footer';
 
 export function Layout({ children }: { children: React.ReactNode }) {
     return (

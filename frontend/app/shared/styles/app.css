@@ -1,30 +1,25 @@
 @import 'tailwindcss';
 
 @theme {
-    --color-turquoise: #3DD6E0;
-    --color-accent-orange: #E66727;
+    --color-turquoise: #3dd6e0;
+    --color-accent-orange: #e66727;
     --color-accent-orange-hover: #cf5a1f;
-    --color-dark-blue: #093C66;
-    --color-card-text: #54607D;
+    --color-dark-blue: #093c66;
+    --color-card-text: #54607d;
 
-    --background-main: linear-gradient(
-            135deg,
-            #07192F 0%,
-            #0B2545 45%,
-            #093C66 100%
-    );
+    --background-main: linear-gradient(135deg, #07192f 0%, #0b2545 45%, #093c66 100%);
     --background-overlay:
-            radial-gradient(ellipse 120% 80% at 60% 0%, rgba(0,122,138,0.18) 0%, transparent 55%),
-            radial-gradient(ellipse 80% 60% at 0% 100%, rgba(9,60,102,0.28) 0%, transparent 50%),
-            radial-gradient(ellipse 70% 70% at 100% 60%, rgba(122,154,170,0.16) 0%, transparent 50%);
+        radial-gradient(ellipse 120% 80% at 60% 0%, rgba(0, 122, 138, 0.18) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 0% 100%, rgba(9, 60, 102, 0.28) 0%, transparent 50%),
+        radial-gradient(ellipse 70% 70% at 100% 60%, rgba(122, 154, 170, 0.16) 0%, transparent 50%);
     --color-turquoise-glow: rgba(0, 122, 138, 0.16);
     --color-dark-blue-glow: rgba(9, 60, 102, 0.18);
     --color-light-blue-glow: rgba(122, 154, 170, 0.14);
 
-    --color-text-light: #D7DFEE;
-    --color-text-soft: #B9C4D8;
-    --color-text-button: #E6ECF5;
-    --color-text-muted: #AAB6CB;
+    --color-text-light: #d7dfee;
+    --color-text-soft: #b9c4d8;
+    --color-text-button: #e6ecf5;
+    --color-text-muted: #aab6cb;
 }
 
 @layer components {
@@ -33,11 +28,19 @@
     }
 
     .btn-primary {
-        @apply inline-flex items-center justify-center rounded-full font-semibold transition-all duration-150 active:scale-95 active:shadow-sm active:brightness-95 cursor-pointer bg-accent-orange text-white shadow-sm hover:-translate-y-0.5 hover:bg-accent-orange-hover hover:shadow-md;
+        @apply inline-flex items-center justify-center rounded-full font-semibold transition-all duration-150 active:scale-95 active:shadow-sm active:brightness-95 cursor-pointer bg-accent-orange text-white shadow-sm hover:-translate-y-0.5 hover:bg-accent-orange-hover hover:shadow-md
+        disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none disabled:hover:bg-slate-300;
     }
 
     .btn-secondary {
         @apply inline-flex items-center justify-center rounded-full font-semibold transition-all duration-150 active:scale-95 active:shadow-sm active:brightness-95 cursor-pointer border border-white/20 bg-white/10 text-text-button shadow-sm backdrop-blur-sm hover:bg-white/20 hover:shadow-md;
+    }
+
+    .btn-secondary-light {
+        @apply inline-flex items-center justify-center rounded-full font-semibold transition-all duration-150
+        active:scale-95 active:shadow-sm active:brightness-95
+        cursor-pointer border border-slate-300 bg-white text-dark-blue shadow-sm
+        hover:bg-slate-50 hover:border-slate-400 hover:shadow-md;
     }
 
     .btn-sm {
