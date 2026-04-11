@@ -40,10 +40,6 @@ final class RoomLoaderTest extends TestCase
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $quizRoomGroup = [
             new QuizRoom(
@@ -93,10 +89,42 @@ final class RoomLoaderTest extends TestCase
 
     public function testLoadWithLoadEntityFailedException(): void
     {
-        $quizRoomGroup = [];
+        $quiz = new Quiz(
+            'test',
+            'test',
+            'test',
+            'test',
+        );
+        $user = new User(
+            'test',
+            'test',
+        );
+        $quizRoomGroup = [
+            new QuizRoom(
+                'test',
+                $quiz,
+                null,
+                $user,
+                QuizRoom::STATUS_STARTED,
+            ),
+            new QuizRoom(
+                'test',
+                $quiz,
+                null,
+                $user,
+                QuizRoom::STATUS_STARTED,
+            ),
+            new QuizRoom(
+                'test',
+                $quiz,
+                null,
+                $user,
+                QuizRoom::STATUS_STARTED,
+            ),
+        ];
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findAll')
-            ->willReturn($quizRoomGroup);
+            ->willThrowException(new LoadEntityFailedException('test'));
         try {
             $this->roomLoader->load();
             $this->fail('LoadEntityFailedException was expected to be thrown.');
@@ -121,7 +149,7 @@ final class RoomLoaderTest extends TestCase
                 [
                     'message' => 'Loading quiz rooms was not successful.',
                     'context' => [
-                        'exceptionMessage' => 'Load entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom" was not successful.',
+                        'exceptionMessage' => 'test',
                     ],
                 ],
             ],

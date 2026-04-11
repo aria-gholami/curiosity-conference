@@ -25,14 +25,9 @@ final readonly class RoomLoader implements RoomLoaderInterface
         try {
             $this->logger->info('Start loading quiz rooms.');
             $quizEntityGroup = $this->quizRoomRepository->findAll();
-            $quizRoomCollection = new QuizRoomCollection($quizEntityGroup);
-            if ($quizRoomCollection->isEmpty()) {
-                throw LoadEntityFailedException::loadFailed(QuizRoom::class);
-            }
-
             $this->logger->info('Loading quiz rooms was successful.');
 
-            return $quizRoomCollection;
+            return new QuizRoomCollection($quizEntityGroup);
         } catch (\Throwable $exception) {
             $this->logger->notice('Loading quiz rooms was not successful.');
             $this->logger->debug('Loading quiz rooms was not successful.', [

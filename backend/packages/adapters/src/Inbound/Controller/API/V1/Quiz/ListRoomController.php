@@ -32,6 +32,7 @@ final readonly class ListRoomController
                     'quizDescription' => $quizRoom->getQuiz()->getDescription(),
                     'quizCategory' => $quizRoom->getQuiz()->getCategory(),
                     'hostUserName' => $quizRoom->getHost()->getUserName(),
+                    'status' => $quizRoom->getStatus(),
                     'participants' => \array_map(static function (User $participant) {
                         return [
                             'userName' => $participant->getUserName(),
