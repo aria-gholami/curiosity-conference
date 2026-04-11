@@ -8,7 +8,7 @@ interface QuizRoom {
         category: string;
     };
     host: {
-        userId: string;
+        id: string;
         userName: string;
     };
     status: string;
@@ -31,7 +31,7 @@ const initialState: QuizRoomState = {
             category: '',
         },
         host: {
-            userId: '',
+            id: '',
             userName: '',
         },
         status: '',

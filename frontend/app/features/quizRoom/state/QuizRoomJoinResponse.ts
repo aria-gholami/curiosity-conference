@@ -8,7 +8,7 @@ export interface QuizRoomJoinResponse {
         category: string;
     };
     host: {
-        userId: string;
+        id: string;
         userName: string;
     };
     status: string;

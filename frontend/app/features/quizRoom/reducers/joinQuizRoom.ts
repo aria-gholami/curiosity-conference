@@ -35,7 +35,7 @@ export const joinQuizRoom = createAsyncThunk<
                         category: responseBody.quiz.category,
                     },
                     host: {
-                        userId: responseBody.host.userId,
+                        id: responseBody.host.id,
                         userName: responseBody.host.userName,
                     },
                     status: responseBody.status,

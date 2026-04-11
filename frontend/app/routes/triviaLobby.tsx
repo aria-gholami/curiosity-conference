@@ -2,30 +2,14 @@ import { ArrowRightIcon, PlayIcon, ClipboardDocumentIcon } from '@heroicons/reac
 import { useState } from 'react';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import RegistrationPopup from '~/components/registration/registrationPopup';
+import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
+import { useAppSelector } from '~/redux/hooks';
 
 export default function TriviaLobby() {
+    const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
-
-    const room = {
-        id: 'room-1',
-        name: 'Tech Trivia Lobby',
-        quizTitle: 'Tech Trivia',
-        host: 'Max Mustermann',
-        code: 'TRIVIA-4821',
-        status: 'Waiting',
-        maxPlayers: 8,
-        players: [
-            { id: '1', name: 'Max Mustermann', isHost: true },
-            { id: '2', name: 'Anna Schmidt', isHost: false },
-            { id: '3', name: 'John Doe', isHost: false },
-            { id: '4', name: 'Lisa Müller', isHost: false },
-            { id: '5', name: 'Lisa Müller', isHost: false },
-            { id: '6', name: 'Lisa Müller', isHost: false },
-            { id: '7', name: 'Lisa Müller', isHost: false },
-        ],
-    };
 
     return (
         <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">
@@ -66,32 +50,36 @@ export default function TriviaLobby() {
                                 </div>
 
                                 <div className="rounded-full bg-dark-blue px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">
-                                    {room.players.length} joined
+                                    {quizRoomState.currentRoom.participants.length} joined
                                 </div>
                             </div>
 
                             <div className="mt-6 flex flex-col gap-3">
-                                {room.players.map((player) => (
+                                {quizRoomState.currentRoom.participants.map((participant) => (
                                     <div
-                                        key={player.id}
+                                        key={participant.userName}
                                         className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4"
                                     >
                                         <div className="flex items-center gap-3">
                                             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-dark-blue text-sm font-semibold text-white">
-                                                {player.name.slice(0, 1)}
+                                                {participant.userName.slice(0, 1)}
                                             </div>
 
                                             <div>
                                                 <p className="font-semibold text-dark-blue">
-                                                    {player.name}
+                                                    {participant.userName}
                                                 </p>
                                                 <p className="text-card-text text-sm">
-                                                    {player.isHost ? 'Host' : 'Player'}
+                                                    {participant.userId ===
+                                                    quizRoomState.currentRoom.host.id
+                                                        ? 'Host'
+                                                        : 'Player'}
                                                 </p>
                                             </div>
                                         </div>
 
-                                        {player.isHost && (
+                                        {participant.userId ===
+                                            quizRoomState.currentRoom.host.id && (
                                             <span className="rounded-full bg-turquoise/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-dark-blue">
                                                 Host
                                             </span>

@@ -29,7 +29,7 @@ export const fetchQuizRoomList = createAsyncThunk<QuizRoomState, void, { state: 
                         category: '',
                     },
                     host: {
-                        userId: '',
+                        id: '',
                         userName: '',
                     },
                     status: '',
@@ -43,7 +43,7 @@ export const fetchQuizRoomList = createAsyncThunk<QuizRoomState, void, { state: 
                         category: room.quiz.category,
                     },
                     host: {
-                        userId: room.host.userId,
+                        id: room.host.id,
                         userName: room.host.userName,
                     },
                     status: room.status,

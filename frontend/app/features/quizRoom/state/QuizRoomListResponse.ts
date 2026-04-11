@@ -1,5 +1,6 @@
 export interface Participant {
     userName: string;
+    userId: string;
 }
 
 export interface QuizRoomListItem {
@@ -10,7 +11,7 @@ export interface QuizRoomListItem {
         category: string;
     };
     host: {
-        userId: string;
+        id: string;
         userName: string;
     };
     status: string;
