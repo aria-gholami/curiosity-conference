@@ -294,3 +294,10 @@ services:
       - 'authentication'
     calls:
       - [ pushHandler, [ '@api.v1.authentication.logging-handler' ] ]
+
+  CuriosityConference\Adapters\Outbound\Persistence\Fixtures\QuizFixture:
+    tags:
+      - { name: doctrine.fixture.orm }
+  CuriosityConference\Adapters\Outbound\Persistence\Fixtures\QuizRoomFixture:
+    tags:
+      - { name: doctrine.fixture.orm }
