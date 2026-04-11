@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Port\Inbound\Quiz\JoinRoomHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -31,9 +32,27 @@ final readonly class JoinRoomController
                 $data['quizRoomId'] ?? '',
                 $data['userId'] ?? '',
             );
-            $id = $this->joinRoomHandler->handleAndGet($joinQuizRoom);
+            $quizRoom = $this->joinRoomHandler->handleAndGet($joinQuizRoom);
 
-            return new JsonResponse(['id' => $id], Response::HTTP_CREATED);
+            return new JsonResponse([
+                'id' => $quizRoom->getId(),
+                'quiz' => [
+                    'title' => $quizRoom->getQuiz()->getTitle(),
+                    'description' => $quizRoom->getQuiz()->getDescription(),
+                    'category' => $quizRoom->getQuiz()->getCategory(),
+                ],
+                'host' => [
+                    'id' => $quizRoom->getHost()->getId(),
+                    'userName' => $quizRoom->getHost()->getUserName(),
+                ],
+                'status' => $quizRoom->getStatus(),
+                'participants' => \array_map(static function (User $participant) {
+                    return [
+                        'userId' => $participant->getId(),
+                        'userName' => $participant->getUserName(),
+                    ];
+                }, $quizRoom->getParticipants()->toArray()),
+            ], Response::HTTP_CREATED);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/quiz/room/join is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),

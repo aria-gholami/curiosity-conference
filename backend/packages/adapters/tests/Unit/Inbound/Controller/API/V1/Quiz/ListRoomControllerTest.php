@@ -68,13 +68,15 @@ final class ListRoomControllerTest extends TestCase
         self::assertCount(3, $jsonResponseAsArray['data']);
         foreach ($jsonResponseAsArray['data'] as $jsonResponseItem) {
             self::assertIsArray($jsonResponseItem);
-            self::assertSame(['id', 'quizTitle', 'quizDescription', 'quizCategory', 'hostUserName', 'status', 'participants'], \array_keys($jsonResponseItem));
-            self::assertSame('test', $jsonResponseItem['quizTitle']);
-            self::assertSame('test', $jsonResponseItem['quizDescription']);
-            self::assertSame('test', $jsonResponseItem['quizCategory']);
-            self::assertSame('test', $jsonResponseItem['hostUserName']);
+            self::assertSame(['id', 'quiz', 'host', 'status', 'participants'], \array_keys($jsonResponseItem));
+            self::assertSame('test', $jsonResponseItem['quiz']['title']);
+            self::assertSame('test', $jsonResponseItem['quiz']['description']);
+            self::assertSame('test', $jsonResponseItem['quiz']['category']);
+            self::assertSame('test', $jsonResponseItem['host']['userName']);
+            self::assertSame('test', $jsonResponseItem['host']['id']);
             self::assertSame(QuizRoom::STATUS_STARTED, $jsonResponseItem['status']);
             self::assertSame('test', $jsonResponseItem['participants'][0]['userName']);
+            self::assertSame('test', $jsonResponseItem['participants'][0]['userId']);
         }
         self::assertEquals([], $this->loggerMock->logs);
     }

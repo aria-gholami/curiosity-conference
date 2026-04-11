@@ -28,13 +28,19 @@ final readonly class ListRoomController
             return new JsonResponse(['data' => \array_map(static function (QuizRoom $quizRoom) {
                 return [
                     'id' => $quizRoom->getId(),
-                    'quizTitle' => $quizRoom->getQuiz()->getTitle(),
-                    'quizDescription' => $quizRoom->getQuiz()->getDescription(),
-                    'quizCategory' => $quizRoom->getQuiz()->getCategory(),
-                    'hostUserName' => $quizRoom->getHost()->getUserName(),
+                    'quiz' => [
+                        'title' => $quizRoom->getQuiz()->getTitle(),
+                        'description' => $quizRoom->getQuiz()->getDescription(),
+                        'category' => $quizRoom->getQuiz()->getCategory(),
+                    ],
+                    'host' => [
+                        'id' => $quizRoom->getHost()->getId(),
+                        'userName' => $quizRoom->getHost()->getUserName(),
+                    ],
                     'status' => $quizRoom->getStatus(),
                     'participants' => \array_map(static function (User $participant) {
                         return [
+                            'userId' => $participant->getId(),
                             'userName' => $participant->getUserName(),
                         ];
                     }, $quizRoom->getParticipants()->toArray()),

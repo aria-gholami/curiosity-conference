@@ -51,18 +51,18 @@ final class JoinRoomHandlerTest extends TestCase
             'test',
             'test',
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
-        $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
+        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
+        $this->roomByIdLoaderMock->outputQuizRoom = $expectedQuizRoom;
         $this->userByIdLoaderMock->outputUser = $user;
-        $this->roomParticipantPersisterMock->outputQuizRoomId = 'test';
+        $this->roomParticipantPersisterMock->outputQuizRoom = $expectedQuizRoom;
 
         $joinQuizRoom = new JoinQuizRoom(
             'test',
             'test',
         );
-        $quizRoomId = $this->joinRoomHandler->handleAndGet($joinQuizRoom);
+        $quizRoom = $this->joinRoomHandler->handleAndGet($joinQuizRoom);
 
-        self::assertSame('test', $quizRoomId);
+        self::assertEquals($expectedQuizRoom, $quizRoom);
         self::assertSame('test', $this->roomByIdLoaderMock->inputId);
         self::assertSame('test', $this->userByIdLoaderMock->inputId);
         self::assertSame('test', $this->roomParticipantPersisterMock->inputQuizRoom->getId());
@@ -85,7 +85,7 @@ final class JoinRoomHandlerTest extends TestCase
         $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
         $this->userByIdLoaderMock->outputUser = $user;
-        $this->roomParticipantPersisterMock->outputQuizRoomId = 'test';
+        $this->roomParticipantPersisterMock->outputQuizRoom = $quizRoom;
 
         $joinQuizRoom = new JoinQuizRoom(
             'test',

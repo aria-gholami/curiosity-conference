@@ -77,7 +77,7 @@ final class CreateRoomControllerTest extends TestCase
         $response = $this->createRoomController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"id":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","hostUserName":"test","status":"started","participants":[{"userName":"test"}]}', $response->getContent());
+        self::assertSame('{"id":"test","quiz":{"title":"test","description":"test","category":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
         self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
         self::assertEquals([], $this->loggerMock->logs);

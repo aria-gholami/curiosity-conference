@@ -29,7 +29,7 @@ final readonly class JoinRoomHandler implements JoinRoomHandlerInterface
      * @throws QuizRoomIsAlreadyStartedException
      */
     #[\Override]
-    public function handleAndGet(JoinQuizRoom $joinQuizRoom): string
+    public function handleAndGet(JoinQuizRoom $joinQuizRoom): QuizRoom
     {
         $quizRoom = $this->roomByIdLoader->load($joinQuizRoom->quizRoomId);
         if (QuizRoom::STATUS_CREATED !== $quizRoom->getStatus()) {

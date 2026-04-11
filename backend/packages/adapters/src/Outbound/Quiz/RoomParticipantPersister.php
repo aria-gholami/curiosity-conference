@@ -22,7 +22,7 @@ final readonly class RoomParticipantPersister implements RoomParticipantPersiste
      * @throws PersistFailedException
      */
     #[\Override]
-    public function persist(QuizRoom $quizRoom): string
+    public function persist(QuizRoom $quizRoom): QuizRoom
     {
         try {
             $this->logger->info('Start persisting new quiz room participant.', [
@@ -34,7 +34,7 @@ final readonly class RoomParticipantPersister implements RoomParticipantPersiste
                 'quizId' => $quizRoom->getId(),
             ]);
 
-            return $quizRoom->getId();
+            return $quizRoom;
         } catch (\Throwable $exception) {
             $this->logger->notice('Persisting new quiz room participant was not successful.', [
                 'quizId' => $quizRoom->getId(),

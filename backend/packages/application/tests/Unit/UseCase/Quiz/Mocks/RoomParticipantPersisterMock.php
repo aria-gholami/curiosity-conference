@@ -10,13 +10,13 @@ use CuriosityConference\Application\Port\Outbound\Quiz\RoomParticipantPersister;
 final class RoomParticipantPersisterMock implements RoomParticipantPersister
 {
     public QuizRoom $inputQuizRoom;
-    public string $outputQuizRoomId;
+    public QuizRoom $outputQuizRoom;
 
     #[\Override]
-    public function persist(QuizRoom $quizRoom): string
+    public function persist(QuizRoom $quizRoom): QuizRoom
     {
         $this->inputQuizRoom = $quizRoom;
 
-        return $this->outputQuizRoomId;
+        return $this->outputQuizRoom;
     }
 }
