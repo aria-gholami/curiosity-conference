@@ -44,8 +44,6 @@ final class ByQuizLoadHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $this->quizByIdLoaderMock->outputQuiz = $quiz;
         $inputQuestionCollection = new QuestionCollection([
@@ -65,16 +63,12 @@ final class ByQuizLoadHandlerTest extends TestCase
         self::assertSame($id->value, $this->quizByIdLoaderMock->inputId->value);
         self::assertSame($quiz->getId(), $this->questionByIdLoaderMock->inputQuiz->getId());
         self::assertSame($quiz->getTitle(), $this->questionByIdLoaderMock->inputQuiz->getTitle());
-        self::assertSame($quiz->getCategory(), $this->questionByIdLoaderMock->inputQuiz->getCategory());
-        self::assertSame($quiz->getDescription(), $this->questionByIdLoaderMock->inputQuiz->getDescription());
         self::assertEquals([], $this->loggerMock->logs);
     }
 
     public function testHandleWithLoadEntityFailedException(): void
     {
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );

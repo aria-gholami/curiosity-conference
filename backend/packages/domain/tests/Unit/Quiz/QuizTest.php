@@ -17,13 +17,9 @@ final class QuizTest extends TestCase
     {
         $quiz = new Quiz(
             'test',
-            'test',
-            'test',
         );
 
         self::assertSame('test', $quiz->title);
-        self::assertSame('test', $quiz->description);
-        self::assertSame('test', $quiz->category);
     }
 
     #[DataProvider('provideEmptyData')]
@@ -32,8 +28,6 @@ final class QuizTest extends TestCase
         try {
             new Quiz(
                 $payload['title'] ?? '',
-                $payload['description'] ?? '',
-                $payload['category'] ?? '',
             );
             $this->fail('EmptyStringException was expected to be thrown.');
         } catch (EmptyStringException $exception) {
@@ -45,12 +39,8 @@ final class QuizTest extends TestCase
     {
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
         ];
 
         yield 'empty title' => [\array_replace($payload, ['title' => '']), 'quizTitle'];
-        yield 'empty description' => [\array_replace($payload, ['description' => '']), 'quizDescription'];
-        yield 'empty category' => [\array_replace($payload, ['category' => '']), 'quizCategory'];
     }
 }

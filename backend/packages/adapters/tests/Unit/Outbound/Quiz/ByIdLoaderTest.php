@@ -38,8 +38,6 @@ final class ByIdLoaderTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $this->quizEntityRepositoryMock->expects($this->once())
             ->method('findOneBy')
@@ -51,8 +49,6 @@ final class ByIdLoaderTest extends TestCase
 
         self::assertSame('test', $quiz->getId());
         self::assertSame('test', $quiz->getTitle());
-        self::assertSame('test', $quiz->getDescription());
-        self::assertSame('test', $quiz->getCategory());
         self::assertEquals([
             'info' => [
                 [
@@ -74,8 +70,6 @@ final class ByIdLoaderTest extends TestCase
     public function testLoadWithNoQuizFound(): void
     {
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );
@@ -121,8 +115,6 @@ final class ByIdLoaderTest extends TestCase
     public function testLoadWithDatabaseError(): void
     {
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );

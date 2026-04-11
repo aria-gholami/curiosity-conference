@@ -25,8 +25,6 @@ final class QuizFixture extends Fixture
         $quiz = new Quiz(
             Uuid::v4()->toRfc4122(),
             'Antibody Basics',
-            'Questions about antibodies and the immune system',
-            'Biology',
         );
 
         $manager->persist($quiz);

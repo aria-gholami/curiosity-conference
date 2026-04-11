@@ -44,8 +44,6 @@ final class JoinRoomControllerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
@@ -72,7 +70,7 @@ final class JoinRoomControllerTest extends TestCase
         $response = $this->joinRoomController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"id":"test","quiz":{"title":"test","description":"test","category":"test"},"host":{"id":"test","userName":"test"},"status":"created","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
+        self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"created","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['quizRoomId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->quizRoomId);
         self::assertSame($payload['userId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->userId);
         self::assertEquals([], $this->loggerMock->logs);
@@ -81,8 +79,6 @@ final class JoinRoomControllerTest extends TestCase
     public function testJoinRoomWithEmptyStringException(): void
     {
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );
@@ -125,8 +121,6 @@ final class JoinRoomControllerTest extends TestCase
     public function testJoinRoomWithLoadEntityFailedException(): void
     {
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );
@@ -176,8 +170,6 @@ final class JoinRoomControllerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
@@ -223,8 +215,6 @@ final class JoinRoomControllerTest extends TestCase
     public function testJoinRoomWithQuizRoomIsAlreadyStartedException(): void
     {
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );

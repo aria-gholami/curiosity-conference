@@ -28,8 +28,6 @@ final readonly class ListController
                 return [
                     'id' => $quiz->getId(),
                     'title' => $quiz->getTitle(),
-                    'description' => $quiz->getDescription(),
-                    'category' => $quiz->getCategory(),
                 ];
             }, $quizCollection->data)], Response::HTTP_OK);
         } catch (LoadEntityFailedException $exception) {

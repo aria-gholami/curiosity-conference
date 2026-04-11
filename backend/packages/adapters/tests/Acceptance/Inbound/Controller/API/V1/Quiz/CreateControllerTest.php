@@ -36,8 +36,6 @@ final class CreateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -66,8 +64,6 @@ final class CreateControllerTest extends AbstractWebTestCase
         );
         self::assertIsString($row['id']);
         self::assertSame('test', $row['title']);
-        self::assertSame('test', $row['description']);
-        self::assertSame('test', $row['category']);
     }
 
     public function testCreateQuizWithBadRequest(): void
@@ -91,9 +87,7 @@ final class CreateControllerTest extends AbstractWebTestCase
             flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
-            'title' => 'test',
-            'description' => '',
-            'category' => 'test',
+            'title' => '',
         ];
         $this->client->request(
             'POST',
@@ -139,8 +133,6 @@ final class CreateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -185,8 +177,6 @@ final class CreateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
         ];
         $this->client->request(
             'POST',

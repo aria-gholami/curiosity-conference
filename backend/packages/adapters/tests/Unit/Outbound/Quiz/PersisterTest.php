@@ -42,13 +42,9 @@ final class PersisterTest extends TestCase
         $expectedQuizEntity = new QuizEntity(
             'test',
             'test',
-            'test',
-            'test',
         );
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTitle());
-        self::assertSame($expectedQuizEntity->getDescription(), $this->entityManagerMock->inputPersistedObject[0]->getDescription());
-        self::assertSame($expectedQuizEntity->getCategory(), $this->entityManagerMock->inputPersistedObject[0]->getCategory());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
@@ -66,16 +62,12 @@ final class PersisterTest extends TestCase
                     'message' => 'Start persisting quiz.',
                     'context' => [
                         'quizTitle' => 'test',
-                        'quizDescription' => 'test',
-                        'quizCategory' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Persisting quiz was successful.',
                     'context' => [
                         'quizTitle' => 'test',
-                        'quizDescription' => 'test',
-                        'quizCategory' => 'test',
                     ],
                 ],
             ],
@@ -101,13 +93,9 @@ final class PersisterTest extends TestCase
         $expectedQuizEntity = new QuizEntity(
             'test',
             'test',
-            'test',
-            'test',
         );
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTitle());
-        self::assertSame($expectedQuizEntity->getDescription(), $this->entityManagerMock->inputPersistedObject[0]->getDescription());
-        self::assertSame($expectedQuizEntity->getCategory(), $this->entityManagerMock->inputPersistedObject[0]->getCategory());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
             'info' => [
@@ -121,16 +109,12 @@ final class PersisterTest extends TestCase
                     'message' => 'Start persisting quiz.',
                     'context' => [
                         'quizTitle' => 'test',
-                        'quizDescription' => 'test',
-                        'quizCategory' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Persisting quiz was not successful.',
                     'context' => [
                         'quizTitle' => 'test',
-                        'quizDescription' => 'test',
-                        'quizCategory' => 'test',
                         'exceptionMessage' => 'test',
                     ],
                 ],

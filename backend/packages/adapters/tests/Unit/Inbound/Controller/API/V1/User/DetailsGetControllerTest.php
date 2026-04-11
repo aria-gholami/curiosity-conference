@@ -42,8 +42,6 @@ final class DetailsGetControllerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
@@ -75,7 +73,7 @@ final class DetailsGetControllerTest extends TestCase
 
         $jsonResponse = $this->detailsGetController->__invoke($request);
 
-        self::assertSame('{"userName":"test","highscores":[{"id":"test","quizRoomId":"test","quizRoomStatus":"started","quizId":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","score":1},{"id":"test2","quizRoomId":"test","quizRoomStatus":"started","quizId":"test","quizTitle":"test","quizDescription":"test","quizCategory":"test","score":2}]}', $jsonResponse->getContent());
+        self::assertSame('{"userName":"test","highscores":[{"id":"test","quizRoomId":"test","quizRoomStatus":"started","quizId":"test","quizTitle":"test","score":1},{"id":"test2","quizRoomId":"test","quizRoomStatus":"started","quizId":"test","quizTitle":"test","score":2}]}', $jsonResponse->getContent());
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
         self::assertSame('test', $this->detailsGetHandlerMock->inputId->value);
         self::assertEquals([], $this->loggerMock->logs);

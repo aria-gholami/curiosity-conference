@@ -27,8 +27,6 @@ final readonly class CreateController
             $data = \json_decode($request->getContent(), true);
             $quiz = new Quiz(
                 $data['title'] ?? '',
-                $data['description'] ?? '',
-                $data['category'] ?? '',
             );
             $id = $this->createHandler->handle($quiz);
 

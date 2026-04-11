@@ -4,8 +4,6 @@ interface QuizRoom {
     id: string;
     quiz: {
         title: string;
-        description: string;
-        category: string;
     };
     host: {
         id: string;
@@ -27,8 +25,6 @@ const initialState: QuizRoomState = {
         id: '',
         quiz: {
             title: '',
-            description: '',
-            category: '',
         },
         host: {
             id: '',

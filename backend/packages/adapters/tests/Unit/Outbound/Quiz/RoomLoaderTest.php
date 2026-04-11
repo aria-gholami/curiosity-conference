@@ -34,8 +34,6 @@ final class RoomLoaderTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
@@ -71,8 +69,6 @@ final class RoomLoaderTest extends TestCase
 
         self::assertSame('test', $quizCollection->data[0]->getId());
         self::assertSame('test', $quizCollection->data[0]->getQuiz()->getTitle());
-        self::assertSame('test', $quizCollection->data[0]->getQuiz()->getDescription());
-        self::assertSame('test', $quizCollection->data[0]->getQuiz()->getCategory());
         self::assertEquals([
             'info' => [
                 [
@@ -90,8 +86,6 @@ final class RoomLoaderTest extends TestCase
     public function testLoadWithLoadEntityFailedException(): void
     {
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );

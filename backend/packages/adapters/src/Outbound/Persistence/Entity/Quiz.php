@@ -22,18 +22,10 @@ final class Quiz
     #[ORM\Column(length: 255, unique: true)]
     private string $title;
 
-    #[ORM\Column(length: 255)]
-    private string $description;
-
-    #[ORM\Column(length: 255)]
-    private string $category;
-
-    public function __construct(string $id, string $title, string $description, string $category)
+    public function __construct(string $id, string $title)
     {
         $this->id = $id;
         $this->title = $title;
-        $this->description = $description;
-        $this->category = $category;
     }
 
     public function getId(): string
@@ -44,15 +36,5 @@ final class Quiz
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    public function getDescription(): string
-    {
-        return $this->description;
-    }
-
-    public function getCategory(): string
-    {
-        return $this->category;
     }
 }

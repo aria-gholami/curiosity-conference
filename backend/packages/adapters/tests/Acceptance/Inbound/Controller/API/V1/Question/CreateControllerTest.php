@@ -40,8 +40,6 @@ final class CreateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -129,8 +127,6 @@ final class CreateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -204,8 +200,6 @@ final class CreateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
         ];
         $this->client->request(
             'POST',

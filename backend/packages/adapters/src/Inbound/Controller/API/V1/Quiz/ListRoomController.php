@@ -30,8 +30,6 @@ final readonly class ListRoomController
                     'id' => $quizRoom->getId(),
                     'quiz' => [
                         'title' => $quizRoom->getQuiz()->getTitle(),
-                        'description' => $quizRoom->getQuiz()->getDescription(),
-                        'category' => $quizRoom->getQuiz()->getCategory(),
                     ],
                     'host' => [
                         'id' => $quizRoom->getHost()->getId(),

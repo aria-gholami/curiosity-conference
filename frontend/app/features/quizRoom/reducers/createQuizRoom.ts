@@ -31,8 +31,6 @@ export const createQuizRoom = createAsyncThunk<
                     id: responseBody.id,
                     quiz: {
                         title: responseBody.quiz.title,
-                        description: responseBody.quiz.description,
-                        category: responseBody.quiz.category,
                     },
                     host: {
                         id: responseBody.host.id,

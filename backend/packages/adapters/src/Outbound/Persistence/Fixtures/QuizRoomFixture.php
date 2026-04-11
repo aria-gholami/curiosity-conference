@@ -27,8 +27,6 @@ final class QuizRoomFixture extends Fixture
         $quiz = new Quiz(
             Uuid::v4()->toRfc4122(),
             'Genetics Basics',
-            'Questions about DNA, genes, and cells',
-            'Biology',
         );
 
         $manager->persist($quiz);

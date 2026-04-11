@@ -30,14 +30,10 @@ final readonly class Persister implements PersisterInterface
             $this->logger->info('Start persisting quiz.');
             $this->logger->debug('Start persisting quiz.', [
                 'quizTitle' => $quiz->title,
-                'quizDescription' => $quiz->description,
-                'quizCategory' => $quiz->category,
             ]);
             $quizEntity = new QuizEntity(
                 Uuid::v4()->toRfc4122(),
                 $quiz->title,
-                $quiz->description,
-                $quiz->category,
             );
             $this->userEntityManager->persist($quizEntity);
             $this->userEntityManager->flush();
@@ -45,8 +41,6 @@ final readonly class Persister implements PersisterInterface
             $this->logger->info('Persisting quiz was successful.');
             $this->logger->debug('Persisting quiz was successful.', [
                 'quizTitle' => $quiz->title,
-                'quizDescription' => $quiz->description,
-                'quizCategory' => $quiz->category,
             ]);
 
             return $quizEntity->getId();
@@ -55,8 +49,6 @@ final readonly class Persister implements PersisterInterface
             $this->logger->debug('Persisting quiz was not successful.', [
                 'exceptionMessage' => $exception->getMessage(),
                 'quizTitle' => $quiz->title,
-                'quizDescription' => $quiz->description,
-                'quizCategory' => $quiz->category,
             ]);
 
             throw PersistFailedException::persistFailed(QuizEntity::class);

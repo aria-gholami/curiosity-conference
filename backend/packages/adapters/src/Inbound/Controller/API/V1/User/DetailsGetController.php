@@ -39,8 +39,6 @@ final readonly class DetailsGetController
                         'quizRoomStatus' => $highscore->getQuizRoom()->getStatus(),
                         'quizId' => $highscore->getQuizRoom()->getQuiz()->getId(),
                         'quizTitle' => $highscore->getQuizRoom()->getQuiz()->getTitle(),
-                        'quizDescription' => $highscore->getQuizRoom()->getQuiz()->getDescription(),
-                        'quizCategory' => $highscore->getQuizRoom()->getQuiz()->getCategory(),
                         'score' => $highscore->getScore(),
                     ];
                 }, $user->getHighscores()->toArray()),

@@ -36,18 +36,12 @@ final class LoaderTest extends TestCase
             new QuizEntity(
                 'test',
                 'test',
-                'test',
-                'test',
             ),
             new QuizEntity(
                 'test',
                 'test',
-                'test',
-                'test',
             ),
             new QuizEntity(
-                'test',
-                'test',
                 'test',
                 'test',
             ),
@@ -60,8 +54,6 @@ final class LoaderTest extends TestCase
 
         self::assertSame('test', $quizCollection->data[0]->getId());
         self::assertSame('test', $quizCollection->data[0]->getTitle());
-        self::assertSame('test', $quizCollection->data[0]->getDescription());
-        self::assertSame('test', $quizCollection->data[0]->getCategory());
         self::assertEquals([
             'info' => [
                 [

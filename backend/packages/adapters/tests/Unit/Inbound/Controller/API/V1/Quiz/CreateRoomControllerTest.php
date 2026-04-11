@@ -43,8 +43,6 @@ final class CreateRoomControllerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
@@ -77,7 +75,7 @@ final class CreateRoomControllerTest extends TestCase
         $response = $this->createRoomController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"id":"test","quiz":{"title":"test","description":"test","category":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
+        self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
         self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
         self::assertEquals([], $this->loggerMock->logs);
@@ -86,8 +84,6 @@ final class CreateRoomControllerTest extends TestCase
     public function testCreateRoomWithEmptyStringException(): void
     {
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );
@@ -141,8 +137,6 @@ final class CreateRoomControllerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
@@ -194,8 +188,6 @@ final class CreateRoomControllerTest extends TestCase
     {
         $this->createRoomHandlerMock->throwException = new LoadEntityFailedException('test');
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );

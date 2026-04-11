@@ -37,8 +37,6 @@ final class CreateControllerTest extends TestCase
         $this->createHandlerMock->outputId = '1';
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test@web.de',
         ];
         $request = new Request(
             [],
@@ -55,8 +53,6 @@ final class CreateControllerTest extends TestCase
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
         self::assertSame('{"id":"1"}', $response->getContent());
         self::assertSame($payload['title'], $this->createHandlerMock->inputQuiz->title);
-        self::assertSame($payload['description'], $this->createHandlerMock->inputQuiz->description);
-        self::assertSame($payload['category'], $this->createHandlerMock->inputQuiz->category);
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -93,13 +89,9 @@ final class CreateControllerTest extends TestCase
     {
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
         ];
 
         yield 'empty title' => [\array_replace($payload, ['title' => '']), 'quizTitle'];
-        yield 'empty description' => [\array_replace($payload, ['description' => '']), 'quizDescription'];
-        yield 'empty category' => [\array_replace($payload, ['category' => '']), 'quizCategory'];
     }
 
     public function testCreateWithPersistFailedException(): void
@@ -107,8 +99,6 @@ final class CreateControllerTest extends TestCase
         $this->createHandlerMock->throwException = new PersistFailedException('test');
         $payload = [
             'title' => 'test',
-            'description' => 'test',
-            'category' => 'test@web.de',
         ];
         $request = new Request(
             [],
@@ -125,8 +115,6 @@ final class CreateControllerTest extends TestCase
         self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
         self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
         self::assertSame($payload['title'], $this->createHandlerMock->inputQuiz->title);
-        self::assertSame($payload['description'], $this->createHandlerMock->inputQuiz->description);
-        self::assertSame($payload['category'], $this->createHandlerMock->inputQuiz->category);
         self::assertEquals([
             'notice' => [
                 [

@@ -7,8 +7,6 @@ export interface QuizRoomListItem {
     id: string;
     quiz: {
         title: string;
-        description: string;
-        category: string;
     };
     host: {
         id: string;

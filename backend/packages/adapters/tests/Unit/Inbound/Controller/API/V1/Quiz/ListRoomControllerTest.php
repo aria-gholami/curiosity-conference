@@ -38,8 +38,6 @@ final class ListRoomControllerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
@@ -70,8 +68,6 @@ final class ListRoomControllerTest extends TestCase
             self::assertIsArray($jsonResponseItem);
             self::assertSame(['id', 'quiz', 'host', 'status', 'participants'], \array_keys($jsonResponseItem));
             self::assertSame('test', $jsonResponseItem['quiz']['title']);
-            self::assertSame('test', $jsonResponseItem['quiz']['description']);
-            self::assertSame('test', $jsonResponseItem['quiz']['category']);
             self::assertSame('test', $jsonResponseItem['host']['userName']);
             self::assertSame('test', $jsonResponseItem['host']['id']);
             self::assertSame(QuizRoom::STATUS_STARTED, $jsonResponseItem['status']);
@@ -85,8 +81,6 @@ final class ListRoomControllerTest extends TestCase
     {
         $this->listRoomHandlerMock->throwException = new LoadEntityFailedException('test');
         $quiz = new Quiz(
-            'test',
-            'test',
             'test',
             'test',
         );

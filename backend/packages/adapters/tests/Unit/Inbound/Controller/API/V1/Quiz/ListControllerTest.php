@@ -36,18 +36,12 @@ final class ListControllerTest extends TestCase
             new Quiz(
                 'test',
                 'test',
-                'test',
-                'test',
             ),
             new Quiz(
                 'test',
                 'test',
-                'test',
-                'test',
             ),
             new Quiz(
-                'test',
-                'test',
                 'test',
                 'test',
             ),
@@ -61,11 +55,9 @@ final class ListControllerTest extends TestCase
         self::assertCount(3, $jsonResponseAsArray['data']);
         foreach ($jsonResponseAsArray['data'] as $jsonResponseItem) {
             self::assertIsArray($jsonResponseItem);
-            self::assertSame(['id', 'title', 'description', 'category'], \array_keys($jsonResponseItem));
+            self::assertSame(['id', 'title'], \array_keys($jsonResponseItem));
             self::assertSame('test', $jsonResponseItem['id']);
             self::assertSame('test', $jsonResponseItem['title']);
-            self::assertSame('test', $jsonResponseItem['description']);
-            self::assertSame('test', $jsonResponseItem['category']);
         }
         self::assertEquals([], $this->loggerMock->logs);
     }
@@ -76,18 +68,12 @@ final class ListControllerTest extends TestCase
             new Quiz(
                 'test',
                 'test',
-                'test',
-                'test',
             ),
             new Quiz(
                 'test',
                 'test',
-                'test',
-                'test',
             ),
             new Quiz(
-                'test',
-                'test',
                 'test',
                 'test',
             ),
