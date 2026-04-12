@@ -4,6 +4,7 @@ import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
 import { fetchQuizRoomList } from '~/features/quizRoom/reducers/fetchQuizRoomList';
 import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
 import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse';
+import { fetchActiveQuizRoom } from '~/features/quizRoom/reducers/fetchActiveQuizRoom';
 
 const quizRoomSlice = createSlice({
     name: 'quizRoom',
@@ -49,11 +50,34 @@ const quizRoomSlice = createSlice({
                     state.currentRoom.host.id = action.payload.currentRoom.host.id;
                     state.currentRoom.status = action.payload.currentRoom.status;
                     state.currentRoom.participants = action.payload.currentRoom.participants;
-                    state.rooms = [];
                     state.isLoading = false;
                 },
             )
             .addCase(createQuizRoom.rejected, (state: QuizRoomState) => {
+                state.currentRoom.id = '';
+                state.currentRoom.quiz.title = '';
+                state.currentRoom.host.userName = '';
+                state.currentRoom.host.id = '';
+                state.currentRoom.status = '';
+                state.currentRoom.participants = [];
+                state.isLoading = false;
+            })
+            .addCase(fetchActiveQuizRoom.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(
+                fetchActiveQuizRoom.fulfilled,
+                (state: QuizRoomState, action: PayloadAction<QuizRoomState>) => {
+                    state.currentRoom.id = action.payload.currentRoom.id;
+                    state.currentRoom.quiz.title = action.payload.currentRoom.quiz.title;
+                    state.currentRoom.host.userName = action.payload.currentRoom.host.userName;
+                    state.currentRoom.host.id = action.payload.currentRoom.host.id;
+                    state.currentRoom.status = action.payload.currentRoom.status;
+                    state.currentRoom.participants = action.payload.currentRoom.participants;
+                    state.isLoading = false;
+                },
+            )
+            .addCase(fetchActiveQuizRoom.rejected, (state: QuizRoomState) => {
                 state.currentRoom.id = '';
                 state.currentRoom.quiz.title = '';
                 state.currentRoom.host.userName = '';
@@ -74,7 +98,6 @@ const quizRoomSlice = createSlice({
                     state.currentRoom.host.id = action.payload.currentRoom.host.id;
                     state.currentRoom.status = action.payload.currentRoom.status;
                     state.currentRoom.participants = action.payload.currentRoom.participants;
-                    state.rooms = [];
                     state.isLoading = false;
                 },
             )

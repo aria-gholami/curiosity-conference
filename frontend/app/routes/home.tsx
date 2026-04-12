@@ -3,6 +3,7 @@ import RegistrationPopup from '~/components/registration/registrationPopup';
 import { useState } from 'react';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import { useNavigate } from 'react-router';
+import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 
 export default function Home() {
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
@@ -45,6 +46,7 @@ export default function Home() {
     ];
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
+    useFetchActiveQuizRoom();
 
     return (
         <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">

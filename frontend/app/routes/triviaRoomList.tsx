@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import type { UserState } from '~/features/user/state/Initial';
 import type QuizRoomJoinRequestBody from '~/features/quizRoom/state/QuizRoomJoinRequestBody';
 import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
+import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 
 export default function TriviaRoomList() {
     const navigate = useNavigate();
@@ -22,6 +23,7 @@ export default function TriviaRoomList() {
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
     useFetchQuizRoomList();
+    useFetchActiveQuizRoom();
 
     return (
         <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">
