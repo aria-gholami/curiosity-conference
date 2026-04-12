@@ -21,7 +21,7 @@ final class User
     #[ORM\Column(type: 'uuid')]
     private string $id;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255)]
     private string $userName;
 
     /**
