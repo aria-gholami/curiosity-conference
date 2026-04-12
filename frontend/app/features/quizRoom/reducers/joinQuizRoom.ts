@@ -40,7 +40,7 @@ export const joinQuizRoom = createAsyncThunk<
                     participants: responseBody.participants,
                 },
                 rooms: [],
-                isLoading: true,
+                isLoading: false,
             };
 
             return state;

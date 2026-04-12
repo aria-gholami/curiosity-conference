@@ -1,6 +1,6 @@
 import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse';
 
-interface QuizRoom {
+export interface QuizRoom {
     id: string;
     quiz: {
         title: string;

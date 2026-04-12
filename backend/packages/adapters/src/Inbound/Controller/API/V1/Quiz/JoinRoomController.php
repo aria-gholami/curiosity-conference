@@ -45,7 +45,7 @@ final readonly class JoinRoomController
             }, $quizRoom->getParticipants()->toArray());
 
             $update = new Update(
-                \sprintf('quiz/room/%s', $quizRoom->getId()),
+                \sprintf('quiz/room/%s/participants', $quizRoom->getId()),
                 \json_encode(['participants' => $participants], \JSON_THROW_ON_ERROR),
             );
             $this->hub->publish($update);

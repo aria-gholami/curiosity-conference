@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom as QuizRoomEntity;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks\CreateRoomHandlerMock;
+use CuriosityConference\Adapters\Tests\Unit\Mocks\HubMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -25,15 +26,18 @@ use Symfony\Component\HttpFoundation\Response;
 final class CreateRoomControllerTest extends TestCase
 {
     private CreateRoomHandlerMock $createRoomHandlerMock;
+    private HubMock $hubMock;
     private LoggerMock $loggerMock;
     private CreateRoomController $createRoomController;
 
     protected function setUp(): void
     {
         $this->createRoomHandlerMock = new CreateRoomHandlerMock();
+        $this->hubMock = new HubMock();
         $this->loggerMock = new LoggerMock();
         $this->createRoomController = new CreateRoomController(
             $this->createRoomHandlerMock,
+            $this->hubMock,
             $this->loggerMock,
         );
     }
@@ -58,6 +62,7 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom->addParticipant($user);
         $quizRoom->addParticipant($user);
         $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
+        $this->hubMock->outputUpdate = 'test';
         $payload = [
             'quizId' => 'test',
             'hostId' => 'test',
@@ -78,6 +83,8 @@ final class CreateRoomControllerTest extends TestCase
         self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
         self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
+        self::assertSame('quiz/room/list', $this->hubMock->inputUpdate->getTopics()[0]);
+        self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $this->hubMock->inputUpdate->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 

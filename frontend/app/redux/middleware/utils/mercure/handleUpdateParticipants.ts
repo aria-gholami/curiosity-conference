@@ -10,7 +10,7 @@ export default function handleUpdateParticipants(
         eventSource.close();
     }
 
-    url.searchParams.append('topic', `quiz/room/${roomId}`);
+    url.searchParams.append('topic', `quiz/room/${roomId}/participants`);
     eventSource = new EventSource(url);
     eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);

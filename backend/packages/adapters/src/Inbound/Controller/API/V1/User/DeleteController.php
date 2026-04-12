@@ -12,11 +12,14 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 final readonly class DeleteController
 {
     public function __construct(
         private DeleteHandler $deleteHandler,
+        private HubInterface $hub,
         private LoggerInterface $logger,
     ) {
     }
@@ -28,6 +31,11 @@ final readonly class DeleteController
                 $request->query->getString('userId'),
             );
             $this->deleteHandler->handle($userId);
+
+            $update = new Update(
+                'user/delete',
+            );
+            $this->hub->publish($update);
 
             return new JsonResponse([], Response::HTTP_NO_CONTENT);
         } catch (EmptyStringException $exception) {

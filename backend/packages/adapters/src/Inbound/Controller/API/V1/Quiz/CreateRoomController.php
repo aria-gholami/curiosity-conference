@@ -14,11 +14,14 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 final readonly class CreateRoomController
 {
     public function __construct(
         private CreateRoomHandler $createRoomHandler,
+        private HubInterface $hub,
         private LoggerInterface $logger,
     ) {
     }
@@ -33,7 +36,7 @@ final readonly class CreateRoomController
             );
             $quizRoom = $this->createRoomHandler->handleAndGet($quizRoom);
 
-            return new JsonResponse([
+            $response = [
                 'id' => $quizRoom->getId(),
                 'quiz' => [
                     'title' => $quizRoom->getQuiz()->getTitle(),
@@ -49,7 +52,15 @@ final readonly class CreateRoomController
                         'userName' => $participant->getUserName(),
                     ];
                 }, $quizRoom->getParticipants()->toArray()),
-            ], Response::HTTP_CREATED);
+            ];
+
+            $update = new Update(
+                'quiz/room/list',
+                \json_encode($response, \JSON_THROW_ON_ERROR),
+            );
+            $this->hub->publish($update);
+
+            return new JsonResponse($response, Response::HTTP_CREATED);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/quiz/room is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),
