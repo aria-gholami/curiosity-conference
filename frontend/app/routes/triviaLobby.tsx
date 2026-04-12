@@ -5,6 +5,7 @@ import RegistrationPopup from '~/components/registration/registrationPopup';
 import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import { useAppSelector } from '~/redux/hooks';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
+import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirect';
 
 export default function TriviaLobby() {
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
@@ -12,6 +13,7 @@ export default function TriviaLobby() {
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
     useFetchActiveQuizRoom();
+    useLobbyNotFoundRedirect();
 
     return (
         <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">

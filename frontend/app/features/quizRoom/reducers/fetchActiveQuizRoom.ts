@@ -22,6 +22,24 @@ export const fetchActiveQuizRoom = createAsyncThunk<
             if (!response.ok) {
                 throw new Error('Response by fetch active quiz room api is invalid.');
             }
+            if (response.status === 204) {
+                return {
+                    currentRoom: {
+                        id: '',
+                        quiz: {
+                            title: '',
+                        },
+                        host: {
+                            id: '',
+                            userName: '',
+                        },
+                        status: '',
+                        participants: [],
+                    },
+                    rooms: [],
+                    isLoading: true,
+                };
+            }
 
             const responseBody: ActiveQuizRoomLoadResponse = await response.json();
             const state: QuizRoomState = {

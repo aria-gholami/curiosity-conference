@@ -4,6 +4,7 @@ import type { UserState } from '~/features/user/state/Initial';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { deleteUser } from '~/features/user/reducers/deleteUser';
 import type { UserDeleteRequestBody } from '~/features/user/state/UserDeleteRequestBody';
+import { resetCurrentRoom, resetRooms } from '~/features/quizRoom/quizRoomSlice';
 
 export default function Header() {
     const dispatch = useAppDispatch();
@@ -22,6 +23,8 @@ export default function Header() {
         };
 
         dispatch(deleteUser(userDeleteRequestBody) as any);
+        dispatch(resetCurrentRoom() as any);
+        dispatch(resetRooms() as any);
         setMobileOpen(false);
     };
 
