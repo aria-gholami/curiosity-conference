@@ -24,6 +24,9 @@
         <env name="DATABASE_URL" value="mysql://root:root@db:3306/db?charset=utf8"/>
         <env name="ADMIN_EMAIL" value="test@test.de"/>
         <env name="MAILER_DSN" value="smtp://web:1025"/>
+        <env name="MERCURE_URL" value="http://mercure/.well-known/mercure"/>
+        <env name="MERCURE_PUBLIC_URL" value="https://mercure.curiosity-conference.ddev.site:8091/.well-known/mercure"/>
+        <env name="MERCURE_JWT_SECRET" value="oCvmrslUyLvPI6e5GNdMG0U4ahdbfA88"/>
     </php>
 
     <testsuites>

@@ -1,4 +1,4 @@
-import { ArrowRightIcon, PlayIcon, ClipboardDocumentIcon } from '@heroicons/react/24/solid';
+import { ArrowRightIcon, PlayIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import RegistrationPopup from '~/components/registration/registrationPopup';
@@ -57,7 +57,7 @@ export default function TriviaLobby() {
                             <div className="mt-6 flex flex-col gap-3">
                                 {quizRoomState.currentRoom.participants.map((participant) => (
                                     <div
-                                        key={participant.userName}
+                                        key={participant.userId}
                                         className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4"
                                     >
                                         <div className="flex items-center gap-3">

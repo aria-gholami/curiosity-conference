@@ -3,6 +3,7 @@ import initialState, { type QuizRoomState } from './state/Initial';
 import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
 import { fetchQuizRoomList } from '~/features/quizRoom/reducers/fetchQuizRoomList';
 import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
+import type {Participant} from "~/features/quizRoom/state/QuizRoomListResponse";
 
 const quizRoomSlice = createSlice({
     name: 'quizRoom',
@@ -20,6 +21,12 @@ const quizRoomSlice = createSlice({
             state.currentRoom.status = '';
             state.currentRoom.participants = [];
             state.isLoading = false;
+        },
+        updateParticipants(
+            state: QuizRoomState,
+            action: PayloadAction<{ participants: Participant[] }>,
+        ): void {
+            state.currentRoom.participants = action.payload.participants;
         },
     },
     extraReducers: (builder) => {
@@ -91,6 +98,6 @@ const quizRoomSlice = createSlice({
     },
 });
 
-export const { resetRooms, resetCurrentRoom } = quizRoomSlice.actions;
+export const { resetRooms, resetCurrentRoom, updateParticipants } = quizRoomSlice.actions;
 
 export default quizRoomSlice;

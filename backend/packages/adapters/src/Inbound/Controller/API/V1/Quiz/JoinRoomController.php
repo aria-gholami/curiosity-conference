@@ -15,11 +15,14 @@ use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 final readonly class JoinRoomController
 {
     public function __construct(
         private JoinRoomHandler $joinRoomHandler,
+        private HubInterface $hub,
         private LoggerInterface $logger,
     ) {
     }
@@ -34,6 +37,19 @@ final readonly class JoinRoomController
             );
             $quizRoom = $this->joinRoomHandler->handleAndGet($joinQuizRoom);
 
+            $participants = \array_map(static function (User $participant) {
+                return [
+                    'userId' => $participant->getId(),
+                    'userName' => $participant->getUserName(),
+                ];
+            }, $quizRoom->getParticipants()->toArray());
+
+            $update = new Update(
+                \sprintf('quiz/room/%s', $quizRoom->getId()),
+                \json_encode(['participants' => $participants], \JSON_THROW_ON_ERROR),
+            );
+            $this->hub->publish($update);
+
             return new JsonResponse([
                 'id' => $quizRoom->getId(),
                 'quiz' => [
@@ -44,12 +60,7 @@ final readonly class JoinRoomController
                     'userName' => $quizRoom->getHost()->getUserName(),
                 ],
                 'status' => $quizRoom->getStatus(),
-                'participants' => \array_map(static function (User $participant) {
-                    return [
-                        'userId' => $participant->getId(),
-                        'userName' => $participant->getUserName(),
-                    ];
-                }, $quizRoom->getParticipants()->toArray()),
+                'participants' => $participants,
             ], Response::HTTP_CREATED);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for /api/v1/quiz/room/join is invalid.', [

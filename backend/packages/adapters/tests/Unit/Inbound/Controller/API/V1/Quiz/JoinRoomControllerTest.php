@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Quiz\Mocks\JoinRoomHandlerMock;
+use CuriosityConference\Adapters\Tests\Unit\Mocks\HubMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -26,15 +27,18 @@ use Symfony\Component\HttpFoundation\Response;
 final class JoinRoomControllerTest extends TestCase
 {
     private JoinRoomHandlerMock $joinRoomHandlerMock;
+    private HubMock $hubMock;
     private LoggerMock $loggerMock;
     private JoinRoomController $joinRoomController;
 
     protected function setUp(): void
     {
         $this->joinRoomHandlerMock = new JoinRoomHandlerMock();
+        $this->hubMock = new HubMock();
         $this->loggerMock = new LoggerMock();
         $this->joinRoomController = new JoinRoomController(
             $this->joinRoomHandlerMock,
+            $this->hubMock,
             $this->loggerMock,
         );
     }
@@ -53,6 +57,7 @@ final class JoinRoomControllerTest extends TestCase
         $expectedQuizRoom->addParticipant($user);
         $expectedQuizRoom->addParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
+        $this->hubMock->outputUpdate = 'test';
         $payload = [
             'quizRoomId' => 'test',
             'userId' => 'test',
@@ -73,6 +78,8 @@ final class JoinRoomControllerTest extends TestCase
         self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"created","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['quizRoomId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->quizRoomId);
         self::assertSame($payload['userId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->userId);
+        self::assertSame(\sprintf('quiz/room/%s', $expectedQuizRoom->getId()), $this->hubMock->inputUpdate->getTopics()[0]);
+        self::assertSame('{"participants":[{"userId":"test","userName":"test"}]}', $this->hubMock->inputUpdate->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 

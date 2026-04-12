@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import quizRoomSlice from '~/features/quizRoom/quizRoomSlice';
 import userSlice from '~/features/user/userSlice';
 import quizSlice from '~/features/quiz/quizSlice';
+import { mercureMiddleware } from '~/redux/middleware/mercureMiddleware';
 
 const createNoopStorage = () => ({
     getItem(_key: string) {
@@ -52,7 +53,7 @@ export const store = configureStore({
             serializableCheck: {
                 ignoredActions: ['persist/PERSIST', 'persist/REHYDRATE'],
             },
-        }),
+        }).concat(mercureMiddleware),
 });
 
 export const persistor = persistStore(store);
