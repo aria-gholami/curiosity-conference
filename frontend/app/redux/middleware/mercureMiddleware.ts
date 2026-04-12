@@ -1,10 +1,10 @@
 import type { Middleware } from '@reduxjs/toolkit';
 import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
 import handleUpdateParticipants from '~/redux/middleware/utils/mercure/handleUpdateParticipants';
-import {createQuizRoom} from "~/features/quizRoom/reducers/createQuizRoom";
-import handleUpdateRoomList from "~/redux/middleware/utils/mercure/handleUpdateRoomList";
-import {fetchQuizRoomList} from "~/features/quizRoom/reducers/fetchQuizRoomList";
-import handleDeleteUser from "~/redux/middleware/utils/mercure/handleDeleteUser";
+import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
+import handleUpdateRoomList from '~/redux/middleware/utils/mercure/handleUpdateRoomList';
+import { fetchQuizRoomList } from '~/features/quizRoom/reducers/fetchQuizRoomList';
+import handleDeleteUser from '~/redux/middleware/utils/mercure/handleDeleteUser';
 
 let eventSource: EventSource | null = null;
 const url = new URL(import.meta.env.VITE_MERCURE_URL);

@@ -38,9 +38,13 @@ export default function Header() {
                 </a>
 
                 <div className="hidden md:block">
-                    <a className="btn-primary btn-sm select-none" onClick={handleLogout}>
+                    <button
+                        type="button"
+                        className="btn-primary btn-sm select-none"
+                        onClick={handleLogout}
+                    >
                         {isLoggedIn ? 'Logout' : 'Login'}
-                    </a>
+                    </button>
                 </div>
 
                 <button
@@ -74,14 +78,15 @@ export default function Header() {
             >
                 <div className="px-6 pb-5 pt-4">
                     <nav className="flex flex-col">
-                        <a
+                        <button
+                            type="button"
                             className={`btn-primary btn-md mt-3 text-center select-none ${
                                 mobileOpen ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-0'
                             }`}
                             onClick={handleLogout}
                         >
                             {isLoggedIn ? 'Logout' : 'Login'}
-                        </a>
+                        </button>
                     </nav>
                 </div>
             </div>

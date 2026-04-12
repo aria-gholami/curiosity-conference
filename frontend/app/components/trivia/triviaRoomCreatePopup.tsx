@@ -27,6 +27,21 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
         return null;
     }
 
+    const handleSubmit = async (event: React.FormEvent) => {
+        event.preventDefault();
+        if (!selectedQuizId) {
+            return;
+        }
+
+        const requestBody: QuizRoomCreateRequestBody = {
+            hostId: userState.userId,
+            quizId: selectedQuizId,
+        };
+
+        await dispatch(createQuizRoom(requestBody) as any);
+        navigate('/trivia/lobby');
+    };
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
             <div className="absolute inset-0 bg-dark-blue/55 backdrop-blur-md" />
@@ -36,7 +51,7 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
                 <div className="pointer-events-none absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-dark-blue/20 blur-3xl" />
                 <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.6)_0%,transparent_55%)]" />
 
-                <div className="relative p-6 sm:p-8">
+                <form onSubmit={handleSubmit} className="relative p-6 sm:p-8">
                     <div className="flex items-start justify-between gap-4">
                         <div>
                             <div className="inline-flex items-center gap-2 rounded-full border border-turquoise/20 bg-turquoise/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-dark-blue">
@@ -104,21 +119,14 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
 
                     <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                         <button
-                            type="button"
+                            type="submit"
                             disabled={!selectedQuizId}
                             className="btn-primary group gap-2.5 px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)] disabled:cursor-not-allowed disabled:opacity-60"
-                            onClick={() => {
-                                const requestBody: QuizRoomCreateRequestBody = {
-                                    hostId: userState.userId,
-                                    quizId: selectedQuizId,
-                                };
-                                dispatch(createQuizRoom(requestBody) as any);
-                                navigate('/trivia/lobby');
-                            }}
                         >
                             <span>Create Room</span>
                             <PlusIcon className="h-4 w-4" />
                         </button>
+
                         <button
                             type="button"
                             onClick={onClose}
@@ -127,7 +135,7 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
                             Cancel
                         </button>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     );

@@ -1,10 +1,6 @@
-import {resetRooms} from "~/features/quizRoom/quizRoomSlice";
+import { resetRooms } from '~/features/quizRoom/quizRoomSlice';
 
-export default function handleDeleteUser(
-    eventSource: EventSource | null,
-    url: URL,
-    store: any,
-) {
+export default function handleDeleteUser(eventSource: EventSource | null, url: URL, store: any) {
     if (typeof window === 'undefined') {
         return;
     }

@@ -1,9 +1,9 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import initialState, {type QuizRoom, type QuizRoomState} from './state/Initial';
+import initialState, { type QuizRoom, type QuizRoomState } from './state/Initial';
 import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
 import { fetchQuizRoomList } from '~/features/quizRoom/reducers/fetchQuizRoomList';
 import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
-import type {Participant} from "~/features/quizRoom/state/QuizRoomListResponse";
+import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse';
 
 const quizRoomSlice = createSlice({
     name: 'quizRoom',
@@ -24,15 +24,16 @@ const quizRoomSlice = createSlice({
         },
         updateParticipants(
             state: QuizRoomState,
-            action: PayloadAction<{ participants: Participant[] }>
+            action: PayloadAction<{ participants: Participant[] }>,
         ): void {
             state.currentRoom.participants = action.payload.participants;
         },
         addRoomToRoomList(
             state: QuizRoomState,
-            action: PayloadAction<{ quizRoom: QuizRoom }>): void {
+            action: PayloadAction<{ quizRoom: QuizRoom }>,
+        ): void {
             state.rooms.push(action.payload.quizRoom);
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -103,6 +104,7 @@ const quizRoomSlice = createSlice({
     },
 });
 
-export const { resetRooms, resetCurrentRoom, updateParticipants, addRoomToRoomList } = quizRoomSlice.actions;
+export const { resetRooms, resetCurrentRoom, updateParticipants, addRoomToRoomList } =
+    quizRoomSlice.actions;
 
 export default quizRoomSlice;
