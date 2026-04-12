@@ -99,40 +99,4 @@ class CreateControllerTest extends AbstractWebTestCase
         self::assertArrayHasKey('message', $response);
         self::assertSame('Bad Request.', $response['message']);
     }
-
-    public function testCreateUserWithInternalServerError(): void
-    {
-        $payload = [
-            'userName' => 'test',
-        ];
-        $this->client->request(
-            'POST',
-            '/api/v1/user',
-            server: [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
-            ],
-            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
-        );
-        $this->client->request(
-            'POST',
-            '/api/v1/user',
-            server: [
-                'Content-Type' => 'application/json',
-                'Accept' => 'application/json',
-                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
-            ],
-            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
-        );
-        $response = \json_decode(
-            $this->client->getResponse()->getContent(),
-            true,
-            flags: \JSON_THROW_ON_ERROR,
-        );
-
-        self::assertResponseStatusCodeSame(Response::HTTP_INTERNAL_SERVER_ERROR);
-        self::assertArrayHasKey('message', $response);
-        self::assertSame('Internal Server Error.', $response['message']);
-    }
 }

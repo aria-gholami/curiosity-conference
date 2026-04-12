@@ -40,8 +40,6 @@ final class ListHighscoreByRoomControllerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',

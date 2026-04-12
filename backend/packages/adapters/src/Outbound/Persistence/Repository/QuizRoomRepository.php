@@ -50,4 +50,15 @@ class QuizRoomRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->flush();
     }
+
+    public function findByParticipantId(string $userId): ?QuizRoom
+    {
+        return $this->createQueryBuilder('qr')
+            ->innerJoin('qr.participants', 'p')
+            ->andWhere('p.id = :userId')
+            ->setParameter('userId', $userId, 'uuid')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

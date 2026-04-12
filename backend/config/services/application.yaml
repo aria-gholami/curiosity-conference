@@ -47,7 +47,9 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\HighscoreCollectionByQuizRoomLoader'
-
+  CuriosityConference\Application\UseCase\Quiz\ActiveRoomLoadHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByUserIdLoader'
 
   CuriosityConference\Application\UseCase\Question\CreateHandler:
     arguments:

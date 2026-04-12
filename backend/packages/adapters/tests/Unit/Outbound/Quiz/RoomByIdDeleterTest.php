@@ -40,16 +40,10 @@ final class RoomByIdDeleterTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $expectedQuizEntity = new QuizRoom(
             'test',
@@ -92,16 +86,10 @@ final class RoomByIdDeleterTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $expectedQuizEntity = new QuizRoom(
             'test',
@@ -138,16 +126,10 @@ final class RoomByIdDeleterTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $expectedQuizEntity = new QuizRoom(
             'test',
