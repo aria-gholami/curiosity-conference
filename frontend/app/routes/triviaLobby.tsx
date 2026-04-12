@@ -54,7 +54,7 @@ export default function TriviaLobby() {
                                 </div>
                             </div>
 
-                            <div className="mt-6 flex flex-col gap-3">
+                            <div className="mt-6 flex flex-col gap-3 max-h-[60vh] overflow-y-auto">
                                 {quizRoomState.currentRoom.participants.map((participant) => (
                                     <div
                                         key={participant.userId}
@@ -62,7 +62,7 @@ export default function TriviaLobby() {
                                     >
                                         <div className="flex items-center gap-3">
                                             <div className="flex h-11 w-11 items-center justify-center rounded-full bg-dark-blue text-sm font-semibold text-white">
-                                                {participant.userName.slice(0, 1)}
+                                                {participant.userName.slice(0, 1).toUpperCase()}
                                             </div>
 
                                             <div>

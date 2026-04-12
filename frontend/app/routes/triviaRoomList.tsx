@@ -61,7 +61,7 @@ export default function TriviaRoomList() {
                     </button>
                 </div>
 
-                <div className="glass mt-10 rounded-[2rem] p-5 sm:p-6">
+                <div className="glass mt-10 rounded-[2rem] p-5 sm:p-6 max-h-[60vh] overflow-y-auto">
                     <div className="flex flex-col gap-4">
                         {quizRoomState.rooms.map((room) => (
                             <div
