@@ -56,7 +56,7 @@ final readonly class CreateRoomController
 
             $update = new Update(
                 'quiz/room/list',
-                \json_encode($response, \JSON_THROW_ON_ERROR),
+                \json_encode(\array_merge($response, ['action' => 'add']), \JSON_THROW_ON_ERROR),
             );
             $this->hub->publish($update);
 

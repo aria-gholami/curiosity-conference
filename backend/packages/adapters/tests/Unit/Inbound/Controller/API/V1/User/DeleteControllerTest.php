@@ -48,7 +48,8 @@ final class DeleteControllerTest extends TestCase
 
         self::assertSame(Response::HTTP_NO_CONTENT, $jsonResponse->getStatusCode());
         self::assertSame('test', $this->deleteHandlerMock->inputUserId->value);
-        self::assertSame('user/delete', $this->hubMock->inputUpdate->getTopics()[0]);
+        self::assertSame('quiz/room/list', $this->hubMock->inputUpdate->getTopics()[0]);
+        self::assertSame('{"action":"remove"}', $this->hubMock->inputUpdate->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 

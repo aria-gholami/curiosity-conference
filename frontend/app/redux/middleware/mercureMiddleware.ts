@@ -4,7 +4,6 @@ import handleUpdateParticipants from '~/redux/middleware/utils/mercure/handleUpd
 import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
 import handleUpdateRoomList from '~/redux/middleware/utils/mercure/handleUpdateRoomList';
 import { fetchQuizRoomList } from '~/features/quizRoom/reducers/fetchQuizRoomList';
-import handleDeleteUser from '~/redux/middleware/utils/mercure/handleDeleteUser';
 
 let eventSource: EventSource | null = null;
 const url = new URL(import.meta.env.VITE_MERCURE_URL);
@@ -18,8 +17,6 @@ export const mercureMiddleware: Middleware = (store) => (next) => (action) => {
     if (fetchQuizRoomList.fulfilled.match(action)) {
         handleUpdateRoomList(eventSource, url, store);
     }
-
-    handleDeleteUser(eventSource, url, store);
 
     return result;
 };

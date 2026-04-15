@@ -33,7 +33,8 @@ final readonly class DeleteController
             $this->deleteHandler->handle($userId);
 
             $update = new Update(
-                'user/delete',
+                'quiz/room/list',
+                \json_encode(\array_merge(['action' => 'remove']), \JSON_THROW_ON_ERROR),
             );
             $this->hub->publish($update);
 
