@@ -37,6 +37,7 @@ final readonly class RoomByIdDeleter implements RoomByIdDeleterInterface
             }
 
             $this->quizRoomRepository->remove($quizRoomEntity);
+            $this->quizRoomRepository->flush();
             $this->logger->info('Deleting quiz room was successful.', [
                 'id' => $id->value,
             ]);

@@ -5,6 +5,10 @@ import { fetchQuizRoomList } from '~/features/quizRoom/reducers/fetchQuizRoomLis
 import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
 import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse';
 import { fetchActiveQuizRoom } from '~/features/quizRoom/reducers/fetchActiveQuizRoom';
+import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
+import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
+import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipant';
+import type QuizRoomDeleteParticipantAttributes from '~/features/quizRoom/state/QuizRoomDeleteParticipantAttributes';
 
 const quizRoomSlice = createSlice({
     name: 'quizRoom',
@@ -108,6 +112,54 @@ const quizRoomSlice = createSlice({
                 state.currentRoom.host.id = '';
                 state.currentRoom.status = '';
                 state.currentRoom.participants = [];
+                state.isLoading = false;
+            })
+            .addCase(startQuizRoom.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(startQuizRoom.fulfilled, (state: QuizRoomState) => {
+                state.currentRoom.status = 'started';
+                state.isLoading = false;
+            })
+            .addCase(startQuizRoom.rejected, (state: QuizRoomState) => {
+                state.isLoading = false;
+            })
+            .addCase(deleteQuizRoom.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(deleteQuizRoom.fulfilled, (state: QuizRoomState) => {
+                state.currentRoom.id = '';
+                state.currentRoom.quiz.title = '';
+                state.currentRoom.host.userName = '';
+                state.currentRoom.host.id = '';
+                state.currentRoom.status = '';
+                state.currentRoom.participants = [];
+                state.rooms = [];
+                state.isLoading = false;
+            })
+            .addCase(deleteQuizRoom.rejected, (state: QuizRoomState) => {
+                state.isLoading = false;
+            })
+            .addCase(deleteParticipant.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(
+                deleteParticipant.fulfilled,
+                (
+                    state: QuizRoomState,
+                    action: PayloadAction<QuizRoomDeleteParticipantAttributes>,
+                ) => {
+                    const { quizRoomId, participantId } = action.payload;
+                    if (state.currentRoom.id === quizRoomId) {
+                        state.currentRoom.participants = state.currentRoom.participants.filter(
+                            (participant) => participant.userId !== participantId,
+                        );
+                    }
+
+                    state.isLoading = false;
+                },
+            )
+            .addCase(deleteParticipant.rejected, (state: QuizRoomState) => {
                 state.isLoading = false;
             })
             .addCase(fetchQuizRoomList.pending, (state: QuizRoomState) => {

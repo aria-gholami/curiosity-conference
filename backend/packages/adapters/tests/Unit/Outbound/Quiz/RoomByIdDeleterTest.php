@@ -60,6 +60,8 @@ final class RoomByIdDeleterTest extends TestCase
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('remove')
             ->with($expectedQuizEntity);
+        $this->quizRoomEntityRepositoryMock->expects(self::once())
+            ->method('flush');
 
         $this->roomByIdDeleter->delete($id);
 
@@ -106,6 +108,8 @@ final class RoomByIdDeleterTest extends TestCase
         $this->quizRoomEntityRepositoryMock->expects(self::never())
             ->method('remove')
             ->with($expectedQuizEntity);
+        $this->quizRoomEntityRepositoryMock->expects(self::never())
+            ->method('flush');
 
         $this->roomByIdDeleter->delete($id);
 
@@ -146,6 +150,8 @@ final class RoomByIdDeleterTest extends TestCase
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('remove')
             ->willThrowException(new DeleteFailedException('test'));
+        $this->quizRoomEntityRepositoryMock->expects(self::never())
+            ->method('flush');
 
         try {
             $this->roomByIdDeleter->delete($id);

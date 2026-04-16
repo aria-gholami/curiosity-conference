@@ -3,17 +3,29 @@ import { useState } from 'react';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import RegistrationPopup from '~/components/registration/registrationPopup';
 import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
-import { useAppSelector } from '~/redux/hooks';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirect';
+import type QuizRoomStartRequestBody from '~/features/quizRoom/state/QuizRoomStartRequestBody';
+import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
+import type QuizRoomDeleteParticipantAttributes from '~/features/quizRoom/state/QuizRoomDeleteParticipantAttributes';
+import type { UserState } from '~/features/user/state/Initial';
+import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipant';
+import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
+import type QuizRoomDeleteParams from '~/features/quizRoom/state/QuizRoomDeleteRequestBody';
+import { resetCurrentRoom, resetRooms } from '~/features/quizRoom/quizRoomSlice';
 
 export default function TriviaLobby() {
+    const dispatch = useAppDispatch();
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
+    const userState: UserState = useAppSelector((state) => state.user);
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
     useFetchActiveQuizRoom();
     useLobbyNotFoundRedirect();
+
+    const isHost = userState.userId === quizRoomState.currentRoom.host.id;
 
     return (
         <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">
@@ -93,19 +105,44 @@ export default function TriviaLobby() {
                             </div>
 
                             <div className="mt-8 flex flex-col gap-3">
-                                <button
-                                    type="button"
-                                    className="btn-primary btn-lg flex items-center justify-center gap-2"
-                                >
-                                    <span>Start Game</span>
-                                    <PlayIcon className="h-4 w-4" />
-                                </button>
+                                {isHost && (
+                                    <button
+                                        type="button"
+                                        className="btn-primary btn-lg flex items-center justify-center gap-2"
+                                        onClick={async () => {
+                                            const requestBody: QuizRoomStartRequestBody = {
+                                                quizRoomId: quizRoomState.currentRoom.id,
+                                            };
+
+                                            await dispatch(startQuizRoom(requestBody) as any);
+                                        }}
+                                    >
+                                        <span>Start Game</span>
+                                        <PlayIcon className="h-4 w-4" />
+                                    </button>
+                                )}
 
                                 <button
                                     type="button"
                                     className="btn-secondary-light btn-lg flex items-center justify-center gap-2"
+                                    onClick={async () => {
+                                        const attributes: QuizRoomDeleteParticipantAttributes = {
+                                            quizRoomId: quizRoomState.currentRoom.id,
+                                            participantId: userState.userId,
+                                        };
+
+                                        await dispatch(deleteParticipant(attributes) as any);
+                                        if (isHost) {
+                                            const params: QuizRoomDeleteParams = {
+                                                quizRoomId: quizRoomState.currentRoom.id,
+                                            };
+                                            await dispatch(deleteQuizRoom(params) as any);
+                                        }
+                                        dispatch(resetRooms() as any);
+                                        dispatch(resetCurrentRoom() as any);
+                                    }}
                                 >
-                                    <span>Leave Room</span>
+                                    <span>{isHost ? 'Delete Room' : 'Leave Room'}</span>
                                     <ArrowRightIcon className="h-4 w-4" />
                                 </button>
                             </div>
