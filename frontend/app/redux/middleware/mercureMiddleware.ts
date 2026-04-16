@@ -11,11 +11,16 @@ const url = new URL(import.meta.env.VITE_MERCURE_URL);
 export const mercureMiddleware: Middleware = (store) => (next) => (action) => {
     const result = next(action);
     if (joinQuizRoom.fulfilled.match(action) || createQuizRoom.fulfilled.match(action)) {
-        handleUpdateParticipants(eventSource, url, action.payload.currentRoom.id, store);
+        eventSource = handleUpdateParticipants(
+            eventSource,
+            url,
+            action.payload.currentRoom.id,
+            store,
+        );
     }
 
     if (fetchQuizRoomList.fulfilled.match(action)) {
-        handleUpdateRoomList(eventSource, url, store);
+        eventSource = handleUpdateRoomList(eventSource, url, store);
     }
 
     return result;

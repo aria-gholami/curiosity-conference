@@ -18,4 +18,6 @@ export default function handleUpdateParticipants(
             store.dispatch(updateParticipants({ participants: data.participants }));
         }
     };
+
+    return eventSource;
 }

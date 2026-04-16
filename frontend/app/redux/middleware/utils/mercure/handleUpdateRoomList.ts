@@ -20,4 +20,6 @@ export default function handleUpdateRoomList(
             store.dispatch(resetRooms() as any);
         }
     };
+
+    return eventSource;
 }
