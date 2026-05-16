@@ -16,7 +16,6 @@ services:
   CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteController:
     arguments:
       - '@CuriosityConference\Application\UseCase\User\DeleteHandler'
-      - '@mercure.hub.default'
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }

@@ -1,4 +1,4 @@
-import { addRoomToRoomList, resetRooms } from '~/features/quizRoom/quizRoomSlice';
+import {addRoomToRoomList, removeRoomFromRoomList} from '~/features/quizRoom/quizRoomSlice';
 
 export default function handleUpdateRoomList(
     eventSource: EventSource | null,
@@ -17,7 +17,7 @@ export default function handleUpdateRoomList(
             store.dispatch(addRoomToRoomList({ quizRoom: data }));
         }
         if (data.action === 'remove') {
-            store.dispatch(resetRooms() as any);
+            store.dispatch(removeRoomFromRoomList(data.quizRoomId) as any);
         }
     };
 

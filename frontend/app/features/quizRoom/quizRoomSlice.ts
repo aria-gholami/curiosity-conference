@@ -39,6 +39,14 @@ const quizRoomSlice = createSlice({
         ): void {
             state.rooms.push(action.payload.quizRoom);
         },
+        removeRoomFromRoomList(
+            state: QuizRoomState,
+            action: PayloadAction<string>,
+        ): void {
+            state.rooms = state.rooms.filter(
+                room => room.id !== action.payload,
+            );
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -179,7 +187,7 @@ const quizRoomSlice = createSlice({
     },
 });
 
-export const { resetRooms, resetCurrentRoom, updateParticipants, addRoomToRoomList } =
+export const { resetRooms, resetCurrentRoom, updateParticipants, addRoomToRoomList, removeRoomFromRoomList } =
     quizRoomSlice.actions;
 
 export default quizRoomSlice;

@@ -12,7 +12,9 @@ services:
       - '@CuriosityConference\Adapters\Outbound\User\Persister'
   CuriosityConference\Application\UseCase\User\DeleteHandler:
     arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByUserIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdDeleter'
+      - '@mercure.hub.default'
   CuriosityConference\Application\UseCase\User\DetailsGetHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'

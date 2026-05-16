@@ -38,16 +38,10 @@ final class ByRoomLoadHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $expectedQuestion = new Question(
             'test',
@@ -71,16 +65,10 @@ final class ByRoomLoadHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
