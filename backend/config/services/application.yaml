@@ -23,6 +23,7 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater'
+      - '@mercure.hub.default'
 
   CuriosityConference\Application\UseCase\Quiz\CreateHandler:
     arguments:
@@ -42,6 +43,7 @@ services:
   CuriosityConference\Application\UseCase\Quiz\DeleteRoomHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdDeleter'
+      - '@mercure.hub.default'
   CuriosityConference\Application\UseCase\Quiz\ListRoomHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomLoader'

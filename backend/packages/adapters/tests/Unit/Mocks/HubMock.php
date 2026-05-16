@@ -12,7 +12,10 @@ final class HubMock implements HubInterface
 {
     public string $outputPublicUrl;
     public ?TokenFactoryInterface $outputTokenFactory;
-    public Update $inputUpdate;
+    /**
+     * @var array<Update>
+     */
+    public array $inputUpdateGroup;
     public string $outputUpdate;
 
     public function getPublicUrl(): string
@@ -27,7 +30,7 @@ final class HubMock implements HubInterface
 
     public function publish(Update $update): string
     {
-        $this->inputUpdate = $update;
+        $this->inputUpdateGroup[] = $update;
 
         return $this->outputUpdate;
     }

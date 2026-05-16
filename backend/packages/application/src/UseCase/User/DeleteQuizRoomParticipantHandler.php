@@ -11,6 +11,8 @@ use CuriosityConference\Application\Port\Outbound\User\ByIdLoader as UserByIdLoa
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\User\Model\QuizRoomParticipant;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 /**
  * @codeCoverageIgnore
@@ -23,6 +25,7 @@ final readonly class DeleteQuizRoomParticipantHandler implements DeleteQuizRoomP
         private RoomByIdLoader $roomByIdLoader,
         private UserByIdLoader $userByIdLoader,
         private RoomUpdater $roomUpdater,
+        private HubInterface $hub,
     ) {
     }
 
@@ -37,5 +40,9 @@ final readonly class DeleteQuizRoomParticipantHandler implements DeleteQuizRoomP
         $participant = $this->userByIdLoader->load($quizRoomParticipant->participantId);
         $quizRoom->removeParticipant($participant);
         $this->roomUpdater->update($quizRoom);
+        $this->hub->publish(new Update(
+            \sprintf('quiz/room/%s/participants', $quizRoom->getId()),
+            \json_encode(['action' => 'remove', 'participantId' => $participant->getId()], \JSON_THROW_ON_ERROR),
+        ));
     }
 }

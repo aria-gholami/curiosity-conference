@@ -83,8 +83,8 @@ final class CreateRoomControllerTest extends TestCase
         self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
         self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
-        self::assertSame('quiz/room/list', $this->hubMock->inputUpdate->getTopics()[0]);
-        self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}],"action":"add"}', $this->hubMock->inputUpdate->getData());
+        self::assertSame('quiz/room/list', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
+        self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}],"action":"add"}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 

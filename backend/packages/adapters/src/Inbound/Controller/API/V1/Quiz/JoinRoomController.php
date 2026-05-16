@@ -46,7 +46,7 @@ final readonly class JoinRoomController
 
             $update = new Update(
                 \sprintf('quiz/room/%s/participants', $quizRoom->getId()),
-                \json_encode(['participants' => $participants], \JSON_THROW_ON_ERROR),
+                \json_encode(['action' => 'join', 'participants' => $participants], \JSON_THROW_ON_ERROR),
             );
             $this->hub->publish($update);
 
