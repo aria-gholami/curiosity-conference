@@ -33,11 +33,13 @@ final readonly class CreateRoomController
             $quizRoom = new QuizRoom(
                 $data['quizId'] ?? '',
                 $data['hostId'] ?? '',
+                $data['title'] ?? '',
             );
             $quizRoom = $this->createRoomHandler->handleAndGet($quizRoom);
 
             $response = [
                 'id' => $quizRoom->getId(),
+                'title' => $quizRoom->getTitle(),
                 'quiz' => [
                     'title' => $quizRoom->getQuiz()->getTitle(),
                 ],

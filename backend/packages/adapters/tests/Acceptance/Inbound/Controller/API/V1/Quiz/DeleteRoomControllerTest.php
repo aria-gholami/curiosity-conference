@@ -58,6 +58,7 @@ final class DeleteRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -132,6 +133,7 @@ final class DeleteRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -208,6 +210,7 @@ final class DeleteRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',

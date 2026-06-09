@@ -57,6 +57,7 @@ final class ActiveRoomLoadControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -141,6 +142,7 @@ final class ActiveRoomLoadControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -225,6 +227,7 @@ final class ActiveRoomLoadControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -306,6 +309,7 @@ final class ActiveRoomLoadControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',

@@ -48,6 +48,7 @@ final class ActiveRoomLoadControllerTest extends TestCase
         );
         $expectedQuizRoomEntity = new QuizRoom(
             'test',
+            'test',
             $quiz,
             null,
             $user,
@@ -91,6 +92,7 @@ final class ActiveRoomLoadControllerTest extends TestCase
         );
         $expectedQuizRoomEntity = new QuizRoom(
             'test',
+            'test',
             $quiz,
             null,
             $user,
@@ -129,6 +131,7 @@ final class ActiveRoomLoadControllerTest extends TestCase
             'test',
         );
         $expectedQuizRoomEntity = new QuizRoom(
+            'test',
             'test',
             $quiz,
             null,

@@ -54,18 +54,12 @@ final class HighscoreUpdateHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $expectedHighscore = new Highscore(
             'test',
             $quizRoom,
@@ -97,18 +91,12 @@ final class HighscoreUpdateHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $expectedHighscore = new Highscore(
             'test',
             $quizRoom,

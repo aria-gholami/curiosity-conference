@@ -57,6 +57,7 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -147,6 +148,7 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -226,6 +228,7 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -309,6 +312,7 @@ final class JoinRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',

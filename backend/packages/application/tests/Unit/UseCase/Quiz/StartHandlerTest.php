@@ -51,16 +51,10 @@ final class StartHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $host = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $initialQuestion = new Question(
             'initial-question',
@@ -70,6 +64,7 @@ final class StartHandlerTest extends TestCase
         );
 
         $quizRoom = new QuizRoom(
+            'test',
             'test',
             $quiz,
             $initialQuestion,

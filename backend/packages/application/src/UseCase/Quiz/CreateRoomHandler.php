@@ -40,6 +40,6 @@ final readonly class CreateRoomHandler implements CreateRoomHandlerInterface
         $quiz = $this->quizByIdLoader->load(new Id($quizRoom->quizId));
         $host = $this->userByIdLoader->load($quizRoom->hostId);
 
-        return $this->quizRoomPersister->persist($quiz, $host, QuizRoomEntity::STATUS_CREATED);
+        return $this->quizRoomPersister->persist($quiz, $host, $quizRoom->title, QuizRoomEntity::STATUS_CREATED);
     }
 }

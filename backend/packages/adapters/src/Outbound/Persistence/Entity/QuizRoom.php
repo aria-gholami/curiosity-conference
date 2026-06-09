@@ -25,6 +25,9 @@ final class QuizRoom
     #[ORM\Column(type: 'uuid')]
     private string $id;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $title;
+
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private Quiz $quiz;
@@ -53,9 +56,10 @@ final class QuizRoom
     #[ORM\Column(type: 'string', length: 255)]
     private string $status;
 
-    public function __construct(string $id, Quiz $quiz, ?Question $currentQuestion, User $host, string $status)
+    public function __construct(string $id, string $title, Quiz $quiz, ?Question $currentQuestion, User $host, string $status)
     {
         $this->id = $id;
+        $this->title = $title;
         $this->quiz = $quiz;
         $this->currentQuestion = $currentQuestion;
         $this->host = $host;
@@ -67,6 +71,11 @@ final class QuizRoom
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getTitle(): string
+    {
+        return $this->title;
     }
 
     public function getQuiz(): Quiz

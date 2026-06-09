@@ -47,6 +47,7 @@ final class RoomByUserIdLoaderTest extends TestCase
         );
         $expectedQuizRoomEntity = new QuizRoom(
             'test',
+            'test',
             $quiz,
             null,
             $user,

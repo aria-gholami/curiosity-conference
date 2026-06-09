@@ -49,6 +49,7 @@ final class DetailsGetControllerTest extends TestCase
         );
         $quizRoom = new QuizRoom(
             'test',
+            'test',
             $quiz,
             null,
             $user,

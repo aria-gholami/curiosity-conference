@@ -25,14 +25,16 @@ final readonly class RoomPersister implements RoomPersisterInterface
      * @throws PersistFailedException
      */
     #[\Override]
-    public function persist(Quiz $quiz, User $host, string $status): QuizRoom
+    public function persist(Quiz $quiz, User $host, string $title, string $status): QuizRoom
     {
         try {
             $this->logger->info('Start persisting new quiz room.', [
                 'quizId' => $quiz->getId(),
+                'quizRoomTitle' => $title,
             ]);
             $quizRoom = new QuizRoom(
                 Uuid::v4()->toRfc4122(),
+                $title,
                 $quiz,
                 null,
                 $host,
@@ -43,16 +45,19 @@ final readonly class RoomPersister implements RoomPersisterInterface
             $this->quizRoomEntityManager->flush();
             $this->logger->info('Persisting new quiz room was successful.', [
                 'quizId' => $quiz->getId(),
+                'quizRoomTitle' => $title,
             ]);
 
             return $quizRoom;
         } catch (\Throwable $exception) {
             $this->logger->notice('Persisting new quiz room was not successful.', [
                 'quizId' => $quiz->getId(),
+                'quizRoomTitle' => $title,
             ]);
             $this->logger->debug('Persisting new quiz room was not successful.', [
                 'exceptionMessage' => $exception->getMessage(),
                 'quizId' => $quiz->getId(),
+                'quizRoomTitle' => $title,
             ]);
 
             throw PersistFailedException::persistFailed(QuizRoom::class);

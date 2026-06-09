@@ -42,12 +42,6 @@ final class RoomLoaderTest extends TestCase
         $quizRoomGroup = [
             new QuizRoom(
                 'test',
-                $quiz,
-                null,
-                $user,
-                QuizRoom::STATUS_STARTED,
-            ),
-            new QuizRoom(
                 'test',
                 $quiz,
                 null,
@@ -55,6 +49,15 @@ final class RoomLoaderTest extends TestCase
                 QuizRoom::STATUS_STARTED,
             ),
             new QuizRoom(
+                'test',
+                'test',
+                $quiz,
+                null,
+                $user,
+                QuizRoom::STATUS_STARTED,
+            ),
+            new QuizRoom(
+                'test',
                 'test',
                 $quiz,
                 null,
@@ -85,37 +88,6 @@ final class RoomLoaderTest extends TestCase
 
     public function testLoadWithLoadEntityFailedException(): void
     {
-        $quiz = new Quiz(
-            'test',
-            'test',
-        );
-        $user = new User(
-            'test',
-            'test',
-        );
-        $quizRoomGroup = [
-            new QuizRoom(
-                'test',
-                $quiz,
-                null,
-                $user,
-                QuizRoom::STATUS_STARTED,
-            ),
-            new QuizRoom(
-                'test',
-                $quiz,
-                null,
-                $user,
-                QuizRoom::STATUS_STARTED,
-            ),
-            new QuizRoom(
-                'test',
-                $quiz,
-                null,
-                $user,
-                QuizRoom::STATUS_STARTED,
-            ),
-        ];
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findAll')
             ->willThrowException(new LoadEntityFailedException('test'));

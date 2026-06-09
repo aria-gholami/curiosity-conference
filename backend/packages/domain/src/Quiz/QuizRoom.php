@@ -14,12 +14,16 @@ final readonly class QuizRoom
     public function __construct(
         public string $quizId,
         public string $hostId,
+        public string $title,
     ) {
         if ('' === $this->quizId) {
             throw EmptyStringException::stringIsEmpty('quizRoomQuizId');
         }
         if ('' === $this->hostId) {
             throw EmptyStringException::stringIsEmpty('quizRoomHostId');
+        }
+        if ('' === $this->title) {
+            throw EmptyStringException::stringIsEmpty('quizRoomHostTitle');
         }
     }
 }

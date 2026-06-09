@@ -58,6 +58,7 @@ final class ListRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'Group 1',
         ];
         $this->client->request(
             'POST',
@@ -129,6 +130,7 @@ final class ListRoomControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'Group 1',
         ];
         $this->client->request(
             'POST',

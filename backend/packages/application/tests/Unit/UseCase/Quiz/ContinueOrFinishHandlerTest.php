@@ -52,18 +52,13 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $host = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $quizRoom = new QuizRoom(
+            'test',
             'test',
             $quiz,
             new Question(
@@ -121,16 +116,10 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $host = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $currentQuestion = new Question(
             'test4',
@@ -139,6 +128,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
             new ArrayCollection(),
         );
         $quizRoom = new QuizRoom(
+            'test',
             'test',
             $quiz,
             $currentQuestion,
@@ -186,19 +176,14 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $host = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
 
         $quizRoom = new QuizRoom(
+            'test',
             'test',
             $quiz,
             null,

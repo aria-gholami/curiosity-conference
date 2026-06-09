@@ -38,18 +38,12 @@ final class HighscoreLoaderTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $highscore = new Highscore(
             'test',
             $quizRoom,
@@ -88,18 +82,12 @@ final class HighscoreLoaderTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $highscore = new Highscore(
             'test',
             $quizRoom,

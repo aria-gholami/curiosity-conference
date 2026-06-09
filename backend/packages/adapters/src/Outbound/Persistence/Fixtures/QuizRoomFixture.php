@@ -89,6 +89,7 @@ final class QuizRoomFixture extends Fixture
 
         $room = new QuizRoom(
             Uuid::v4()->toRfc4122(),
+            'Group 1',
             $quiz,
             null,
             $host,

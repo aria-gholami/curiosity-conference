@@ -53,7 +53,7 @@ final class JoinRoomControllerTest extends TestCase
             'test',
             'test',
         );
-        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
         $expectedQuizRoom->addParticipant($user);
         $expectedQuizRoom->addParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
@@ -93,7 +93,7 @@ final class JoinRoomControllerTest extends TestCase
             'test',
             'test',
         );
-        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
         $payload = [
             'quizRoomId' => '',
@@ -135,7 +135,7 @@ final class JoinRoomControllerTest extends TestCase
             'test',
             'test',
         );
-        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
         $expectedQuizRoom->addParticipant($user);
         $expectedQuizRoom->addParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
@@ -182,7 +182,7 @@ final class JoinRoomControllerTest extends TestCase
             'test',
             'test',
         );
-        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
         $expectedQuizRoom->addParticipant($user);
         $expectedQuizRoom->addParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
@@ -229,7 +229,7 @@ final class JoinRoomControllerTest extends TestCase
             'test',
             'test',
         );
-        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
         $expectedQuizRoom->addParticipant($user);
         $expectedQuizRoom->addParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;

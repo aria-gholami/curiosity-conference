@@ -44,14 +44,12 @@ final class JoinRoomHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_CREATED);
         $this->roomByIdLoaderMock->outputQuizRoom = $expectedQuizRoom;
         $this->userByIdLoaderMock->outputUser = $user;
         $this->roomParticipantPersisterMock->outputQuizRoom = $expectedQuizRoom;
@@ -75,14 +73,12 @@ final class JoinRoomHandlerTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
         $this->userByIdLoaderMock->outputUser = $user;
         $this->roomParticipantPersisterMock->outputQuizRoom = $quizRoom;

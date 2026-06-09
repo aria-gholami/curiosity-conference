@@ -37,18 +37,12 @@ final class RoomUpdaterTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
 
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('flush');
@@ -89,7 +83,7 @@ final class RoomUpdaterTest extends TestCase
             'test',
             false,
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('flush')
             ->willThrowException(new UpdateFailedException('test'));

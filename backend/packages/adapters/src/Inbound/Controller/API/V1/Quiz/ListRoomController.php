@@ -28,6 +28,7 @@ final readonly class ListRoomController
             return new JsonResponse(['data' => \array_map(static function (QuizRoom $quizRoom) {
                 return [
                     'id' => $quizRoom->getId(),
+                    'title' => $quizRoom->getTitle(),
                     'quiz' => [
                         'title' => $quizRoom->getQuiz()->getTitle(),
                     ],

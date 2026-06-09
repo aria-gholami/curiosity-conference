@@ -49,7 +49,7 @@ final class ByRoomLoadHandlerTest extends TestCase
             $quiz,
             new ArrayCollection(),
         );
-        $quizRoom = new QuizRoom('test', $quiz, $expectedQuestion, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, $expectedQuestion, $user, QuizRoom::STATUS_STARTED);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
 
         $quizRoomId = new Id('test');
@@ -70,7 +70,7 @@ final class ByRoomLoadHandlerTest extends TestCase
             'test',
             'test',
         );
-        $quizRoom = new QuizRoom('test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
+        $quizRoom = new QuizRoom('test', 'test', $quiz, null, $user, QuizRoom::STATUS_STARTED);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
 
         $quizRoomId = new Id('test');

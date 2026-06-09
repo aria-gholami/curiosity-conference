@@ -52,8 +52,10 @@ final class CreateRoomControllerTest extends TestCase
             'test',
             'test',
         );
+        $title = 'test';
         $quizRoom = new QuizRoomEntity(
             'test',
+            $title,
             $quiz,
             null,
             $user,
@@ -66,6 +68,7 @@ final class CreateRoomControllerTest extends TestCase
         $payload = [
             'quizId' => 'test',
             'hostId' => 'test',
+            'title' => 'test',
         ];
         $request = new Request(
             [],
@@ -80,11 +83,12 @@ final class CreateRoomControllerTest extends TestCase
         $response = $this->createRoomController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
+        self::assertSame('{"id":"test","title":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
         self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
+        self::assertSame($payload['title'], $this->createRoomHandlerMock->inputQuizRoom->title);
         self::assertSame('quiz/room/list', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
-        self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}],"action":"add"}', $this->hubMock->inputUpdateGroup[0]->getData());
+        self::assertSame('{"id":"test","title":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}],"action":"add"}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -98,8 +102,10 @@ final class CreateRoomControllerTest extends TestCase
             'test',
             'test',
         );
+        $title = 'test';
         $quizRoom = new QuizRoomEntity(
             'test',
+            $title,
             $quiz,
             null,
             $user,
@@ -111,6 +117,7 @@ final class CreateRoomControllerTest extends TestCase
         $payload = [
             'quizId' => '',
             'hostId' => 'test',
+            'title' => 'test',
         ];
         $request = new Request(
             [],
@@ -149,8 +156,10 @@ final class CreateRoomControllerTest extends TestCase
             'test',
             'test',
         );
+        $title = 'test';
         $quizRoom = new QuizRoomEntity(
             'test',
+            $title,
             $quiz,
             null,
             $user,
@@ -162,6 +171,7 @@ final class CreateRoomControllerTest extends TestCase
         $payload = [
             'quizId' => 'test',
             'hostId' => 'test',
+            'title' => 'test',
         ];
         $request = new Request(
             [],
@@ -179,6 +189,7 @@ final class CreateRoomControllerTest extends TestCase
         self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
         self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
+        self::assertSame($payload['title'], $this->createRoomHandlerMock->inputQuizRoom->title);
         self::assertEquals([
             'notice' => [
                 [
@@ -202,8 +213,10 @@ final class CreateRoomControllerTest extends TestCase
             'test',
             'test',
         );
+        $title = 'test';
         $quizRoom = new QuizRoomEntity(
             'test',
+            $title,
             $quiz,
             null,
             $user,
@@ -215,6 +228,7 @@ final class CreateRoomControllerTest extends TestCase
         $payload = [
             'quizId' => 'test',
             'hostId' => 'test',
+            'title' => 'test',
         ];
         $request = new Request(
             [],
@@ -232,6 +246,7 @@ final class CreateRoomControllerTest extends TestCase
         self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
         self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
+        self::assertSame($payload['title'], $this->createRoomHandlerMock->inputQuizRoom->title);
         self::assertEquals([
             'notice' => [
                 [

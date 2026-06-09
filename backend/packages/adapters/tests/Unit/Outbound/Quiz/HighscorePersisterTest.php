@@ -46,6 +46,7 @@ final class HighscorePersisterTest extends TestCase
         );
         $quizRoom = new QuizRoom(
             'test',
+            'test',
             $quiz,
             null,
             $user,
@@ -82,18 +83,13 @@ final class HighscorePersisterTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
         $quizRoom = new QuizRoom(
+            'test',
             'test',
             $quiz,
             null,

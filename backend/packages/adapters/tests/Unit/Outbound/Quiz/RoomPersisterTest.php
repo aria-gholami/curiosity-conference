@@ -33,21 +33,17 @@ final class RoomPersisterTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $this->quizRoomPersister->persist($quiz, $user, QuizRoom::STATUS_STARTED);
+        $title = 'test';
+        $this->quizRoomPersister->persist($quiz, $user, $title, QuizRoom::STATUS_STARTED);
 
         $expectedQuizEntity = new QuizRoom(
             'test',
+            $title,
             $quiz,
             null,
             $user,
@@ -66,12 +62,14 @@ final class RoomPersisterTest extends TestCase
                     'message' => 'Start persisting new quiz room.',
                     'context' => [
                         'quizId' => 'test',
+                        'quizRoomTitle' => 'test',
                     ],
                 ],
                 [
                     'message' => 'Persisting new quiz room was successful.',
                     'context' => [
                         'quizId' => 'test',
+                        'quizRoomTitle' => 'test',
                     ],
                 ],
             ],
@@ -84,19 +82,14 @@ final class RoomPersisterTest extends TestCase
         $quiz = new Quiz(
             'test',
             'test',
-            'test',
-            'test',
         );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
+        $title = 'test';
         try {
-            $this->quizRoomPersister->persist($quiz, $user, QuizRoom::STATUS_STARTED);
+            $this->quizRoomPersister->persist($quiz, $user, $title, QuizRoom::STATUS_STARTED);
             $this->fail('PersistFailedException was expected to be thrown.');
         } catch (PersistFailedException $exception) {
             self::assertSame('Persist entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom" was not successful.', $exception->getMessage());
@@ -104,6 +97,7 @@ final class RoomPersisterTest extends TestCase
 
         $expectedQuizEntity = new QuizRoom(
             'test',
+            $title,
             $quiz,
             null,
             $user,
@@ -122,6 +116,7 @@ final class RoomPersisterTest extends TestCase
                     'message' => 'Start persisting new quiz room.',
                     'context' => [
                         'quizId' => 'test',
+                        'quizRoomTitle' => 'test',
                     ],
                 ],
             ],
@@ -130,6 +125,7 @@ final class RoomPersisterTest extends TestCase
                     'message' => 'Persisting new quiz room was not successful.',
                     'context' => [
                         'quizId' => 'test',
+                        'quizRoomTitle' => 'test',
                     ],
                 ],
             ],
@@ -138,6 +134,7 @@ final class RoomPersisterTest extends TestCase
                     'message' => 'Persisting new quiz room was not successful.',
                     'context' => [
                         'quizId' => 'test',
+                        'quizRoomTitle' => 'test',
                         'exceptionMessage' => 'test',
                     ],
                 ],

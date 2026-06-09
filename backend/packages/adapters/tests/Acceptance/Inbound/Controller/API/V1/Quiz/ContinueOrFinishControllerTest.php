@@ -78,6 +78,7 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -206,6 +207,7 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -341,6 +343,7 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',
@@ -475,6 +478,7 @@ final class ContinueOrFinishControllerTest extends AbstractWebTestCase
         $payload = [
             'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
+            'title' => 'test',
         ];
         $this->client->request(
             'POST',

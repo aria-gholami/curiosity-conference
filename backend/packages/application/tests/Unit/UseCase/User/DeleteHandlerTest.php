@@ -51,6 +51,7 @@ final class DeleteHandlerTest extends TestCase
         );
         $quizRoom = new QuizRoom(
             'test',
+            'test',
             $quiz,
             new Question(
                 'test',

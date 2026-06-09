@@ -45,6 +45,7 @@ final class ListRoomControllerTest extends TestCase
         );
         $quizRoom = new QuizRoom(
             'test',
+            'test',
             $quiz,
             null,
             $user,
@@ -66,7 +67,7 @@ final class ListRoomControllerTest extends TestCase
         self::assertCount(3, $jsonResponseAsArray['data']);
         foreach ($jsonResponseAsArray['data'] as $jsonResponseItem) {
             self::assertIsArray($jsonResponseItem);
-            self::assertSame(['id', 'quiz', 'host', 'status', 'participants'], \array_keys($jsonResponseItem));
+            self::assertSame(['id', 'title', 'quiz', 'host', 'status', 'participants'], \array_keys($jsonResponseItem));
             self::assertSame('test', $jsonResponseItem['quiz']['title']);
             self::assertSame('test', $jsonResponseItem['host']['userName']);
             self::assertSame('test', $jsonResponseItem['host']['id']);
@@ -91,12 +92,6 @@ final class ListRoomControllerTest extends TestCase
         $quizRoomGroup = [
             new QuizRoom(
                 'test',
-                $quiz,
-                null,
-                $user,
-                QuizRoom::STATUS_STARTED,
-            ),
-            new QuizRoom(
                 'test',
                 $quiz,
                 null,
@@ -104,6 +99,15 @@ final class ListRoomControllerTest extends TestCase
                 QuizRoom::STATUS_STARTED,
             ),
             new QuizRoom(
+                'test',
+                'test',
+                $quiz,
+                null,
+                $user,
+                QuizRoom::STATUS_STARTED,
+            ),
+            new QuizRoom(
+                'test',
                 'test',
                 $quiz,
                 null,
