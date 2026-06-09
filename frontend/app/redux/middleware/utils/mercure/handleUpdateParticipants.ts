@@ -1,4 +1,8 @@
-import { removeParticipant, updateParticipants } from '~/features/quizRoom/quizRoomSlice';
+import {
+    removeParticipant,
+    removeRoomFromRoomList,
+    updateParticipants,
+} from '~/features/quizRoom/quizRoomSlice';
 
 export default function handleUpdateParticipants(
     eventSource: EventSource | null,
@@ -19,6 +23,9 @@ export default function handleUpdateParticipants(
         }
         if (data.action === 'remove' && data.participantId) {
             store.dispatch(removeParticipant({ participantId: data.participantId }));
+        }
+        if (data.action === 'removeQuizRoom' && data.quizRoomId) {
+            store.dispatch(removeRoomFromRoomList(data.quizRoomId));
         }
     };
 

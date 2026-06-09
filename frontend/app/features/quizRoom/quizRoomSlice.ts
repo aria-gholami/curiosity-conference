@@ -51,6 +51,15 @@ const quizRoomSlice = createSlice({
         },
         removeRoomFromRoomList(state: QuizRoomState, action: PayloadAction<string>): void {
             state.rooms = state.rooms.filter((room) => room.id !== action.payload);
+            if (state.currentRoom.id === action.payload) {
+                state.currentRoom.id = '';
+                state.currentRoom.quiz.title = '';
+                state.currentRoom.host.userName = '';
+                state.currentRoom.host.id = '';
+                state.currentRoom.status = '';
+                state.currentRoom.participants = [];
+                state.isLoading = false;
+            }
         },
     },
     extraReducers: (builder) => {
