@@ -1,4 +1,4 @@
-import { updateParticipants } from '~/features/quizRoom/quizRoomSlice';
+import { removeParticipant, updateParticipants } from '~/features/quizRoom/quizRoomSlice';
 
 export default function handleUpdateParticipants(
     eventSource: EventSource | null,
@@ -14,8 +14,11 @@ export default function handleUpdateParticipants(
     eventSource = new EventSource(url);
     eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        if (data.participants) {
+        if (data.action === 'join' && data.participants) {
             store.dispatch(updateParticipants({ participants: data.participants }));
+        }
+        if (data.action === 'remove' && data.participantId) {
+            store.dispatch(removeParticipant({ participantId: data.participantId }));
         }
     };
 

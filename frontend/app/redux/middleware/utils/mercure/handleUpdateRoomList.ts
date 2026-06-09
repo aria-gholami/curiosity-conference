@@ -1,4 +1,4 @@
-import {addRoomToRoomList, removeRoomFromRoomList} from '~/features/quizRoom/quizRoomSlice';
+import { addRoomToRoomList, removeRoomFromRoomList } from '~/features/quizRoom/quizRoomSlice';
 
 export default function handleUpdateRoomList(
     eventSource: EventSource | null,
