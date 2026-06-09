@@ -2,6 +2,7 @@ import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse
 
 export interface QuizRoomJoinResponse {
     id: string;
+    title: string;
     quiz: {
         title: string;
     };

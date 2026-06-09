@@ -77,7 +77,7 @@ export default function TriviaRoomList() {
 
                                     <div>
                                         <h2 className="text-lg font-semibold text-dark-blue">
-                                            {room.quiz.title}
+                                            {room.title}
                                         </h2>
                                         <p className="text-card-text mt-1 text-sm">
                                             {room.participants.length} players · Status:{' '}

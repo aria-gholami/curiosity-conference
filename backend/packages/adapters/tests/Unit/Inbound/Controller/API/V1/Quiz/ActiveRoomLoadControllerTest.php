@@ -63,7 +63,7 @@ final class ActiveRoomLoadControllerTest extends TestCase
         $jsonResponse = $this->activeRoomLoadController->__invoke($request);
 
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
-        self::assertSame('{"id":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $jsonResponse->getContent());
+        self::assertSame('{"id":"test","title":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $jsonResponse->getContent());
         self::assertEquals([], $this->loggerMock->logs);
     }
 

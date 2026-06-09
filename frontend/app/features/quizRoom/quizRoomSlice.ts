@@ -20,6 +20,7 @@ const quizRoomSlice = createSlice({
         },
         resetCurrentRoom(state: QuizRoomState): void {
             state.currentRoom.id = '';
+            state.currentRoom.title = '';
             state.currentRoom.quiz.title = '';
             state.currentRoom.host.userName = '';
             state.currentRoom.host.id = '';
@@ -53,6 +54,7 @@ const quizRoomSlice = createSlice({
             state.rooms = state.rooms.filter((room) => room.id !== action.payload);
             if (state.currentRoom.id === action.payload) {
                 state.currentRoom.id = '';
+                state.currentRoom.title = '';
                 state.currentRoom.quiz.title = '';
                 state.currentRoom.host.userName = '';
                 state.currentRoom.host.id = '';
@@ -71,6 +73,7 @@ const quizRoomSlice = createSlice({
                 createQuizRoom.fulfilled,
                 (state: QuizRoomState, action: PayloadAction<QuizRoomState>) => {
                     state.currentRoom.id = action.payload.currentRoom.id;
+                    state.currentRoom.title = action.payload.currentRoom.title;
                     state.currentRoom.quiz.title = action.payload.currentRoom.quiz.title;
                     state.currentRoom.host.userName = action.payload.currentRoom.host.userName;
                     state.currentRoom.host.id = action.payload.currentRoom.host.id;
@@ -81,6 +84,7 @@ const quizRoomSlice = createSlice({
             )
             .addCase(createQuizRoom.rejected, (state: QuizRoomState) => {
                 state.currentRoom.id = '';
+                state.currentRoom.title = '';
                 state.currentRoom.quiz.title = '';
                 state.currentRoom.host.userName = '';
                 state.currentRoom.host.id = '';
@@ -95,6 +99,7 @@ const quizRoomSlice = createSlice({
                 fetchActiveQuizRoom.fulfilled,
                 (state: QuizRoomState, action: PayloadAction<QuizRoomState>) => {
                     state.currentRoom.id = action.payload.currentRoom.id;
+                    state.currentRoom.title = action.payload.currentRoom.title;
                     state.currentRoom.quiz.title = action.payload.currentRoom.quiz.title;
                     state.currentRoom.host.userName = action.payload.currentRoom.host.userName;
                     state.currentRoom.host.id = action.payload.currentRoom.host.id;
@@ -105,6 +110,7 @@ const quizRoomSlice = createSlice({
             )
             .addCase(fetchActiveQuizRoom.rejected, (state: QuizRoomState) => {
                 state.currentRoom.id = '';
+                state.currentRoom.title = '';
                 state.currentRoom.quiz.title = '';
                 state.currentRoom.host.userName = '';
                 state.currentRoom.host.id = '';
@@ -119,6 +125,7 @@ const quizRoomSlice = createSlice({
                 joinQuizRoom.fulfilled,
                 (state: QuizRoomState, action: PayloadAction<QuizRoomState>) => {
                     state.currentRoom.id = action.payload.currentRoom.id;
+                    state.currentRoom.title = action.payload.currentRoom.title;
                     state.currentRoom.quiz.title = action.payload.currentRoom.quiz.title;
                     state.currentRoom.host.userName = action.payload.currentRoom.host.userName;
                     state.currentRoom.host.id = action.payload.currentRoom.host.id;
@@ -129,6 +136,7 @@ const quizRoomSlice = createSlice({
             )
             .addCase(joinQuizRoom.rejected, (state: QuizRoomState) => {
                 state.currentRoom.id = '';
+                state.currentRoom.title = '';
                 state.currentRoom.quiz.title = '';
                 state.currentRoom.host.userName = '';
                 state.currentRoom.host.id = '';
@@ -151,6 +159,7 @@ const quizRoomSlice = createSlice({
             })
             .addCase(deleteQuizRoom.fulfilled, (state: QuizRoomState) => {
                 state.currentRoom.id = '';
+                state.currentRoom.title = '';
                 state.currentRoom.quiz.title = '';
                 state.currentRoom.host.userName = '';
                 state.currentRoom.host.id = '';

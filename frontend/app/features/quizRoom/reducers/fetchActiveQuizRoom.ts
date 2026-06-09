@@ -26,6 +26,7 @@ export const fetchActiveQuizRoom = createAsyncThunk<
                 return {
                     currentRoom: {
                         id: '',
+                        title: '',
                         quiz: {
                             title: '',
                         },
@@ -45,6 +46,7 @@ export const fetchActiveQuizRoom = createAsyncThunk<
             const state: QuizRoomState = {
                 currentRoom: {
                     id: responseBody.id,
+                    title: responseBody.title,
                     quiz: {
                         title: responseBody.quiz.title,
                     },

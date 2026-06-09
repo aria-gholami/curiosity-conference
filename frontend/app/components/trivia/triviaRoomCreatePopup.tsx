@@ -17,6 +17,7 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [selectedQuizId, setSelectedQuizId] = useState('');
+    const [quizRoomTitle, setQuizRoomTitle] = useState('');
     const quizState: QuizState = useAppSelector((state) => state.quiz);
     const userState: UserState = useAppSelector((state) => state.user);
     useFetchQuizList();
@@ -36,6 +37,7 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
         const requestBody: QuizRoomCreateRequestBody = {
             hostId: userState.userId,
             quizId: selectedQuizId,
+            title: quizRoomTitle,
         };
 
         await dispatch(createQuizRoom(requestBody) as any);
@@ -66,6 +68,20 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
                                 Create a new room for the selected quiz and invite other
                                 participants to join.
                             </p>
+                        </div>
+                    </div>
+
+                    <div className="mt-8 space-y-4">
+                        <div>
+                            <label className="input-label">Title</label>
+
+                            <input
+                                type="text"
+                                placeholder="title"
+                                className="input"
+                                value={quizRoomTitle}
+                                onChange={(event) => setQuizRoomTitle(event.target.value)}
+                            />
                         </div>
                     </div>
 
@@ -120,7 +136,7 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
                     <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                         <button
                             type="submit"
-                            disabled={!selectedQuizId}
+                            disabled={!selectedQuizId || !quizRoomTitle}
                             className="btn-primary group gap-2.5 px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)] disabled:cursor-not-allowed disabled:opacity-60"
                         >
                             <span>Create Room</span>

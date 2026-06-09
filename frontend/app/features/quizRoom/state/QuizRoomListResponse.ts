@@ -5,6 +5,7 @@ export interface Participant {
 
 export interface QuizRoomListItem {
     id: string;
+    title: string;
     quiz: {
         title: string;
     };

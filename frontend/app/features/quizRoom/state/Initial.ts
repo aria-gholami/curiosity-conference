@@ -2,6 +2,7 @@ import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse
 
 export interface QuizRoom {
     id: string;
+    title: string;
     quiz: {
         title: string;
     };
@@ -23,6 +24,7 @@ const initialState: QuizRoomState = {
     rooms: [],
     currentRoom: {
         id: '',
+        title: '',
         quiz: {
             title: '',
         },

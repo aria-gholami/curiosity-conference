@@ -34,6 +34,7 @@ final readonly class ActiveRoomLoadController
 
             return new JsonResponse([
                 'id' => $quizRoom->getId(),
+                'title' => $quizRoom->getTitle(),
                 'quiz' => [
                     'title' => $quizRoom->getQuiz()->getTitle(),
                 ],

@@ -57,7 +57,10 @@ export default function TriviaLobby() {
                         <div className="card rounded-3xl px-6 py-6">
                             <div className="flex items-center justify-between">
                                 <div>
-                                    <h3 className="text-xl font-semibold text-dark-blue">
+                                    <h1 className="text-3xl font-semibold text-dark-blue">
+                                        {quizRoomState.currentRoom.title}
+                                    </h1>
+                                    <h3 className="mt-2 text-xl font-semibold text-dark-blue">
                                         Participants
                                     </h3>
                                     <p className="text-card-text mt-1 text-sm">
