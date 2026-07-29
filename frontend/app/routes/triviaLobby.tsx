@@ -1,4 +1,4 @@
-import { ArrowRightIcon, PlayIcon } from '@heroicons/react/24/solid';
+import { ArrowRightIcon, PlayIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import RegistrationPopup from '~/components/registration/registrationPopup';
@@ -103,6 +103,29 @@ export default function TriviaLobby() {
                                                 Host
                                             </span>
                                         )}
+
+                                        {isHost &&
+                                            participant.userId !==
+                                                quizRoomState.currentRoom.host.id && (
+                                                <button
+                                                    type="button"
+                                                    title="Remove participant"
+                                                    className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                                                    onClick={async () => {
+                                                        const attributes: QuizRoomDeleteParticipantAttributes =
+                                                            {
+                                                                quizRoomId:
+                                                                    quizRoomState.currentRoom.id,
+                                                                participantId: participant.userId,
+                                                            };
+                                                        await dispatch(
+                                                            deleteParticipant(attributes) as any,
+                                                        );
+                                                    }}
+                                                >
+                                                    <XMarkIcon className="h-5 w-5" />
+                                                </button>
+                                            )}
                                     </div>
                                 ))}
                             </div>

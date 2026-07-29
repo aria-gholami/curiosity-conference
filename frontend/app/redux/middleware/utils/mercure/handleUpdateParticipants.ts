@@ -22,7 +22,13 @@ export default function handleUpdateParticipants(
             store.dispatch(updateParticipants({ participants: data.participants }));
         }
         if (data.action === 'remove' && data.participantId) {
-            store.dispatch(removeParticipant({ participantId: data.participantId }));
+            const currentUserId = store.getState().user.userId;
+            store.dispatch(
+                removeParticipant({
+                    participantId: data.participantId,
+                    currentUserId: currentUserId,
+                }),
+            );
         }
         if (data.action === 'removeQuizRoom' && data.quizRoomId) {
             store.dispatch(removeRoomFromRoomList(data.quizRoomId));
