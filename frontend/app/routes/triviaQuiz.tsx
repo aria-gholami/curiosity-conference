@@ -6,6 +6,7 @@ import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirec
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { UserState } from '~/features/user/state/Initial';
+import { useNotStartedQuiz } from '~/routes/hooks/useNotStartedQuiz';
 
 export default function TriviaQuiz() {
     const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ export default function TriviaQuiz() {
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
     useFetchActiveQuizRoom();
     useLobbyNotFoundRedirect();
+    useNotStartedQuiz();
 
     const isHost = userState.userId === quizRoomState.currentRoom.host.id;
 

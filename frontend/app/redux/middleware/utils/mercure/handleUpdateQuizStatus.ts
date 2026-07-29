@@ -1,4 +1,4 @@
-import {updateQuizRoomStatus} from '~/features/quizRoom/quizRoomSlice';
+import { updateQuizRoomStatus } from '~/features/quizRoom/quizRoomSlice';
 
 export default function handleUpdateQuizStatus(
     eventSource: EventSource | null,

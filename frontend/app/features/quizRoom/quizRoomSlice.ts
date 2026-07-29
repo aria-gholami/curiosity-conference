@@ -79,7 +79,7 @@ const quizRoomSlice = createSlice({
         },
         updateQuizRoomStatus(state: QuizRoomState, action: PayloadAction<string>): void {
             state.currentRoom.status = action.payload;
-        }
+        },
     },
     extraReducers: (builder) => {
         builder
