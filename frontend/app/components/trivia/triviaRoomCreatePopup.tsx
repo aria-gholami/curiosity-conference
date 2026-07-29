@@ -77,7 +77,7 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
 
                             <input
                                 type="text"
-                                placeholder="title"
+                                placeholder="Room title"
                                 className="input"
                                 value={quizRoomTitle}
                                 onChange={(event) => setQuizRoomTitle(event.target.value)}
