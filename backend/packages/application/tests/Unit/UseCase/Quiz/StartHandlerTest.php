@@ -8,6 +8,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\Question;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
+use CuriosityConference\Application\Tests\Unit\Mocks\HubMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\QuestionByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\RoomByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\HighscorePersisterMock;
@@ -28,6 +29,7 @@ final class StartHandlerTest extends TestCase
     private RoomByIdLoaderMock $roomByIdLoaderMock;
     private QuestionByIdLoaderMock $questionByIdLoaderMock;
     private HighscorePersisterMock $highscorePersisterMock;
+    private HubMock $hubMock;
     private StartHandler $startHandler;
 
     protected function setUp(): void
@@ -36,11 +38,13 @@ final class StartHandlerTest extends TestCase
         $this->roomByIdLoaderMock = new RoomByIdLoaderMock();
         $this->questionByIdLoaderMock = new QuestionByIdLoaderMock();
         $this->highscorePersisterMock = new HighscorePersisterMock();
+        $this->hubMock = new HubMock();
         $this->startHandler = new StartHandler(
             $this->roomUpdaterMock,
             $this->roomByIdLoaderMock,
             $this->questionByIdLoaderMock,
             $this->highscorePersisterMock,
+            $this->hubMock,
         );
     }
 
@@ -76,6 +80,7 @@ final class StartHandlerTest extends TestCase
         $quizRoom->addParticipant($host);
         $quizRoom->addParticipant($host);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
+        $this->hubMock->outputUpdate = 'test';
         $questionCollection = new QuestionCollection([
             new Question(
                 'test',
@@ -109,5 +114,7 @@ final class StartHandlerTest extends TestCase
         self::assertSame('test', $this->highscorePersisterMock->inputQuizRoom->getCurrentQuestion()->getId());
         self::assertSame(QuizRoom::STATUS_STARTED, $this->highscorePersisterMock->inputQuizRoom->getStatus());
         self::assertSame('test', $this->highscorePersisterMock->inputUser->getId());
+        self::assertSame('quiz/room/test/status', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
+        self::assertSame('{"action":"start","quizRoomId":"test"}', $this->hubMock->inputUpdateGroup[0]->getData());
     }
 }

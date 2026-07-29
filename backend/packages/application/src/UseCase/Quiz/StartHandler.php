@@ -14,6 +14,8 @@ use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Id;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 final readonly class StartHandler implements StartHandlerInterface
 {
@@ -22,6 +24,7 @@ final readonly class StartHandler implements StartHandlerInterface
         private RoomByIdLoader $roomByIdLoader,
         private ByIdLoader $byIdLoader,
         private HighscorePersister $highscorePersister,
+        private HubInterface $hub,
     ) {
     }
 
@@ -29,6 +32,7 @@ final readonly class StartHandler implements StartHandlerInterface
      * @throws LoadEntityFailedException
      * @throws PersistFailedException
      * @throws UpdateFailedException
+     * @throws \JsonException
      */
     #[\Override]
     public function handle(Id $quizRoomId): void
@@ -43,5 +47,10 @@ final readonly class StartHandler implements StartHandlerInterface
         foreach ($participantCollection as $participant) {
             $this->highscorePersister->persist($quizRoom, $participant);
         }
+
+        $this->hub->publish(new Update(
+            \sprintf('quiz/room/%s/status', $quizRoomId->value),
+            \json_encode(['action' => 'start', 'quizRoomId' => $quizRoomId->value], \JSON_THROW_ON_ERROR),
+        ));
     }
 }
