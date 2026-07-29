@@ -1,33 +1,51 @@
 import type { Middleware } from '@reduxjs/toolkit';
 import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
-import handleUpdateParticipants from '~/redux/middleware/utils/mercure/handleUpdateParticipants';
 import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
-import handleUpdateRoomList from '~/redux/middleware/utils/mercure/handleUpdateRoomList';
 import { fetchQuizRoomList } from '~/features/quizRoom/reducers/fetchQuizRoomList';
 import { fetchActiveQuizRoom } from '~/features/quizRoom/reducers/fetchActiveQuizRoom';
+import handleUpdateParticipants from '~/redux/middleware/utils/mercure/handleUpdateParticipants';
+import handleUpdateRoomList from '~/redux/middleware/utils/mercure/handleUpdateRoomList';
+import handleUpdateQuizStatus from '~/redux/middleware/utils/mercure/handleUpdateQuizStatus';
 
-let eventSource: EventSource | null = null;
-const url = new URL(import.meta.env.VITE_MERCURE_URL);
+let participantsEventSource: EventSource | null = null;
+let roomListEventSource: EventSource | null = null;
+let quizStatusEventSource: EventSource | null = null;
+const mercureUrl = import.meta.env.VITE_MERCURE_URL;
 
-export const mercureMiddleware: Middleware = (store) => (next) => (action) => {
-    const result = next(action);
-    if (
-        joinQuizRoom.fulfilled.match(action) ||
-        createQuizRoom.fulfilled.match(action) ||
-        fetchActiveQuizRoom.fulfilled.match(action)
-    ) {
-        eventSource = handleUpdateParticipants(
-            eventSource,
-            url,
-            action.payload.currentRoom.id,
-            store,
-        );
-    }
+export const mercureMiddleware: Middleware =
+    (store) => (next) => (action) => {
+        const result = next(action);
 
-    if (fetchQuizRoomList.fulfilled.match(action) ||
-        fetchActiveQuizRoom.fulfilled.match(action)) {
-        eventSource = handleUpdateRoomList(eventSource, url, store);
-    }
+        const roomWasLoaded =
+            joinQuizRoom.fulfilled.match(action) ||
+            createQuizRoom.fulfilled.match(action) ||
+            fetchActiveQuizRoom.fulfilled.match(action);
 
-    return result;
-};
+        if (roomWasLoaded) {
+            const roomId = action.payload.currentRoom.id;
+
+            participantsEventSource = handleUpdateParticipants(
+                participantsEventSource,
+                new URL(mercureUrl),
+                roomId,
+                store,
+            );
+
+            quizStatusEventSource = handleUpdateQuizStatus(
+                quizStatusEventSource,
+                new URL(mercureUrl),
+                roomId,
+                store,
+            );
+        }
+
+        if (fetchQuizRoomList.fulfilled.match(action)) {
+            roomListEventSource = handleUpdateRoomList(
+                roomListEventSource,
+                new URL(mercureUrl),
+                store,
+            );
+        }
+
+        return result;
+    };

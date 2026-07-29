@@ -50,7 +50,7 @@ final readonly class StartHandler implements StartHandlerInterface
 
         $this->hub->publish(new Update(
             \sprintf('quiz/room/%s/status', $quizRoomId->value),
-            \json_encode(['action' => 'start', 'quizRoomId' => $quizRoomId->value], \JSON_THROW_ON_ERROR),
+            \json_encode(['action' => 'started'], \JSON_THROW_ON_ERROR),
         ));
     }
 }

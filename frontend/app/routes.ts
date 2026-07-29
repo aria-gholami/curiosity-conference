@@ -4,4 +4,5 @@ export default [
     index('routes/home.tsx'),
     route('/trivia/list', './routes/triviaRoomList.tsx'),
     route('/trivia/lobby', './routes/triviaLobby.tsx'),
+    route('/trivia/quiz', './routes/triviaQuiz.tsx'),
 ] satisfies RouteConfig;

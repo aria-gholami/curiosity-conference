@@ -14,6 +14,7 @@ import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipan
 import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
 import type QuizRoomDeleteParams from '~/features/quizRoom/state/QuizRoomDeleteRequestBody';
 import { resetCurrentRoom, resetRooms } from '~/features/quizRoom/quizRoomSlice';
+import { useStartQuiz } from '~/routes/hooks/useStartQuiz';
 
 export default function TriviaLobby() {
     const dispatch = useAppDispatch();
@@ -24,6 +25,7 @@ export default function TriviaLobby() {
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
     useFetchActiveQuizRoom();
     useLobbyNotFoundRedirect();
+    useStartQuiz();
 
     const isHost = userState.userId === quizRoomState.currentRoom.host.id;
 

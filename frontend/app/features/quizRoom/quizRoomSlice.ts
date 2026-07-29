@@ -77,6 +77,9 @@ const quizRoomSlice = createSlice({
                 state.isLoading = false;
             }
         },
+        updateQuizRoomStatus(state: QuizRoomState, action: PayloadAction<string>): void {
+            state.currentRoom.status = action.payload;
+        }
     },
     extraReducers: (builder) => {
         builder
@@ -231,6 +234,7 @@ export const {
     removeParticipant,
     addRoomToRoomList,
     removeRoomFromRoomList,
+    updateQuizRoomStatus,
 } = quizRoomSlice.actions;
 
 export default quizRoomSlice;
