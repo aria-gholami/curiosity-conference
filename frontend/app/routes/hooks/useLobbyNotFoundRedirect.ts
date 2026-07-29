@@ -11,7 +11,7 @@ export const useLobbyNotFoundRedirect = () => {
 
     useEffect(() => {
         if (quizRoomState.currentRoom.id === '') {
-            navigate('/');
+            navigate('/trivia/list');
         }
     }, [quizRoomState, userState]);
 };

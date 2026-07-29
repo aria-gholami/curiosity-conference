@@ -24,7 +24,8 @@ export const mercureMiddleware: Middleware = (store) => (next) => (action) => {
         );
     }
 
-    if (fetchQuizRoomList.fulfilled.match(action)) {
+    if (fetchQuizRoomList.fulfilled.match(action) ||
+        fetchActiveQuizRoom.fulfilled.match(action)) {
         eventSource = handleUpdateRoomList(eventSource, url, store);
     }
 
