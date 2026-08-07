@@ -2,6 +2,7 @@ import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import initialState, { type QuizState } from './state/Initial';
 import { fetchQuizList } from '~/features/quiz/reducers/fetchQuizList';
 import { fetchQuizQuestion } from '~/features/quiz/reducers/fetchQuizQuestion';
+import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
 
 const quizSlice = createSlice({
     name: 'quizRoom',
@@ -46,6 +47,13 @@ const quizSlice = createSlice({
             )
             .addCase(fetchQuizQuestion.rejected, (state: QuizState) => {
                 state.isLoading = false;
+            })
+            .addCase(continueOrFinishQuiz.fulfilled, (state: QuizState, action) => {
+                const quizRoomId = action.meta.arg;
+                const index = state.quizzes.findIndex((q) => q.id === quizRoomId);
+                if (index >= 0 && index <= 3) {
+                    state.quizzes[index].question = undefined;
+                }
             });
     },
 });

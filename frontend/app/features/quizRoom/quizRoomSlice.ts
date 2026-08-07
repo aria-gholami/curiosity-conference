@@ -9,6 +9,7 @@ import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
 import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
 import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipant';
 import type QuizRoomDeleteParticipantAttributes from '~/features/quizRoom/state/QuizRoomDeleteParticipantAttributes';
+import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
 
 const quizRoomSlice = createSlice({
     name: 'quizRoom',
@@ -222,6 +223,15 @@ const quizRoomSlice = createSlice({
             )
             .addCase(fetchQuizRoomList.rejected, (state: QuizRoomState) => {
                 state.rooms = [];
+                state.isLoading = false;
+            })
+            .addCase(continueOrFinishQuiz.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(continueOrFinishQuiz.fulfilled, (state: QuizRoomState) => {
+                state.isLoading = false;
+            })
+            .addCase(continueOrFinishQuiz.rejected, (state: QuizRoomState) => {
                 state.isLoading = false;
             });
     },

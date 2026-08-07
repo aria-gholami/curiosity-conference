@@ -8,8 +8,11 @@ import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { UserState } from '~/features/user/state/Initial';
 import { useNotStartedQuiz } from '~/routes/hooks/useNotStartedQuiz';
 import { useFetchQuizRoomQuestion } from '~/routes/hooks/useFetchQuizRoomQuestion';
+import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
+import { useAppDispatch } from '~/redux/hooks';
 
 export default function TriviaQuiz() {
+    const dispatch = useAppDispatch();
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const userState: UserState = useAppSelector((state) => state.user);
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
@@ -99,6 +102,9 @@ export default function TriviaQuiz() {
                             <div className="mt-10 flex justify-center">
                                 <button
                                     type="button"
+                                    onClick={() =>
+                                        dispatch(continueOrFinishQuiz(quizRoomState.currentRoom.id))
+                                    }
                                     className="btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform"
                                 >
                                     Next Question
