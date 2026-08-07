@@ -43,7 +43,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage: storageEngine,
-    whitelist: ['user'],
+    whitelist: ['user', 'quizRoom'],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export const store = configureStore({

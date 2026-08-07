@@ -3,21 +3,31 @@ import { useState } from 'react';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirect';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useAppSelector } from '~/redux/hooks';
 import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { UserState } from '~/features/user/state/Initial';
 import { useNotStartedQuiz } from '~/routes/hooks/useNotStartedQuiz';
+import { useFetchQuizRoomQuestion } from '~/routes/hooks/useFetchQuizRoomQuestion';
 
 export default function TriviaQuiz() {
-    const dispatch = useAppDispatch();
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const userState: UserState = useAppSelector((state) => state.user);
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
+    const [selectedAnswerId, setSelectedAnswerId] = useState('');
+    const [currentQuestion, setCurrentQuestion] = useState({
+        question: 'Loading...',
+        answers: [
+            { id: '1', title: 'Answer A', isCorrect: true },
+            { id: '2', title: 'Answer B', isCorrect: false },
+            { id: '3', title: 'Answer C', isCorrect: false },
+        ],
+    });
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
     useFetchActiveQuizRoom();
     useLobbyNotFoundRedirect();
     useNotStartedQuiz();
+    useFetchQuizRoomQuestion(setCurrentQuestion);
 
     const isHost = userState.userId === quizRoomState.currentRoom.host.id;
 
@@ -29,6 +39,100 @@ export default function TriviaQuiz() {
             <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full blur-3xl bg-light-blue-glow" />
 
             <RegistrationPopup open={isRegistrationPopupOpen} />
+
+            <div className="relative z-10 mx-auto flex max-w-5xl flex-col px-6 pb-20 pt-14 sm:px-8">
+                <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+                    <div>
+                        <p className="text-text-light text-sm uppercase tracking-[0.14em]">
+                            {quizRoomState.currentRoom.quiz.title || 'Trivia Challenge'}
+                        </p>
+                        <h1 className="mt-3 text-4xl font-semibold tracking-[-0.02em] text-white sm:text-5xl">
+                            Quiz Room
+                        </h1>
+                    </div>
+                    <div className="rounded-full bg-white/10 px-4 py-2 backdrop-blur-md border border-white/20">
+                        <span className="text-white font-medium">
+                            Room: {quizRoomState.currentRoom.title}
+                        </span>
+                    </div>
+                </div>
+
+                <div className="mt-12 flex flex-col items-center">
+                    <div className="glass w-full max-w-4xl rounded-[2.5rem] p-6 sm:p-8">
+                        <div className="card min-h-[200px] flex flex-col items-center justify-center rounded-3xl px-8 py-10 text-center">
+                            <h2 className="text-2xl font-bold text-dark-blue sm:text-3xl leading-snug">
+                                {currentQuestion.question}
+                            </h2>
+                        </div>
+
+                        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+                            {currentQuestion.answers.map((answer, index) => {
+                                const colors = [
+                                    'hover:border-turquoise bg-slate-50',
+                                    'hover:border-light-blue bg-slate-50',
+                                    'hover:border-dark-blue bg-slate-50',
+                                    'hover:border-purple-500 bg-slate-50',
+                                ];
+                                return (
+                                    <button
+                                        key={answer.id}
+                                        type="button"
+                                        onClick={() => setSelectedAnswerId(answer.id)}
+                                        className={`group relative flex items-center gap-4 rounded-2xl border-2 px-6 py-5 text-left transition-all duration-200 cursor-pointer ${
+                                            selectedAnswerId === answer.id
+                                                ? 'border-dark-blue bg-dark-blue text-white shadow-lg scale-[1.02]'
+                                                : `border-transparent text-dark-blue ${colors[index % 4]} hover:shadow-md`
+                                        }`}
+                                    >
+                                        <div
+                                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold transition-colors ${
+                                                selectedAnswerId === answer.id
+                                                    ? 'bg-white text-dark-blue'
+                                                    : 'bg-dark-blue text-white group-hover:bg-turquoise'
+                                            }`}
+                                        >
+                                            {String.fromCharCode(65 + index)}
+                                        </div>
+                                        <span className="text-lg font-semibold">
+                                            {answer.title}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
+
+                        {isHost && (
+                            <div className="mt-10 flex justify-center">
+                                <button
+                                    type="button"
+                                    className="btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform"
+                                >
+                                    Next Question
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="mt-8 flex gap-4 overflow-x-auto pb-4 w-full justify-center">
+                        {quizRoomState.currentRoom.participants.map((participant) => (
+                            <div
+                                key={participant.userId}
+                                className="flex flex-col items-center gap-2 min-w-[80px]"
+                            >
+                                <div className="relative">
+                                    <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white font-bold shadow-sm">
+                                        {participant.userName.slice(0, 1).toUpperCase()}
+                                    </div>
+                                    <div className="absolute -bottom-1 -right-1 h-4 w-4 rounded-full bg-green-500 border-2 border-slate-900" />
+                                </div>
+                                <span className="text-xs text-white/80 font-medium truncate max-w-[80px]">
+                                    {participant.userName}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
