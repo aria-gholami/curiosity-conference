@@ -112,7 +112,7 @@ export default function TriviaLobby() {
                                                 <button
                                                     type="button"
                                                     title="Remove participant"
-                                                    className="rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-colors"
+                                                    className="rounded-lg bg-red-50 p-2.5 text-red-600 transition-colors hover:bg-red-100 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 cursor-pointer"
                                                     onClick={async () => {
                                                         const attributes: QuizRoomDeleteParticipantAttributes =
                                                             {
@@ -125,7 +125,10 @@ export default function TriviaLobby() {
                                                         );
                                                     }}
                                                 >
-                                                    <XMarkIcon className="h-5 w-5" />
+                                                    <XMarkIcon
+                                                        className="h-6 w-6"
+                                                        aria-hidden="true"
+                                                    />
                                                 </button>
                                             )}
                                     </div>
