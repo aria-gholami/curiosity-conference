@@ -15,7 +15,7 @@ export default function handleUpdateQuizStatus(
     eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
         if (data.action === 'started') {
-            store.dispatch(updateQuizRoomStatus('started'));
+            store.dispatch(updateQuizRoomStatus({ action: data.action, roomId }));
         }
     };
 

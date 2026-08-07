@@ -78,8 +78,15 @@ const quizRoomSlice = createSlice({
                 state.isLoading = false;
             }
         },
-        updateQuizRoomStatus(state: QuizRoomState, action: PayloadAction<string>): void {
-            state.currentRoom.status = action.payload;
+        updateQuizRoomStatus(
+            state: QuizRoomState,
+            action: PayloadAction<{ action: string; roomId: string }>,
+        ): void {
+            state.currentRoom.status = action.payload.action;
+            const roomIndex = state.rooms.findIndex((room) => room.id === action.payload.roomId);
+            if (roomIndex !== -1) {
+                state.rooms[roomIndex].status = action.payload.action;
+            }
         },
     },
     extraReducers: (builder) => {

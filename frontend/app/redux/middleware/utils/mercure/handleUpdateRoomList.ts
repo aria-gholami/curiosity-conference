@@ -1,4 +1,8 @@
-import { addRoomToRoomList, removeRoomFromRoomList } from '~/features/quizRoom/quizRoomSlice';
+import {
+    addRoomToRoomList,
+    removeRoomFromRoomList,
+    updateQuizRoomStatus,
+} from '~/features/quizRoom/quizRoomSlice';
 
 export default function handleUpdateRoomList(
     eventSource: EventSource | null,
@@ -18,6 +22,9 @@ export default function handleUpdateRoomList(
         }
         if (data.action === 'remove') {
             store.dispatch(removeRoomFromRoomList(data.quizRoomId) as any);
+        }
+        if (data.action === 'status') {
+            store.dispatch(updateQuizRoomStatus({ action: data.status, roomId: data.quizRoomId }));
         }
     };
 
