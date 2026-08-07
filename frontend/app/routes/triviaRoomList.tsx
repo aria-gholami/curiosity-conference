@@ -85,21 +85,22 @@ export default function TriviaRoomList() {
                                         </p>
                                     </div>
                                 </div>
-
-                                <button
-                                    className="btn btn-primary btn-md flex items-center gap-2 self-start sm:self-auto"
-                                    onClick={() => {
-                                        const requestBody: QuizRoomJoinRequestBody = {
-                                            userId: userState.userId,
-                                            quizRoomId: room.id,
-                                        };
-                                        dispatch(joinQuizRoom(requestBody) as any);
-                                        navigate('/trivia/lobby');
-                                    }}
-                                >
-                                    <span>Join</span>
-                                    <ArrowRightIcon className="h-4 w-4" />
-                                </button>
+                                {room.status === 'created' ? (
+                                    <button
+                                        className="btn btn-primary btn-md flex items-center gap-2 self-start sm:self-auto"
+                                        onClick={() => {
+                                            const requestBody: QuizRoomJoinRequestBody = {
+                                                userId: userState.userId,
+                                                quizRoomId: room.id,
+                                            };
+                                            dispatch(joinQuizRoom(requestBody) as any);
+                                            navigate('/trivia/lobby');
+                                        }}
+                                    >
+                                        <span>Join</span>
+                                        <ArrowRightIcon className="h-4 w-4" />
+                                    </button>
+                                ) : null}
                             </div>
                         ))}
                     </div>
