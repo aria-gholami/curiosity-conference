@@ -82,6 +82,7 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Question\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater'
+      - '@mercure.hub.default'
       - '@api.v1.quiz.logger'
 
   CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:

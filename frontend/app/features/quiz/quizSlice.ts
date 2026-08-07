@@ -12,6 +12,13 @@ const quizSlice = createSlice({
             state.quizzes = [];
             state.isLoading = false;
         },
+        removeCurrentQuestion(state: QuizState, action): void {
+            const quizRoomId = action.payload;
+            const index = state.quizzes.findIndex((q) => q.id === quizRoomId);
+            if (index !== -1) {
+                state.quizzes[index].question = undefined;
+            }
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -51,13 +58,13 @@ const quizSlice = createSlice({
             .addCase(continueOrFinishQuiz.fulfilled, (state: QuizState, action) => {
                 const quizRoomId = action.meta.arg;
                 const index = state.quizzes.findIndex((q) => q.id === quizRoomId);
-                if (index >= 0 && index <= 3) {
+                if (index !== -1) {
                     state.quizzes[index].question = undefined;
                 }
             });
     },
 });
 
-export const { reset } = quizSlice.actions;
+export const { reset, removeCurrentQuestion } = quizSlice.actions;
 
 export default quizSlice;

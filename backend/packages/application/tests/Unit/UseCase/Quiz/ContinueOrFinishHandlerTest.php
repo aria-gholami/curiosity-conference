@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\HubMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\QuestionByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\RoomByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\Quiz\Mocks\RoomUpdaterMock;
@@ -29,6 +30,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
     private RoomByIdLoaderMock $roomByIdLoaderMock;
     private QuestionByIdLoaderMock $questionByIdLoaderMock;
     private RoomUpdaterMock $roomUpdaterMock;
+    private HubMock $hubMock;
     private LoggerMock $loggerMock;
     private ContinueOrFinishHandler $continueOrFinishHandler;
 
@@ -38,10 +40,12 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $this->questionByIdLoaderMock = new QuestionByIdLoaderMock();
         $this->roomUpdaterMock = new RoomUpdaterMock();
         $this->loggerMock = new LoggerMock();
+        $this->hubMock = new HubMock();
         $this->continueOrFinishHandler = new ContinueOrFinishHandler(
             $this->roomByIdLoaderMock,
             $this->questionByIdLoaderMock,
             $this->roomUpdaterMock,
+            $this->hubMock,
             $this->loggerMock,
         );
     }
@@ -71,6 +75,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
             QuizRoom::STATUS_STARTED,
         );
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
+        $this->hubMock->outputUpdate = 'test';
         $questionCollection = new QuestionCollection([
             new Question(
                 'test',
@@ -107,6 +112,8 @@ final class ContinueOrFinishHandlerTest extends TestCase
         self::assertSame($host->getId(), $this->roomUpdaterMock->inputQuizRoom->getHost()->getId());
         self::assertSame(QuizRoom::STATUS_STARTED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
         self::assertSame('test2', $this->roomUpdaterMock->inputQuizRoom->getCurrentQuestion()->getId());
+        self::assertSame('quiz/room/test/continue', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
+        self::assertSame('{"status":"started"}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -136,6 +143,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
             QuizRoom::STATUS_STARTED,
         );
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
+        $this->hubMock->outputUpdate = 'test';
         $questionCollection = new QuestionCollection([
             new Question(
                 'test',
@@ -167,6 +175,8 @@ final class ContinueOrFinishHandlerTest extends TestCase
         self::assertSame($host->getId(), $this->roomUpdaterMock->inputQuizRoom->getHost()->getId());
         self::assertSame(QuizRoom::STATUS_FINISHED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
         self::assertNull($this->roomUpdaterMock->inputQuizRoom->getCurrentQuestion());
+        self::assertSame('quiz/room/test/continue', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
+        self::assertSame('{"status":"finished"}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 

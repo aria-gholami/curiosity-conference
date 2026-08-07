@@ -15,6 +15,8 @@ use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\Quiz\Exception\CurrentQuestionNotFoundException;
 use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Mercure\HubInterface;
+use Symfony\Component\Mercure\Update;
 
 final readonly class ContinueOrFinishHandler implements ContinueOrFinishHandlerInterface
 {
@@ -22,6 +24,7 @@ final readonly class ContinueOrFinishHandler implements ContinueOrFinishHandlerI
         private RoomByIdLoader $roomByIdLoader,
         private QuestionByIdLoader $questionByIdLoader,
         private RoomUpdater $roomUpdater,
+        private HubInterface $hub,
         private LoggerInterface $logger,
     ) {
     }
@@ -30,6 +33,7 @@ final readonly class ContinueOrFinishHandler implements ContinueOrFinishHandlerI
      * @throws CurrentQuestionNotFoundException
      * @throws LoadEntityFailedException
      * @throws UpdateFailedException
+     * @throws \JsonException
      */
     #[\Override]
     public function handle(Id $quizRoomId): void
@@ -60,5 +64,9 @@ final readonly class ContinueOrFinishHandler implements ContinueOrFinishHandlerI
         }
         $quizRoom->setStatus($nextStatus);
         $this->roomUpdater->update($quizRoom);
+        $this->hub->publish(new Update(
+            \sprintf('quiz/room/%s/continue', $quizRoomId->value),
+            \json_encode(['status' => $nextStatus], \JSON_THROW_ON_ERROR),
+        ));
     }
 }

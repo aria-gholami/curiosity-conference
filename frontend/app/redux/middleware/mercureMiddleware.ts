@@ -6,8 +6,10 @@ import { fetchActiveQuizRoom } from '~/features/quizRoom/reducers/fetchActiveQui
 import handleUpdateParticipants from '~/redux/middleware/utils/mercure/handleUpdateParticipants';
 import handleUpdateRoomList from '~/redux/middleware/utils/mercure/handleUpdateRoomList';
 import handleUpdateQuizStatus from '~/redux/middleware/utils/mercure/handleUpdateQuizStatus';
+import handleUpdateQuizQuestionContinue from '~/redux/middleware/utils/mercure/handleUpdateQuizQuestionContinue';
 
 let participantsEventSource: EventSource | null = null;
+let quizRoomQuestionContinueEventSource: EventSource | null = null;
 let roomListEventSource: EventSource | null = null;
 let quizStatusEventSource: EventSource | null = null;
 const mercureUrl = import.meta.env.VITE_MERCURE_URL;
@@ -32,6 +34,13 @@ export const mercureMiddleware: Middleware = (store) => (next) => (action) => {
 
         quizStatusEventSource = handleUpdateQuizStatus(
             quizStatusEventSource,
+            new URL(mercureUrl),
+            roomId,
+            store,
+        );
+
+        quizRoomQuestionContinueEventSource = handleUpdateQuizQuestionContinue(
+            quizRoomQuestionContinueEventSource,
             new URL(mercureUrl),
             roomId,
             store,
