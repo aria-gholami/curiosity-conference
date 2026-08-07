@@ -10,9 +10,13 @@ import { useNotStartedQuiz } from '~/routes/hooks/useNotStartedQuiz';
 import { useFetchQuizRoomQuestion } from '~/routes/hooks/useFetchQuizRoomQuestion';
 import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
 import { useAppDispatch } from '~/redux/hooks';
+import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
+import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipant';
+import { useNavigate } from 'react-router';
 
 export default function TriviaQuiz() {
     const dispatch = useAppDispatch();
+    const navigate = useNavigate();
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const userState: UserState = useAppSelector((state) => state.user);
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
@@ -98,8 +102,8 @@ export default function TriviaQuiz() {
                             })}
                         </div>
 
-                        {isHost && (
-                            <div className="mt-10 flex justify-center">
+                        {isHost ? (
+                            <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
                                 <button
                                     type="button"
                                     onClick={() =>
@@ -108,6 +112,36 @@ export default function TriviaQuiz() {
                                     className="btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform"
                                 >
                                     Next Question
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        dispatch(
+                                            deleteQuizRoom({
+                                                quizRoomId: quizRoomState.currentRoom.id,
+                                            }),
+                                        ).then(() => navigate('/'));
+                                    }}
+                                    className="px-10 py-4 text-lg font-bold rounded-2xl border-2 border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg hover:scale-105"
+                                >
+                                    Delete Room
+                                </button>
+                            </div>
+                        ) : (
+                            <div className="mt-10 flex justify-center">
+                                <button
+                                    type="button"
+                                    onClick={() => {
+                                        dispatch(
+                                            deleteParticipant({
+                                                quizRoomId: quizRoomState.currentRoom.id,
+                                                participantId: userState.userId,
+                                            }),
+                                        ).then(() => navigate('/'));
+                                    }}
+                                    className="px-10 py-4 text-lg font-bold rounded-2xl border-2 border-white/20 text-white/70 hover:bg-white/10 hover:text-white transition-all shadow-lg hover:scale-105"
+                                >
+                                    Leave Room
                                 </button>
                             </div>
                         )}
