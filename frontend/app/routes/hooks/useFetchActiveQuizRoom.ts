@@ -25,5 +25,8 @@ export const useFetchActiveQuizRoom = () => {
         if (quizRoomState.currentRoom.id !== '' && quizRoomState.currentRoom.status === 'created') {
             navigate('/trivia/lobby');
         }
+        if (quizRoomState.currentRoom.id !== '' && quizRoomState.currentRoom.status === 'started') {
+            navigate('/trivia/quiz');
+        }
     }, [quizRoomState]);
 };
