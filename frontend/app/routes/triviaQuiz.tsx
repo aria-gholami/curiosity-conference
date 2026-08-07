@@ -67,12 +67,6 @@ export default function TriviaQuiz() {
 
                         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
                             {currentQuestion.answers.map((answer, index) => {
-                                const colors = [
-                                    'hover:border-turquoise bg-slate-50',
-                                    'hover:border-light-blue bg-slate-50',
-                                    'hover:border-dark-blue bg-slate-50',
-                                    'hover:border-purple-500 bg-slate-50',
-                                ];
                                 return (
                                     <button
                                         key={answer.id}
@@ -81,7 +75,7 @@ export default function TriviaQuiz() {
                                         className={`group relative flex items-center gap-4 rounded-2xl border-2 px-6 py-5 text-left transition-all duration-200 cursor-pointer ${
                                             selectedAnswerId === answer.id
                                                 ? 'border-dark-blue bg-dark-blue text-white shadow-lg scale-[1.02]'
-                                                : `border-transparent text-dark-blue ${colors[index % 4]} hover:shadow-md`
+                                                : `border-transparent text-dark-blue hover:border-turquoise bg-slate-50 hover:shadow-md`
                                         }`}
                                     >
                                         <div
