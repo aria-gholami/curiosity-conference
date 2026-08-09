@@ -12,6 +12,7 @@ export interface QuizRoom {
     };
     status: string;
     participants: Participant[];
+    selectedAnswerId: string;
 }
 
 export interface QuizRoomState {
@@ -34,6 +35,7 @@ const initialState: QuizRoomState = {
         },
         status: '',
         participants: [],
+        selectedAnswerId: '',
     },
     isLoading: false,
 };

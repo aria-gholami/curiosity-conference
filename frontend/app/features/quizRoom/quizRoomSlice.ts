@@ -88,6 +88,9 @@ const quizRoomSlice = createSlice({
                 state.rooms[roomIndex].status = action.payload.action;
             }
         },
+        setSelectedAnswerId(state: QuizRoomState, action: PayloadAction<string>): void {
+            state.currentRoom.selectedAnswerId = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -252,6 +255,7 @@ export const {
     addRoomToRoomList,
     removeRoomFromRoomList,
     updateQuizRoomStatus,
+    setSelectedAnswerId,
 } = quizRoomSlice.actions;
 
 export default quizRoomSlice;
