@@ -15,7 +15,7 @@ import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipan
 import { useNavigate } from 'react-router';
 import { updateHighscore } from '~/features/quizRoom/reducers/updateHighscore';
 import type HighscoreUpdatePayload from '~/features/quizRoom/state/HighscoreUpdatePayload';
-import { setSelectedAnswerId } from '~/features/quizRoom/quizRoomSlice';
+import { setSelectedAnswerId, setIsRevealing } from '~/features/quizRoom/quizRoomSlice';
 
 export default function TriviaQuiz() {
     const dispatch = useAppDispatch();
@@ -82,12 +82,18 @@ export default function TriviaQuiz() {
                                     <button
                                         key={answer.id}
                                         type="button"
-                                        onClick={() => dispatch(setSelectedAnswerId(answer.id))}
+                                        onClick={() =>
+                                            !quizRoomState.isRevealing &&
+                                            dispatch(setSelectedAnswerId(answer.id))
+                                        }
                                         className={`group relative flex items-center gap-4 rounded-2xl border-2 px-6 py-5 text-left transition-all duration-200 cursor-pointer ${
-                                            selectedAnswerId === answer.id
-                                                ? 'border-dark-blue bg-dark-blue text-white shadow-lg scale-[1.02]'
-                                                : `border-transparent text-dark-blue hover:border-turquoise bg-slate-50 hover:shadow-md`
-                                        }`}
+                                            quizRoomState.isRevealing && answer.isCorrect
+                                                ? 'reveal-correct z-20 scale-[1.05]'
+                                                : selectedAnswerId === answer.id
+                                                  ? 'border-dark-blue bg-dark-blue text-white shadow-lg scale-[1.02]'
+                                                  : `border-transparent text-dark-blue hover:border-turquoise bg-slate-50 hover:shadow-md`
+                                        } ${quizRoomState.isRevealing && !answer.isCorrect ? 'opacity-50 grayscale-[0.5]' : ''}`}
+                                        disabled={quizRoomState.isRevealing}
                                     >
                                         <div
                                             className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold transition-colors ${
@@ -110,19 +116,27 @@ export default function TriviaQuiz() {
                             <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
                                 <button
                                     type="button"
+                                    disabled={
+                                        quizRoomState.isRevealing ||
+                                        quizRoomState.isNextQuestionButtonDisabled
+                                    }
                                     onClick={() => {
-                                        const updateHighscorePayload: HighscoreUpdatePayload = {
-                                            quizRoomId: quizRoomState.currentRoom.id,
-                                            userId: userState.userId,
-                                            answerId: selectedAnswerId,
-                                        };
-                                        dispatch(updateHighscore(updateHighscorePayload));
-                                        dispatch(setSelectedAnswerId(''));
-                                        dispatch(
-                                            continueOrFinishQuiz(quizRoomState.currentRoom.id),
-                                        );
+                                        dispatch(setIsRevealing(true));
+                                        setTimeout(() => {
+                                            const updateHighscorePayload: HighscoreUpdatePayload = {
+                                                quizRoomId: quizRoomState.currentRoom.id,
+                                                userId: userState.userId,
+                                                answerId: selectedAnswerId,
+                                            };
+                                            dispatch(updateHighscore(updateHighscorePayload));
+                                            dispatch(setSelectedAnswerId(''));
+                                            dispatch(
+                                                continueOrFinishQuiz(quizRoomState.currentRoom.id),
+                                            );
+                                            dispatch(setIsRevealing(false));
+                                        }, 3000);
                                     }}
-                                    className="btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform"
+                                    className={`btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform ${quizRoomState.isRevealing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >
                                     Next Question
                                 </button>

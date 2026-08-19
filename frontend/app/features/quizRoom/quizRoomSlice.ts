@@ -91,6 +91,15 @@ const quizRoomSlice = createSlice({
         setSelectedAnswerId(state: QuizRoomState, action: PayloadAction<string>): void {
             state.currentRoom.selectedAnswerId = action.payload;
         },
+        setIsRevealing(state: QuizRoomState, action: PayloadAction<boolean>): void {
+            state.isRevealing = action.payload;
+        },
+        setIsNextQuestionButtonDisabled(
+            state: QuizRoomState,
+            action: PayloadAction<boolean>,
+        ): void {
+            state.isNextQuestionButtonDisabled = action.payload;
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -256,6 +265,8 @@ export const {
     removeRoomFromRoomList,
     updateQuizRoomStatus,
     setSelectedAnswerId,
+    setIsRevealing,
+    setIsNextQuestionButtonDisabled,
 } = quizRoomSlice.actions;
 
 export default quizRoomSlice;

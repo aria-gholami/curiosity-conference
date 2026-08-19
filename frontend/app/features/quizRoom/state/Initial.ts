@@ -19,6 +19,8 @@ export interface QuizRoomState {
     rooms: QuizRoom[];
     currentRoom: QuizRoom;
     isLoading: boolean;
+    isRevealing: boolean;
+    isNextQuestionButtonDisabled: boolean;
 }
 
 const initialState: QuizRoomState = {
@@ -38,6 +40,8 @@ const initialState: QuizRoomState = {
         selectedAnswerId: '',
     },
     isLoading: false,
+    isRevealing: false,
+    isNextQuestionButtonDisabled: false,
 };
 
 export default initialState;
