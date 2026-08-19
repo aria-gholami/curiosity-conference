@@ -126,7 +126,7 @@ export default function TriviaQuiz() {
                                             const updateHighscorePayload: HighscoreUpdatePayload = {
                                                 quizRoomId: quizRoomState.currentRoom.id,
                                                 userId: userState.userId,
-                                                answerId: selectedAnswerId,
+                                                answerId: selectedAnswerId as string,
                                             };
                                             dispatch(updateHighscore(updateHighscorePayload));
                                             dispatch(setSelectedAnswerId(''));

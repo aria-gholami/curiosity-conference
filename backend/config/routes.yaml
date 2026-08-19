@@ -63,6 +63,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ActiveRoomLoadContro
     path: /api/v1/quiz/room/user/{userId}
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ActiveRoomLoadController
     methods: GET
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\RevealCorrectAnswerController:
+    path: /api/v1/quiz/room/answer/reveal
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\RevealCorrectAnswerController
+    methods: POST
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
     path: /api/v1/question
