@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz;
 
+use CuriosityConference\Application\Port\Inbound\Quiz\RevealCorrectAnswerHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
+use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Quiz\Id;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Mercure\HubInterface;
-use Symfony\Component\Mercure\Update;
 
 final readonly class RevealCorrectAnswerController
 {
     public function __construct(
-        private HubInterface $hub,
+        private RevealCorrectAnswerHandler $revealCorrectAnswerHandler,
         private LoggerInterface $logger,
     ) {
     }
@@ -28,11 +28,7 @@ final readonly class RevealCorrectAnswerController
             $quizRoomId = new Id(
                 $data['quizRoomId'] ?? '',
             );
-            $update = new Update(
-                \sprintf('quiz/room/%s/answer/reveal', $quizRoomId->value),
-                \json_encode(['action' => 'reveal'], \JSON_THROW_ON_ERROR),
-            );
-            $this->hub->publish($update);
+            $this->revealCorrectAnswerHandler->handle($quizRoomId);
 
             return new JsonResponse([], Response::HTTP_NO_CONTENT);
         } catch (EmptyStringException $exception) {
@@ -41,6 +37,12 @@ final readonly class RevealCorrectAnswerController
             ]);
 
             return new JsonResponse(['message' => 'Bad Request.'], Response::HTTP_BAD_REQUEST);
+        } catch (LoadEntityFailedException $exception) {
+            $this->logger->notice('Answer could not be revealed.', [
+                'exceptionMessage' => $exception->getMessage(),
+            ]);
+
+            return new JsonResponse(['message' => 'Internal Server Error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

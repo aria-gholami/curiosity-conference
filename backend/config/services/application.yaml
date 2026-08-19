@@ -84,6 +84,10 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater'
       - '@mercure.hub.default'
       - '@api.v1.quiz.logger'
+  CuriosityConference\Application\UseCase\Quiz\RevealCorrectAnswerHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
+      - '@mercure.hub.default'
 
   CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:
     arguments:
