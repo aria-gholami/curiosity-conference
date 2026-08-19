@@ -113,7 +113,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
         self::assertSame(QuizRoom::STATUS_STARTED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
         self::assertSame('test2', $this->roomUpdaterMock->inputQuizRoom->getCurrentQuestion()->getId());
         self::assertSame('quiz/room/test/continue', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
-        self::assertSame('{"status":"started"}', $this->hubMock->inputUpdateGroup[0]->getData());
+        self::assertSame('{"status":"started","hostId":"test"}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -176,7 +176,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
         self::assertSame(QuizRoom::STATUS_FINISHED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
         self::assertNull($this->roomUpdaterMock->inputQuizRoom->getCurrentQuestion());
         self::assertSame('quiz/room/test/continue', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
-        self::assertSame('{"status":"finished"}', $this->hubMock->inputUpdateGroup[0]->getData());
+        self::assertSame('{"status":"finished","hostId":"test"}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 
