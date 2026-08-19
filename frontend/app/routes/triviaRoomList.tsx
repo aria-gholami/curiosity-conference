@@ -22,8 +22,8 @@ export default function TriviaRoomList() {
     const [isCreateRoomPopupOpen, setIsCreateRoomPopupOpen] = useState(false);
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
-    useFetchQuizRoomList();
     useFetchActiveQuizRoom();
+    useFetchQuizRoomList();
 
     return (
         <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">
