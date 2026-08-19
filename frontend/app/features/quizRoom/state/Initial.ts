@@ -12,15 +12,15 @@ export interface QuizRoom {
     };
     status: string;
     participants: Participant[];
-    selectedAnswerId: string;
+    selectedAnswerId?: string;
 }
 
 export interface QuizRoomState {
     rooms: QuizRoom[];
     currentRoom: QuizRoom;
     isLoading: boolean;
-    isRevealing: boolean;
-    isNextQuestionButtonDisabled: boolean;
+    isRevealing?: boolean;
+    isNextQuestionButtonDisabled?: boolean;
 }
 
 const initialState: QuizRoomState = {
