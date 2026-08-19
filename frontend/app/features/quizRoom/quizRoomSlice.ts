@@ -10,6 +10,7 @@ import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
 import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipant';
 import type QuizRoomDeleteParticipantAttributes from '~/features/quizRoom/state/QuizRoomDeleteParticipantAttributes';
 import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
+import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
 
 const quizRoomSlice = createSlice({
     name: 'quizRoom',
@@ -93,12 +94,6 @@ const quizRoomSlice = createSlice({
         },
         setIsRevealing(state: QuizRoomState, action: PayloadAction<boolean>): void {
             state.isRevealing = action.payload;
-        },
-        setIsNextQuestionButtonDisabled(
-            state: QuizRoomState,
-            action: PayloadAction<boolean>,
-        ): void {
-            state.isNextQuestionButtonDisabled = action.payload;
         },
     },
     extraReducers: (builder) => {
@@ -252,6 +247,15 @@ const quizRoomSlice = createSlice({
             })
             .addCase(continueOrFinishQuiz.rejected, (state: QuizRoomState) => {
                 state.isLoading = false;
+            })
+            .addCase(revealAnswer.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(revealAnswer.fulfilled, (state: QuizRoomState) => {
+                state.isLoading = false;
+            })
+            .addCase(revealAnswer.rejected, (state: QuizRoomState) => {
+                state.isLoading = false;
             });
     },
 });
@@ -266,7 +270,6 @@ export const {
     updateQuizRoomStatus,
     setSelectedAnswerId,
     setIsRevealing,
-    setIsNextQuestionButtonDisabled,
 } = quizRoomSlice.actions;
 
 export default quizRoomSlice;

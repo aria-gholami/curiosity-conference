@@ -8,14 +8,12 @@ import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { UserState } from '~/features/user/state/Initial';
 import { useNotStartedQuiz } from '~/routes/hooks/useNotStartedQuiz';
 import { useFetchQuizRoomQuestion } from '~/routes/hooks/useFetchQuizRoomQuestion';
-import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
 import { useAppDispatch } from '~/redux/hooks';
 import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
 import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipant';
 import { useNavigate } from 'react-router';
-import { updateHighscore } from '~/features/quizRoom/reducers/updateHighscore';
-import type HighscoreUpdatePayload from '~/features/quizRoom/state/HighscoreUpdatePayload';
-import { setSelectedAnswerId, setIsRevealing } from '~/features/quizRoom/quizRoomSlice';
+import { setSelectedAnswerId } from '~/features/quizRoom/quizRoomSlice';
+import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
 
 export default function TriviaQuiz() {
     const dispatch = useAppDispatch();
@@ -116,25 +114,9 @@ export default function TriviaQuiz() {
                             <div className="mt-10 flex flex-col sm:flex-row justify-center gap-4">
                                 <button
                                     type="button"
-                                    disabled={
-                                        quizRoomState.isRevealing ||
-                                        quizRoomState.isNextQuestionButtonDisabled
-                                    }
+                                    disabled={quizRoomState.isRevealing}
                                     onClick={() => {
-                                        dispatch(setIsRevealing(true));
-                                        setTimeout(() => {
-                                            const updateHighscorePayload: HighscoreUpdatePayload = {
-                                                quizRoomId: quizRoomState.currentRoom.id,
-                                                userId: userState.userId,
-                                                answerId: selectedAnswerId as string,
-                                            };
-                                            dispatch(updateHighscore(updateHighscorePayload));
-                                            dispatch(setSelectedAnswerId(''));
-                                            dispatch(
-                                                continueOrFinishQuiz(quizRoomState.currentRoom.id),
-                                            );
-                                            dispatch(setIsRevealing(false));
-                                        }, 3000);
+                                        dispatch(revealAnswer(quizRoomState.currentRoom.id));
                                     }}
                                     className={`btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform ${quizRoomState.isRevealing ? 'opacity-50 cursor-not-allowed' : ''}`}
                                 >

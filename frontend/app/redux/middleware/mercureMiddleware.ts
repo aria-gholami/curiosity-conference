@@ -7,8 +7,10 @@ import handleUpdateParticipants from '~/redux/middleware/utils/mercure/handleUpd
 import handleUpdateRoomList from '~/redux/middleware/utils/mercure/handleUpdateRoomList';
 import handleUpdateQuizStatus from '~/redux/middleware/utils/mercure/handleUpdateQuizStatus';
 import handleUpdateQuizQuestionContinue from '~/redux/middleware/utils/mercure/handleUpdateQuizQuestionContinue';
+import handleRevealAnswer from '~/redux/middleware/utils/mercure/handleRevealAnswer';
 
 let participantsEventSource: EventSource | null = null;
+let revealAnswerEventSource: EventSource | null = null;
 let quizRoomQuestionContinueEventSource: EventSource | null = null;
 let roomListEventSource: EventSource | null = null;
 let quizStatusEventSource: EventSource | null = null;
@@ -41,6 +43,13 @@ export const mercureMiddleware: Middleware = (store) => (next) => (action) => {
 
         quizRoomQuestionContinueEventSource = handleUpdateQuizQuestionContinue(
             quizRoomQuestionContinueEventSource,
+            new URL(mercureUrl),
+            roomId,
+            store,
+        );
+
+        revealAnswerEventSource = handleRevealAnswer(
+            revealAnswerEventSource,
             new URL(mercureUrl),
             roomId,
             store,
