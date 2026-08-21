@@ -56,7 +56,9 @@ class QuizRoomRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('qr')
             ->innerJoin('qr.participants', 'p')
             ->andWhere('p.id = :userId')
+            ->andWhere('qr.status != :status')
             ->setParameter('userId', $userId, 'uuid')
+            ->setParameter('status', QuizRoom::STATUS_CLOSED)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

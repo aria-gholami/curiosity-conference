@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\UseCase\Quiz;
 
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Application\Port\Inbound\Quiz\CloseRoomHandler as CloseRoomHandlerInterface;
 use CuriosityConference\Application\Port\Outbound\Quiz\RoomByIdLoader;
 use CuriosityConference\Application\Port\Outbound\Quiz\RoomUpdater;
@@ -32,7 +33,7 @@ final readonly class CloseRoomHandler implements CloseRoomHandlerInterface
     public function handle(Id $quizRoomId): void
     {
         $quizRoom = $this->roomByIdLoader->load($quizRoomId->value);
-        $quizRoom->setStatus('closed');
+        $quizRoom->setStatus(QuizRoom::STATUS_CLOSED);
         $this->roomUpdater->update($quizRoom);
     }
 }
