@@ -1,7 +1,8 @@
 name: curiosity-conference
 type: php
 docroot: backend/public
-php_version: "8.4"
+php_version: "8.5"
+nodejs_version: "26"
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: []
