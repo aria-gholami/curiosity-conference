@@ -67,6 +67,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\RevealCorrectAnswerC
     path: /api/v1/quiz/room/answer/reveal
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\RevealCorrectAnswerController
     methods: POST
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CloseRoomController:
+    path: /api/v1/quiz/room/close
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CloseRoomController
+    methods: POST
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
     path: /api/v1/question

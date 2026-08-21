@@ -137,6 +137,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CloseRoomController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\CloseRoomHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\Persister:
     arguments:

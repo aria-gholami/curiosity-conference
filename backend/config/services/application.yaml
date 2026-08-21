@@ -88,6 +88,10 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@mercure.hub.default'
+  CuriosityConference\Application\UseCase\Quiz\CloseRoomHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater'
 
   CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:
     arguments:
