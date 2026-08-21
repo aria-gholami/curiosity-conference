@@ -1,4 +1,8 @@
-import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse';
+export interface Participant {
+    userName: string;
+    userId: string;
+    score: number;
+}
 
 export interface QuizRoom {
     id: string;

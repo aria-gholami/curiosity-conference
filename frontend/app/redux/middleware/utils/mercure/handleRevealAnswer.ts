@@ -1,5 +1,7 @@
 import { setIsRevealing } from '~/features/quizRoom/quizRoomSlice';
 import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
+import type HighscoreUpdatePayload from '~/features/quizRoom/state/HighscoreUpdatePayload';
+import { updateHighscore } from '~/features/quizRoom/reducers/updateHighscore';
 
 export default function handleRevealAnswer(
     eventSource: EventSource | null,
@@ -19,6 +21,15 @@ export default function handleRevealAnswer(
         const userId = state.user.userId;
         store.dispatch(setIsRevealing(true));
         setTimeout(() => {
+            const state = store.getState();
+            const userId = state.user.userId;
+            const selectedAnswerId = state.quizRoom.currentRoom.selectedAnswerId;
+            const updateHighscorePayload: HighscoreUpdatePayload = {
+                quizRoomId: roomId,
+                userId: userId,
+                answerId: selectedAnswerId,
+            };
+            store.dispatch(updateHighscore(updateHighscorePayload));
             store.dispatch(setIsRevealing(false));
             if (userId === data.hostId) {
                 store.dispatch(continueOrFinishQuiz(roomId));

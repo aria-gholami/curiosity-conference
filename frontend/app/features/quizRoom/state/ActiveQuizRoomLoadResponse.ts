@@ -1,4 +1,4 @@
-import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse';
+import type { Participant } from '~/features/quizRoom/state/Initial';
 
 export interface ActiveQuizRoomLoadResponse {
     id: string;

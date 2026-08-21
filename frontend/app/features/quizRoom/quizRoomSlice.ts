@@ -1,9 +1,8 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import initialState, { type QuizRoom, type QuizRoomState } from './state/Initial';
+import initialState, { type Participant, type QuizRoom, type QuizRoomState } from './state/Initial';
 import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
 import { fetchQuizRoomList } from '~/features/quizRoom/reducers/fetchQuizRoomList';
 import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
-import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse';
 import { fetchActiveQuizRoom } from '~/features/quizRoom/reducers/fetchActiveQuizRoom';
 import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
 import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
@@ -11,6 +10,8 @@ import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipan
 import type QuizRoomDeleteParticipantAttributes from '~/features/quizRoom/state/QuizRoomDeleteParticipantAttributes';
 import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
 import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
+import { fetchHighscoreByQuizRoom } from '~/features/quizRoom/reducers/fetchHighscoreByQuizRoom';
+import { closeQuizRoom } from '~/features/quizRoom/reducers/closeQuizRoom';
 
 const quizRoomSlice = createSlice({
     name: 'quizRoom',
@@ -255,6 +256,30 @@ const quizRoomSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(revealAnswer.rejected, (state: QuizRoomState) => {
+                state.isLoading = false;
+            })
+            .addCase(closeQuizRoom.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(closeQuizRoom.fulfilled, (state: QuizRoomState) => {
+                state.currentRoom.status = 'closed';
+                state.isLoading = false;
+            })
+            .addCase(closeQuizRoom.rejected, (state: QuizRoomState) => {
+                state.isLoading = false;
+            })
+            .addCase(fetchHighscoreByQuizRoom.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(
+                fetchHighscoreByQuizRoom.fulfilled,
+                (state: QuizRoomState, action: PayloadAction<QuizRoomState>) => {
+                    state.currentRoom.participants = action.payload.currentRoom.participants;
+                    state.rooms = action.payload.rooms;
+                    state.isLoading = false;
+                },
+            )
+            .addCase(fetchHighscoreByQuizRoom.rejected, (state: QuizRoomState) => {
                 state.isLoading = false;
             });
     },
