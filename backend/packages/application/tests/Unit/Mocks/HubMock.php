@@ -6,6 +6,7 @@ namespace CuriosityConference\Application\Tests\Unit\Mocks;
 
 use Symfony\Component\Mercure\HubInterface;
 use Symfony\Component\Mercure\Jwt\TokenFactoryInterface;
+use Symfony\Component\Mercure\ProtocolVersion;
 use Symfony\Component\Mercure\Update;
 
 final class HubMock implements HubInterface
@@ -33,5 +34,15 @@ final class HubMock implements HubInterface
         $this->inputUpdateGroup[] = $update;
 
         return $this->outputUpdate;
+    }
+
+    public function getProtocolVersion(): ProtocolVersion
+    {
+        return ProtocolVersion::V1;
+    }
+
+    public function getCookieName(): string
+    {
+        return 'mercure';
     }
 }
