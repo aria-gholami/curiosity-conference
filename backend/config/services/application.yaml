@@ -55,6 +55,9 @@ services:
   CuriosityConference\Application\UseCase\Quiz\ActiveRoomLoadHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByUserIdLoader'
+  CuriosityConference\Application\UseCase\Quiz\ListHighscoreByAllRoomsHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\HighscoreByAllRoomsLoader'
 
   CuriosityConference\Application\UseCase\Question\CreateHandler:
     arguments:

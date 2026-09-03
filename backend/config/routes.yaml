@@ -59,6 +59,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByRoomC
     path: /api/v1/quiz/room/{quizRoomId}/highscores
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByRoomController
     methods: GET
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByAllRoomsController:
+    path: /api/v1/quiz/room/highscores
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByAllRoomsController
+    methods: GET
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ActiveRoomLoadController:
     path: /api/v1/quiz/room/user/{userId}
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ActiveRoomLoadController
