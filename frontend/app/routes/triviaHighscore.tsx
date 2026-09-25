@@ -24,8 +24,10 @@ export default function TriviaHighscore() {
         (a, b) => (b.score ?? 0) - (a.score ?? 0),
     );
 
-    const handleLeaveToRoomList = () => {
-        dispatch(closeQuizRoom(quizRoomState.currentRoom.id));
+    const handleLeaveToRoomList = async () => {
+        if (quizRoomState.currentRoom.id) {
+            await dispatch(closeQuizRoom(quizRoomState.currentRoom.id));
+        }
         dispatch(resetRooms());
         dispatch(resetCurrentRoom());
         navigate('/trivia/list');

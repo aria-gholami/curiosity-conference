@@ -1,29 +1,27 @@
-import { PlusIcon, ArrowRightIcon, UserGroupIcon } from '@heroicons/react/24/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { useFetchQuizRoomList } from '~/routes/hooks/useFetchQuizRoomList';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
-import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import type { QuizRoom, QuizRoomState } from '~/features/quizRoom/state/Initial';
+import { useAppSelector } from '~/redux/hooks';
 import RegistrationPopup from '~/components/registration/registrationPopup';
 import TriviaRoomCreatePopup from '~/components/trivia/triviaRoomCreatePopup';
-import { useNavigate } from 'react-router';
-import type { UserState } from '~/features/user/state/Initial';
-import type QuizRoomJoinRequestBody from '~/features/quizRoom/state/QuizRoomJoinRequestBody';
-import { joinQuizRoom } from '~/features/quizRoom/reducers/joinQuizRoom';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
+import { useFetchHighscoreByAllQuizRoom } from '~/routes/hooks/useFetchHighscoreByAllQuizRoom';
+import TriviaRoomListItem from '~/components/trivia/triviaRoomListItem';
+import TriviaRoomParticipantsPopup from '~/components/trivia/triviaRoomParticipantsPopup';
 
 export default function TriviaRoomList() {
-    const navigate = useNavigate();
-    const dispatch = useAppDispatch();
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
-    const userState: UserState = useAppSelector((state) => state.user);
 
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
     const [isCreateRoomPopupOpen, setIsCreateRoomPopupOpen] = useState(false);
+    const [selectedParticipantsRoom, setSelectedParticipantsRoom] = useState<QuizRoom | null>(null);
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
     useFetchActiveQuizRoom();
     useFetchQuizRoomList();
+    useFetchHighscoreByAllQuizRoom();
 
     return (
         <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">
@@ -65,46 +63,24 @@ export default function TriviaRoomList() {
 
                 <div className="glass mt-10 rounded-[2rem] p-5 sm:p-6 max-h-[60vh] overflow-y-auto">
                     <div className="flex flex-col gap-4">
-                        {quizRoomState.rooms.map((room) => (
-                            <div
-                                key={room.id}
-                                className="card flex flex-col gap-4 rounded-3xl px-6 py-5 sm:flex-row sm:items-center sm:justify-between"
-                            >
-                                <div className="flex items-start gap-4">
-                                    <div className="icon-box relative flex h-12 w-12 items-center justify-center border border-slate-200 bg-slate-100 text-cyan-700">
-                                        <UserGroupIcon className="h-5 w-5" />
-                                    </div>
-
-                                    <div>
-                                        <h2 className="text-lg font-semibold text-dark-blue">
-                                            {room.title}
-                                        </h2>
-                                        <p className="text-card-text mt-1 text-sm">
-                                            {room.participants.length} players · Status:{' '}
-                                            {room.status}
-                                        </p>
-                                    </div>
-                                </div>
-                                {room.status === 'created' ? (
-                                    <button
-                                        className="btn btn-primary btn-md flex items-center gap-2 self-start sm:self-auto"
-                                        onClick={() => {
-                                            const requestBody: QuizRoomJoinRequestBody = {
-                                                userId: userState.userId,
-                                                quizRoomId: room.id,
-                                            };
-                                            dispatch(joinQuizRoom(requestBody) as any);
-                                            navigate('/trivia/lobby');
-                                        }}
-                                    >
-                                        <span>Join</span>
-                                        <ArrowRightIcon className="h-4 w-4" />
-                                    </button>
-                                ) : null}
-                            </div>
-                        ))}
+                        {quizRoomState.rooms.map((room: QuizRoom) => {
+                            return (
+                                <TriviaRoomListItem
+                                    key={room.id}
+                                    room={room}
+                                    onShowParticipants={setSelectedParticipantsRoom}
+                                />
+                            );
+                        })}
                     </div>
                 </div>
+                {selectedParticipantsRoom && (
+                    <TriviaRoomParticipantsPopup
+                        room={selectedParticipantsRoom}
+                        open={true}
+                        onClose={() => setSelectedParticipantsRoom(null)}
+                    />
+                )}
             </div>
         </div>
     );

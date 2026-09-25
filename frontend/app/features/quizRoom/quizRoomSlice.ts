@@ -12,6 +12,7 @@ import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFin
 import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
 import { fetchHighscoreByQuizRoom } from '~/features/quizRoom/reducers/fetchHighscoreByQuizRoom';
 import { closeQuizRoom } from '~/features/quizRoom/reducers/closeQuizRoom';
+import { fetchHighscoreByAllQuizRoom } from '~/features/quizRoom/reducers/fetchHighscoreByAllQuizRoom';
 
 const quizRoomSlice = createSlice({
     name: 'quizRoom',
@@ -280,6 +281,20 @@ const quizRoomSlice = createSlice({
                 },
             )
             .addCase(fetchHighscoreByQuizRoom.rejected, (state: QuizRoomState) => {
+                state.isLoading = false;
+            })
+            .addCase(fetchHighscoreByAllQuizRoom.pending, (state: QuizRoomState) => {
+                state.isLoading = true;
+            })
+            .addCase(
+                fetchHighscoreByAllQuizRoom.fulfilled,
+                (state: QuizRoomState, action: PayloadAction<QuizRoomState>) => {
+                    state.currentRoom = action.payload.currentRoom;
+                    state.rooms = action.payload.rooms;
+                    state.isLoading = false;
+                },
+            )
+            .addCase(fetchHighscoreByAllQuizRoom.rejected, (state: QuizRoomState) => {
                 state.isLoading = false;
             });
     },

@@ -17,6 +17,7 @@ export interface QuizRoom {
     status: string;
     participants: Participant[];
     selectedAnswerId?: string;
+    score?: number;
 }
 
 export interface QuizRoomState {
