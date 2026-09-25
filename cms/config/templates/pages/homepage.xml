@@ -36,11 +36,98 @@
             <tag name="sulu.rlp"/>
         </property>
 
-        <property name="article" type="text_editor">
+        <property name="quizzes" type="block">
             <meta>
-                <title lang="en">Article</title>
-                <title lang="de">Artikel</title>
+                <title lang="en">Quizzes</title>
+                <title lang="de">Quizzes</title>
             </meta>
+
+            <types>
+                <type name="quiz">
+                    <meta>
+                        <title lang="en">Quiz</title>
+                        <title lang="de">Quiz</title>
+                    </meta>
+
+                    <properties>
+                        <property name="quizTitle" type="text_line" mandatory="true">
+                            <meta>
+                                <title lang="en">Quiz title</title>
+                                <title lang="de">Quiz-Titel</title>
+                            </meta>
+                        </property>
+
+                        <property name="description" type="text_area">
+                            <meta>
+                                <title lang="en">Description</title>
+                                <title lang="de">Beschreibung</title>
+                            </meta>
+                        </property>
+
+                        <property name="questions" type="block">
+                            <meta>
+                                <title lang="en">Questions</title>
+                                <title lang="de">Fragen</title>
+                            </meta>
+
+                            <types>
+                                <type name="question">
+                                    <meta>
+                                        <title lang="en">Question</title>
+                                        <title lang="de">Frage</title>
+                                    </meta>
+
+                                    <properties>
+                                        <property name="question" type="text_line" mandatory="true">
+                                            <meta>
+                                                <title lang="en">Question</title>
+                                                <title lang="de">Frage</title>
+                                            </meta>
+                                        </property>
+
+                                        <property name="answers" type="block">
+                                            <meta>
+                                                <title lang="en">Answers</title>
+                                                <title lang="de">Antworten</title>
+                                            </meta>
+
+                                            <types>
+                                                <type name="answer">
+                                                    <meta>
+                                                        <title lang="en">Answer</title>
+                                                        <title lang="de">Antwort</title>
+                                                    </meta>
+
+                                                    <properties>
+                                                        <property name="answer"
+                                                                  type="text_line"
+                                                                  mandatory="true">
+                                                            <meta>
+                                                                <title lang="en">Answer</title>
+                                                                <title lang="de">Antwort</title>
+                                                            </meta>
+                                                        </property>
+
+                                                        <property name="correct"
+                                                                  type="checkbox">
+                                                            <meta>
+                                                                <title lang="en">Correct answer</title>
+                                                                <title lang="de">Richtige Antwort</title>
+                                                            </meta>
+                                                        </property>
+                                                    </properties>
+                                                </type>
+                                            </types>
+                                        </property>
+
+                                    </properties>
+                                </type>
+                            </types>
+                        </property>
+
+                    </properties>
+                </type>
+            </types>
         </property>
     </properties>
 </template>
