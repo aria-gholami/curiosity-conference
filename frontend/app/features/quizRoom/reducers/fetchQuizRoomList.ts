@@ -7,7 +7,7 @@ import type { QuizRoomListItem } from '~/features/quizRoom/state/QuizRoomListRes
 
 export const fetchQuizRoomList = createAsyncThunk<QuizRoomState, void, { state: RootState }>(
     'quizRoomList/fetch',
-    async (_, { getState }) => {
+    async () => {
         try {
             const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/quiz/room`;
             const response = await fetch(url, {
@@ -20,7 +20,6 @@ export const fetchQuizRoomList = createAsyncThunk<QuizRoomState, void, { state: 
                 throw new Error('Response by fetch quiz room list api is invalid.');
             }
 
-            const { quizRoom } = getState() as RootState;
             const responseBody: QuizRoomListResponse = await response.json();
             const state: QuizRoomState = {
                 currentRoom: {
@@ -47,15 +46,13 @@ export const fetchQuizRoomList = createAsyncThunk<QuizRoomState, void, { state: 
                         userName: room.host.userName,
                     },
                     status: room.status,
-                    participants: quizRoom.currentRoom.participants.map(
-                        (participant: Participant) => {
-                            return {
-                                userName: participant.userName,
-                                userId: participant.userId,
-                                score: 0,
-                            };
-                        },
-                    ),
+                    participants: room.participants.map((participant: Participant) => {
+                        return {
+                            userName: participant.userName,
+                            userId: participant.userId,
+                            score: 0,
+                        };
+                    }),
                 })),
                 isLoading: true,
             };

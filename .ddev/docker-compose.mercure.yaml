@@ -17,7 +17,7 @@ services:
       MERCURE_SUBSCRIBER_JWT_KEY: "oCvmrslUyLvPI6e5GNdMG0U4ahdbfA88"
       MERCURE_EXTRA_DIRECTIVES: |
         anonymous
-        cors_origins https://curiosity-conference.ddev.site:5173
+        cors_origins https://curiosity-conference.ddev.site
     volumes:
       - mercure_data:/data
       - mercure_config:/config

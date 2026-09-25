@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<psalm
+    errorLevel="6"
+    resolveFromConfigFile="true"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="https://getpsalm.org/schema/config"
+    xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
+    findUnusedBaselineEntry="true"
+    findUnusedCode="false"
+>
+    <projectFiles>
+        <directory name="src" />
+        <directory name="packages/*/src" />
+        <ignoreFiles>
+            <directory name="vendor" />
+            <file name="src/Kernel.php" />
+        </ignoreFiles>
+    </projectFiles>
+
+    <issueHandlers>
+        <InternalClass>
+            <errorLevel type="suppress">
+                <directory name="src/DataFixtures" />
+            </errorLevel>
+        </InternalClass>
+    </issueHandlers>
+</psalm>

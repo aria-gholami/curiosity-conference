@@ -11,7 +11,7 @@ export const createQuizRoom = createAsyncThunk<
     { state: RootState }
 >(
     'quizRoom/create',
-    async (requestBody: QuizRoomCreateRequestBody, { getState }) => {
+    async (requestBody: QuizRoomCreateRequestBody) => {
         try {
             const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/quiz/room`;
             const response = await fetch(url, {
@@ -26,7 +26,6 @@ export const createQuizRoom = createAsyncThunk<
                 throw new Error('Response by create quiz room api is invalid.');
             }
 
-            const { quizRoom } = getState() as RootState;
             const responseBody: QuizRoomCreateResponse = await response.json();
             const state: QuizRoomState = {
                 currentRoom: {
@@ -40,15 +39,13 @@ export const createQuizRoom = createAsyncThunk<
                         userName: responseBody.host.userName,
                     },
                     status: responseBody.status,
-                    participants: quizRoom.currentRoom.participants.map(
-                        (participant: Participant) => {
-                            return {
-                                userName: participant.userName,
-                                userId: participant.userId,
-                                score: 0,
-                            };
-                        },
-                    ),
+                    participants: responseBody.participants.map((participant: Participant) => {
+                        return {
+                            userName: participant.userName,
+                            userId: participant.userId,
+                            score: 0,
+                        };
+                    }),
                 },
                 rooms: [],
                 isLoading: false,

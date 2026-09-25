@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/12.0/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory="var/cache/.phpunit.cache"
+         executionOrder="random"
+         requireCoverageMetadata="true"
+         beStrictAboutCoverageMetadata="true"
+         beStrictAboutOutputDuringTests="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         failOnPhpunitDeprecation="true"
+         colors="true"
+         failOnRisky="true"
+         failOnWarning="true">
+
+    <php>
+        <env name="APP_ENV" value="test"/>
+        <env name="APP_SECRET" value="test"/>
+        <env name="DEFAULT_URI" value="localhost"/>
+        <env name="KERNEL_CLASS" value="App\Kernel"/>
+        <env name="DATABASE_URL" value="mysql://root:root@db:3306/db"/>
+        <env name="LOG_LEVEL" value="100"/>
+
+        <!-- ###+ symfony/messenger ### -->
+        <!-- Choose one of the transports below -->
+        <!-- MESSENGER_TRANSPORT_DSN=amqp://guest:guest@localhost:5672/%2f/messages -->
+        <!-- MESSENGER_TRANSPORT_DSN=redis://localhost:6379/messages -->
+        <env name="MESSENGER_TRANSPORT_DSN" value="doctrine://default?auto_setup=0"/>
+        <!-- ###- symfony/messenger ### -->
+
+        <!-- ###+ cmsig/seal-symfony-bundle ### -->
+        <!-- Install one of the following adapters: https://php-cmsig.github.io/search/getting-started/index.html -->
+        <!-- SEAL_DSN="meilisearch://127.0.0.1:7700" -->
+        <!-- SEAL_DSN="algolia://ALGOLIA_APPLICATION_ID:ALGOLIA_ADMIN_API_KEY" -->
+        <!-- SEAL_DSN="elasticsearch://127.0.0.1:9200" -->
+        <!-- SEAL_DSN="opensearch://127.0.0.1:9200" -->
+        <!-- SEAL_DSN="redis://127.0.0.1:6379" -->
+        <!-- SEAL_DSN="solr://127.0.0.1:8983" -->
+        <!-- SEAL_DSN="typesense://S3CR3T@127.0.0.1:8108" -->
+        <env name="SEAL_DSN" value="loupe://%kernel.project_dir%/var/indexes"/>
+        <!-- ###- cmsig/seal-symfony-bundle ### -->
+    </php>
+
+    <testsuites>
+        <testsuite name="Acceptance-Tests">
+            <directory>tests/Acceptance</directory>
+        </testsuite>
+        <testsuite name="Unit-Tests">
+            <directory>tests/Unit</directory>
+            <directory>packages/*/tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
+            <directory>src</directory>
+            <directory>packages/*/src</directory>
+        </include>
+        <exclude>
+            <file>src/Kernel.php</file>
+        </exclude>
+    </source>
+</phpunit>

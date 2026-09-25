@@ -1,0 +1,20 @@
+FROM dunglas/frankenphp:php8.5-alpine
+
+RUN install-php-extensions \
+    pdo_mysql \
+    gd \
+    intl \
+    zip \
+    opcache \
+    exif \
+    bcmath \
+    imagick \
+    xml
+
+WORKDIR /var/www/cms
+
+EXPOSE 8000
+
+COPY Caddyfile.dev /etc/caddy/Caddyfile
+
+CMD ["frankenphp", "run", "--config", "/etc/caddy/Caddyfile"]

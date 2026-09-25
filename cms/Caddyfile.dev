@@ -1,0 +1,55 @@
+{
+  frankenphp {
+    php_ini {
+      opcache.memory_consumption 128
+      opcache.interned_strings_buffer 8
+      opcache.max_accelerated_files 4000
+      opcache.revalidate_freq 60
+      opcache.enable_cli 1
+      upload_max_filesize 50M
+      post_max_size 50M
+    }
+  }
+}
+
+:8000 {
+  try_files {path} index.php
+  root /var/www/cms/public
+
+  @preflight method OPTIONS
+  handle @preflight {
+    header {
+      Access-Control-Allow-Origin *
+      Access-Control-Allow-Methods "GET, POST, OPTIONS"
+      Access-Control-Allow-Headers "Content-Type, Authorization, Accept, api-key"
+      Access-Control-Max-Age 600
+      Vary Origin
+    }
+    respond "" 204
+  }
+
+  header {
+    Access-Control-Allow-Origin *
+    Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers "Content-Type, Authorization, Accept, api-key"
+    Access-Control-Max-Age 600
+    Vary Origin
+    Referrer-Policy strict-origin-when-cross-origin
+    Permissions-Policy "microphone=(), camera=(), geolocation=()"
+    X-XSS-Protection true
+    X-Frame-Options SAMEORIGIN
+    X-Content-Type-Options nosniff
+    -X-Powered-By
+    -X-Generator
+    -Server
+  }
+  log {
+    output file /var/log/caddy/access.log {
+        roll_size 1gb
+        roll_keep 10
+        roll_keep_for 168h
+    }
+  }
+
+  php_server
+}
