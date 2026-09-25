@@ -6,3 +6,6 @@ sulu_admin:
     lists:
         directories:
             - "%kernel.project_dir%/config/lists"
+
+sulu_preview:
+    mode: 'off'
