@@ -29,6 +29,7 @@ hooks:
         - exec: cd frontend && cp .env.dev .env.local
         - exec: supervisorctl restart webextradaemons:vite
         - exec: cd backend && cp .env.dev .env.local
+        - exec: cd cms && cp .env.dev .env.local
         - exec: cd backend && composer install --no-interaction --optimize-autoloader
         - exec: cd backend && php bin/console doctrine:database:drop --force && php bin/console doctrine:database:drop --env=test --force
         - exec: cd backend && php bin/console doctrine:database:create && php bin/console doctrine:database:create --env=test
