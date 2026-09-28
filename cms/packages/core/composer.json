@@ -1,0 +1,22 @@
+{
+    "name": "curiosity-conference/core",
+    "description": "Core package for Curiosity Conference CMS",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "CuriosityConference\\Core\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CuriosityConference\\Core\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aria Gholami",
+            "email": "ariagholami@web.de"
+        }
+    ],
+    "require": {}
+}

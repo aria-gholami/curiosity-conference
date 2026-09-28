@@ -1,0 +1,147 @@
+<?php
+
+declare(strict_types=1);
+
+namespace CuriosityConference\ApiAdapter\Tests\Http;
+
+use CuriosityConference\ApiAdapter\Http\ApiHttpClient;
+use CuriosityConference\ApiAdapter\Tests\Http\Mocks\JsonValidatorMock;
+use CuriosityConference\ApiAdapter\Tests\Http\Mocks\SchemaMock;
+use CuriosityConference\ApiAdapter\Tests\Mocks\HttpClientMock;
+use CuriosityConference\ApiAdapter\Tests\Mocks\LoggerMock;
+use CuriosityConference\ApiAdapter\Tests\Mocks\ResponseMock;
+use CuriosityConference\JsonValidator\Validation\Exception\InvalidHttpJsonResponseSchema;
+use CuriosityConference\JsonValidator\Validation\Model\JsonString;
+use Opis\JsonSchema\Errors\ValidationError;
+use Opis\JsonSchema\Info\DataInfo;
+use Opis\JsonSchema\ValidationResult;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
+use PHPUnit\Framework\TestCase;
+
+#[CoversClass(ApiHttpClient::class)]
+#[UsesClass(JsonString::class)]
+final class ApiHttpClientTest extends TestCase
+{
+    private JsonValidatorMock $jsonValidatorMock;
+    private HttpClientMock $httpClientMock;
+    private LoggerMock $loggerMock;
+    private ApiHttpClient $apiHttpClient;
+
+    protected function setUp(): void
+    {
+        $this->jsonValidatorMock = new JsonValidatorMock();
+        $this->httpClientMock = new HttpClientMock();
+        $this->loggerMock = new LoggerMock();
+        $this->apiHttpClient = new ApiHttpClient($this->jsonValidatorMock, $this->httpClientMock, $this->loggerMock);
+    }
+
+    public function testRequestIsValid(): void
+    {
+        $method = 'GET';
+        $url = 'https://test-valid.com';
+        $options = ['test'];
+
+        $expectedResponseMock = new ResponseMock();
+        $expectedResponseMock->outputStatusCode = 200;
+        $expectedResponseMock->outputContent = 'test';
+        $this->httpClientMock->outputResponse = $expectedResponseMock;
+        $expectedValidatorResult = new ValidationResult(null);
+        $this->jsonValidatorMock->outputValidationResult = $expectedValidatorResult;
+
+        $response = $this->apiHttpClient->request($method, $url, $options);
+
+        self::assertSame('test', $response->getContent());
+        self::assertSame(200, $response->getStatusCode());
+        self::assertSame($url, $this->httpClientMock->inputUrl);
+        self::assertSame($method, $this->httpClientMock->inputMethod);
+        self::assertSame($options, $this->httpClientMock->inputOptions);
+        self::assertSame('test', $this->jsonValidatorMock->inputJsonString->value);
+        self::assertSame('https://test-valid.com.json', $this->jsonValidatorMock->inputSchemaId->value);
+        $expectedPath = __DIR__ . '/Schema/https__test-valid.com.json';
+        $expectedPath = \str_replace('tests', 'src', $expectedPath);
+        self::assertSame(
+            $expectedPath,
+            $this->jsonValidatorMock->inputSchemaPath->value,
+        );
+        self::assertSame([], $this->loggerMock->logs);
+    }
+
+    public function testRequestWithoutExistingJsonSchemaFile(): void
+    {
+        $method = 'GET';
+        $url = 'test-valid2.com';
+        $options = ['test'];
+
+        $expectedResponseMock = new ResponseMock();
+        $expectedResponseMock->outputStatusCode = 200;
+        $expectedResponseMock->outputContent = 'test';
+        $this->httpClientMock->outputResponse = $expectedResponseMock;
+        $expectedValidatorResult = new ValidationResult(null);
+        $this->jsonValidatorMock->outputValidationResult = $expectedValidatorResult;
+
+        try {
+            $this->apiHttpClient->request($method, $url, $options);
+            $this->fail('InvalidHttpJsonResponseSchema was expected to be thrown.');
+        } catch (InvalidHttpJsonResponseSchema $exception) {
+            self::assertSame(
+                'Validation failed for value "test-valid2.com" with error: "Json response for url "test-valid2.com" and method "GET" is not existing."',
+                $exception->getMessage(),
+            );
+        }
+        self::assertSame([
+            'notice' => [
+                [
+                    'message' => 'JSON schema for for url and method not found.',
+                    'context' => [
+                        'url' => 'test-valid2.com',
+                        'method' => 'GET',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testRequestWithErrorsInValidationResult(): void
+    {
+        $method = 'GET';
+        $url = 'https://test-valid.com';
+        $options = ['test'];
+
+        $expectedResponseMock = new ResponseMock();
+        $expectedResponseMock->outputStatusCode = 200;
+        $expectedResponseMock->outputContent = 'test';
+        $this->httpClientMock->outputResponse = $expectedResponseMock;
+        $schemaMock = new SchemaMock();
+        $dataInfo = new DataInfo('testValue', 'testType', 'testRoot');
+        $message = 'testMessage';
+        $validationError = new ValidationError(
+            'test',
+            $schemaMock,
+            $dataInfo,
+            $message,
+        );
+        $expectedValidatorResult = new ValidationResult($validationError);
+        $this->jsonValidatorMock->outputValidationResult = $expectedValidatorResult;
+
+        try {
+            $this->apiHttpClient->request($method, $url, $options);
+            $this->fail('InvalidHttpJsonResponseSchema was expected to be thrown.');
+        } catch (InvalidHttpJsonResponseSchema $exception) {
+            self::assertSame(
+                'Validation failed for value "https://test-valid.com" with error: "Json schema for url "https://test-valid.com" and method "GET" is invalid."',
+                $exception->getMessage(),
+            );
+        }
+        self::assertSame([
+            'notice' => [
+                [
+                    'message' => 'Could not validate input json.',
+                    'context' => [
+                        'errorMessage' => $message,
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+}

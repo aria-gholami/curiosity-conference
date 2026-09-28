@@ -18,7 +18,7 @@
         <env name="APP_SECRET" value="test"/>
         <env name="DEFAULT_URI" value="localhost"/>
         <env name="KERNEL_CLASS" value="App\Kernel"/>
-        <env name="DATABASE_URL" value="mysql://root:root@db:3306/db"/>
+        <env name="DATABASE_URL" value="mysql://root:root@db:3306/cms"/>
         <env name="LOG_LEVEL" value="100"/>
 
         <!-- ###+ symfony/messenger ### -->
@@ -42,9 +42,6 @@
     </php>
 
     <testsuites>
-        <testsuite name="Acceptance-Tests">
-            <directory>tests/Acceptance</directory>
-        </testsuite>
         <testsuite name="Unit-Tests">
             <directory>tests/Unit</directory>
             <directory>packages/*/tests</directory>

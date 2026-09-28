@@ -7,10 +7,6 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
-###> phpunit/phpunit ###
-/.phpunit.cache/
-###< phpunit/phpunit ###
-
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
@@ -19,6 +15,7 @@
 # web
 /public/bundles
 /public/uploads
+/public/coverage
 
 # composer
 /composer.phar
@@ -39,17 +36,3 @@ node_modules
 
 # System files
 .DS_Store
-
-###> phpstan/phpstan ###
-phpstan.neon
-###< phpstan/phpstan ###
-
-###> php-cs-fixer/shim ###
-/.php-cs-fixer.php
-/.php-cs-fixer.cache
-###< php-cs-fixer/shim ###
-
-###> vincentlanglet/twig-cs-fixer ###
-/.twig-cs-fixer.php
-/.twig-cs-fixer.cache
-###< vincentlanglet/twig-cs-fixer ###

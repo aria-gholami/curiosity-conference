@@ -115,18 +115,6 @@
     "massive/build-bundle": {
         "version": "0.6.0"
     },
-    "php-cs-fixer/shim": {
-        "version": "3.94",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "3.0",
-            "ref": "6cf95ac1baa3d6f5816dd4db7281997912f239a6"
-        },
-        "files": [
-            ".php-cs-fixer.dist.php"
-        ]
-    },
     "php-http/discovery": {
         "version": "1.20",
         "recipe": {
@@ -137,33 +125,6 @@
         },
         "files": [
             "config/packages/http_discovery.yaml"
-        ]
-    },
-    "phpstan/phpstan": {
-        "version": "2.1",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "1.0",
-            "ref": "5e490cc197fb6bb1ae22e5abbc531ddc633b6767"
-        },
-        "files": [
-            "phpstan.dist.neon"
-        ]
-    },
-    "phpunit/phpunit": {
-        "version": "11.5",
-        "recipe": {
-            "repo": "github.com/symfony/recipes",
-            "branch": "main",
-            "version": "11.1",
-            "ref": "1117deb12541f35793eec9fff7494d7aa12283fc"
-        },
-        "files": [
-            ".env.test",
-            "phpunit.dist.xml",
-            "tests/bootstrap.php",
-            "bin/phpunit"
         ]
     },
     "scheb/2fa-bundle": {
@@ -408,14 +369,5 @@
         "files": [
             "config/packages/workflow.yaml"
         ]
-    },
-    "vincentlanglet/twig-cs-fixer": {
-        "version": "3.13",
-        "recipe": {
-            "repo": "github.com/symfony/recipes-contrib",
-            "branch": "main",
-            "version": "3.0",
-            "ref": "d42582ae1bce86fd43491d6264c738b0867f8ffe"
-        }
     }
 }

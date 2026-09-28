@@ -7,6 +7,7 @@
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     findUnusedBaselineEntry="true"
     findUnusedCode="false"
+    autoloader="vendor/autoload.php"
 >
     <projectFiles>
         <directory name="src" />
@@ -16,12 +17,4 @@
             <file name="src/Kernel.php" />
         </ignoreFiles>
     </projectFiles>
-
-    <issueHandlers>
-        <InternalClass>
-            <errorLevel type="suppress">
-                <directory name="src/DataFixtures" />
-            </errorLevel>
-        </InternalClass>
-    </issueHandlers>
 </psalm>

@@ -1,7 +1,62 @@
 parameters:
     default_locale: en
+    backend_base_url: '%env(int:BACKEND_BASE_URL)%'
+    log_level: '%env(int:LOG_LEVEL)%'
 
 services:
     _defaults:
         autowire: false
         autoconfigure: false
+
+    App\EventSubscriber\TriviaPageModifiedSubscriber:
+        tags:
+            - { name: kernel.event_listener, event: 'Sulu\Page\Domain\Event\PageModifiedEvent', method: 'onPageModified' }
+        arguments:
+            - '@App\Trivia\PageModifiedBackendSendHandler'
+            - '@trivia.logger'
+
+    App\Trivia\PageModifiedBackendSendHandler:
+        arguments:
+            - '@CuriosityConference\ApiAdapter\Trivia\PageModifiedDataBackendSender'
+
+    CuriosityConference\ApiAdapter\Trivia\PageModifiedDataBackendSender:
+        arguments:
+            - '%backend_base_url%'
+            - '@CuriosityConference\ApiAdapter\Http\ApiHttpClient'
+            - '@trivia.logger'
+
+    CuriosityConference\ApiAdapter\Http\ApiHttpClient:
+        arguments:
+            - '@CuriosityConference\JsonValidator\Validation\OpisJsonValidator'
+            - '@http_client'
+            - '@http.logger'
+    CuriosityConference\JsonValidator\Validation\OpisJsonValidator: ~
+
+    http.logging-handler:
+        class: Monolog\Handler\RotatingFileHandler
+        arguments:
+            - '%kernel.logs_dir%/http_%kernel.environment%.log'
+            - 14
+            - '%log_level%'
+            - true
+            - 436
+    http.logger:
+        class: Monolog\Logger
+        arguments:
+            - 'http'
+        calls:
+            - [ pushHandler, [ '@http.logging-handler' ] ]
+    trivia.logging-handler:
+        class: Monolog\Handler\RotatingFileHandler
+        arguments:
+            - '%kernel.logs_dir%/trivia_%kernel.environment%.log'
+            - 14
+            - '%log_level%'
+            - true
+            - 436
+    trivia.logger:
+        class: Monolog\Logger
+        arguments:
+            - 'trivia'
+        calls:
+            - [ pushHandler, [ '@trivia.logging-handler' ] ]

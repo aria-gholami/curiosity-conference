@@ -1,0 +1,22 @@
+{
+    "name": "curiosity-conference/api-adapter",
+    "description": "Api Adapter package for Curiosity Conference CMS",
+    "license": "mit",
+    "autoload": {
+        "psr-4": {
+            "CuriosityConference\\ApiAdapter\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CuriosityConference\\ApiAdapter\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Aria Gholami",
+            "email": "ariagholami@web.de"
+        }
+    ],
+    "require": {}
+}

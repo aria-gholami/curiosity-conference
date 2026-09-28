@@ -1,0 +1,12 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://curiosity-conference.ddev.site/trivia/quizzes",
+    "type": "object",
+    "properties": {
+        "message": {
+            "type": "string"
+        }
+    },
+    "required": ["message"],
+    "additionalProperties": false
+}
