@@ -1,1 +1,2 @@
-XDEBUG_MODE=coverage ./backend/bin/phpunit -c backend/phpunit.xml --coverage-html backend/public/coverage --exclude-group Acceptance
+XDEBUG_MODE=coverage ./testing-tools/phpunit -c backend/phpunit.xml --coverage-html backend/public/coverage --exclude-group Acceptance
+XDEBUG_MODE=coverage ./testing-tools/phpunit -c cms/phpunit.xml --coverage-html cms/public/coverage --exclude-group Acceptance

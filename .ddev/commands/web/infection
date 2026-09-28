@@ -1,1 +1,9 @@
-cd backend && ./bin/infection --threads=4
+XDEBUG_MODE=coverage ./testing-tools/infection \
+  --configuration=backend/infection.json5 \
+  --threads=4 \
+  --test-framework=phpunit
+
+XDEBUG_MODE=coverage ./testing-tools/infection \
+  --configuration=cms/infection.json5 \
+  --threads=4 \
+  --test-framework=phpunit

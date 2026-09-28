@@ -34,10 +34,11 @@ hooks:
         - exec: cd backend && php bin/console doctrine:database:create && php bin/console doctrine:database:create --env=test
         - exec: cd backend && php bin/console doctrine:schema:create && php bin/console doctrine:schema:create --env=test
         - exec: cd backend && php bin/console doctrine:fixtures:load -n
-        - exec: cd backend && wget -O phpunit https://phar.phpunit.de/phpunit-13.phar && chmod +x phpunit && mv phpunit bin/phpunit
-        - exec: cd backend && wget -O phpcs https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/v3.95.18/php-cs-fixer.phar && chmod +x phpcs && mv phpcs bin/phpcs
-        - exec: cd backend && wget -O psalm https://github.com/vimeo/psalm/releases/download/6.16.1/psalm.phar && chmod +x psalm && mv psalm bin/psalm
-        - exec: cd backend && wget -O infection https://github.com/infection/infection/releases/download/0.35.0/infection.phar && chmod +x infection && mv infection bin/infection
+        - exec: mkdir testing-tools
+        - exec: cd testing-tools && wget -O phpunit https://phar.phpunit.de/phpunit-13.phar && chmod +x phpunit
+        - exec: cd testing-tools && wget -O phpcs https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/v3.95.18/php-cs-fixer.phar && chmod +x phpcs
+        - exec: cd testing-tools && wget -O psalm https://github.com/vimeo/psalm/releases/download/6.16.1/psalm.phar && chmod +x psalm
+        - exec: cd testing-tools && wget -O infection https://github.com/infection/infection/releases/download/0.35.0/infection.phar && chmod +x infection
 
 # Key features of DDEV's config.yaml:
 

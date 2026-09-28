@@ -14,7 +14,7 @@
   },
   "tmpDir": "var/cache",
   "phpUnit": {
-    "customPath": "bin/phpunit"
+    "customPath": "../testing-tools/phpunit"
   },
   "mutators": {
     "@default": true
