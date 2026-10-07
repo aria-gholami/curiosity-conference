@@ -61,6 +61,30 @@ final class DeleteHandlerTest extends TestCase
         self::assertSame('{"action":"remove","participantId":"test"}', $this->hubMock->inputUpdateGroup[1]->getData());
     }
 
+    public function testHandleWithOnlyClosedRooms(): void
+    {
+        $quizRoomResults = [
+            [
+                'id' => 'test2',
+                'status' => QuizRoom::STATUS_CLOSED,
+            ],
+            [
+                'id' => 'test',
+                'status' => QuizRoom::STATUS_CLOSED,
+            ],
+        ];
+        $this->roomByUserIdLoaderMock->outputQuizRoomResults = $quizRoomResults;
+        $this->hubMock->outputUpdate = 'test';
+
+        $userId = new Id('test');
+        $this->deleteHandler->handle($userId);
+
+        self::assertSame($userId->value, $this->roomByUserIdLoaderMock->inputUserId);
+        self::assertSame($userId->value, $this->userByIdDeleterMock->inputUserId->value);
+        self::assertSame('quiz/room/list', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
+        self::assertSame('{"action":"remove","quizRoomResults":["test2","test"]}', $this->hubMock->inputUpdateGroup[0]->getData());
+    }
+
     public function testHandleWithLoadEntityFailedException(): void
     {
         $this->roomByUserIdLoaderMock->outputQuizRoomResults = [];

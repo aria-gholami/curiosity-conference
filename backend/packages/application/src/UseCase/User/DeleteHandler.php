@@ -47,9 +47,13 @@ final readonly class DeleteHandler implements DeleteHandlerInterface
             'quiz/room/list',
             \json_encode(['action' => 'remove', 'quizRoomResults' => \array_column($quizRoomResults, 'id')], \JSON_THROW_ON_ERROR),
         ));
-        $this->hub->publish(new Update(
-            \sprintf('quiz/room/%s/participants', $quizRoomResultWithStatusNotClosed[0]['id']),
-            \json_encode(['action' => 'remove', 'participantId' => $userId->value], \JSON_THROW_ON_ERROR),
-        ));
+        if (\count($quizRoomResultWithStatusNotClosed) > 0) {
+            $this->hub->publish(
+                new Update(
+                    \sprintf('quiz/room/%s/participants', $quizRoomResultWithStatusNotClosed[0]['id']),
+                    \json_encode(['action' => 'remove', 'participantId' => $userId->value], \JSON_THROW_ON_ERROR),
+                ),
+            );
+        }
     }
 }
