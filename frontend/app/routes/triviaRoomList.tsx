@@ -10,6 +10,7 @@ import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 import { useFetchHighscoreByAllQuizRoom } from '~/routes/hooks/useFetchHighscoreByAllQuizRoom';
 import TriviaRoomListItem from '~/components/trivia/triviaRoomListItem';
 import TriviaRoomParticipantsPopup from '~/components/trivia/triviaRoomParticipantsPopup';
+import { useResetQuiz } from '~/routes/hooks/useResetQuiz';
 
 export default function TriviaRoomList() {
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
@@ -22,6 +23,7 @@ export default function TriviaRoomList() {
     useFetchActiveQuizRoom();
     useFetchQuizRoomList();
     useFetchHighscoreByAllQuizRoom();
+    useResetQuiz();
 
     return (
         <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">
