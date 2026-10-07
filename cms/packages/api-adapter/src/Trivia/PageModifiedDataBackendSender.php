@@ -16,6 +16,7 @@ final readonly class PageModifiedDataBackendSender implements PageModifiedDataBa
 
     public function __construct(
         private string $baseUrl,
+        private string $apiKey,
         private HttpClientInterface $client,
         private LoggerInterface $logger,
     ) {
@@ -35,15 +36,18 @@ final readonly class PageModifiedDataBackendSender implements PageModifiedDataBa
                 self::METHOD,
                 $this->baseUrl . self::URL,
                 [
+                    'headers' => [
+                        'API-Key' => $this->apiKey,
+                    ],
                     'json' => $postData,
                 ],
             );
-            if (200 !== $response->getStatusCode()) {
-                $this->logger->notice('Sending trivia modified data has no response code 200.', [
+            if (201 !== $response->getStatusCode()) {
+                $this->logger->notice('Sending trivia modified data has no response code 201.', [
                     'postData' => $postData,
                     'statusCode' => $response->getStatusCode(),
                 ]);
-                throw CouldNotSendTriviaModifiedDataException::sendFailed('Response code is not 200.');
+                throw CouldNotSendTriviaModifiedDataException::sendFailed('Response code is not 201.');
             }
 
             $this->logger->info('Trivia modified data is sent successfully.', [

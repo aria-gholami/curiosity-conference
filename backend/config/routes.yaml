@@ -19,6 +19,10 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
     path: /api/v1/quiz
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController
     methods: POST
+CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\TriviaPersistController:
+    path: /api/v1/trivia/quizzes
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\TriviaPersistController
+    methods: POST
 CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController:
     path: /api/v1/quiz
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController

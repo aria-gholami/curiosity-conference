@@ -61,7 +61,7 @@ export const createQuizRoom = createAsyncThunk<
     {
         condition: (_arg, { getState }) => {
             const { quizRoom } = getState() as RootState;
-            if (quizRoom.isLoading) {
+            if (quizRoom.isLoading && quizRoom.rooms.length !== 0) {
                 return false;
             }
         },

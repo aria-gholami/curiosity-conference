@@ -22,6 +22,9 @@ final readonly class Persister implements PersisterInterface
     ) {
     }
 
+    /**
+     * @throws PersistFailedException
+     */
     #[\Override]
     public function persist(Question $question): QuestionEntity
     {

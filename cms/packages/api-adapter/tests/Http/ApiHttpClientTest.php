@@ -43,7 +43,7 @@ final class ApiHttpClientTest extends TestCase
         $options = ['test'];
 
         $expectedResponseMock = new ResponseMock();
-        $expectedResponseMock->outputStatusCode = 200;
+        $expectedResponseMock->outputStatusCode = 201;
         $expectedResponseMock->outputContent = 'test';
         $this->httpClientMock->outputResponse = $expectedResponseMock;
         $expectedValidatorResult = new ValidationResult(null);
@@ -52,7 +52,7 @@ final class ApiHttpClientTest extends TestCase
         $response = $this->apiHttpClient->request($method, $url, $options);
 
         self::assertSame('test', $response->getContent());
-        self::assertSame(200, $response->getStatusCode());
+        self::assertSame(201, $response->getStatusCode());
         self::assertSame($url, $this->httpClientMock->inputUrl);
         self::assertSame($method, $this->httpClientMock->inputMethod);
         self::assertSame($options, $this->httpClientMock->inputOptions);
@@ -74,7 +74,7 @@ final class ApiHttpClientTest extends TestCase
         $options = ['test'];
 
         $expectedResponseMock = new ResponseMock();
-        $expectedResponseMock->outputStatusCode = 200;
+        $expectedResponseMock->outputStatusCode = 201;
         $expectedResponseMock->outputContent = 'test';
         $this->httpClientMock->outputResponse = $expectedResponseMock;
         $expectedValidatorResult = new ValidationResult(null);
@@ -96,6 +96,7 @@ final class ApiHttpClientTest extends TestCase
                     'context' => [
                         'url' => 'test-valid2.com',
                         'method' => 'GET',
+                        'statusCode' => 201,
                     ],
                 ],
             ],
@@ -109,7 +110,7 @@ final class ApiHttpClientTest extends TestCase
         $options = ['test'];
 
         $expectedResponseMock = new ResponseMock();
-        $expectedResponseMock->outputStatusCode = 200;
+        $expectedResponseMock->outputStatusCode = 201;
         $expectedResponseMock->outputContent = 'test';
         $this->httpClientMock->outputResponse = $expectedResponseMock;
         $schemaMock = new SchemaMock();
@@ -139,6 +140,9 @@ final class ApiHttpClientTest extends TestCase
                     'message' => 'Could not validate input json.',
                     'context' => [
                         'errorMessage' => $message,
+                        'url' => 'https://test-valid.com',
+                        'method' => 'GET',
+                        'statusCode' => 201,
                     ],
                 ],
             ],

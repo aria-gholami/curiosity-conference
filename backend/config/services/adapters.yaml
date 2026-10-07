@@ -149,6 +149,12 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\TriviaPersistController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\Quiz\TriviaPersistHandler'
+      - '@api.v1.quiz.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\Persister:
     arguments:
@@ -172,6 +178,10 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
       - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\ByNameLoader:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
       - '@api.v1.quiz.logger'
@@ -237,6 +247,10 @@ services:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
   CuriosityConference\Adapters\Outbound\Question\ByIdDeleter:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository'
+      - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Question\ByQuizDeleter:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository'
       - '@api.v1.quiz.logger'

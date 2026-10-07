@@ -28,6 +28,14 @@ services:
   CuriosityConference\Application\UseCase\Quiz\CreateHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\Persister'
+  CuriosityConference\Application\UseCase\Quiz\TriviaPersistHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Quiz\Loader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\ByIdDeleter'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\ByNameLoader'
+      - '@CuriosityConference\Adapters\Outbound\Quiz\Persister'
+      - '@CuriosityConference\Adapters\Outbound\Question\ByQuizDeleter'
+      - '@CuriosityConference\Adapters\Outbound\Question\Persister'
   CuriosityConference\Application\UseCase\Quiz\ListHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\Loader'

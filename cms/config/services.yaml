@@ -1,6 +1,7 @@
 parameters:
     default_locale: en
-    backend_base_url: '%env(int:BACKEND_BASE_URL)%'
+    backend_base_url: '%env(string:BACKEND_BASE_URL)%'
+    api_key: '%env(string:API_KEY)%'
     log_level: '%env(int:LOG_LEVEL)%'
 
 services:
@@ -12,9 +13,11 @@ services:
         tags:
             - { name: kernel.event_listener, event: 'Sulu\Page\Domain\Event\PageModifiedEvent', method: 'onPageModified' }
         arguments:
+            - '@App\Trivia\ExecutedCodeByCLIChecker'
             - '@App\Trivia\PageModifiedBackendSendHandler'
             - '@trivia.logger'
 
+    App\Trivia\ExecutedCodeByCLIChecker: ~
     App\Trivia\PageModifiedBackendSendHandler:
         arguments:
             - '@CuriosityConference\ApiAdapter\Trivia\PageModifiedDataBackendSender'
@@ -22,6 +25,7 @@ services:
     CuriosityConference\ApiAdapter\Trivia\PageModifiedDataBackendSender:
         arguments:
             - '%backend_base_url%'
+            - '%api_key%'
             - '@CuriosityConference\ApiAdapter\Http\ApiHttpClient'
             - '@trivia.logger'
 
@@ -60,3 +64,10 @@ services:
             - 'trivia'
         calls:
             - [ pushHandler, [ '@trivia.logging-handler' ] ]
+
+    App\DataFixtures\TriviaFixtures:
+        arguments:
+            - '@messenger.routable_message_bus'
+            - '@sulu_page.page_repository'
+        tags:
+            - 'doctrine.fixture.orm'

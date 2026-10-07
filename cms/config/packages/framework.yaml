@@ -23,3 +23,11 @@ when@test:
 when@stage:
     framework:
         disallow_search_engine_index: true
+
+when@dev:
+    framework:
+        http_client:
+            default_options:
+                verify_peer: false
+                verify_host: false
+

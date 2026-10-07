@@ -47,6 +47,7 @@ final readonly class ApiHttpClient implements HttpClientInterface
             $this->logger->notice('JSON schema for for url and method not found.', [
                 'url' => $url,
                 'method' => $method,
+                'statusCode' => $response->getStatusCode(),
             ]);
             throw InvalidHttpJsonResponseSchema::schemaNotFound($url, $method);
         }
@@ -61,6 +62,9 @@ final readonly class ApiHttpClient implements HttpClientInterface
             $validationError = $validationResult->error();
             $this->logger->notice('Could not validate input json.', [
                 'errorMessage' => $validationError->message(),
+                'url' => $url,
+                'method' => $method,
+                'statusCode' => $response->getStatusCode(),
             ]);
 
             throw InvalidHttpJsonResponseSchema::jsonSchemaIsInvalid($url, $method);

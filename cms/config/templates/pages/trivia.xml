@@ -1,0 +1,161 @@
+<?xml version="1.0" ?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+
+    <key>trivia</key>
+
+    <view>pages/trivia</view>
+    <controller>Sulu\Content\UserInterface\Controller\Website\ContentController::indexAction</controller>
+    <cacheLifetime>86400</cacheLifetime>
+
+    <meta>
+        <title lang="en">Trivia</title>
+        <title lang="de">Trivia</title>
+    </meta>
+
+    <properties>
+        <property name="title" type="text_line" mandatory="true">
+            <meta>
+                <title lang="en">Title</title>
+                <title lang="de">Titel</title>
+            </meta>
+            <params>
+                <param name="headline" value="true"/>
+            </params>
+
+            <tag name="sulu.rlp.part"/>
+        </property>
+
+        <property name="url" type="route" mandatory="true">
+            <meta>
+                <title lang="en">Resourcelocator</title>
+                <title lang="de">Adresse</title>
+            </meta>
+
+            <tag name="sulu.rlp"/>
+        </property>
+
+        <property name="quizzes" type="block">
+            <meta>
+                <title lang="en">Quizzes</title>
+                <title lang="de">Quizzes</title>
+            </meta>
+
+            <types>
+                <type name="quiz">
+                    <meta>
+                        <title lang="en">Quiz</title>
+                        <title lang="de">Quiz</title>
+                    </meta>
+
+                    <properties>
+                        <property name="quizTitle" type="text_line" mandatory="true">
+                            <meta>
+                                <title lang="en">Quiz title</title>
+                                <title lang="de">Quiz-Titel</title>
+
+                                <info_text lang="en">
+                                    This quiz can't be deleted while it is being used by a quiz room.
+                                    This also applies while the room is in the lobby or on the highscore page.
+                                </info_text>
+                                <info_text lang="de">
+                                    Dieses Quiz kann nicht gelöscht werden, solange es von einem Quizraum verwendet wird.
+                                    Dies gilt auch, während sich der Raum in der Lobby oder auf der Highscore-Seite befindet.
+                                </info_text>
+                            </meta>
+                        </property>
+
+                        <property name="description" type="text_area">
+                            <meta>
+                                <title lang="en">Description</title>
+                                <title lang="de">Beschreibung</title>
+                            </meta>
+                        </property>
+
+                        <property name="questions" type="block" mandatory="true" minOccurs="1">
+                            <meta>
+                                <title lang="en">Questions</title>
+                                <title lang="de">Fragen</title>
+                                <info_text lang="en">
+                                    Questions and answers can't be modified while a quiz room is actively playing this quiz.
+                                    They can still be edited while the room is in the lobby or on the highscore page.
+                                </info_text>
+                                <info_text lang="de">
+                                    Fragen und Antworten können nicht bearbeitet werden, während ein Quizraum dieses Quiz gerade spielt.
+                                    In der Lobby und auf der Highscore-Seite können sie weiterhin bearbeitet werden.
+                                </info_text>
+                            </meta>
+
+                            <types>
+                                <type name="question">
+                                    <meta>
+                                        <title lang="en">Question</title>
+                                        <title lang="de">Frage</title>
+                                    </meta>
+
+                                    <properties>
+                                        <property name="question" type="text_line" mandatory="true" >
+                                            <meta>
+                                                <title lang="en">Question</title>
+                                                <title lang="de">Frage</title>
+                                            </meta>
+                                        </property>
+
+                                        <property name="answers" type="block" mandatory="true" minOccurs="4" maxOccurs="4">
+                                            <meta>
+                                                <title lang="en">Answers</title>
+                                                <title lang="de">Antworten</title>
+                                                <info_text lang="en">
+                                                    Answers cannot be modified while a quiz room is actively playing this quiz.
+                                                    Exactly one answer per question must be marked as correct.
+                                                </info_text>
+                                                <info_text lang="de">
+                                                    Antworten können nicht bearbeitet werden, während ein Quizraum dieses Quiz gerade spielt.
+                                                    Pro Frage muss exakt eine Antwort als richtig markiert sein.
+                                                </info_text>
+                                            </meta>
+
+                                            <types>
+                                                <type name="answer">
+                                                    <meta>
+                                                        <title lang="en">Answer</title>
+                                                        <title lang="de">Antwort</title>
+                                                    </meta>
+
+                                                    <properties>
+                                                        <property name="answer"
+                                                                  type="text_line"
+                                                                  mandatory="true">
+                                                            <meta>
+                                                                <title lang="en">Answer</title>
+                                                                <title lang="de">Antwort</title>
+                                                            </meta>
+                                                        </property>
+
+                                                        <property name="correct"
+                                                                  type="checkbox">
+                                                            <meta>
+                                                                <title lang="en">Correct answer</title>
+                                                                <title lang="de">Richtige Antwort</title>
+
+                                                                <info_text lang="en">Exactly one answer per question must be marked as correct.</info_text>
+                                                                <info_text lang="de">Pro Frage muss exakt eine Antwort als richtig markiert sein.</info_text>
+                                                            </meta>
+                                                        </property>
+                                                    </properties>
+                                                </type>
+                                            </types>
+                                        </property>
+
+                                    </properties>
+                                </type>
+                            </types>
+                        </property>
+
+                    </properties>
+                </type>
+            </types>
+        </property>
+    </properties>
+</template>

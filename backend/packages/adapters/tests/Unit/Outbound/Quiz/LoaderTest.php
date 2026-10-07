@@ -91,6 +91,10 @@ final class LoaderTest extends TestCase
             ],
             'notice' => [
                 [
+                    'message' => 'QuizCollection is empty.',
+                    'context' => [],
+                ],
+                [
                     'message' => 'Loading quizes was not successful.',
                     'context' => [],
                 ],

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Trivia;
+namespace App;
 
 /*
  * This file is part of Sulu.

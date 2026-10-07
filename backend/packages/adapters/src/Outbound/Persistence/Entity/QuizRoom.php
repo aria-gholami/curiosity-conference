@@ -30,11 +30,11 @@ final class QuizRoom
     private string $title;
 
     #[ORM\ManyToOne(targetEntity: Quiz::class)]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(nullable: false)]
     private Quiz $quiz;
 
     #[ORM\ManyToOne(targetEntity: Question::class)]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Question $currentQuestion;
 
     #[ORM\ManyToOne(targetEntity: User::class)]

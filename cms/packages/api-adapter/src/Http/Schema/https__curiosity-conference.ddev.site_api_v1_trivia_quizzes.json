@@ -1,6 +1,6 @@
 {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
-    "$id": "https://curiosity-conference.ddev.site/trivia/quizzes",
+    "$id": "https://curiosity-conference.ddev.site/api/v1/trivia/quizzes",
     "type": "object",
     "properties": {
         "message": {

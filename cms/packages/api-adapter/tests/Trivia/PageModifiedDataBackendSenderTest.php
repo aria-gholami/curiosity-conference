@@ -16,6 +16,7 @@ use PHPUnit\Framework\TestCase;
 final class PageModifiedDataBackendSenderTest extends TestCase
 {
     private string $baseUrl = 'test';
+    private string $apiKey = 'test';
     private HttpClientMock $httpClientMock;
     private LoggerMock $loggerMock;
     private PageModifiedDataBackendSender $pageModifiedDataBackendSender;
@@ -24,14 +25,14 @@ final class PageModifiedDataBackendSenderTest extends TestCase
     {
         $this->httpClientMock = new HttpClientMock();
         $this->loggerMock = new LoggerMock();
-        $this->pageModifiedDataBackendSender = new PageModifiedDataBackendSender($this->baseUrl, $this->httpClientMock, $this->loggerMock);
+        $this->pageModifiedDataBackendSender = new PageModifiedDataBackendSender($this->baseUrl, $this->apiKey, $this->httpClientMock, $this->loggerMock);
     }
 
     public function testPostIsValid(): void
     {
         $expectedBodyAsArray = [['testBody']];
         $responseMock = new ResponseMock();
-        $responseMock->outputStatusCode = 200;
+        $responseMock->outputStatusCode = 201;
         $responseMock->outputContent = 'testBody';
         $responseMock->outputResponseAsArray = $expectedBodyAsArray;
         $this->httpClientMock->outputResponse = $responseMock;
@@ -44,6 +45,9 @@ final class PageModifiedDataBackendSenderTest extends TestCase
         self::assertSame($this->baseUrl . PageModifiedDataBackendSender::URL, $this->httpClientMock->inputUrl);
         self::assertEquals([
             'json' => $requestBody,
+            'headers' => [
+                'API-Key' => $this->apiKey,
+            ],
         ], $this->httpClientMock->inputOptions);
         self::assertEquals([
             'info' => [
@@ -78,13 +82,16 @@ final class PageModifiedDataBackendSenderTest extends TestCase
             $this->pageModifiedDataBackendSender->post($requestBody);
             $this->fail('CouldNotSendTriviaModifiedDataException was expected to be thrown.');
         } catch (CouldNotSendTriviaModifiedDataException $exception) {
-            self::assertSame('Trivia modified data could not be sent: Trivia modified data could not be sent: Response code is not 200.', $exception->getMessage());
+            self::assertSame('Trivia modified data could not be sent: Trivia modified data could not be sent: Response code is not 201.', $exception->getMessage());
         }
 
         self::assertSame(PageModifiedDataBackendSender::METHOD, $this->httpClientMock->inputMethod);
         self::assertSame($this->baseUrl . PageModifiedDataBackendSender::URL, $this->httpClientMock->inputUrl);
         self::assertEquals([
             'json' => $requestBody,
+            'headers' => [
+                'API-Key' => $this->apiKey,
+            ],
         ], $this->httpClientMock->inputOptions);
         self::assertEquals([
             'info' => [
@@ -97,7 +104,7 @@ final class PageModifiedDataBackendSenderTest extends TestCase
             ],
             'notice' => [
                 [
-                    'message' => 'Sending trivia modified data has no response code 200.',
+                    'message' => 'Sending trivia modified data has no response code 201.',
                     'context' => [
                         'postData' => $requestBody,
                         'statusCode' => 500,
@@ -107,7 +114,7 @@ final class PageModifiedDataBackendSenderTest extends TestCase
                     'message' => 'Failed to send trivia modified data.',
                     'context' => [
                         'postData' => $requestBody,
-                        'exceptionMessage' => 'Trivia modified data could not be sent: Response code is not 200.',
+                        'exceptionMessage' => 'Trivia modified data could not be sent: Response code is not 201.',
                     ],
                 ],
             ],

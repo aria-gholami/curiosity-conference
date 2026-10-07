@@ -27,6 +27,7 @@ final readonly class Loader implements LoaderInterface
             $quizEntityGroup = $this->quizRepository->findAll();
             $quizCollection = new QuizCollection($quizEntityGroup);
             if ($quizCollection->isEmpty()) {
+                $this->logger->notice('QuizCollection is empty.');
                 throw LoadEntityFailedException::loadFailed(Quiz::class);
             }
 
