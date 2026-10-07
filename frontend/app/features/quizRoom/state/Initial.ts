@@ -25,6 +25,7 @@ export interface QuizRoomState {
     currentRoom: QuizRoom;
     isLoading: boolean;
     isRevealing?: boolean;
+    isLoadingHighscores?: boolean;
 }
 
 const initialState: QuizRoomState = {
@@ -45,6 +46,7 @@ const initialState: QuizRoomState = {
     },
     isLoading: false,
     isRevealing: false,
+    isLoadingHighscores: false,
 };
 
 export default initialState;

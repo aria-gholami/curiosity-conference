@@ -289,6 +289,7 @@ const quizRoomSlice = createSlice({
             })
             .addCase(fetchHighscoreByQuizRoom.pending, (state: QuizRoomState) => {
                 state.isLoading = true;
+                state.isLoadingHighscores = true;
             })
             .addCase(
                 fetchHighscoreByQuizRoom.fulfilled,
@@ -296,10 +297,12 @@ const quizRoomSlice = createSlice({
                     state.currentRoom.participants = action.payload.currentRoom.participants;
                     state.rooms = action.payload.rooms;
                     state.isLoading = false;
+                    state.isLoadingHighscores = false;
                 },
             )
             .addCase(fetchHighscoreByQuizRoom.rejected, (state: QuizRoomState) => {
                 state.isLoading = false;
+                state.isLoadingHighscores = false;
             })
             .addCase(fetchHighscoreByAllQuizRoom.pending, (state: QuizRoomState) => {
                 state.isLoading = true;
