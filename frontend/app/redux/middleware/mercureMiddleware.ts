@@ -26,6 +26,9 @@ export const mercureMiddleware: Middleware = (store) => (next) => (action) => {
 
     if (roomWasLoaded) {
         const roomId = action.payload.currentRoom.id;
+        if (!roomId) {
+            return result;
+        }
 
         participantsEventSource = handleUpdateParticipants(
             participantsEventSource,
