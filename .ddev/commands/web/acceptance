@@ -1,1 +1,1 @@
-./backend/bin/phpunit -c backend/phpunit.xml --group Acceptance
+./testing-tools/phpunit -c backend/phpunit.xml --group Acceptance
