@@ -35,6 +35,7 @@ hooks:
         - exec: cd backend && php bin/console doctrine:database:create && php bin/console doctrine:database:create --env=test
         - exec: cd backend && php bin/console doctrine:schema:create && php bin/console doctrine:schema:create --env=test
         - exec: cd backend && php bin/console doctrine:fixtures:load -n
+        - exec: cd cms && php bin/console doctrine:database:drop --force && php bin/console doctrine:database:create --if-not-exists && php bin/console sulu:build dev -n
         - exec: cd testing-tools && wget -O phpunit https://phar.phpunit.de/phpunit-13.phar && chmod +x phpunit
         - exec: cd testing-tools && wget -O phpcs https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/releases/download/v3.95.18/php-cs-fixer.phar && chmod +x phpcs
         - exec: cd testing-tools && wget -O psalm https://github.com/vimeo/psalm/releases/download/6.16.1/psalm.phar && chmod +x psalm
