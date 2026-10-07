@@ -131,7 +131,7 @@ export default function TriviaQuiz() {
                                             }),
                                         ).then(() => navigate('/'));
                                     }}
-                                    className="px-10 py-4 text-lg font-bold rounded-2xl border-2 border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg hover:scale-105"
+                                    className="px-10 py-4 text-lg font-bold rounded-2xl border-2 border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg hover:scale-105 cursor-pointer"
                                 >
                                     Delete Room
                                 </button>
@@ -148,7 +148,7 @@ export default function TriviaQuiz() {
                                             }),
                                         ).then(() => navigate('/'));
                                     }}
-                                    className="px-10 py-4 text-lg font-bold rounded-2xl border-2 border-white/20 text-white/70 hover:bg-white/10 hover:text-white transition-all shadow-lg hover:scale-105"
+                                    className="px-10 py-4 text-lg font-bold rounded-2xl border-2 border-white/20 text-white/70 hover:bg-white/10 hover:text-white transition-all shadow-lg hover:scale-105 cursor-pointer"
                                 >
                                     Leave Room
                                 </button>
