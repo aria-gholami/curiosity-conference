@@ -29,7 +29,7 @@ final readonly class DeleteRoomHandler implements DeleteRoomHandlerInterface
         $this->roomByIdDeleter->delete($quizRoomId);
         $this->hub->publish(new Update(
             'quiz/room/list',
-            \json_encode(['action' => 'remove', 'quizRoomId' => $quizRoomId->value], \JSON_THROW_ON_ERROR),
+            \json_encode(['action' => 'remove', 'quizRoomResults' => [$quizRoomId->value]], \JSON_THROW_ON_ERROR),
         ));
         $this->hub->publish(new Update(
             \sprintf('quiz/room/%s/participants', $quizRoomId->value),
