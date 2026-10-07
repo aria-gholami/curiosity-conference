@@ -103,6 +103,7 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater'
+      - '@mercure.hub.default'
 
   CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler:
     arguments:

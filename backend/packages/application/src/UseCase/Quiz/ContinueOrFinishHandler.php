@@ -68,5 +68,9 @@ final readonly class ContinueOrFinishHandler implements ContinueOrFinishHandlerI
             \sprintf('quiz/room/%s/continue', $quizRoomId->value),
             \json_encode(['status' => $nextStatus, 'hostId' => $quizRoom->getHost()->getId()], \JSON_THROW_ON_ERROR),
         ));
+        $this->hub->publish(new Update(
+            'quiz/room/list',
+            \json_encode(['action' => 'status', 'status' => $nextStatus, 'quizRoomId' => $quizRoomId->value], \JSON_THROW_ON_ERROR),
+        ));
     }
 }

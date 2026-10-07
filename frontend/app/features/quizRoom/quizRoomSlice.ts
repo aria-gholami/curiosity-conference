@@ -69,9 +69,7 @@ const quizRoomSlice = createSlice({
             state.rooms.push(action.payload.quizRoom);
         },
         removeRoomFromRoomList(state: QuizRoomState, action: PayloadAction<string[]>): void {
-            state.rooms = state.rooms.filter(
-                (room) => !action.payload.includes(room.id),
-            );
+            state.rooms = state.rooms.filter((room) => !action.payload.includes(room.id));
             if (action.payload.includes(state.currentRoom.id)) {
                 state.currentRoom.id = '';
                 state.currentRoom.title = '';
@@ -92,6 +90,24 @@ const quizRoomSlice = createSlice({
             if (roomIndex !== -1) {
                 state.rooms[roomIndex].status = action.payload.action;
             }
+        },
+        sortQuizRoomByStatus(state: QuizRoomState): void {
+            const statusOrder: Record<string, number> = {
+                created: 1,
+                started: 1,
+                finished: 1,
+                closed: 0,
+            };
+            state.rooms.sort((a, b) => {
+                const statusDifference =
+                    (statusOrder[a.status] ?? 999) - (statusOrder[b.status] ?? 999);
+
+                if (statusDifference !== 0) {
+                    return statusDifference;
+                }
+
+                return (b.score ?? 0) - (a.score ?? 0);
+            });
         },
         setSelectedAnswerId(state: QuizRoomState, action: PayloadAction<string>): void {
             state.currentRoom.selectedAnswerId = action.payload;
@@ -312,6 +328,7 @@ export const {
     updateQuizRoomStatus,
     setSelectedAnswerId,
     setIsRevealing,
+    sortQuizRoomByStatus,
 } = quizRoomSlice.actions;
 
 export default quizRoomSlice;

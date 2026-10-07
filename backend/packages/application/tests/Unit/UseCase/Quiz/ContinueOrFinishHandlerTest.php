@@ -114,6 +114,8 @@ final class ContinueOrFinishHandlerTest extends TestCase
         self::assertSame('test2', $this->roomUpdaterMock->inputQuizRoom->getCurrentQuestion()->getId());
         self::assertSame('quiz/room/test/continue', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
         self::assertSame('{"status":"started","hostId":"test"}', $this->hubMock->inputUpdateGroup[0]->getData());
+        self::assertSame('quiz/room/list', $this->hubMock->inputUpdateGroup[1]->getTopics()[0]);
+        self::assertSame('{"action":"status","status":"started","quizRoomId":"test"}', $this->hubMock->inputUpdateGroup[1]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 

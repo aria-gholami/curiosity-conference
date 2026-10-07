@@ -1,6 +1,7 @@
 import {
     addRoomToRoomList,
     removeRoomFromRoomList,
+    sortQuizRoomByStatus,
     updateQuizRoomStatus,
 } from '~/features/quizRoom/quizRoomSlice';
 
@@ -25,6 +26,7 @@ export default function handleUpdateRoomList(
         }
         if (data.action === 'status') {
             store.dispatch(updateQuizRoomStatus({ action: data.status, roomId: data.quizRoomId }));
+            store.dispatch(sortQuizRoomByStatus());
         }
     };
 
