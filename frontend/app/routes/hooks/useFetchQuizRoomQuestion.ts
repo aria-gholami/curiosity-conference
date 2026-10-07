@@ -10,7 +10,9 @@ export const useFetchQuizRoomQuestion = (setCurrentQuestion: any) => {
     const quizState: QuizState = useAppSelector((state) => state.quiz);
 
     useEffect(() => {
-        dispatch(fetchQuizQuestion(quizRoomState.currentRoom.id) as any);
+        if (quizRoomState.currentRoom.status === 'started') {
+            dispatch(fetchQuizQuestion(quizRoomState.currentRoom.id) as any);
+        }
         const existingQuiz = quizState.quizzes.find((q) => q.id === quizRoomState.currentRoom.id);
         if (existingQuiz) {
             setCurrentQuestion({
