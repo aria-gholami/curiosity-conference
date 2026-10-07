@@ -29,6 +29,13 @@ export const fetchHighscoreByAllQuizRoom = createAsyncThunk<
                 (item) => item.quizRoomTitle === quizRoom.currentRoom.title,
             );
 
+            const statusOrder: Record<string, number> = {
+                created: 1,
+                started: 1,
+                finished: 1,
+                closed: 0,
+            };
+
             const state: QuizRoomState = {
                 ...quizRoom,
                 currentRoom: {
@@ -47,7 +54,16 @@ export const fetchHighscoreByAllQuizRoom = createAsyncThunk<
                             score: highscore ? highscore.quizRoomScore : (room.score ?? 0),
                         };
                     })
-                    .sort((a, b) => (b.score ?? 0) - (a.score ?? 0)),
+                    .sort((a, b) => {
+                        const statusDifference =
+                            (statusOrder[a.status] ?? 999) - (statusOrder[b.status] ?? 999);
+
+                        if (statusDifference !== 0) {
+                            return statusDifference;
+                        }
+
+                        return (b.score ?? 0) - (a.score ?? 0);
+                    }),
                 isLoading: false,
             };
 

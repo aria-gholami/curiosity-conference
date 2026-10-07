@@ -25,6 +25,7 @@ export const fetchHighscoreByQuizRoom = createAsyncThunk<
             const responseBody: HighscoreByQuizRoomResponse = await response.json();
             const { quizRoom } = getState() as RootState;
 
+            // Platz 4 wird unter neue Räume angezeigt
             const state: QuizRoomState = {
                 ...quizRoom,
                 currentRoom:
