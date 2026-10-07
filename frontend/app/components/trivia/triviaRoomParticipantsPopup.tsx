@@ -1,5 +1,7 @@
 import { UserGroupIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import type { QuizRoom } from '~/features/quizRoom/state/Initial';
+import { useFetchHighscoreByQuizRoom } from '~/components/trivia/hooks/useFetchHighscoreByQuizRoom';
+import { useAppSelector } from '~/redux/hooks';
 
 interface TriviaRoomParticipantsPopupProps {
     room: QuizRoom;
@@ -12,9 +14,13 @@ export default function TriviaRoomParticipantsPopup({
     open,
     onClose,
 }: TriviaRoomParticipantsPopupProps) {
-    if (!open) {
+    room = useAppSelector((state) =>
+        state.quizRoom.rooms.find((room) => room.id === room.id),
+    ) as QuizRoom;
+    if (!open || !room) {
         return null;
     }
+    useFetchHighscoreByQuizRoom(room.id);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
