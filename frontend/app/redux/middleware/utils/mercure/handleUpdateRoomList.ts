@@ -21,7 +21,7 @@ export default function handleUpdateRoomList(
             store.dispatch(addRoomToRoomList({ quizRoom: data }));
         }
         if (data.action === 'remove') {
-            store.dispatch(removeRoomFromRoomList(data.quizRoomId) as any);
+            store.dispatch(removeRoomFromRoomList(data.quizRoomResults) as any);
         }
         if (data.action === 'status') {
             store.dispatch(updateQuizRoomStatus({ action: data.status, roomId: data.quizRoomId }));

@@ -68,9 +68,11 @@ const quizRoomSlice = createSlice({
         ): void {
             state.rooms.push(action.payload.quizRoom);
         },
-        removeRoomFromRoomList(state: QuizRoomState, action: PayloadAction<string>): void {
-            state.rooms = state.rooms.filter((room) => room.id !== action.payload);
-            if (state.currentRoom.id === action.payload) {
+        removeRoomFromRoomList(state: QuizRoomState, action: PayloadAction<string[]>): void {
+            state.rooms = state.rooms.filter(
+                (room) => !action.payload.includes(room.id),
+            );
+            if (action.payload.includes(state.currentRoom.id)) {
                 state.currentRoom.id = '';
                 state.currentRoom.title = '';
                 state.currentRoom.quiz.title = '';

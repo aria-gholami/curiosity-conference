@@ -26,7 +26,7 @@ final readonly class RoomByUserIdLoader implements RoomByUserIdLoaderInterface
     {
         try {
             $this->logger->info('Start loading quiz room by participant id.');
-            $quizRoom = $this->quizRoomRepository->findByParticipantId($userId);
+            $quizRoom = $this->quizRoomRepository->findOneByParticipantId($userId);
             $this->logger->info('Loading quiz room by participant id was successful.');
 
             return $quizRoom;

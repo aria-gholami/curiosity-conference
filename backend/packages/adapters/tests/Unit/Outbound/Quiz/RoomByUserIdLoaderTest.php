@@ -55,7 +55,7 @@ final class RoomByUserIdLoaderTest extends TestCase
         );
         $id = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('findByParticipantId')
+            ->method('findOneByParticipantId')
             ->with($id->value)
             ->willReturn($expectedQuizRoomEntity);
 
@@ -80,7 +80,7 @@ final class RoomByUserIdLoaderTest extends TestCase
     {
         $id = new Id('test');
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('findByParticipantId')
+            ->method('findOneByParticipantId')
             ->with($id->value)
             ->willThrowException(new LoadEntityFailedException('test'));
 

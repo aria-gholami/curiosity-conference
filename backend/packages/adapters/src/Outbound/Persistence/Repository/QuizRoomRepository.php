@@ -51,7 +51,7 @@ class QuizRoomRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function findByParticipantId(string $userId): ?QuizRoom
+    public function findOneByParticipantId(string $userId): ?QuizRoom
     {
         return $this->createQueryBuilder('qr')
             ->innerJoin('qr.participants', 'p')
@@ -62,5 +62,16 @@ class QuizRoomRepository extends ServiceEntityRepository
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    public function findByParticipantId(string $userId): array
+    {
+        return $this->createQueryBuilder('qr')
+            ->select('qr.id AS id', 'qr.status AS status')
+            ->innerJoin('qr.participants', 'p')
+            ->andWhere('p.id = :userId')
+            ->setParameter('userId', $userId, 'uuid')
+            ->getQuery()
+            ->getArrayResult();
     }
 }

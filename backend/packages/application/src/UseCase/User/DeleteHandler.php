@@ -6,7 +6,7 @@ namespace CuriosityConference\Application\UseCase\User;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
 use CuriosityConference\Application\Port\Inbound\User\DeleteHandler as DeleteHandlerInterface;
-use CuriosityConference\Application\Port\Outbound\Quiz\RoomByUserIdLoader;
+use CuriosityConference\Application\Port\Outbound\Quiz\RoomResultsByUserIdLoader;
 use CuriosityConference\Application\Port\Outbound\User\ByIdDeleter;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -17,7 +17,7 @@ use Symfony\Component\Mercure\Update;
 final readonly class DeleteHandler implements DeleteHandlerInterface
 {
     public function __construct(
-        private RoomByUserIdLoader $roomByUserIdLoader,
+        private RoomResultsByUserIdLoader $roomByUserIdLoader,
         private ByIdDeleter $byIdDeleter,
         private HubInterface $hub,
     ) {
@@ -31,18 +31,24 @@ final readonly class DeleteHandler implements DeleteHandlerInterface
     #[\Override]
     public function handle(Id $userId): void
     {
-        $quizRoom = $this->roomByUserIdLoader->load($userId->value);
+        $quizRoomResults = $this->roomByUserIdLoader->load($userId->value);
         $this->byIdDeleter->delete($userId);
-        if (!$quizRoom instanceof QuizRoom) {
+        if (0 === \count($quizRoomResults)) {
             return;
         }
 
+        $quizRoomResultWithStatusNotClosed = \array_values(
+            \array_filter(
+                $quizRoomResults,
+                static fn (array $quizRoomResult): bool => QuizRoom::STATUS_CLOSED !== $quizRoomResult['status'],
+            ),
+        );
         $this->hub->publish(new Update(
             'quiz/room/list',
-            \json_encode(['action' => 'remove', 'quizRoomId' => $quizRoom->getId()], \JSON_THROW_ON_ERROR),
+            \json_encode(['action' => 'remove', 'quizRoomResults' => \array_column($quizRoomResults, 'id')], \JSON_THROW_ON_ERROR),
         ));
         $this->hub->publish(new Update(
-            \sprintf('quiz/room/%s/participants', $quizRoom->getId()),
+            \sprintf('quiz/room/%s/participants', $quizRoomResultWithStatusNotClosed[0]['id']),
             \json_encode(['action' => 'remove', 'participantId' => $userId->value], \JSON_THROW_ON_ERROR),
         ));
     }

@@ -213,6 +213,10 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
       - '@api.v1.quiz.logger'
+  CuriosityConference\Adapters\Outbound\Quiz\RoomResultsByUserIdLoader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
+      - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\Quiz\RoomByUserIdLoader:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
