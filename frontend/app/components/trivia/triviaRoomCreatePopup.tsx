@@ -18,8 +18,10 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
     const dispatch = useAppDispatch();
     const [selectedQuizId, setSelectedQuizId] = useState('');
     const [quizRoomTitle, setQuizRoomTitle] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const quizState: QuizState = useAppSelector((state) => state.quiz);
     const userState: UserState = useAppSelector((state) => state.user);
+    const MAX_ROOM_TITLE_LENGTH = 15;
     useFetchQuizList();
 
     const selectedQuiz = quizState.quizzes.find((quiz) => quiz.id === selectedQuizId);
@@ -30,6 +32,16 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+        if (quizRoomTitle.length === 0) {
+            setErrorMessage("The room title can't be empty.");
+            return;
+        }
+
+        if (quizRoomTitle.length > MAX_ROOM_TITLE_LENGTH) {
+            setErrorMessage('The room title must not exceed 15 characters.');
+            return;
+        }
+
         if (!selectedQuizId) {
             return;
         }
@@ -71,21 +83,47 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
                         </div>
                     </div>
 
-                    <div className="mt-8 space-y-4">
+                    <div className="mt-3 space-y-4">
                         <div>
-                            <label className="input-label">Title</label>
+                            <label htmlFor="roomTitle" className="input-label">
+                                Title
+                            </label>
 
                             <input
+                                id="roomTitle"
                                 type="text"
                                 placeholder="Room title"
                                 className="input"
+                                maxLength={MAX_ROOM_TITLE_LENGTH}
                                 value={quizRoomTitle}
-                                onChange={(event) => setQuizRoomTitle(event.target.value)}
+                                required
+                                onChange={(event) => {
+                                    setQuizRoomTitle(event.target.value);
+                                    setErrorMessage('');
+                                }}
                             />
+                            <div className="mt-2 flex items-start justify-between gap-3">
+                                <div className="min-w-0 flex-1">
+                                    {errorMessage && (
+                                        <p className="text-xs leading-5 text-red-600 mb-2">
+                                            {errorMessage}
+                                        </p>
+                                    )}
+                                </div>
+                                <span
+                                    className={`shrink-0 text-xs leading-3 ${
+                                        quizRoomTitle.length > MAX_ROOM_TITLE_LENGTH
+                                            ? 'font-semibold text-red-600'
+                                            : 'text-card-text'
+                                    }`}
+                                >
+                                    {quizRoomTitle.length}/{MAX_ROOM_TITLE_LENGTH}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="mt-8 space-y-4">
+                    <div className="space-y-1">
                         <div>
                             <label htmlFor="quizSelect" className="input-label">
                                 Select Quiz

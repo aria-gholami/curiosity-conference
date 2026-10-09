@@ -73,21 +73,21 @@ export default function TriviaHighscore() {
                 <div className="mt-10 flex justify-center">
                     <div className="glass w-full max-w-3xl rounded-[2rem] p-5 sm:p-6">
                         <div className="card rounded-3xl px-6 py-6">
-                            <div className="flex items-center justify-between border-b border-slate-200 pb-5">
-                                <div className="flex items-center gap-3">
-                                    <div className="icon-box relative flex h-12 w-12 items-center justify-center border border-amber-200 bg-amber-50 text-amber-500">
+                            <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+                                <div className="flex min-w-0 items-center gap-3">
+                                    <div className="icon-box relative flex h-12 w-12 shrink-0 items-center justify-center border border-amber-200 bg-amber-50 text-amber-500">
                                         <TrophyIcon className="h-6 w-6" />
                                     </div>
-                                    <div>
+                                    <div className="min-w-0">
                                         <h2 className="text-xl font-semibold text-dark-blue">
                                             Participants & Scores
                                         </h2>
-                                        <p className="text-card-text text-xs">
+                                        <p className="text-card-text mt-1 text-xs">
                                             Ranked by points scored
                                         </p>
                                     </div>
                                 </div>
-                                <div className="rounded-full bg-dark-blue px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">
+                                <div className="flex w-full shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-dark-blue px-4 py-2 text-xs font-semibold uppercase tracking-[0.12em] text-white sm:w-auto">
                                     {highscores.length} Players
                                 </div>
                             </div>
@@ -110,8 +110,8 @@ export default function TriviaHighscore() {
 
                                         return (
                                             <div
-                                                key={`${item.userName}-${index}`}
-                                                className={`flex items-center justify-between rounded-2xl border px-5 py-4 transition-all ${
+                                                key={item.userId}
+                                                className={`flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border px-4 py-4 transition-all sm:px-5 ${
                                                     isFirst
                                                         ? 'border-amber-300 bg-amber-50/80 shadow-sm'
                                                         : isSecond
@@ -121,9 +121,9 @@ export default function TriviaHighscore() {
                                                             : 'border-slate-200 bg-slate-50'
                                                 }`}
                                             >
-                                                <div className="flex items-center gap-4">
+                                                <div className="flex min-w-0 flex-1 items-center gap-3 sm:gap-4">
                                                     <div
-                                                        className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-bold ${
+                                                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-sm font-bold ${
                                                             isFirst
                                                                 ? 'bg-amber-400 text-white shadow-sm'
                                                                 : isSecond
@@ -136,8 +136,11 @@ export default function TriviaHighscore() {
                                                         {index + 1}
                                                     </div>
 
-                                                    <div>
-                                                        <p className="font-semibold text-dark-blue">
+                                                    <div className="min-w-0 flex-1">
+                                                        <p
+                                                            className="truncate font-semibold text-dark-blue"
+                                                            title={item.userName}
+                                                        >
                                                             {item.userName}
                                                         </p>
                                                         {isFirst && (
@@ -148,7 +151,7 @@ export default function TriviaHighscore() {
                                                     </div>
                                                 </div>
 
-                                                <div className="text-right">
+                                                <div className="shrink-0 whitespace-nowrap text-right">
                                                     <span className="text-xl font-bold text-dark-blue">
                                                         {item.score}
                                                     </span>

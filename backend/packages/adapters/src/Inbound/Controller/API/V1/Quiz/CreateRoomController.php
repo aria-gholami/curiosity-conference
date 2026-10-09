@@ -9,6 +9,7 @@ use CuriosityConference\Application\Port\Inbound\Quiz\CreateRoomHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Quiz\Exception\InvalidRoomTitleException;
 use CuriosityConference\Domain\Quiz\QuizRoom;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -63,7 +64,7 @@ final readonly class CreateRoomController
             $this->hub->publish($update);
 
             return new JsonResponse($response, Response::HTTP_CREATED);
-        } catch (EmptyStringException $exception) {
+        } catch (EmptyStringException|InvalidRoomTitleException $exception) {
             $this->logger->notice('Request data for /api/v1/quiz/room is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);

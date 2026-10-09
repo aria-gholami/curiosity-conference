@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace CuriosityConference\Domain\Quiz;
 
 use CuriosityConference\Domain\Exception\EmptyStringException;
+use CuriosityConference\Domain\Quiz\Exception\InvalidRoomTitleException;
 
 final readonly class QuizRoom
 {
     /**
      * @throws EmptyStringException
+     * @throws InvalidRoomTitleException
      */
     public function __construct(
         public string $quizId,
@@ -22,8 +24,8 @@ final readonly class QuizRoom
         if ('' === $this->hostId) {
             throw EmptyStringException::stringIsEmpty('quizRoomHostId');
         }
-        if ('' === $this->title) {
-            throw EmptyStringException::stringIsEmpty('quizRoomHostTitle');
+        if ('' === $this->title || \mb_strlen($this->title) > 15) {
+            throw InvalidRoomTitleException::isInvalid('quizRoomHostTitle');
         }
     }
 }

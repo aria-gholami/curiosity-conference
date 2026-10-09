@@ -12,8 +12,9 @@ export const useFetchActiveQuizRoom = () => {
     const dispatch = useAppDispatch();
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const userState: UserState = useAppSelector((state) => state.user);
-
+    const quizState = useAppSelector((state) => state.quiz);
     useEffect(() => {
+        console.warn('useFetchActiveQuizRoom');
         if (!isActiveQuizRoomsFetched) {
             const requestBody: ActiveQuizRoomLoadRequestBody = {
                 userId: userState.userId,
@@ -34,5 +35,5 @@ export const useFetchActiveQuizRoom = () => {
         ) {
             navigate('/trivia/highscore');
         }
-    }, [quizRoomState]);
+    }, [quizState.quizzes, quizRoomState.currentRoom.status, navigate]);
 };

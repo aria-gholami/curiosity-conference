@@ -14,6 +14,7 @@ use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Quiz\Exception\InvalidRoomTitleException;
 use CuriosityConference\Domain\Quiz\QuizRoom;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\UsesClass;
@@ -139,6 +140,59 @@ final class CreateRoomControllerTest extends TestCase
                     'message' => 'Request data for /api/v1/quiz/room is invalid.',
                     'context' => [
                         'exceptionMessage' => EmptyStringException::stringIsEmpty('quizRoomQuizId')->getMessage(),
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testCreateRoomWithInvalidRoomTitleException(): void
+    {
+        $quiz = new Quiz(
+            'test',
+            'test',
+        );
+        $user = new User(
+            'test',
+            'test',
+        );
+        $title = 'test';
+        $quizRoom = new QuizRoomEntity(
+            'test',
+            $title,
+            $quiz,
+            null,
+            $user,
+            QuizRoomEntity::STATUS_STARTED,
+        );
+        $quizRoom->addParticipant($user);
+        $quizRoom->addParticipant($user);
+        $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
+        $payload = [
+            'quizId' => 'test',
+            'hostId' => 'test',
+            'title' => '12345678901234567890',
+        ];
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+
+        $response = $this->createRoomController->__invoke($request);
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        self::assertSame('{"message":"Bad Request."}', $response->getContent());
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Request data for /api/v1/quiz/room is invalid.',
+                    'context' => [
+                        'exceptionMessage' => InvalidRoomTitleException::isInvalid('quizRoomHostTitle')->getMessage(),
                     ],
                 ],
             ],

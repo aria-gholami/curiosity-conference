@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace CuriosityConference\Domain\Tests\Unit\Quiz;
 
 use CuriosityConference\Domain\Exception\EmptyStringException;
+use CuriosityConference\Domain\Quiz\Exception\InvalidRoomTitleException;
 use CuriosityConference\Domain\Quiz\QuizRoom;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -18,6 +19,7 @@ final class QuizRoomTest extends TestCase
 
         self::assertSame('test', $quizRoom->quizId);
         self::assertSame('test', $quizRoom->hostId);
+        self::assertSame('test', $quizRoom->title);
     }
 
     public function testQuizRoomQuizIdWithEmptyStringException(): void
@@ -44,9 +46,49 @@ final class QuizRoomTest extends TestCase
     {
         try {
             new QuizRoom('test', 'test', '');
-            $this->fail('EmptyStringException was expected to be thrown.');
-        } catch (EmptyStringException $exception) {
-            self::assertSame('Validation failed for value "quizRoomHostTitle" with error: "Value for "quizRoomHostTitle" should not be empty."', $exception->getMessage());
+            $this->fail('InvalidRoomTitleException was expected to be thrown.');
+        } catch (InvalidRoomTitleException $exception) {
+            self::assertSame(InvalidRoomTitleException::isInvalid('quizRoomHostTitle')->getMessage(), $exception->getMessage());
         }
+    }
+
+    public function testQuizRoomTitleWith20Chars(): void
+    {
+        try {
+            new QuizRoom(
+                'test',
+                'test',
+                '12345678901234567890',
+            );
+            $this->fail('InvalidNameException was expected to be thrown.');
+        } catch (InvalidRoomTitleException $exception) {
+            self::assertSame(InvalidRoomTitleException::isInvalid('quizRoomHostTitle')->getMessage(), $exception->getMessage());
+        }
+    }
+
+    public function testQuizRoomTitleWith15Chars(): void
+    {
+        $quizRoom = new QuizRoom(
+            'test',
+            'test',
+            '123456789012345',
+        );
+
+        self::assertSame('test', $quizRoom->quizId);
+        self::assertSame('test', $quizRoom->hostId);
+        self::assertSame('123456789012345', $quizRoom->title);
+    }
+
+    public function testQuizRoomTitleWithUmlaute(): void
+    {
+        $quizRoom = new QuizRoom(
+            'test',
+            'test',
+            'äääääääääääääää',
+        );
+
+        self::assertSame('test', $quizRoom->quizId);
+        self::assertSame('test', $quizRoom->hostId);
+        self::assertSame('äääääääääääääää', $quizRoom->title);
     }
 }

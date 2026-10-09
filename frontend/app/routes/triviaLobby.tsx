@@ -71,20 +71,22 @@ export default function TriviaLobby() {
                 <div className="mt-10 flex justify-center">
                     <div className="glass w-full max-w-3xl rounded-[2rem] p-5 sm:p-6">
                         <div className="card rounded-3xl px-6 py-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h1 className="text-3xl font-semibold text-dark-blue">
+                            <div className="flex min-w-0 flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+                                <div className="min-w-0 flex-1">
+                                    <h2 className="break-words text-2xl font-semibold text-dark-blue [overflow-wrap:anywhere] sm:text-3xl">
                                         {quizRoomState.currentRoom.title}
-                                    </h1>
+                                    </h2>
+
                                     <h3 className="mt-2 text-xl font-semibold text-dark-blue">
                                         Participants
                                     </h3>
+
                                     <p className="text-card-text mt-1 text-sm">
                                         Everyone currently in the lobby
                                     </p>
                                 </div>
 
-                                <div className="rounded-full bg-dark-blue px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-white">
+                                <div className="flex w-full shrink-0 items-center justify-center rounded-full bg-dark-blue px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.12em] text-white sm:w-auto">
                                     {quizRoomState.currentRoom.participants.length} joined
                                 </div>
                             </div>
@@ -93,15 +95,18 @@ export default function TriviaLobby() {
                                 {quizRoomState.currentRoom.participants.map((participant) => (
                                     <div
                                         key={participant.userId}
-                                        className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4"
+                                        className="flex w-full min-w-0 items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4"
                                     >
-                                        <div className="flex items-center gap-3">
-                                            <div className="flex h-11 w-11 items-center justify-center rounded-full bg-dark-blue text-sm font-semibold text-white">
+                                        <div className="flex min-w-0 flex-1 items-center gap-3">
+                                            <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-dark-blue text-sm font-semibold text-white">
                                                 {participant.userName.slice(0, 1).toUpperCase()}
                                             </div>
 
-                                            <div>
-                                                <p className="font-semibold text-dark-blue">
+                                            <div className="min-w-0 flex-1">
+                                                <p
+                                                    className="truncate font-semibold text-dark-blue"
+                                                    title={participant.userName}
+                                                >
                                                     {participant.userName}
                                                 </p>
                                                 <p className="text-card-text text-sm">
@@ -115,7 +120,7 @@ export default function TriviaLobby() {
 
                                         {participant.userId ===
                                             quizRoomState.currentRoom.host.id && (
-                                            <span className="rounded-full bg-turquoise/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-dark-blue">
+                                            <span className="shrink-0 rounded-full bg-turquoise/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-dark-blue">
                                                 Host
                                             </span>
                                         )}
@@ -127,7 +132,7 @@ export default function TriviaLobby() {
                                                     type="button"
                                                     title="Remove participant"
                                                     aria-label={`Remove ${participant.userName}`}
-                                                    className="cursor-pointer rounded-lg bg-red-50 p-2.5 text-red-600 transition-colors hover:bg-red-100 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                                                    className="shrink-0 cursor-pointer rounded-lg bg-red-50 p-2.5 text-red-600 transition-colors hover:bg-red-100 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
                                                     onClick={() => {
                                                         setConfirmation({
                                                             type: 'remove',

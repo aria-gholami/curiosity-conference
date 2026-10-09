@@ -14,10 +14,11 @@ export default function TriviaRoomParticipantsPopup({
     open,
     onClose,
 }: TriviaRoomParticipantsPopupProps) {
-    room = useAppSelector((state) =>
-        state.quizRoom.rooms.find((room) => room.id === room.id),
-    ) as QuizRoom;
-    if (!open || !room) {
+    const currentRoom = useAppSelector((state) =>
+        state.quizRoom.rooms.find((item) => item.id === room.id),
+    );
+    const displayRoom = currentRoom ?? room;
+    if (!open) {
         return null;
     }
     useFetchHighscoreByQuizRoom(room.id);
@@ -57,60 +58,62 @@ export default function TriviaRoomParticipantsPopup({
                         </button>
                     </div>
 
-                    <div className="mt-6 flex flex-col gap-2.5 max-h-60 overflow-y-auto pr-1">
-                        {room.participants.length === 0 ? (
-                            <div className="py-8 text-center text-card-text text-sm">
+                    <div className="mt-6 flex max-h-60 min-w-0 flex-col gap-3 overflow-y-auto overflow-x-hidden pr-1">
+                        {displayRoom.participants.length === 0 ? (
+                            <div className="py-8 text-center text-sm text-card-text">
                                 No participants in this room yet.
                             </div>
                         ) : (
-                            room.participants.map((participant) => (
-                                <div
-                                    key={participant.userId}
-                                    className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
-                                >
-                                    <div className="flex items-center gap-3">
-                                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-dark-blue text-xs font-semibold text-white">
+                            displayRoom.participants.map((participant) => {
+                                const isHost = participant.userId === displayRoom.host.id;
+
+                                const showScore =
+                                    participant.score !== undefined &&
+                                    displayRoom.status === 'closed';
+
+                                return (
+                                    <div
+                                        key={participant.userId}
+                                        className="flex w-full min-w-0 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
+                                    >
+                                        <div className="flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full bg-dark-blue text-center text-xs font-semibold leading-none text-white">
                                             {participant.userName.slice(0, 1).toUpperCase()}
                                         </div>
 
-                                        <div>
-                                            <p className="font-semibold text-dark-blue text-sm">
-                                                {participant.userName}
-                                            </p>
-                                            <p className="text-card-text text-xs">
-                                                {participant.userId === room.host.id
-                                                    ? 'Host'
-                                                    : 'Player'}
-                                            </p>
+                                        <div className="flex min-w-0 flex-1 flex-col gap-2">
+                                            <div className="min-w-0">
+                                                <p
+                                                    className="truncate text-sm font-semibold text-dark-blue"
+                                                    title={participant.userName}
+                                                >
+                                                    {participant.userName}
+                                                </p>
+
+                                                <p className="text-xs text-card-text">
+                                                    {isHost ? 'Host' : 'Player'}
+                                                </p>
+                                            </div>
+
+                                            {(isHost || showScore) && (
+                                                <div className="flex min-w-0 flex-wrap items-center gap-3">
+                                                    {isHost && (
+                                                        <span className="shrink-0 whitespace-nowrap rounded-full bg-turquoise/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-dark-blue">
+                                                            Host
+                                                        </span>
+                                                    )}
+
+                                                    {showScore && (
+                                                        <span className="shrink-0 whitespace-nowrap text-sm font-semibold text-dark-blue">
+                                                            {participant.score} pts
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
-
-                                    <div className="flex items-center gap-2">
-                                        {participant.userId === room.host.id && (
-                                            <span className="rounded-full bg-turquoise/15 px-2.5 py-0.5 text-xs font-semibold uppercase tracking-[0.12em] text-dark-blue">
-                                                Host
-                                            </span>
-                                        )}
-                                        {participant.score !== undefined &&
-                                            room.status === 'closed' && (
-                                                <span className="text-sm font-semibold text-dark-blue">
-                                                    {participant.score} pts
-                                                </span>
-                                            )}
-                                    </div>
-                                </div>
-                            ))
+                                );
+                            })
                         )}
-                    </div>
-
-                    <div className="mt-8 flex justify-end">
-                        <button
-                            type="button"
-                            onClick={onClose}
-                            className="btn-secondary-light btn-md"
-                        >
-                            Close
-                        </button>
                     </div>
                 </div>
             </div>

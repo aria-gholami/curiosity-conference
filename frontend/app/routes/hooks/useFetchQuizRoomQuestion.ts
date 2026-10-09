@@ -10,6 +10,7 @@ export const useFetchQuizRoomQuestion = (setCurrentQuestion: any) => {
     const quizState: QuizState = useAppSelector((state) => state.quiz);
 
     useEffect(() => {
+        console.warn('useFetchQuizRoomQuestion');
         if (quizRoomState.currentRoom.status === 'started') {
             dispatch(fetchQuizQuestion(quizRoomState.currentRoom.id) as any);
         }
@@ -20,5 +21,5 @@ export const useFetchQuizRoomQuestion = (setCurrentQuestion: any) => {
                 answers: existingQuiz.question?.answers ?? [],
             });
         }
-    }, [quizState]);
+    }, [quizState.quizzes, quizRoomState.currentRoom.id, quizRoomState.currentRoom.status]);
 };
