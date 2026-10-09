@@ -66,7 +66,7 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
                         </div>
                     </div>
 
-                    <div className="mt-8 space-y-4">
+                    <div className="mt-3 space-y-4">
                         <div>
                             <label className="input-label">Username</label>
 
