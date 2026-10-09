@@ -32,17 +32,6 @@ export default function Home() {
             iconBorderClass: 'border-orange-200',
             link: '/trivia/list',
         },
-        {
-            title: 'Creative Corner',
-            text: 'Express your creativity through interactive writing prompts and playful tasks.',
-            cta: 'Open activity',
-            icon: PencilSquareIcon,
-            glowClass: 'bg-light-blue-glow',
-            iconBgClass: 'bg-slate-100',
-            iconColorClass: 'text-cyan-700',
-            iconBorderClass: 'border-slate-200',
-            link: '/trivia/list',
-        },
     ];
 
     useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
@@ -72,15 +61,6 @@ export default function Home() {
                     Interactive activities and games for scientific conference attendees. Meet
                     people, play, and explore ideas together.
                 </p>
-
-                <div className="mt-9 flex w-full flex-col items-center justify-center gap-3 sm:w-auto sm:flex-row">
-                    <button className="btn btn-primary btn-lg group gap-2.5 overflow-hidden shadow-[0_8px_32px_rgba(230,103,39,0.28)] hover:shadow-[0_12px_40px_rgba(230,103,39,0.38)] active:translate-y-0">
-                        <span>Explore activities</span>
-                        <ArrowRightIcon className="h-3.5 w-3.5" />
-                    </button>
-
-                    <button className="btn btn-secondary btn-lg">Learn more</button>
-                </div>
 
                 <p className="text-text-muted mt-10 flex items-center gap-2 text-xs uppercase tracking-widest">
                     <span className="h-px w-8 bg-white/20" />
