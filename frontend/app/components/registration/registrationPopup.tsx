@@ -22,7 +22,7 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
         event.preventDefault();
 
         if (userName.length === 0) {
-            setErrorMessage('Your username can\'t be empty.');
+            setErrorMessage("Your username can't be empty.");
             return;
         }
 

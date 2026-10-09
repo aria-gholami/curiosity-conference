@@ -5,7 +5,7 @@ import type { UserDeleteRequestBody } from '~/features/user/state/UserDeleteRequ
 import { deleteUser } from '~/features/user/reducers/deleteUser';
 import { resetCurrentRoom, resetRooms } from '~/features/quizRoom/quizRoomSlice';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
-import LogoutPopup from '~/components/registration/LogoutPopup';
+import LogoutPopup from '~/components/registration/logoutPopup';
 
 export default function Header() {
     const dispatch = useAppDispatch();

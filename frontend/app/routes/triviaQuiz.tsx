@@ -1,19 +1,18 @@
 import RegistrationPopup from '~/components/registration/registrationPopup';
 import { useState } from 'react';
+import { useNavigate } from 'react-router';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirect';
-import { useAppSelector } from '~/redux/hooks';
-import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
-import type { UserState } from '~/features/user/state/Initial';
 import { useNotStartedQuiz } from '~/routes/hooks/useNotStartedQuiz';
 import { useFetchQuizRoomQuestion } from '~/routes/hooks/useFetchQuizRoomQuestion';
-import { useAppDispatch } from '~/redux/hooks';
-import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
-import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipant';
-import { useNavigate } from 'react-router';
+import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
+import type { UserState } from '~/features/user/state/Initial';
 import { setSelectedAnswerId } from '~/features/quizRoom/quizRoomSlice';
 import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
+import { useLobbyConfirmation } from '~/components/trivia/hooks/useLobbyConfirmation';
+import ConfirmationPopup from '~/components/trivia/confirmationPopup';
 
 export default function TriviaQuiz() {
     const dispatch = useAppDispatch();
@@ -29,6 +28,16 @@ export default function TriviaQuiz() {
             { id: '3', title: 'Answer C', isCorrect: false },
         ],
     });
+
+    const {
+        confirmation,
+        setConfirmation,
+        isProcessing,
+        handleConfirm,
+        confirmationTitle,
+        confirmationMessage,
+        confirmationLabel,
+    } = useLobbyConfirmation();
 
     const selectedAnswerId = quizRoomState.currentRoom.selectedAnswerId;
 
@@ -48,6 +57,16 @@ export default function TriviaQuiz() {
             <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full blur-3xl bg-light-blue-glow" />
 
             <RegistrationPopup open={isRegistrationPopupOpen} />
+
+            <ConfirmationPopup
+                open={confirmation !== null}
+                title={confirmationTitle}
+                message={confirmationMessage}
+                confirmLabel={confirmationLabel}
+                onCancel={() => setConfirmation(null)}
+                onConfirm={handleConfirm}
+                loading={isProcessing}
+            />
 
             <div className="relative z-10 mx-auto flex max-w-5xl flex-col px-6 pb-20 pt-14 sm:px-8">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -75,39 +94,41 @@ export default function TriviaQuiz() {
                         </div>
 
                         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            {currentQuestion.answers.map((answer, index) => {
-                                return (
-                                    <button
-                                        key={answer.id}
-                                        type="button"
-                                        onClick={() =>
-                                            !quizRoomState.isRevealing &&
-                                            dispatch(setSelectedAnswerId(answer.id))
+                            {currentQuestion.answers.map((answer, index) => (
+                                <button
+                                    key={answer.id}
+                                    type="button"
+                                    onClick={() => {
+                                        if (!quizRoomState.isRevealing) {
+                                            dispatch(setSelectedAnswerId(answer.id));
                                         }
-                                        className={`group relative flex items-center gap-4 rounded-2xl border-2 px-6 py-5 text-left transition-all duration-200 cursor-pointer ${
-                                            quizRoomState.isRevealing && answer.isCorrect
-                                                ? 'reveal-correct z-20 scale-[1.05]'
-                                                : selectedAnswerId === answer.id
-                                                  ? 'border-dark-blue bg-dark-blue text-white shadow-lg scale-[1.02]'
-                                                  : `border-transparent text-dark-blue hover:border-turquoise bg-slate-50 hover:shadow-md`
-                                        } ${quizRoomState.isRevealing && !answer.isCorrect ? 'opacity-50 grayscale-[0.5]' : ''}`}
-                                        disabled={quizRoomState.isRevealing}
+                                    }}
+                                    className={`group relative flex items-center gap-4 rounded-2xl border-2 px-6 py-5 text-left transition-all duration-200 cursor-pointer ${
+                                        quizRoomState.isRevealing && answer.isCorrect
+                                            ? 'reveal-correct z-20 scale-[1.05]'
+                                            : selectedAnswerId === answer.id
+                                              ? 'border-dark-blue bg-dark-blue text-white shadow-lg scale-[1.02]'
+                                              : 'border-transparent text-dark-blue hover:border-turquoise bg-slate-50 hover:shadow-md'
+                                    } ${
+                                        quizRoomState.isRevealing && !answer.isCorrect
+                                            ? 'opacity-50 grayscale-[0.5]'
+                                            : ''
+                                    }`}
+                                    disabled={quizRoomState.isRevealing}
+                                >
+                                    <div
+                                        className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold transition-colors ${
+                                            selectedAnswerId === answer.id
+                                                ? 'bg-white text-dark-blue'
+                                                : 'bg-dark-blue text-white group-hover:bg-turquoise'
+                                        }`}
                                     >
-                                        <div
-                                            className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold transition-colors ${
-                                                selectedAnswerId === answer.id
-                                                    ? 'bg-white text-dark-blue'
-                                                    : 'bg-dark-blue text-white group-hover:bg-turquoise'
-                                            }`}
-                                        >
-                                            {String.fromCharCode(65 + index)}
-                                        </div>
-                                        <span className="text-lg font-semibold">
-                                            {answer.title}
-                                        </span>
-                                    </button>
-                                );
-                            })}
+                                        {String.fromCharCode(65 + index)}
+                                    </div>
+
+                                    <span className="text-lg font-semibold">{answer.title}</span>
+                                </button>
+                            ))}
                         </div>
 
                         {isHost ? (
@@ -118,18 +139,18 @@ export default function TriviaQuiz() {
                                     onClick={() => {
                                         dispatch(revealAnswer(quizRoomState.currentRoom.id));
                                     }}
-                                    className={`btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform ${quizRoomState.isRevealing ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                    className={`btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform ${
+                                        quizRoomState.isRevealing
+                                            ? 'opacity-50 cursor-not-allowed'
+                                            : ''
+                                    }`}
                                 >
                                     Next Question
                                 </button>
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        dispatch(
-                                            deleteQuizRoom({
-                                                quizRoomId: quizRoomState.currentRoom.id,
-                                            }),
-                                        ).then(() => navigate('/'));
+                                        setConfirmation({ type: 'delete' });
                                     }}
                                     className="px-10 py-4 text-lg font-bold rounded-2xl border-2 border-red-500/50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-lg hover:scale-105 cursor-pointer"
                                 >
@@ -141,12 +162,7 @@ export default function TriviaQuiz() {
                                 <button
                                     type="button"
                                     onClick={() => {
-                                        dispatch(
-                                            deleteParticipant({
-                                                quizRoomId: quizRoomState.currentRoom.id,
-                                                participantId: userState.userId,
-                                            }),
-                                        ).then(() => navigate('/'));
+                                        setConfirmation({ type: 'leave' });
                                     }}
                                     className="px-10 py-4 text-lg font-bold rounded-2xl border-2 border-white/20 text-white/70 hover:bg-white/10 hover:text-white transition-all shadow-lg hover:scale-105 cursor-pointer"
                                 >

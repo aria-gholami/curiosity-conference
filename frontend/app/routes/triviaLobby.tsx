@@ -2,19 +2,16 @@ import { ArrowRightIcon, PlayIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import RegistrationPopup from '~/components/registration/registrationPopup';
+import ConfirmationPopup from '~/components/trivia/confirmationPopup';
 import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
+import type { UserState } from '~/features/user/state/Initial';
+import type QuizRoomStartRequestBody from '~/features/quizRoom/state/QuizRoomStartRequestBody';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirect';
-import type QuizRoomStartRequestBody from '~/features/quizRoom/state/QuizRoomStartRequestBody';
-import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
-import type QuizRoomDeleteParticipantAttributes from '~/features/quizRoom/state/QuizRoomDeleteParticipantAttributes';
-import type { UserState } from '~/features/user/state/Initial';
-import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipant';
-import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
-import type QuizRoomDeleteParams from '~/features/quizRoom/state/QuizRoomDeleteRequestBody';
-import { resetCurrentRoom, resetRooms } from '~/features/quizRoom/quizRoomSlice';
 import { useStartedQuiz } from '~/routes/hooks/useStartedQuiz';
+import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
+import { useLobbyConfirmation } from '~/components/trivia/hooks/useLobbyConfirmation';
 
 export default function TriviaLobby() {
     const dispatch = useAppDispatch();
@@ -26,6 +23,15 @@ export default function TriviaLobby() {
     useFetchActiveQuizRoom();
     useLobbyNotFoundRedirect();
     useStartedQuiz();
+    const {
+        confirmation,
+        setConfirmation,
+        isProcessing,
+        handleConfirm,
+        confirmationTitle,
+        confirmationMessage,
+        confirmationLabel,
+    } = useLobbyConfirmation();
 
     const isHost = userState.userId === quizRoomState.currentRoom.host.id;
 
@@ -37,6 +43,16 @@ export default function TriviaLobby() {
             <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full blur-3xl bg-light-blue-glow" />
 
             <RegistrationPopup open={isRegistrationPopupOpen} />
+
+            <ConfirmationPopup
+                open={confirmation !== null}
+                title={confirmationTitle}
+                message={confirmationMessage}
+                confirmLabel={confirmationLabel}
+                onCancel={() => setConfirmation(null)}
+                onConfirm={handleConfirm}
+                loading={isProcessing}
+            />
 
             <div className="relative z-10 mx-auto flex max-w-5xl flex-col px-6 pb-20 pt-14 sm:px-8">
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -112,17 +128,14 @@ export default function TriviaLobby() {
                                                 <button
                                                     type="button"
                                                     title="Remove participant"
-                                                    className="rounded-lg bg-red-50 p-2.5 text-red-600 transition-colors hover:bg-red-100 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 cursor-pointer"
-                                                    onClick={async () => {
-                                                        const attributes: QuizRoomDeleteParticipantAttributes =
-                                                            {
-                                                                quizRoomId:
-                                                                    quizRoomState.currentRoom.id,
-                                                                participantId: participant.userId,
-                                                            };
-                                                        await dispatch(
-                                                            deleteParticipant(attributes) as any,
-                                                        );
+                                                    aria-label={`Remove ${participant.userName}`}
+                                                    className="cursor-pointer rounded-lg bg-red-50 p-2.5 text-red-600 transition-colors hover:bg-red-100 hover:text-red-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                                                    onClick={() => {
+                                                        setConfirmation({
+                                                            type: 'remove',
+                                                            participantId: participant.userId,
+                                                            participantName: participant.userName,
+                                                        });
                                                     }}
                                                 >
                                                     <XMarkIcon
@@ -156,21 +169,10 @@ export default function TriviaLobby() {
                                 <button
                                     type="button"
                                     className="btn-secondary-light btn-lg flex items-center justify-center gap-2"
-                                    onClick={async () => {
-                                        const attributes: QuizRoomDeleteParticipantAttributes = {
-                                            quizRoomId: quizRoomState.currentRoom.id,
-                                            participantId: userState.userId,
-                                        };
-
-                                        await dispatch(deleteParticipant(attributes) as any);
-                                        if (isHost) {
-                                            const params: QuizRoomDeleteParams = {
-                                                quizRoomId: quizRoomState.currentRoom.id,
-                                            };
-                                            await dispatch(deleteQuizRoom(params) as any);
-                                        }
-                                        dispatch(resetRooms() as any);
-                                        dispatch(resetCurrentRoom() as any);
+                                    onClick={() => {
+                                        setConfirmation({
+                                            type: isHost ? 'delete' : 'leave',
+                                        });
                                     }}
                                 >
                                     <span>{isHost ? 'Delete Room' : 'Leave Room'}</span>
