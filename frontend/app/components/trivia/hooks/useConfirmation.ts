@@ -5,6 +5,8 @@ import { deleteQuizRoom } from '~/features/quizRoom/reducers/deleteQuizRoom';
 import { resetCurrentRoom, resetRooms } from '~/features/quizRoom/quizRoomSlice';
 import type QuizRoomDeleteParticipantAttributes from '~/features/quizRoom/state/QuizRoomDeleteParticipantAttributes';
 import type QuizRoomDeleteParams from '~/features/quizRoom/state/QuizRoomDeleteRequestBody';
+import type QuizRoomStartRequestBody from '~/features/quizRoom/state/QuizRoomStartRequestBody';
+import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
 
 type ConfirmationAction =
     | {
@@ -13,9 +15,10 @@ type ConfirmationAction =
           participantName: string;
       }
     | { type: 'delete' }
-    | { type: 'leave' };
+    | { type: 'leave' }
+    | { type: 'start' };
 
-export const useLobbyConfirmation = () => {
+export const useConfirmation = () => {
     const dispatch = useAppDispatch();
     const roomId = useAppSelector((state) => state.quizRoom.currentRoom.id);
     const userId = useAppSelector((state) => state.user.userId);
@@ -58,6 +61,15 @@ export const useLobbyConfirmation = () => {
                     dispatch(resetCurrentRoom());
                     break;
                 }
+                case 'start': {
+                    const requestBody: QuizRoomStartRequestBody = {
+                        quizRoomId: roomId,
+                    };
+
+                    await dispatch(startQuizRoom(requestBody) as any).unwrap();
+
+                    break;
+                }
             }
 
             setConfirmation(null);
@@ -73,19 +85,25 @@ export const useLobbyConfirmation = () => {
             ? 'Remove participant?'
             : confirmation?.type === 'delete'
               ? 'Delete room?'
-              : 'Leave room?';
+              : confirmation?.type === 'start'
+                ? 'Start game?'
+                : 'Leave room?';
     const confirmationMessage =
         confirmation?.type === 'remove'
             ? `Are you sure you want to remove ${confirmation.participantName} from the room?`
             : confirmation?.type === 'delete'
               ? 'Are you sure you want to delete this room? All participants will be removed.'
-              : 'Are you sure you want to leave this room?';
+              : confirmation?.type === 'start'
+                ? 'Are you sure you want to start the game? All participants will begin the quiz, and no new players will be able to join once the game has started.'
+                : 'Are you sure you want to leave this room?';
     const confirmationLabel =
         confirmation?.type === 'remove'
             ? 'Remove'
             : confirmation?.type === 'delete'
               ? 'Delete Room'
-              : 'Leave Room';
+              : confirmation?.type === 'start'
+                ? 'Start Game'
+                : 'Leave Room';
 
     return {
         confirmation,

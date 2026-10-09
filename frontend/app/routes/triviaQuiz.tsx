@@ -11,7 +11,7 @@ import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { UserState } from '~/features/user/state/Initial';
 import { setSelectedAnswerId } from '~/features/quizRoom/quizRoomSlice';
 import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
-import { useLobbyConfirmation } from '~/components/trivia/hooks/useLobbyConfirmation';
+import { useConfirmation } from '~/components/trivia/hooks/useConfirmation';
 import ConfirmationPopup from '~/components/trivia/confirmationPopup';
 
 export default function TriviaQuiz() {
@@ -37,7 +37,7 @@ export default function TriviaQuiz() {
         confirmationTitle,
         confirmationMessage,
         confirmationLabel,
-    } = useLobbyConfirmation();
+    } = useConfirmation();
 
     const selectedAnswerId = quizRoomState.currentRoom.selectedAnswerId;
 

@@ -5,13 +5,11 @@ import RegistrationPopup from '~/components/registration/registrationPopup';
 import ConfirmationPopup from '~/components/trivia/confirmationPopup';
 import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { UserState } from '~/features/user/state/Initial';
-import type QuizRoomStartRequestBody from '~/features/quizRoom/state/QuizRoomStartRequestBody';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirect';
 import { useStartedQuiz } from '~/routes/hooks/useStartedQuiz';
-import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
-import { useLobbyConfirmation } from '~/components/trivia/hooks/useLobbyConfirmation';
+import { useConfirmation } from '~/components/trivia/hooks/useConfirmation';
 
 export default function TriviaLobby() {
     const dispatch = useAppDispatch();
@@ -31,7 +29,7 @@ export default function TriviaLobby() {
         confirmationTitle,
         confirmationMessage,
         confirmationLabel,
-    } = useLobbyConfirmation();
+    } = useConfirmation();
 
     const isHost = userState.userId === quizRoomState.currentRoom.host.id;
 
@@ -153,12 +151,8 @@ export default function TriviaLobby() {
                                     <button
                                         type="button"
                                         className="btn-primary btn-lg flex items-center justify-center gap-2"
-                                        onClick={async () => {
-                                            const requestBody: QuizRoomStartRequestBody = {
-                                                quizRoomId: quizRoomState.currentRoom.id,
-                                            };
-
-                                            await dispatch(startQuizRoom(requestBody) as any);
+                                        onClick={() => {
+                                            setConfirmation({ type: 'start' });
                                         }}
                                     >
                                         <span>Start Game</span>
