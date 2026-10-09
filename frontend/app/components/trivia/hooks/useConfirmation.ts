@@ -100,12 +100,12 @@ export const useConfirmation = () => {
         confirmation?.type === 'remove'
             ? `Are you sure you want to remove ${confirmation.participantName} from the room?`
             : confirmation?.type === 'delete'
-              ? 'Are you sure you want to delete this room? All participants will be removed.'
+              ? 'Are you sure you want to delete this room? All participants will be removed from the room.'
               : confirmation?.type === 'start'
                 ? 'Are you sure you want to start the game? All participants will begin the quiz, and no new players will be able to join once the game has started.'
                 : confirmation?.type === 'next'
                   ? "Are you sure you want to proceed? The correct answer will be revealed to all players. This action cannot be undone, and you won't be able to return to the previous question."
-                  : 'Are you sure you want to leave this room?';
+                  : "Are you sure you want to leave this room? Once you leave, you won't be able to rejoin this room.";
     const confirmationLabel =
         confirmation?.type === 'remove'
             ? 'Remove'
