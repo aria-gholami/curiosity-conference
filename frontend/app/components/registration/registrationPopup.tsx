@@ -101,7 +101,7 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
                         </div>
                     </div>
 
-                    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <div className="mt-3 flex flex-col gap-3 sm:flex-row">
                         <button
                             type="submit"
                             className="btn-primary group gap-2.5 px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)]"
