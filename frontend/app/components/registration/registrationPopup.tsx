@@ -13,11 +13,24 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const [userName, setUserName] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const MAX_USERNAME_LENGTH = 15;
 
     if (!open) return null;
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
+
+        if (userName.length === 0) {
+            setErrorMessage('Your username can\'t be empty.');
+            return;
+        }
+
+        if (userName.length > MAX_USERNAME_LENGTH) {
+            setErrorMessage('Your username must not exceed 15 characters.');
+            return;
+        }
+
         const registrationRequestBody: RegistrationRequestBody = {
             userName,
         };
@@ -61,9 +74,30 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
                                 type="text"
                                 placeholder="Your username"
                                 className="input"
+                                maxLength={MAX_USERNAME_LENGTH}
                                 value={userName}
+                                required
                                 onChange={(event) => setUserName(event.target.value)}
                             />
+                            <div className="mt-2 flex items-start justify-between gap-3">
+                                <div className="min-w-0 flex-1">
+                                    {errorMessage && (
+                                        <p className="text-xs leading-5 text-red-600">
+                                            {errorMessage}
+                                        </p>
+                                    )}
+                                </div>
+
+                                <span
+                                    className={`shrink-0 text-xs leading-5 ${
+                                        userName.length > MAX_USERNAME_LENGTH
+                                            ? 'font-semibold text-red-600'
+                                            : 'text-card-text'
+                                    }`}
+                                >
+                                    {userName.length}/{MAX_USERNAME_LENGTH}
+                                </span>
+                            </div>
                         </div>
                     </div>
 

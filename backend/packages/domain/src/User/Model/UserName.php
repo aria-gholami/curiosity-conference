@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Domain\User\Model;
 
-use CuriosityConference\Domain\Exception\EmptyStringException;
+use CuriosityConference\Domain\User\Exception\InvalidNameException;
 
 final readonly class UserName
 {
     /**
-     * @throws EmptyStringException
+     * @throws InvalidNameException
      */
     public function __construct(
         public string $value,
     ) {
-        if ('' === $this->value) {
-            throw EmptyStringException::stringIsEmpty('userName');
+        if ('' === $this->value || \mb_strlen($this->value) > 15) {
+            throw InvalidNameException::isInvalid('userName');
         }
     }
 }

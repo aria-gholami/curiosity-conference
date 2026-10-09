@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\User\Mocks
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\User\Exception\InvalidNameException;
 use CuriosityConference\Domain\User\Model\Id;
 use CuriosityConference\Domain\User\Model\UserName;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -59,12 +60,11 @@ final class CreateControllerTest extends TestCase
         self::assertEquals([], $this->loggerMock->logs);
     }
 
-    public function testCreateWithInvalidPayload(): void
+    public function testCreateWithEmptyId(): void
     {
-        $userId = new Id('test id');
-        $this->createHandlerMock->outputUserId = $userId;
+        $this->createHandlerMock->thrownException = new EmptyStringException('test');
         $payload = [
-            'userName' => '',
+            'userName' => 'test',
         ];
         $request = new Request(
             [],
@@ -85,7 +85,40 @@ final class CreateControllerTest extends TestCase
                 [
                     'message' => 'Request data for /api/v1/user is invalid.',
                     'context' => [
-                        'exceptionMessage' => EmptyStringException::stringIsEmpty('userName')->getMessage(),
+                        'exceptionMessage' => 'test',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testCreateWithInvalidPayload(): void
+    {
+        $userId = new Id('test id');
+        $this->createHandlerMock->outputUserId = $userId;
+        $payload = [
+            'userName' => '12345678901234567890',
+        ];
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+
+        $response = $this->createController->__invoke($request);
+
+        self::assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+        self::assertSame('{"message":"Bad Request."}', $response->getContent());
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Request data for /api/v1/user is invalid.',
+                    'context' => [
+                        'exceptionMessage' => InvalidNameException::isInvalid('userName')->getMessage(),
                     ],
                 ],
             ],
