@@ -7,6 +7,7 @@ import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
 import type { QuizRoomCreateRequestBody } from '~/features/quizRoom/state/QuizRoomCreateRequestBody';
 import type { UserState } from '~/features/user/state/Initial';
 import { useNavigate } from 'react-router';
+import { useBodyScrollLock } from '~/hooks/useBodyScrollLock';
 
 type TriviaRoomCreatePopupProps = {
     open: boolean;
@@ -22,10 +23,10 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
     const quizState: QuizState = useAppSelector((state) => state.quiz);
     const userState: UserState = useAppSelector((state) => state.user);
     const MAX_ROOM_TITLE_LENGTH = 15;
-    useFetchQuizList();
-
     const selectedQuiz = quizState.quizzes.find((quiz) => quiz.id === selectedQuizId);
 
+    useFetchQuizList();
+    useBodyScrollLock(open);
     if (!open) {
         return null;
     }

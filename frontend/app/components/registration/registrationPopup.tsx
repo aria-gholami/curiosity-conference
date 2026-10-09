@@ -4,6 +4,7 @@ import type { RegistrationRequestBody } from '~/features/user/state/Registration
 import { registerUser } from '~/features/user/reducers/registerUser';
 import { useAppDispatch } from '~/redux/hooks';
 import { useNavigate } from 'react-router';
+import { useBodyScrollLock } from '~/hooks/useBodyScrollLock';
 
 type RegistrationPopupProps = {
     open: boolean;
@@ -15,6 +16,8 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
     const [userName, setUserName] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const MAX_USERNAME_LENGTH = 15;
+
+    useBodyScrollLock(open);
 
     if (!open) return null;
 

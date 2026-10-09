@@ -1,3 +1,5 @@
+import { useBodyScrollLock } from '~/hooks/useBodyScrollLock';
+
 type ConfirmationPopupProps = {
     open: boolean;
     title: string;
@@ -17,6 +19,7 @@ export default function ConfirmationPopup({
     onConfirm,
     loading = false,
 }: ConfirmationPopupProps) {
+    useBodyScrollLock(open);
     if (!open) {
         return null;
     }

@@ -1,3 +1,5 @@
+import { useBodyScrollLock } from '~/hooks/useBodyScrollLock';
+
 type LogoutPopupProps = {
     open: boolean;
     onCancel: () => void;
@@ -8,6 +10,8 @@ export default function LogoutPopup({ open, onCancel, onConfirm }: LogoutPopupPr
     if (!open) {
         return null;
     }
+
+    useBodyScrollLock(open);
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
