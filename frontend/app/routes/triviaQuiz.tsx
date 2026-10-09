@@ -10,13 +10,11 @@ import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { UserState } from '~/features/user/state/Initial';
 import { setSelectedAnswerId } from '~/features/quizRoom/quizRoomSlice';
-import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
 import { useConfirmation } from '~/components/trivia/hooks/useConfirmation';
 import ConfirmationPopup from '~/components/trivia/confirmationPopup';
 
 export default function TriviaQuiz() {
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const userState: UserState = useAppSelector((state) => state.user);
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
@@ -29,6 +27,13 @@ export default function TriviaQuiz() {
         ],
     });
 
+    const selectedAnswerId = quizRoomState.currentRoom.selectedAnswerId;
+
+    useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
+    useFetchActiveQuizRoom();
+    useLobbyNotFoundRedirect();
+    useNotStartedQuiz();
+    useFetchQuizRoomQuestion(setCurrentQuestion);
     const {
         confirmation,
         setConfirmation,
@@ -38,14 +43,6 @@ export default function TriviaQuiz() {
         confirmationMessage,
         confirmationLabel,
     } = useConfirmation();
-
-    const selectedAnswerId = quizRoomState.currentRoom.selectedAnswerId;
-
-    useDisplayRegistrationPopup(setIsRegistrationPopupOpen);
-    useFetchActiveQuizRoom();
-    useLobbyNotFoundRedirect();
-    useNotStartedQuiz();
-    useFetchQuizRoomQuestion(setCurrentQuestion);
 
     const isHost = userState.userId === quizRoomState.currentRoom.host.id;
 
@@ -137,7 +134,7 @@ export default function TriviaQuiz() {
                                     type="button"
                                     disabled={quizRoomState.isRevealing}
                                     onClick={() => {
-                                        dispatch(revealAnswer(quizRoomState.currentRoom.id));
+                                        setConfirmation({ type: 'next' });
                                     }}
                                     className={`btn-primary px-10 py-4 text-lg rounded-2xl shadow-xl hover:scale-105 transition-transform ${
                                         quizRoomState.isRevealing
