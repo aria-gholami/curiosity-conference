@@ -11,88 +11,88 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController
     methods: GET
 CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController:
-    path: /api/v1/quiz/room/{quizRoomId}/participant/{participantId}
+    path: /api/v1/trivia/quiz/room/{quizRoomId}/participant/{participantId}
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController
     methods: DELETE
 
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
-    path: /api/v1/quiz
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateController:
+    path: /api/v1/trivia/quiz
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\TriviaPersistController:
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\TriviaPersistController:
     path: /api/v1/trivia/quizzes
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\TriviaPersistController
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\TriviaPersistController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController:
-    path: /api/v1/quiz
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListController:
+    path: /api/v1/trivia/quiz
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListController
     methods: GET
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController:
-    path: /api/v1/quiz
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteController:
+    path: /api/v1/trivia/quiz
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteController
     methods: DELETE
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateRoomController:
-    path: /api/v1/quiz/room
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateRoomController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateRoomController:
+    path: /api/v1/trivia/quiz/room
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateRoomController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\JoinRoomController:
-    path: /api/v1/quiz/room/join
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\JoinRoomController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\JoinRoomController:
+    path: /api/v1/trivia/quiz/room/join
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\JoinRoomController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\StartController:
-    path: /api/v1/quiz/room/start
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\StartController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\StartController:
+    path: /api/v1/trivia/quiz/room/start
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\StartController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteRoomController:
-    path: /api/v1/quiz/room
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteRoomController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteRoomController:
+    path: /api/v1/trivia/quiz/room
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteRoomController
     methods: DELETE
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListRoomController:
-    path: /api/v1/quiz/room
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListRoomController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListRoomController:
+    path: /api/v1/trivia/quiz/room
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListRoomController
     methods: GET
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ContinueOrFinishController:
-    path: /api/v1/quiz/room/continue
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ContinueOrFinishController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ContinueOrFinishController:
+    path: /api/v1/trivia/quiz/room/continue
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ContinueOrFinishController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateController:
-    path: /api/v1/highscore
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\HighscoreUpdateController:
+    path: /api/v1/trivia/highscore
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\HighscoreUpdateController
     methods: PUT
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByRoomController:
-    path: /api/v1/quiz/room/{quizRoomId}/highscores
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByRoomController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByRoomController:
+    path: /api/v1/trivia/quiz/room/{quizRoomId}/highscores
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByRoomController
     methods: GET
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByAllRoomsController:
-    path: /api/v1/quiz/room/highscores
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByAllRoomsController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByAllRoomsController:
+    path: /api/v1/trivia/quiz/room/highscores
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByAllRoomsController
     methods: GET
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ActiveRoomLoadController:
-    path: /api/v1/quiz/room/user/{userId}
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ActiveRoomLoadController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ActiveRoomLoadController:
+    path: /api/v1/trivia/quiz/room/user/{userId}
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ActiveRoomLoadController
     methods: GET
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\RevealCorrectAnswerController:
-    path: /api/v1/quiz/room/answer/reveal
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\RevealCorrectAnswerController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\RevealCorrectAnswerController:
+    path: /api/v1/trivia/quiz/room/answer/reveal
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\RevealCorrectAnswerController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CloseRoomController:
-    path: /api/v1/quiz/room/close
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CloseRoomController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CloseRoomController:
+    path: /api/v1/trivia/quiz/room/close
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CloseRoomController
     methods: POST
 
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
-    path: /api/v1/question
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController:
+    path: /api/v1/trivia/question
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController
     methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByQuizLoadController:
-    path: /api/v1/question
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByQuizLoadController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController:
+    path: /api/v1/trivia/question
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController
     methods: GET
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\DeleteController:
-    path: /api/v1/question
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\DeleteController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\DeleteController:
+    path: /api/v1/trivia/question
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\DeleteController
     methods: DELETE
-CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByRoomLoadController:
-    path: /api/v1/quiz/room/{quizRoomId}/question
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByRoomLoadController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByRoomLoadController:
+    path: /api/v1/trivia/quiz/room/{quizRoomId}/question
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByRoomLoadController
     methods: GET

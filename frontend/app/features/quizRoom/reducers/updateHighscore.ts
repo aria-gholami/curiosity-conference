@@ -6,7 +6,7 @@ export const updateHighscore = createAsyncThunk<void, HighscoreUpdatePayload>(
     'quizRoom/updateHighscore',
     async (highscoreUpdatePayload: HighscoreUpdatePayload) => {
         try {
-            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/highscore`;
+            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/trivia/highscore`;
             const response = await fetch(url, {
                 method: 'PUT',
                 headers: {

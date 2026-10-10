@@ -33,7 +33,7 @@ final readonly class DeleteQuizRoomParticipantController
 
             return new JsonResponse([], Response::HTTP_NO_CONTENT);
         } catch (EmptyStringException $exception) {
-            $this->logger->notice('Request data for DELETE to /api/v1/quiz/room/{id}/participant/{id} is invalid.', [
+            $this->logger->notice('Request data for DELETE to /api/v1/trivia/quiz/room/{id}/participant/{id} is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);
 

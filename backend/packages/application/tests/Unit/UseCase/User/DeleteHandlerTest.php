@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\Tests\Unit\UseCase\User;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\HubMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\RoomResultsByUserIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks\UserByIdDeleterMock;
@@ -40,11 +40,11 @@ final class DeleteHandlerTest extends TestCase
         $quizRoomResults = [
             [
                 'id' => 'test2',
-                'status' => QuizRoom::STATUS_CLOSED,
+                'status' => TriviaQuizRoom::STATUS_CLOSED,
             ],
             [
                 'id' => 'test',
-                'status' => QuizRoom::STATUS_STARTED,
+                'status' => TriviaQuizRoom::STATUS_STARTED,
             ],
         ];
         $this->roomByUserIdLoaderMock->outputQuizRoomResults = $quizRoomResults;
@@ -55,8 +55,8 @@ final class DeleteHandlerTest extends TestCase
 
         self::assertSame($userId->value, $this->roomByUserIdLoaderMock->inputUserId);
         self::assertSame($userId->value, $this->userByIdDeleterMock->inputUserId->value);
-        self::assertSame('quiz/room/list', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
-        self::assertSame('quiz/room/test/participants', $this->hubMock->inputUpdateGroup[1]->getTopics()[0]);
+        self::assertSame('trivia/quiz/room/list', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
+        self::assertSame('trivia/quiz/room/test/participants', $this->hubMock->inputUpdateGroup[1]->getTopics()[0]);
         self::assertSame('{"action":"remove","quizRoomResults":["test2","test"]}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertSame('{"action":"remove","participantId":"test"}', $this->hubMock->inputUpdateGroup[1]->getData());
     }
@@ -66,11 +66,11 @@ final class DeleteHandlerTest extends TestCase
         $quizRoomResults = [
             [
                 'id' => 'test2',
-                'status' => QuizRoom::STATUS_CLOSED,
+                'status' => TriviaQuizRoom::STATUS_CLOSED,
             ],
             [
                 'id' => 'test',
-                'status' => QuizRoom::STATUS_CLOSED,
+                'status' => TriviaQuizRoom::STATUS_CLOSED,
             ],
         ];
         $this->roomByUserIdLoaderMock->outputQuizRoomResults = $quizRoomResults;
@@ -81,7 +81,7 @@ final class DeleteHandlerTest extends TestCase
 
         self::assertSame($userId->value, $this->roomByUserIdLoaderMock->inputUserId);
         self::assertSame($userId->value, $this->userByIdDeleterMock->inputUserId->value);
-        self::assertSame('quiz/room/list', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
+        self::assertSame('trivia/quiz/room/list', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
         self::assertSame('{"action":"remove","quizRoomResults":["test2","test"]}', $this->hubMock->inputUpdateGroup[0]->getData());
     }
 

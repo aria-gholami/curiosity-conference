@@ -61,7 +61,7 @@ final class DeleteQuizRoomParticipantControllerTest extends TestCase
         self::assertEquals([
             'notice' => [
                 [
-                    'message' => 'Request data for DELETE to /api/v1/quiz/room/{id}/participant/{id} is invalid.',
+                    'message' => 'Request data for DELETE to /api/v1/trivia/quiz/room/{id}/participant/{id} is invalid.',
                     'context' => [
                         'exceptionMessage' => 'Validation failed for value "quizRoomParticipantQuizRoomId" with error: "Value for "quizRoomParticipantQuizRoomId" should not be empty."',
                     ],

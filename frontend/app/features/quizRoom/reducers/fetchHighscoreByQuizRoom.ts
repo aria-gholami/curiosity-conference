@@ -11,7 +11,7 @@ export const fetchHighscoreByQuizRoom = createAsyncThunk<
     'quizRoom/fetchHighscores',
     async (quizRoomId: string, { getState }) => {
         try {
-            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/quiz/room/${quizRoomId}/highscores`;
+            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/trivia/quiz/room/${quizRoomId}/highscores`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {

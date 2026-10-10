@@ -6,7 +6,7 @@ export const deleteQuizRoom = createAsyncThunk<void, QuizRoomDeleteParams, { sta
     'quizRoom/delete',
     async (params: QuizRoomDeleteParams) => {
         try {
-            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/quiz/room?quizRoomId=${params.quizRoomId}`;
+            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/trivia/quiz/room?quizRoomId=${params.quizRoomId}`;
             const response = await fetch(url, {
                 method: 'DELETE',
                 headers: {

@@ -21,9 +21,9 @@ export default function TriviaQuiz() {
     const [currentQuestion, setCurrentQuestion] = useState({
         question: 'Loading...',
         answers: [
-            { id: '1', title: 'Answer A', isCorrect: true },
-            { id: '2', title: 'Answer B', isCorrect: false },
-            { id: '3', title: 'Answer C', isCorrect: false },
+            { id: '1', title: 'TriviaAnswer A', isCorrect: true },
+            { id: '2', title: 'TriviaAnswer B', isCorrect: false },
+            { id: '3', title: 'TriviaAnswer C', isCorrect: false },
         ],
     });
 

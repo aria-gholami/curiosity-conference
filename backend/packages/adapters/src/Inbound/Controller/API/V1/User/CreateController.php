@@ -33,7 +33,7 @@ final readonly class CreateController
 
             return new JsonResponse(['id' => $userId->value, 'userName' => $userName->value], Response::HTTP_CREATED);
         } catch (InvalidNameException|EmptyStringException $exception) {
-            $this->logger->notice('Request data for /api/v1/user is invalid.', [
+            $this->logger->notice('Request data for POST to /api/v1/user is invalid.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);
 

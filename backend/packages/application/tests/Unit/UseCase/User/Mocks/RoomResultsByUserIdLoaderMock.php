@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\Tests\Unit\UseCase\User\Mocks;
 
-use CuriosityConference\Application\Port\Outbound\Quiz\RoomResultsByUserIdLoader;
+use CuriosityConference\Application\Port\Outbound\TriviaQuiz\RoomResultsByUserIdLoader;
 
 final class RoomResultsByUserIdLoaderMock implements RoomResultsByUserIdLoader
 {

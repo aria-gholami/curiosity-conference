@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\UseCase\User;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Application\Port\Inbound\User\DeleteHandler as DeleteHandlerInterface;
-use CuriosityConference\Application\Port\Outbound\Quiz\RoomResultsByUserIdLoader;
+use CuriosityConference\Application\Port\Outbound\TriviaQuiz\RoomResultsByUserIdLoader;
 use CuriosityConference\Application\Port\Outbound\User\ByIdDeleter;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -40,17 +40,17 @@ final readonly class DeleteHandler implements DeleteHandlerInterface
         $quizRoomResultWithStatusNotClosed = \array_values(
             \array_filter(
                 $quizRoomResults,
-                static fn (array $quizRoomResult): bool => QuizRoom::STATUS_CLOSED !== $quizRoomResult['status'],
+                static fn (array $quizRoomResult): bool => TriviaQuizRoom::STATUS_CLOSED !== $quizRoomResult['status'],
             ),
         );
         $this->hub->publish(new Update(
-            'quiz/room/list',
+            'trivia/quiz/room/list',
             \json_encode(['action' => 'remove', 'quizRoomResults' => \array_column($quizRoomResults, 'id')], \JSON_THROW_ON_ERROR),
         ));
         if (\count($quizRoomResultWithStatusNotClosed) > 0) {
             $this->hub->publish(
                 new Update(
-                    \sprintf('quiz/room/%s/participants', $quizRoomResultWithStatusNotClosed[0]['id']),
+                    \sprintf('trivia/quiz/room/%s/participants', $quizRoomResultWithStatusNotClosed[0]['id']),
                     \json_encode(['action' => 'remove', 'participantId' => $userId->value], \JSON_THROW_ON_ERROR),
                 ),
             );

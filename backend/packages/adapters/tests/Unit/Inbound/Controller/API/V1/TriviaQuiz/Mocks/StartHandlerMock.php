@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz\Mocks;
+
+use CuriosityConference\Application\Port\Inbound\TriviaQuiz\StartHandler;
+use CuriosityConference\Domain\Exception\LoadEntityFailedException;
+use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpdateFailedException;
+use CuriosityConference\Domain\TriviaQuiz\Id;
+
+final class StartHandlerMock implements StartHandler
+{
+    public Id $inputQuizRoomId;
+    public ?\Exception $throwException = null;
+
+    /**
+     * @throws LoadEntityFailedException
+     * @throws PersistFailedException
+     * @throws UpdateFailedException
+     */
+    #[\Override]
+    public function handle(Id $quizRoomId): void
+    {
+        $this->inputQuizRoomId = $quizRoomId;
+        if ($this->throwException instanceof LoadEntityFailedException) {
+            throw $this->throwException;
+        }
+        if ($this->throwException instanceof PersistFailedException) {
+            throw $this->throwException;
+        }
+        if ($this->throwException instanceof UpdateFailedException) {
+            throw $this->throwException;
+        }
+    }
+}

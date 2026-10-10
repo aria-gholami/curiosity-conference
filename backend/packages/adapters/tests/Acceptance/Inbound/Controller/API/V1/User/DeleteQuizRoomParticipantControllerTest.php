@@ -41,7 +41,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz',
+            '/api/v1/trivia/quiz',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -62,7 +62,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz/room',
+            '/api/v1/trivia/quiz/room',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -82,7 +82,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz/room/join',
+            '/api/v1/trivia/quiz/room/join',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -93,7 +93,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'DELETE',
-            '/api/v1/quiz/room/' . $responseQuizRoom['id'] . '/participant/' . $responseUser['id'],
+            '/api/v1/trivia/quiz/room/' . $responseQuizRoom['id'] . '/participant/' . $responseUser['id'],
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -133,7 +133,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz',
+            '/api/v1/trivia/quiz',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -154,7 +154,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz/room',
+            '/api/v1/trivia/quiz/room',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -174,7 +174,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz/room/join',
+            '/api/v1/trivia/quiz/room/join',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -185,7 +185,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'DELETE',
-            '/api/v1/quiz/room/' . $responseQuizRoom['id'] . '/participant/' . $responseUser['id'],
+            '/api/v1/trivia/quiz/room/' . $responseQuizRoom['id'] . '/participant/' . $responseUser['id'],
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -231,7 +231,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz',
+            '/api/v1/trivia/quiz',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -252,7 +252,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz/room',
+            '/api/v1/trivia/quiz/room',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -272,7 +272,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         ];
         $this->client->request(
             'POST',
-            '/api/v1/quiz/room/join',
+            '/api/v1/trivia/quiz/room/join',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
@@ -283,7 +283,7 @@ final class DeleteQuizRoomParticipantControllerTest extends AbstractWebTestCase
         );
         $this->client->request(
             'DELETE',
-            '/api/v1/quiz/room/' . $responseQuizRoom['id'] . '/participant/invalid',
+            '/api/v1/trivia/quiz/room/' . $responseQuizRoom['id'] . '/participant/invalid',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',

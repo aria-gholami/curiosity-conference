@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\User;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\Highscore;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\QuizRoom;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaHighscore;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\User\Mocks\DetailsGetHandlerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
@@ -39,7 +39,7 @@ final class DetailsGetControllerTest extends TestCase
 
     public function testGetUserIsValid(): void
     {
-        $quiz = new Quiz(
+        $quiz = new TriviaQuiz(
             'test',
             'test',
         );
@@ -47,21 +47,21 @@ final class DetailsGetControllerTest extends TestCase
             'test',
             'test',
         );
-        $quizRoom = new QuizRoom(
+        $quizRoom = new TriviaQuizRoom(
             'test',
             'test',
             $quiz,
             null,
             $user,
-            QuizRoom::STATUS_STARTED,
+            TriviaQuizRoom::STATUS_STARTED,
         );
-        $user->addHighscore(new Highscore(
+        $user->addHighscore(new TriviaHighscore(
             'test',
             $quizRoom,
             $user,
             1,
         ));
-        $user->addHighscore(new Highscore(
+        $user->addHighscore(new TriviaHighscore(
             'test2',
             $quizRoom,
             $user,

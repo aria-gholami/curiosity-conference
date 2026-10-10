@@ -14,7 +14,7 @@ export default function handleUpdateRoomList(
         eventSource.close();
     }
 
-    url.searchParams.append('topic', 'quiz/room/list');
+    url.searchParams.append('topic', 'trivia/quiz/room/list');
     eventSource = new EventSource(url);
     eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);

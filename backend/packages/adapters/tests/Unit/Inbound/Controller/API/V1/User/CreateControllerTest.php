@@ -83,7 +83,7 @@ final class CreateControllerTest extends TestCase
         self::assertEquals([
             'notice' => [
                 [
-                    'message' => 'Request data for /api/v1/user is invalid.',
+                    'message' => 'Request data for POST to /api/v1/user is invalid.',
                     'context' => [
                         'exceptionMessage' => 'test',
                     ],
@@ -116,7 +116,7 @@ final class CreateControllerTest extends TestCase
         self::assertEquals([
             'notice' => [
                 [
-                    'message' => 'Request data for /api/v1/user is invalid.',
+                    'message' => 'Request data for POST to /api/v1/user is invalid.',
                     'context' => [
                         'exceptionMessage' => InvalidNameException::isInvalid('userName')->getMessage(),
                     ],

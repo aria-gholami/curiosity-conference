@@ -12,7 +12,7 @@ export const joinQuizRoom = createAsyncThunk<
     'quizRoom/join',
     async (requestBody: QuizRoomJoinRequestBody) => {
         try {
-            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/quiz/room/join`;
+            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/trivia/quiz/room/join`;
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {

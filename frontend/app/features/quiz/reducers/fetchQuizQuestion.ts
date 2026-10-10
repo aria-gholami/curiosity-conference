@@ -7,7 +7,7 @@ export const fetchQuizQuestion = createAsyncThunk<QuizState, string, { state: Ro
     'quizRoomQuestion/fetch',
     async (quizRoomId: string, { getState }) => {
         try {
-            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/quiz/room/${quizRoomId}/question`;
+            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/trivia/quiz/room/${quizRoomId}/question`;
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {

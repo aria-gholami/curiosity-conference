@@ -1,0 +1,48 @@
+<?php
+
+declare(strict_types=1);
+
+namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz;
+
+use CuriosityConference\Application\Port\Inbound\TriviaQuiz\RevealCorrectAnswerHandler;
+use CuriosityConference\Domain\Exception\EmptyStringException;
+use CuriosityConference\Domain\Exception\LoadEntityFailedException;
+use CuriosityConference\Domain\TriviaQuiz\Id;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+final readonly class RevealCorrectAnswerController
+{
+    public function __construct(
+        private RevealCorrectAnswerHandler $revealCorrectAnswerHandler,
+        private LoggerInterface $logger,
+    ) {
+    }
+
+    public function __invoke(Request $request): JsonResponse
+    {
+        $data = \json_decode($request->getContent(), true);
+        try {
+            $quizRoomId = new Id(
+                $data['quizRoomId'] ?? '',
+            );
+            $this->revealCorrectAnswerHandler->handle($quizRoomId);
+
+            return new JsonResponse([], Response::HTTP_NO_CONTENT);
+        } catch (EmptyStringException $exception) {
+            $this->logger->notice('Request data for POST to /api/v1/trivia/quiz/room/answer/reveal is invalid.', [
+                'exceptionMessage' => $exception->getMessage(),
+            ]);
+
+            return new JsonResponse(['message' => 'Bad Request.'], Response::HTTP_BAD_REQUEST);
+        } catch (LoadEntityFailedException $exception) {
+            $this->logger->notice('TriviaAnswer could not be revealed.', [
+                'exceptionMessage' => $exception->getMessage(),
+            ]);
+
+            return new JsonResponse(['message' => 'Internal Server Error.'], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+}

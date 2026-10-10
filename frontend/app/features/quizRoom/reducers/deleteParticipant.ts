@@ -10,7 +10,7 @@ export const deleteParticipant = createAsyncThunk<
     'quizRoom/leave',
     async (attributes: QuizRoomDeleteParticipantAttributes) => {
         try {
-            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/quiz/room/${attributes.quizRoomId}/participant/${attributes.participantId}`;
+            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/trivia/quiz/room/${attributes.quizRoomId}/participant/${attributes.participantId}`;
             const response = await fetch(url, {
                 method: 'DELETE',
                 headers: {

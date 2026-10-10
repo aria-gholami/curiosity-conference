@@ -6,7 +6,7 @@ export const startQuizRoom = createAsyncThunk<void, QuizRoomStartRequestBody, { 
     'quizRoom/start',
     async (requestBody: QuizRoomStartRequestBody) => {
         try {
-            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/quiz/room/start`;
+            const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/trivia/quiz/room/start`;
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {

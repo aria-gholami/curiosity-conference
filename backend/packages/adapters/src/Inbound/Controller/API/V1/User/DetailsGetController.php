@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Inbound\Controller\API\V1\User;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\Highscore;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaHighscore;
 use CuriosityConference\Application\Port\Inbound\User\DetailsGetHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -32,16 +32,16 @@ final readonly class DetailsGetController
 
             return new JsonResponse([
                 'userName' => $user->getUserName(),
-                'highscores' => \array_map(static function (Highscore $highscore) {
+                'highscores' => \array_map(static function (TriviaHighscore $highscore) {
                     return [
                         'id' => $highscore->getId(),
-                        'quizRoomId' => $highscore->getQuizRoom()->getId(),
-                        'quizRoomStatus' => $highscore->getQuizRoom()->getStatus(),
-                        'quizId' => $highscore->getQuizRoom()->getQuiz()->getId(),
-                        'quizTitle' => $highscore->getQuizRoom()->getQuiz()->getTitle(),
+                        'quizRoomId' => $highscore->getTriviaQuizRoom()->getId(),
+                        'quizRoomStatus' => $highscore->getTriviaQuizRoom()->getStatus(),
+                        'quizId' => $highscore->getTriviaQuizRoom()->getTriviaQuiz()->getId(),
+                        'quizTitle' => $highscore->getTriviaQuizRoom()->getTriviaQuiz()->getTitle(),
                         'score' => $highscore->getScore(),
                     ];
-                }, $user->getHighscores()->toArray()),
+                }, $user->getTriviaHighscores()->toArray()),
             ], Response::HTTP_OK);
         } catch (EmptyStringException $exception) {
             $this->logger->notice('Request data for GET to /api/v1/user is invalid.', [

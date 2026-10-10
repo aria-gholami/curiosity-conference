@@ -13,7 +13,7 @@ export default function handleRevealAnswer(
         eventSource.close();
     }
 
-    url.searchParams.append('topic', `quiz/room/${roomId}/answer/reveal`);
+    url.searchParams.append('topic', `trivia/quiz/room/${roomId}/answer/reveal`);
     eventSource = new EventSource(url);
     eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);

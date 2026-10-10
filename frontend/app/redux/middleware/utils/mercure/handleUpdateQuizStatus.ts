@@ -10,7 +10,7 @@ export default function handleUpdateQuizStatus(
         eventSource.close();
     }
 
-    url.searchParams.append('topic', `quiz/room/${roomId}/status`);
+    url.searchParams.append('topic', `trivia/quiz/room/${roomId}/status`);
     eventSource = new EventSource(url);
     eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);

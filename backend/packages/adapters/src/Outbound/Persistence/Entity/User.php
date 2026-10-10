@@ -25,16 +25,16 @@ final class User
     private string $userName;
 
     /**
-     * @var Collection<int, Highscore>
+     * @var Collection<int, TriviaHighscore>
      */
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Highscore::class, orphanRemoval: true)]
-    private Collection $highscores;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: TriviaHighscore::class, orphanRemoval: true)]
+    private Collection $triviaHighscores;
 
     public function __construct(string $id, string $userName)
     {
         $this->id = $id;
         $this->userName = $userName;
-        $this->highscores = new ArrayCollection();
+        $this->triviaHighscores = new ArrayCollection();
     }
 
     public function getId(): string
@@ -47,13 +47,13 @@ final class User
         return $this->userName;
     }
 
-    public function getHighscores(): Collection
+    public function getTriviaHighscores(): Collection
     {
-        return $this->highscores;
+        return $this->triviaHighscores;
     }
 
-    public function addHighscore(Highscore $highscore): void
+    public function addHighscore(TriviaHighscore $triviaHighscore): void
     {
-        $this->highscores->add($highscore);
+        $this->triviaHighscores->add($triviaHighscore);
     }
 }

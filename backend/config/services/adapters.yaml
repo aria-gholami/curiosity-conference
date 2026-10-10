@@ -32,126 +32,126 @@ services:
     tags:
       - { name: 'controller.service_arguments' }
 
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\CreateHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\CreateHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\ListHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\ListHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\DeleteHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\DeleteHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
 
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\CreateController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Question\CreateHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuestion\CreateHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByQuizLoadController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Question\ByQuizLoadHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuestion\ByQuizLoadHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\DeleteController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\DeleteController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Question\DeleteHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuestion\DeleteHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Question\ByRoomLoadController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByRoomLoadController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Question\ByRoomLoadHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuestion\ByRoomLoadHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CreateRoomController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateRoomController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\CreateRoomHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\CreateRoomHandler'
       - '@mercure.hub.default'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\JoinRoomController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\JoinRoomController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\JoinRoomHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\JoinRoomHandler'
       - '@mercure.hub.default'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\StartController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\StartController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\StartHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\StartHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\DeleteRoomController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteRoomController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\DeleteRoomHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\DeleteRoomHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListRoomController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListRoomController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\ListRoomHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\ListRoomHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ContinueOrFinishController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ContinueOrFinishController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\ContinueOrFinishHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\ContinueOrFinishHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\HighscoreUpdateController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\HighscoreUpdateController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\HighscoreUpdateHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\HighscoreUpdateHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByRoomController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByRoomController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\ListHighscoreByRoomHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\ListHighscoreByRoomHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ListHighscoreByAllRoomsController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByAllRoomsController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\ListHighscoreByAllRoomsHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\ListHighscoreByAllRoomsHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\ActiveRoomLoadController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ActiveRoomLoadController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\ActiveRoomLoadHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\ActiveRoomLoadHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\RevealCorrectAnswerController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\RevealCorrectAnswerController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\RevealCorrectAnswerHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\RevealCorrectAnswerHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\CloseRoomController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CloseRoomController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\CloseRoomHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\CloseRoomHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\Quiz\TriviaPersistController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\TriviaPersistController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\Quiz\TriviaPersistHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuiz\TriviaPersistHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
@@ -169,99 +169,99 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
 
-  CuriosityConference\Adapters\Outbound\Quiz\Persister:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\Loader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\Loader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\ByIdLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\ByNameLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\ByNameLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\ByIdDeleter:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdDeleter:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\RoomPersister:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomPersister:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\RoomUpdater:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomUpdater:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\RoomParticipantPersister:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomParticipantPersister:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\RoomByIdLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\RoomByIdDeleter:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdDeleter:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\RoomLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\RoomResultsByUserIdLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomResultsByUserIdLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\RoomByUserIdLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByUserIdLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\HighscoreLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscoreLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaHighscoreRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\HighscoreCollectionByQuizRoomLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscoreCollectionByQuizRoomLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaHighscoreRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\HighscoreUpdater:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscoreUpdater:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaHighscoreRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\HighscorePersister:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscorePersister:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Quiz\HighscoreByAllRoomsLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscoreByAllRoomsLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaHighscoreRepository'
       - '@api.v1.quiz.logger'
 
-  CuriosityConference\Adapters\Outbound\Question\ByIdLoader:
+  CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuestionRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Question\Persister:
+  CuriosityConference\Adapters\Outbound\TriviaQuestion\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
-  CuriosityConference\Adapters\Outbound\Question\ByIdDeleter:
+  CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdDeleter:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuestionRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\Question\ByQuizDeleter:
+  CuriosityConference\Adapters\Outbound\TriviaQuestion\ByQuizDeleter:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuestionRepository'
       - '@api.v1.quiz.logger'
 
-  CuriosityConference\Adapters\Outbound\Answer\ByIdLoader:
+  CuriosityConference\Adapters\Outbound\TriviaAnswer\ByIdLoader:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\AnswerRepository'
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaAnswerRepository'
       - '@api.v1.quiz.logger'
 
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
@@ -269,27 +269,27 @@ services:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
-  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRepository:
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository:
     arguments:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
-  CuriosityConference\Adapters\Outbound\Persistence\Repository\AnswerRepository:
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaAnswerRepository:
     arguments:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
-  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuizRoomRepository:
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository:
     arguments:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
-  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionRepository:
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuestionRepository:
     arguments:
       - '@doctrine'
     tags:
       - 'doctrine.repository_service'
-  CuriosityConference\Adapters\Outbound\Persistence\Repository\HighscoreRepository:
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaHighscoreRepository:
     arguments:
       - '@doctrine'
     tags:
@@ -347,9 +347,9 @@ services:
     calls:
       - [ pushHandler, [ '@api.v1.authentication.logging-handler' ] ]
 
-  CuriosityConference\Adapters\Outbound\Persistence\Fixtures\QuizFixture:
+  CuriosityConference\Adapters\Outbound\Persistence\Fixtures\TriviaQuizFixture:
     tags:
       - { name: doctrine.fixture.orm }
-  CuriosityConference\Adapters\Outbound\Persistence\Fixtures\QuizRoomFixture:
+  CuriosityConference\Adapters\Outbound\Persistence\Fixtures\TriviaQuizRoomFixture:
     tags:
       - { name: doctrine.fixture.orm }

@@ -4,17 +4,17 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\Tests\Unit\Mocks;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\Quiz;
-use CuriosityConference\Application\Port\Outbound\Question\ByIdLoader;
-use CuriosityConference\Domain\Question\QuestionCollection;
+use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
+use CuriosityConference\Application\Port\Outbound\TriviaQuestion\ByIdLoader;
+use CuriosityConference\Domain\TriviaQuestion\QuestionCollection;
 
 final class QuestionByIdLoaderMock implements ByIdLoader
 {
-    public Quiz $inputQuiz;
+    public TriviaQuiz $inputQuiz;
     public QuestionCollection $outputQuestionCollection;
 
     #[\Override]
-    public function load(Quiz $quiz): QuestionCollection
+    public function load(TriviaQuiz $quiz): QuestionCollection
     {
         $this->inputQuiz = $quiz;
 
