@@ -7,7 +7,7 @@ namespace App\Tests\Unit\EventSubscriber\Mocks;
 use CuriosityConference\Core\Trivia\Exception\CouldNotSendTriviaModifiedDataException;
 use CuriosityConference\Core\Trivia\PageModifiedBackendSendHandler;
 
-final class PageModifiedBackendSendHandlerMock implements PageModifiedBackendSendHandler
+final class TriviaPageModifiedBackendSendHandlerMock implements PageModifiedBackendSendHandler
 {
     public array $inputQuizzes;
     public ?CouldNotSendTriviaModifiedDataException $throwCouldNotSendTriviaModifiedDataException = null;

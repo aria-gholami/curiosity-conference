@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Tests\Unit\EventSubscriber;
 
 use App\EventSubscriber\TriviaPageModifiedSubscriber;
-use App\Tests\Unit\EventSubscriber\Mocks\ExecutedCodeByCLICheckerMock;
-use App\Tests\Unit\EventSubscriber\Mocks\PageModifiedBackendSendHandlerMock;
+use App\Tests\Unit\EventSubscriber\Mocks\TriviaExecutedCodeByCLICheckerMock;
+use App\Tests\Unit\EventSubscriber\Mocks\TriviaPageModifiedBackendSendHandlerMock;
 use App\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Core\Trivia\Exception\CouldNotSendTriviaModifiedDataException;
 use PHPUnit\Framework\Attributes\CoversClass;
@@ -18,26 +18,26 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 #[CoversClass(TriviaPageModifiedSubscriber::class)]
 final class TriviaPageModifiedSubscriberTest extends TestCase
 {
-    private ExecutedCodeByCLICheckerMock $executedCodeByCLICheckerMock;
-    private PageModifiedBackendSendHandlerMock $pageModifiedBackendSendHandlerMock;
+    private TriviaExecutedCodeByCLICheckerMock $triviaExecutedCodeByCLICheckerMock;
+    private TriviaPageModifiedBackendSendHandlerMock $triviaPageModifiedBackendSendHandlerMock;
     private LoggerMock $loggerMock;
     private TriviaPageModifiedSubscriber $triviaPageModifiedSubscriber;
 
     protected function setUp(): void
     {
-        $this->executedCodeByCLICheckerMock = new ExecutedCodeByCLICheckerMock();
-        $this->pageModifiedBackendSendHandlerMock = new PageModifiedBackendSendHandlerMock();
+        $this->triviaExecutedCodeByCLICheckerMock = new TriviaExecutedCodeByCLICheckerMock();
+        $this->triviaPageModifiedBackendSendHandlerMock = new TriviaPageModifiedBackendSendHandlerMock();
         $this->loggerMock = new LoggerMock();
         $this->triviaPageModifiedSubscriber = new TriviaPageModifiedSubscriber(
-            $this->executedCodeByCLICheckerMock,
-            $this->pageModifiedBackendSendHandlerMock,
+            $this->triviaExecutedCodeByCLICheckerMock,
+            $this->triviaPageModifiedBackendSendHandlerMock,
             $this->loggerMock,
         );
     }
 
     public function testOnPageModifiedIsValid(): void
     {
-        $this->executedCodeByCLICheckerMock->outputExecutedByCLI = false;
+        $this->triviaExecutedCodeByCLICheckerMock->outputExecutedByCLI = false;
         $page = new Page();
         $payload = [
             'title' => 'Trivia',
@@ -54,13 +54,13 @@ final class TriviaPageModifiedSubscriberTest extends TestCase
 
         self::assertEquals([
             'test' => 'test',
-        ], $this->pageModifiedBackendSendHandlerMock->inputQuizzes);
+        ], $this->triviaPageModifiedBackendSendHandlerMock->inputQuizzes);
         self::assertEquals([], $this->loggerMock->logs);
     }
 
     public function testOnPageModifiedWithExecutedCodeByCLIEqualsTrue(): void
     {
-        $this->executedCodeByCLICheckerMock->outputExecutedByCLI = true;
+        $this->triviaExecutedCodeByCLICheckerMock->outputExecutedByCLI = true;
         $page = new Page();
         $payload = [
             'title' => 'Trivia',
@@ -80,7 +80,7 @@ final class TriviaPageModifiedSubscriberTest extends TestCase
 
     public function testOnPageModifiedWithNotTriviaTitle(): void
     {
-        $this->executedCodeByCLICheckerMock->outputExecutedByCLI = false;
+        $this->triviaExecutedCodeByCLICheckerMock->outputExecutedByCLI = false;
         $page = new Page();
         $payload = [
             'title' => 'NotTrivia',
@@ -98,7 +98,7 @@ final class TriviaPageModifiedSubscriberTest extends TestCase
 
     public function testOnPageModifiedWithQuizzesEqualsNull(): void
     {
-        $this->executedCodeByCLICheckerMock->outputExecutedByCLI = false;
+        $this->triviaExecutedCodeByCLICheckerMock->outputExecutedByCLI = false;
         $page = new Page();
         $payload = [
             'title' => 'Trivia',
@@ -110,14 +110,14 @@ final class TriviaPageModifiedSubscriberTest extends TestCase
         );
         $this->triviaPageModifiedSubscriber->onPageModified($pageModifiedEvent);
 
-        self::assertEquals([], $this->pageModifiedBackendSendHandlerMock->inputQuizzes);
+        self::assertEquals([], $this->triviaPageModifiedBackendSendHandlerMock->inputQuizzes);
         self::assertEquals([], $this->loggerMock->logs);
     }
 
     public function testOnPageModifiedWithCouldNotSendTriviaModifiedDataException(): void
     {
-        $this->executedCodeByCLICheckerMock->outputExecutedByCLI = false;
-        $this->pageModifiedBackendSendHandlerMock->throwCouldNotSendTriviaModifiedDataException = new CouldNotSendTriviaModifiedDataException('test');
+        $this->triviaExecutedCodeByCLICheckerMock->outputExecutedByCLI = false;
+        $this->triviaPageModifiedBackendSendHandlerMock->throwCouldNotSendTriviaModifiedDataException = new CouldNotSendTriviaModifiedDataException('test');
         $page = new Page();
         $payload = [
             'title' => 'Trivia',
@@ -139,7 +139,7 @@ final class TriviaPageModifiedSubscriberTest extends TestCase
 
         self::assertEquals([
             'test' => 'test',
-        ], $this->pageModifiedBackendSendHandlerMock->inputQuizzes);
+        ], $this->triviaPageModifiedBackendSendHandlerMock->inputQuizzes);
         self::assertEquals([
             'notice' => [
                 [

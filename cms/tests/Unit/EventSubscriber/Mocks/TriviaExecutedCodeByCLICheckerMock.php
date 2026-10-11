@@ -6,7 +6,7 @@ namespace App\Tests\Unit\EventSubscriber\Mocks;
 
 use CuriosityConference\Core\Trivia\ExecutedCodeByCLIChecker;
 
-final class ExecutedCodeByCLICheckerMock implements ExecutedCodeByCLIChecker
+final class TriviaExecutedCodeByCLICheckerMock implements ExecutedCodeByCLIChecker
 {
     public bool $outputExecutedByCLI;
 
