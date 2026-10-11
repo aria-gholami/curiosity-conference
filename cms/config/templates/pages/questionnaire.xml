@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template xmlns="http://schemas.sulu.io/template/template"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://schemas.sulu.io/template/template http://schemas.sulu.io/template/template-1.0.xsd">
+
+    <key>questionnaire</key>
+
+    <view>pages/questionnaire</view>
+    <controller>Sulu\Content\UserInterface\Controller\Website\ContentController::indexAction</controller>
+    <cacheLifetime>0</cacheLifetime>
+
+    <meta>
+        <title lang="en">Questionnaire</title>
+        <title lang="de">Fragebogen</title>
+    </meta>
+
+    <properties>
+        <property name="title" type="text_line" mandatory="true">
+            <meta>
+                <title lang="en">Title</title>
+                <title lang="de">Titel</title>
+            </meta>
+            <params>
+                <param name="headline" value="true"/>
+            </params>
+            <tag name="sulu.rlp.part"/>
+        </property>
+
+        <property name="url" type="route" mandatory="true">
+            <meta>
+                <title lang="en">URL</title>
+                <title lang="de">Adresse</title>
+            </meta>
+            <tag name="sulu.rlp"/>
+        </property>
+
+        <block name="questions" default-type="question" minOccurs="1">
+            <meta>
+                <title lang="en">Questions</title>
+                <title lang="de">Fragen</title>
+            </meta>
+
+            <types>
+                <type name="question">
+                    <meta>
+                        <title lang="en">Question</title>
+                        <title lang="de">Frage</title>
+                    </meta>
+
+                    <properties>
+                        <property name="questionTitle" type="text_line" mandatory="true">
+                            <meta>
+                                <title lang="en">Question Title</title>
+                                <title lang="de">Frage-Titel</title>
+                            </meta>
+                            <tag name="sulu.block_preview"/>
+                        </property>
+
+                        <block name="answers" default-type="answer" minOccurs="2">
+                            <meta>
+                                <title lang="en">Answers</title>
+                                <title lang="de">Antworten</title>
+                            </meta>
+
+                            <types>
+                                <type name="answer">
+                                    <meta>
+                                        <title lang="en">Answer</title>
+                                        <title lang="de">Antwort</title>
+                                    </meta>
+
+                                    <properties>
+                                        <property name="answerTitle" type="text_line" mandatory="true">
+                                            <meta>
+                                                <title lang="en">Answer Title</title>
+                                                <title lang="de">Antwort-Titel</title>
+                                            </meta>
+                                            <tag name="sulu.block_preview"/>
+                                        </property>
+                                    </properties>
+                                </type>
+                            </types>
+                        </block>
+                    </properties>
+                </type>
+            </types>
+        </block>
+    </properties>
+</template>

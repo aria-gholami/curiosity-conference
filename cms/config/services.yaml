@@ -71,6 +71,12 @@ services:
             - '@sulu_page.page_repository'
         tags:
             - 'doctrine.fixture.orm'
+    App\DataFixtures\QuestionnaireFixtures:
+        arguments:
+            - '@messenger.routable_message_bus'
+            - '@sulu_page.page_repository'
+        tags:
+            - 'doctrine.fixture.orm'
     App\Admin\HideTabsAdmin:
         tags:
             - { name: sulu.admin }
