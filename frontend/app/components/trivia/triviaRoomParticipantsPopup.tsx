@@ -78,40 +78,28 @@ export default function TriviaRoomParticipantsPopup({
                                         key={participant.userId}
                                         className="flex w-full min-w-0 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3"
                                     >
-                                        <div className="flex h-9 w-9 shrink-0 items-center justify-center self-center rounded-full bg-dark-blue text-center text-xs font-semibold leading-none text-white">
+                                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-dark-blue text-xs font-semibold text-white">
                                             {participant.userName.slice(0, 1).toUpperCase()}
                                         </div>
 
-                                        <div className="flex min-w-0 flex-1 flex-col gap-2">
-                                            <div className="min-w-0">
-                                                <p
-                                                    className="truncate text-sm font-semibold text-dark-blue"
-                                                    title={participant.userName}
-                                                >
-                                                    {participant.userName}
-                                                </p>
+                                        <div className="flex min-w-0 flex-1 flex-col">
+                                            <p
+                                                className="truncate text-sm font-semibold text-dark-blue"
+                                                title={participant.userName}
+                                            >
+                                                {participant.userName}
+                                            </p>
 
-                                                <p className="text-xs text-card-text">
-                                                    {isHost ? 'Host' : 'Player'}
-                                                </p>
-                                            </div>
-
-                                            {(isHost || showScore) && (
-                                                <div className="flex min-w-0 flex-wrap items-center gap-3">
-                                                    {isHost && (
-                                                        <span className="shrink-0 whitespace-nowrap rounded-full bg-turquoise/15 px-2.5 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-dark-blue">
-                                                            Host
-                                                        </span>
-                                                    )}
-
-                                                    {showScore && (
-                                                        <span className="shrink-0 whitespace-nowrap text-sm font-semibold text-dark-blue">
-                                                            {participant.score} pts
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            )}
+                                            <p className="text-xs text-card-text">
+                                                {isHost ? 'Host' : 'Player'}
+                                            </p>
                                         </div>
+
+                                        {showScore && (
+                                            <span className="ml-auto shrink-0 whitespace-nowrap text-sm font-semibold text-dark-blue">
+                                                {participant.score} pts
+                                            </span>
+                                        )}
                                     </div>
                                 );
                             })
