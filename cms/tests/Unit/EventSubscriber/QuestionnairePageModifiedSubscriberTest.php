@@ -44,6 +44,7 @@ final class QuestionnairePageModifiedSubscriberTest extends TestCase
             'questions' => [
                 'test' => 'test',
             ],
+            'showResults' => 'no',
         ];
         $pageModifiedEvent = new PageModifiedEvent(
             $page,
@@ -55,6 +56,57 @@ final class QuestionnairePageModifiedSubscriberTest extends TestCase
         self::assertEquals([
             'test' => 'test',
         ], $this->questionnairePageModifiedBackendSendHandlerMock->inputQuestions);
+        self::assertFalse($this->questionnairePageModifiedBackendSendHandlerMock->inputShowResults);
+        self::assertEquals([], $this->loggerMock->logs);
+    }
+
+    public function testOnPageModifiedWithShowResultsEqualsNull(): void
+    {
+        $this->questionnaireExecutedCodeByCLICheckerMock->outputExecutedByCLI = false;
+        $page = new Page();
+        $payload = [
+            'title' => 'Questionnaire',
+            'questions' => [
+                'test' => 'test',
+            ],
+            'showResults' => null,
+        ];
+        $pageModifiedEvent = new PageModifiedEvent(
+            $page,
+            'en',
+            $payload,
+        );
+        $this->questionnairePageModifiedSubscriber->onPageModified($pageModifiedEvent);
+
+        self::assertEquals([
+            'test' => 'test',
+        ], $this->questionnairePageModifiedBackendSendHandlerMock->inputQuestions);
+        self::assertFalse($this->questionnairePageModifiedBackendSendHandlerMock->inputShowResults);
+        self::assertEquals([], $this->loggerMock->logs);
+    }
+
+    public function testOnPageModifiedWithShowResultsEqualsYes(): void
+    {
+        $this->questionnaireExecutedCodeByCLICheckerMock->outputExecutedByCLI = false;
+        $page = new Page();
+        $payload = [
+            'title' => 'Questionnaire',
+            'questions' => [
+                'test' => 'test',
+            ],
+            'showResults' => 'yes',
+        ];
+        $pageModifiedEvent = new PageModifiedEvent(
+            $page,
+            'en',
+            $payload,
+        );
+        $this->questionnairePageModifiedSubscriber->onPageModified($pageModifiedEvent);
+
+        self::assertEquals([
+            'test' => 'test',
+        ], $this->questionnairePageModifiedBackendSendHandlerMock->inputQuestions);
+        self::assertTrue($this->questionnairePageModifiedBackendSendHandlerMock->inputShowResults);
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -67,6 +119,7 @@ final class QuestionnairePageModifiedSubscriberTest extends TestCase
             'questions' => [
                 'test' => 'test',
             ],
+            'showResults' => 'no',
         ];
         $pageModifiedEvent = new PageModifiedEvent(
             $page,
@@ -85,6 +138,7 @@ final class QuestionnairePageModifiedSubscriberTest extends TestCase
         $payload = [
             'title' => 'NotQuestionnaire',
             'questions' => 'test',
+            'showResults' => 'no',
         ];
         $pageModifiedEvent = new PageModifiedEvent(
             $page,
@@ -102,6 +156,7 @@ final class QuestionnairePageModifiedSubscriberTest extends TestCase
         $page = new Page();
         $payload = [
             'title' => 'Questionnaire',
+            'showResults' => 'no',
         ];
         $pageModifiedEvent = new PageModifiedEvent(
             $page,
@@ -111,6 +166,7 @@ final class QuestionnairePageModifiedSubscriberTest extends TestCase
         $this->questionnairePageModifiedSubscriber->onPageModified($pageModifiedEvent);
 
         self::assertEquals([], $this->questionnairePageModifiedBackendSendHandlerMock->inputQuestions);
+        self::assertFalse($this->questionnairePageModifiedBackendSendHandlerMock->inputShowResults);
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -124,6 +180,7 @@ final class QuestionnairePageModifiedSubscriberTest extends TestCase
             'questions' => [
                 'test' => 'test',
             ],
+            'showResults' => 'no',
         ];
         $pageModifiedEvent = new PageModifiedEvent(
             $page,

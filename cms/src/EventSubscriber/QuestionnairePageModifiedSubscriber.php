@@ -45,7 +45,8 @@ final readonly class QuestionnairePageModifiedSubscriber implements EventSubscri
                 return;
             }
 
-            $this->pageModifiedBackendSendHandler->handle($document['questions'] ?? []);
+            $showResults = 'yes' === ($document['showResults'] ?? 'no');
+            $this->pageModifiedBackendSendHandler->handle($document['questions'] ?? [], $showResults);
         } catch (\Throwable $exception) {
             $this->logger->notice('Questionnaire data could not been sent.', [
                 'exceptionMessage' => $exception->getMessage(),

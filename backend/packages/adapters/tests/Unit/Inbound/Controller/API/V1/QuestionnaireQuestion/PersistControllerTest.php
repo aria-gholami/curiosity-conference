@@ -10,6 +10,7 @@ use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpsertFailedException;
 use CuriosityConference\Domain\QuestionnaireQuestion\Exception\EmptyAnswerArrayException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -33,7 +34,12 @@ final class PersistControllerTest extends TestCase
     public function testPersistIsValid(): void
     {
         $payload = [
-            'test' => 'test',
+            'questions' => [
+                [
+                    'test',
+                ],
+            ],
+            'showResults' => false,
         ];
         $request = new Request(
             [],
@@ -49,7 +55,66 @@ final class PersistControllerTest extends TestCase
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
         self::assertSame('{"message":"Success."}', $response->getContent());
-        self::assertEquals($payload, $this->persistHandlerMock->inputQuestions);
+        self::assertEquals($payload['questions'], $this->persistHandlerMock->inputQuestions);
+        self::assertEquals($payload['showResults'], $this->persistHandlerMock->inputShowResults);
+        self::assertEquals([], $this->loggerMock->logs);
+    }
+
+    public function testPersistIsValidWithShowResultsEqualsTrue(): void
+    {
+        $payload = [
+            'questions' => [
+                [
+                    'test',
+                ],
+            ],
+            'showResults' => true,
+        ];
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+
+        $response = $this->persistController->__invoke($request);
+
+        self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
+        self::assertSame('{"message":"Success."}', $response->getContent());
+        self::assertEquals($payload['questions'], $this->persistHandlerMock->inputQuestions);
+        self::assertEquals($payload['showResults'], $this->persistHandlerMock->inputShowResults);
+        self::assertEquals([], $this->loggerMock->logs);
+    }
+
+    public function testPersistIsValidWithShowResultsEqualsNull(): void
+    {
+        $payload = [
+            'questions' => [
+                [
+                    'test',
+                ],
+            ],
+            'showResults' => null,
+        ];
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+
+        $response = $this->persistController->__invoke($request);
+
+        self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
+        self::assertSame('{"message":"Success."}', $response->getContent());
+        self::assertEquals($payload['questions'], $this->persistHandlerMock->inputQuestions);
+        self::assertFalse($this->persistHandlerMock->inputShowResults);
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -86,7 +151,12 @@ final class PersistControllerTest extends TestCase
     {
         $this->persistHandlerMock->throwException = new EmptyAnswerArrayException('test');
         $payload = [
-            'test' => 'test',
+            'questions' => [
+                [
+                    'test',
+                ],
+            ],
+            'showResults' => false,
         ];
         $request = new Request(
             [],
@@ -118,7 +188,12 @@ final class PersistControllerTest extends TestCase
     {
         $this->persistHandlerMock->throwException = new EmptyStringException('test');
         $payload = [
-            'test' => 'test',
+            'questions' => [
+                [
+                    'test',
+                ],
+            ],
+            'showResults' => false,
         ];
         $request = new Request(
             [],
@@ -150,7 +225,12 @@ final class PersistControllerTest extends TestCase
     {
         $this->persistHandlerMock->throwException = new DeleteFailedException('test');
         $payload = [
-            'test' => 'test',
+            'questions' => [
+                [
+                    'test',
+                ],
+            ],
+            'showResults' => false,
         ];
         $request = new Request(
             [],
@@ -182,7 +262,49 @@ final class PersistControllerTest extends TestCase
     {
         $this->persistHandlerMock->throwException = new PersistFailedException('test');
         $payload = [
-            'test' => 'test',
+            'questions' => [
+                [
+                    'test',
+                ],
+            ],
+            'showResults' => false,
+        ];
+        $request = new Request(
+            [],
+            [],
+            [],
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+
+        $response = $this->persistController->__invoke($request);
+
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
+        self::assertEquals([
+            'notice' => [
+                [
+                    'message' => 'Questionnaire Question data could not be persisted.',
+                    'context' => [
+                        'exceptionMessage' => 'test',
+                    ],
+                ],
+            ],
+        ], $this->loggerMock->logs);
+    }
+
+    public function testPersistWithUpsertFailedException(): void
+    {
+        $this->persistHandlerMock->throwException = new UpsertFailedException('test');
+        $payload = [
+            'questions' => [
+                [
+                    'test',
+                ],
+            ],
+            'showResults' => false,
         ];
         $request = new Request(
             [],

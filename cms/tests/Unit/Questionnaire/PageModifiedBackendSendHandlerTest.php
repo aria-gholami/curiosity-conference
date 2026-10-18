@@ -53,18 +53,21 @@ final class PageModifiedBackendSendHandlerTest extends TestCase
             ],
         ];
 
-        $this->pageModifiedBackendSendHandler->handle($postData);
+        $this->pageModifiedBackendSendHandler->handle($postData, false);
 
         $expectedInputPostData = [
-            [
-                'question' => 'TestTitle',
-                'answers' => [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
+            'questions' => [
+                [
+                    'question' => 'TestTitle',
+                    'answers' => [
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                    ],
                 ],
             ],
+            'showResults' => false,
         ];
         self::assertEquals($expectedInputPostData, $this->pageModifiedDataBackendSenderMock->inputPostData);
     }

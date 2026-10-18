@@ -10,15 +10,17 @@ use CuriosityConference\Core\Questionnaire\PageModifiedBackendSendHandler;
 final class QuestionnairePageModifiedBackendSendHandlerMock implements PageModifiedBackendSendHandler
 {
     public array $inputQuestions;
+    public bool $inputShowResults;
     public ?CouldNotSendQuestionnaireModifiedDataException $throwCouldNotSendQuestionnaireModifiedDataException = null;
 
     /**
      * @throws CouldNotSendQuestionnaireModifiedDataException
      */
     #[\Override]
-    public function handle(array $questions): void
+    public function handle(array $questions, bool $showResults): void
     {
         $this->inputQuestions = $questions;
+        $this->inputShowResults = $showResults;
         if ($this->throwCouldNotSendQuestionnaireModifiedDataException instanceof CouldNotSendQuestionnaireModifiedDataException) {
             throw $this->throwCouldNotSendQuestionnaireModifiedDataException;
         }

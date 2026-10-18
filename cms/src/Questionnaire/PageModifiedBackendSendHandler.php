@@ -19,15 +19,17 @@ final readonly class PageModifiedBackendSendHandler implements PageModifiedBacke
      * @throws CouldNotSendQuestionnaireModifiedDataException
      */
     #[\Override]
-    public function handle(array $questions): void
+    public function handle(array $questions, bool $showResults): void
     {
-        $postData = \array_map(function (array $question) {
-            return [
-                'question' => $question['questionTitle'],
-                'answers' => $this->mapAnswerData($question['answers']),
-            ];
-        }, $questions);
-
+        $postData = [
+            'questions' => \array_map(function (array $question): array {
+                return [
+                    'question' => $question['questionTitle'],
+                    'answers' => $this->mapAnswerData($question['answers']),
+                ];
+            }, $questions),
+            'showResults' => $showResults,
+        ];
         $this->pageModifiedDataBackendSender->post($postData);
     }
 

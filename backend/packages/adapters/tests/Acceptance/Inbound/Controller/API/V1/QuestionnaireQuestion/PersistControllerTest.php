@@ -17,13 +17,45 @@ final class PersistControllerTest extends AbstractWebTestCase
     public function testPersistTriviaIsValid(): void
     {
         $payload = [
-            [
-                'question' => 'TestTitle',
-                'answers' => [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
+            'questions' => [
+                [
+                    'question' => 'TestTitle',
+                    'answers' => [
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                    ],
+                ],
+            ],
+            'showResults' => false,
+        ];
+        $this->client->request(
+            'POST',
+            '/api/v1/questionnaire/questions',
+            server: [
+                'Content-Type' => 'application/json',
+                'Accept' => 'application/json',
+                'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+            ],
+            content: \json_encode($payload, \JSON_THROW_ON_ERROR),
+        );
+
+        self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
+    }
+
+    public function testPersistTriviaIsValidWithoutShowResults(): void
+    {
+        $payload = [
+            'questions' => [
+                [
+                    'question' => 'TestTitle',
+                    'answers' => [
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                    ],
                 ],
             ],
         ];
@@ -44,15 +76,18 @@ final class PersistControllerTest extends AbstractWebTestCase
     public function testPersistTriviaWithUnauthorized(): void
     {
         $payload = [
-            [
-                'question' => 'TestTitle',
-                'answers' => [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
+            'questions' => [
+                [
+                    'question' => 'TestTitle',
+                    'answers' => [
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                    ],
                 ],
             ],
+            'showResults' => false,
         ];
         $this->client->request(
             'POST',
@@ -70,15 +105,18 @@ final class PersistControllerTest extends AbstractWebTestCase
     public function testPersistTriviaWithBadRequestAndNoQuestion(): void
     {
         $payload = [
-            [
-                'question' => '',
-                'answers' => [
-                    '1',
-                    '2',
-                    '3',
-                    '4',
+            'questions' => [
+                [
+                    'question' => '',
+                    'answers' => [
+                        '1',
+                        '2',
+                        '3',
+                        '4',
+                    ],
                 ],
             ],
+            'showResults' => false,
         ];
         $this->client->request(
             'POST',
@@ -97,10 +135,13 @@ final class PersistControllerTest extends AbstractWebTestCase
     public function testPersistTriviaWithBadRequestAndNoAnswers(): void
     {
         $payload = [
-            [
-                'question' => 'TestTitle',
-                'answers' => [],
+            'questions' => [
+                [
+                    'question' => 'TestTitle',
+                    'answers' => [],
+                ],
             ],
+            'showResults' => false,
         ];
         $this->client->request(
             'POST',

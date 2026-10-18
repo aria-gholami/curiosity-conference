@@ -11,5 +11,5 @@ interface PageModifiedBackendSendHandler
     /**
      * @throws CouldNotSendQuestionnaireModifiedDataException
      */
-    public function handle(array $questions): void;
+    public function handle(array $questions, bool $showResults): void;
 }

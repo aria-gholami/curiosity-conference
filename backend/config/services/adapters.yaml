@@ -281,6 +281,11 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireQuestionRepository'
       - '@api.v1.questionnaire.logger'
 
+  CuriosityConference\Adapters\Outbound\QuestionnaireSettings\Upserter:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireSettingsRepository'
+      - '@api.v1.questionnaire.logger'
+
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
     arguments:
       - '@doctrine'
@@ -322,6 +327,11 @@ services:
     tags:
       - 'doctrine.repository_service'
   CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireSubmissionRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireSettingsRepository:
     arguments:
       - '@doctrine'
     tags:

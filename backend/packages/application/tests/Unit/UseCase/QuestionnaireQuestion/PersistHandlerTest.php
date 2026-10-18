@@ -6,6 +6,7 @@ namespace CuriosityConference\Application\Tests\Unit\UseCase\QuestionnaireQuesti
 
 use CuriosityConference\Application\Tests\Unit\UseCase\QuestionnaireQuestion\Mocks\PersisterMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\QuestionnaireQuestion\Mocks\QuestionResetterMock;
+use CuriosityConference\Application\Tests\Unit\UseCase\QuestionnaireQuestion\Mocks\UpserterMock;
 use CuriosityConference\Application\UseCase\QuestionnaireQuestion\PersistHandler;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\QuestionnaireQuestion\Exception\EmptyAnswerArrayException;
@@ -20,13 +21,15 @@ final class PersistHandlerTest extends TestCase
 {
     private QuestionResetterMock $questionResetterMock;
     private PersisterMock $persisterMock;
+    private UpserterMock $upserterMock;
     private PersistHandler $persistHandler;
 
     protected function setUp(): void
     {
         $this->questionResetterMock = new QuestionResetterMock();
         $this->persisterMock = new PersisterMock();
-        $this->persistHandler = new PersistHandler($this->questionResetterMock, $this->persisterMock);
+        $this->upserterMock = new UpserterMock();
+        $this->persistHandler = new PersistHandler($this->questionResetterMock, $this->persisterMock, $this->upserterMock);
     }
 
     public function testHandleIsValid(): void
@@ -42,7 +45,7 @@ final class PersistHandlerTest extends TestCase
                 ],
             ],
         ];
-        $this->persistHandler->handle($questions);
+        $this->persistHandler->handle($questions, false);
 
         self::assertTrue($this->questionResetterMock->resetWasCalled);
         self::assertSame('test', $this->persisterMock->inputQuestion->title);
@@ -52,6 +55,7 @@ final class PersistHandlerTest extends TestCase
             '3',
             '4',
         ], $this->persisterMock->inputQuestion->answers);
+        self::assertFalse($this->upserterMock->inputShowResults);
     }
 
     public function testHandleWithQuestionEqualsNull(): void
@@ -68,7 +72,7 @@ final class PersistHandlerTest extends TestCase
             ],
         ];
         try {
-            $this->persistHandler->handle($questions);
+            $this->persistHandler->handle($questions, false);
             $this->fail('EmptyStringException was expected to be thrown.');
         } catch (EmptyStringException $exception) {
             self::assertSame('Validation failed for value "questionnaireQuestionTitle" with error: "Value for "questionnaireQuestionTitle" should not be empty."', $exception->getMessage());
@@ -86,7 +90,7 @@ final class PersistHandlerTest extends TestCase
             ],
         ];
         try {
-            $this->persistHandler->handle($questions);
+            $this->persistHandler->handle($questions, false);
             $this->fail('EmptyAnswerArrayException was expected to be thrown.');
         } catch (EmptyAnswerArrayException $exception) {
             self::assertSame('Validation failed for value "questionnaireQuestionAnswers" with error: "Value for "questionnaireQuestionAnswers" should not be empty."', $exception->getMessage());

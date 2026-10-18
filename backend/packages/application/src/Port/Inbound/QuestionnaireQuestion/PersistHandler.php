@@ -7,6 +7,7 @@ namespace CuriosityConference\Application\Port\Inbound\QuestionnaireQuestion;
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpsertFailedException;
 use CuriosityConference\Domain\QuestionnaireQuestion\Exception\EmptyAnswerArrayException;
 
 interface PersistHandler
@@ -16,6 +17,7 @@ interface PersistHandler
      * @throws EmptyStringException
      * @throws EmptyAnswerArrayException
      * @throws PersistFailedException
+     * @throws UpsertFailedException
      */
-    public function handle(array $questions): void;
+    public function handle(array $questions, bool $showResults): void;
 }

@@ -8,6 +8,7 @@ use CuriosityConference\Application\Port\Inbound\QuestionnaireQuestion\PersistHa
 use CuriosityConference\Domain\Exception\DeleteFailedException;
 use CuriosityConference\Domain\Exception\EmptyStringException;
 use CuriosityConference\Domain\Exception\PersistFailedException;
+use CuriosityConference\Domain\Exception\UpsertFailedException;
 use CuriosityConference\Domain\QuestionnaireQuestion\Exception\EmptyAnswerArrayException;
 use CuriosityConference\Domain\QuestionnaireQuestion\Exception\InvalidQuestionDataByCMSException;
 use Psr\Log\LoggerInterface;
@@ -31,7 +32,7 @@ final readonly class PersistController
                 throw InvalidQuestionDataByCMSException::isInvalid('questionDataByCMS');
             }
 
-            $this->persistHandler->handle($data);
+            $this->persistHandler->handle($data['questions'] ?? [], $data['showResults'] ?? false);
 
             return new JsonResponse([
                 'message' => 'Success.',
@@ -42,7 +43,7 @@ final readonly class PersistController
             ]);
 
             return new JsonResponse(['message' => 'Bad Request.'], Response::HTTP_BAD_REQUEST);
-        } catch (PersistFailedException|DeleteFailedException $exception) {
+        } catch (PersistFailedException|DeleteFailedException|UpsertFailedException $exception) {
             $this->logger->notice('Questionnaire Question data could not be persisted.', [
                 'exceptionMessage' => $exception->getMessage(),
             ]);

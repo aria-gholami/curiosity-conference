@@ -34,6 +34,30 @@
             <tag name="sulu.rlp"/>
         </property>
 
+        <property name="showResults" type="single_select" mandatory="true">
+            <meta>
+                <title lang="en">Show Results</title>
+                <title lang="de">Ergebnisse anzeigen</title>
+            </meta>
+            <params>
+                <param name="default_value" value="no"/>
+                <param name="values" type="collection">
+                    <param name="no">
+                        <meta>
+                            <title lang="en">No</title>
+                            <title lang="de">Nein</title>
+                        </meta>
+                    </param>
+                    <param name="yes">
+                        <meta>
+                            <title lang="en">Yes</title>
+                            <title lang="de">Ja</title>
+                        </meta>
+                    </param>
+                </param>
+            </params>
+        </property>
+
         <block name="questions" default-type="question" minOccurs="1">
             <meta>
                 <title lang="en">Questions</title>

@@ -122,6 +122,7 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\QuestionnaireQuestion\QuestionResetter'
       - '@CuriosityConference\Adapters\Outbound\QuestionnaireAnswer\Persister'
+      - '@CuriosityConference\Adapters\Outbound\QuestionnaireSettings\Upserter'
 
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:
