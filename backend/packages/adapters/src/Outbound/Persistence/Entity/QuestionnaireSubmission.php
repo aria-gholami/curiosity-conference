@@ -8,6 +8,11 @@ use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireSu
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @codeCoverageIgnore
+ *
+ * @infection-ignore-all
+ */
 #[ORM\Entity(repositoryClass: QuestionnaireSubmissionRepository::class)]
 final class QuestionnaireSubmission
 {

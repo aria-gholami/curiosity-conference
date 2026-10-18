@@ -156,6 +156,13 @@ services:
     tags:
       - { name: 'controller.service_arguments' }
 
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\PersistController:
+    arguments:
+      - '@CuriosityConference\Application\UseCase\QuestionnaireQuestion\PersistHandler'
+      - '@api.v1.questionnaire.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
+
   CuriosityConference\Adapters\Outbound\User\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
@@ -264,6 +271,16 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaAnswerRepository'
       - '@api.v1.quiz.logger'
 
+  CuriosityConference\Adapters\Outbound\QuestionnaireAnswer\Persister:
+    arguments:
+      - '@doctrine.orm.entity_manager'
+      - '@api.v1.questionnaire.logger'
+
+  CuriosityConference\Adapters\Outbound\QuestionnaireQuestion\QuestionResetter:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireQuestionRepository'
+      - '@api.v1.questionnaire.logger'
+
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
     arguments:
       - '@doctrine'
@@ -290,6 +307,21 @@ services:
     tags:
       - 'doctrine.repository_service'
   CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaHighscoreRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireAnswerRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireQuestionRepository:
+    arguments:
+      - '@doctrine'
+    tags:
+      - 'doctrine.repository_service'
+  CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireSubmissionRepository:
     arguments:
       - '@doctrine'
     tags:
@@ -331,6 +363,21 @@ services:
       - 'quiz'
     calls:
       - [ pushHandler, [ '@api.v1.quiz.logging-handler' ] ]
+
+  api.v1.questionnaire.logging-handler:
+    class: Monolog\Handler\RotatingFileHandler
+    arguments:
+      - '%kernel.logs_dir%/questionnaire_%kernel.environment%.log'
+      - 14
+      - '%log_level%'
+      - true
+      - 436
+  api.v1.questionnaire.logger:
+    class: Monolog\Logger
+    arguments:
+      - 'questionnaire'
+    calls:
+      - [ pushHandler, [ '@api.v1.questionnaire.logging-handler' ] ]
 
   api.v1.authentication.logging-handler:
     class: Monolog\Handler\RotatingFileHandler

@@ -16,6 +16,13 @@ services:
             - '@App\Trivia\ExecutedCodeByCLIChecker'
             - '@App\Trivia\PageModifiedBackendSendHandler'
             - '@trivia.logger'
+    App\EventSubscriber\QuestionnairePageModifiedSubscriber:
+        tags:
+            - { name: kernel.event_listener, event: 'Sulu\Page\Domain\Event\PageModifiedEvent', method: 'onPageModified' }
+        arguments:
+            - '@App\Questionnaire\ExecutedCodeByCLIChecker'
+            - '@App\Questionnaire\PageModifiedBackendSendHandler'
+            - '@questionnaire.logger'
 
     App\Trivia\ExecutedCodeByCLIChecker: ~
     App\Trivia\PageModifiedBackendSendHandler:
@@ -28,6 +35,18 @@ services:
             - '%api_key%'
             - '@CuriosityConference\ApiAdapter\Http\ApiHttpClient'
             - '@trivia.logger'
+
+    App\Questionnaire\ExecutedCodeByCLIChecker: ~
+    App\Questionnaire\PageModifiedBackendSendHandler:
+        arguments:
+            - '@CuriosityConference\ApiAdapter\Questionnaire\PageModifiedDataBackendSender'
+
+    CuriosityConference\ApiAdapter\Questionnaire\PageModifiedDataBackendSender:
+        arguments:
+            - '%backend_base_url%'
+            - '%api_key%'
+            - '@CuriosityConference\ApiAdapter\Http\ApiHttpClient'
+            - '@questionnaire.logger'
 
     CuriosityConference\ApiAdapter\Http\ApiHttpClient:
         arguments:
@@ -64,6 +83,20 @@ services:
             - 'trivia'
         calls:
             - [ pushHandler, [ '@trivia.logging-handler' ] ]
+    questionnaire.logging-handler:
+        class: Monolog\Handler\RotatingFileHandler
+        arguments:
+            - '%kernel.logs_dir%/questionnaire_%kernel.environment%.log'
+            - 14
+            - '%log_level%'
+            - true
+            - 436
+    questionnaire.logger:
+        class: Monolog\Logger
+        arguments:
+            - 'questionnaire'
+        calls:
+            - [ pushHandler, [ '@questionnaire.logging-handler' ] ]
 
     App\DataFixtures\TriviaFixtures:
         arguments:

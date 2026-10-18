@@ -118,6 +118,11 @@ services:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
       - '@api.v1.quiz.logger'
 
+  CuriosityConference\Application\UseCase\QuestionnaireQuestion\PersistHandler:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\QuestionnaireQuestion\QuestionResetter'
+      - '@CuriosityConference\Adapters\Outbound\QuestionnaireAnswer\Persister'
+
   CuriosityConference\Application\UseCase\Security\ApiKeyValidator:
     arguments:
       - '%api_key%'

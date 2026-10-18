@@ -47,6 +47,7 @@ final class PageModifiedDataBackendSenderTest extends TestCase
             'json' => $requestBody,
             'headers' => [
                 'API-Key' => $this->apiKey,
+                'Content-Type' => 'application/json',
             ],
         ], $this->httpClientMock->inputOptions);
         self::assertEquals([
@@ -91,6 +92,7 @@ final class PageModifiedDataBackendSenderTest extends TestCase
             'json' => $requestBody,
             'headers' => [
                 'API-Key' => $this->apiKey,
+                'Content-Type' => 'application/json',
             ],
         ], $this->httpClientMock->inputOptions);
         self::assertEquals([

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Questionnaire;
 
-use CuriosityConference\Core\Trivia\ExecutedCodeByCLIChecker as ExecutedCodeByCLICheckerInterface;
+use CuriosityConference\Core\Questionnaire\ExecutedCodeByCLIChecker as ExecutedCodeByCLICheckerInterface;
 
 /**
  * @codeCoverageIgnore

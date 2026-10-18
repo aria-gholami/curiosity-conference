@@ -38,6 +38,7 @@ final readonly class PageModifiedDataBackendSender implements PageModifiedDataBa
                 [
                     'headers' => [
                         'API-Key' => $this->apiKey,
+                        'Content-Type' => 'application/json',
                     ],
                     'json' => $postData,
                 ],

@@ -80,6 +80,11 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CloseRoomContr
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CloseRoomController
     methods: POST
 
+CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\PersistController:
+    path: /api/v1/questionnaire/questions
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\PersistController
+    methods: POST
+
 CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController:
     path: /api/v1/trivia/question
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController

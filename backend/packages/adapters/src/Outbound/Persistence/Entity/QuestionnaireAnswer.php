@@ -7,6 +7,11 @@ namespace CuriosityConference\Adapters\Outbound\Persistence\Entity;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireAnswerRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @codeCoverageIgnore
+ *
+ * @infection-ignore-all
+ */
 #[ORM\Entity(repositoryClass: QuestionnaireAnswerRepository::class)]
 final class QuestionnaireAnswer
 {
@@ -17,8 +22,8 @@ final class QuestionnaireAnswer
     #[ORM\Column(length: 255)]
     private string $title;
 
-    #[ORM\OneToOne(targetEntity: QuestionnaireQuestion::class)]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(targetEntity: QuestionnaireQuestion::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private QuestionnaireQuestion $questionnaireQuestion;
 
     public function __construct(string $id, string $title, QuestionnaireQuestion $questionnaireQuestion)

@@ -21,4 +21,12 @@ class QuestionnaireQuestionRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, QuestionnaireQuestion::class);
     }
+
+    public function reset(): void
+    {
+        $this->createQueryBuilder('questionnaire_question')
+            ->delete()
+            ->getQuery()
+            ->execute();
+    }
 }

@@ -7,6 +7,11 @@ namespace CuriosityConference\Adapters\Outbound\Persistence\Entity;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireQuestionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @codeCoverageIgnore
+ *
+ * @infection-ignore-all
+ */
 #[ORM\Entity(repositoryClass: QuestionnaireQuestionRepository::class)]
 final class QuestionnaireQuestion
 {
