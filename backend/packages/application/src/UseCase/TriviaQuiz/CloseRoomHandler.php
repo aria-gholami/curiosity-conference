@@ -40,7 +40,7 @@ final readonly class CloseRoomHandler implements CloseRoomHandlerInterface
         $quizRoom->setStatus(TriviaQuizRoom::STATUS_CLOSED);
         $this->roomUpdater->update($quizRoom);
         $this->hub->publish(new Update(
-            'quiz/room/list',
+            'trivia/quiz/room/list',
             \json_encode(['action' => 'status', 'status' => TriviaQuizRoom::STATUS_CLOSED, 'quizRoomId' => $quizRoomId->value], \JSON_THROW_ON_ERROR),
         ));
     }
