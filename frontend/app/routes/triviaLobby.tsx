@@ -5,14 +5,13 @@ import RegistrationPopup from '~/components/registration/registrationPopup';
 import ConfirmationPopup from '~/components/trivia/confirmationPopup';
 import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { UserState } from '~/features/user/state/Initial';
-import { useAppDispatch, useAppSelector } from '~/redux/hooks';
+import { useAppSelector } from '~/redux/hooks';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirect';
 import { useStartedQuiz } from '~/routes/hooks/useStartedQuiz';
 import { useConfirmation } from '~/components/trivia/hooks/useConfirmation';
 
 export default function TriviaLobby() {
-    const dispatch = useAppDispatch();
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const userState: UserState = useAppSelector((state) => state.user);
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);

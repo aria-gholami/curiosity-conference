@@ -58,7 +58,7 @@ class TriviaQuizRoomRepository extends ServiceEntityRepository
             ->andWhere('p.id = :userId')
             ->andWhere('qr.status != :status')
             ->setParameter('userId', $userId, 'uuid')
-            ->setParameter('status', TriviaQuizRoom::STATUS_CLOSED)
+            ->setParameter('status', TriviaQuizRoom::STATUS_FINISHED)
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();

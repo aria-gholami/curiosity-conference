@@ -1,6 +1,5 @@
 import RegistrationPopup from '~/components/registration/registrationPopup';
 import { useState } from 'react';
-import { useNavigate } from 'react-router';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
 import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirect';
@@ -21,9 +20,10 @@ export default function TriviaQuiz() {
     const [currentQuestion, setCurrentQuestion] = useState({
         question: 'Loading...',
         answers: [
-            { id: '1', title: 'TriviaAnswer A', isCorrect: true },
-            { id: '2', title: 'TriviaAnswer B', isCorrect: false },
-            { id: '3', title: 'TriviaAnswer C', isCorrect: false },
+            { id: '1', title: 'Loading', isCorrect: true },
+            { id: '2', title: 'Loading', isCorrect: false },
+            { id: '3', title: 'Loading', isCorrect: false },
+            { id: '4', title: 'Loading', isCorrect: false },
         ],
     });
 
@@ -111,7 +111,7 @@ export default function TriviaQuiz() {
                                             ? 'opacity-50 grayscale-[0.5]'
                                             : ''
                                     }`}
-                                    disabled={quizRoomState.isRevealing}
+                                    disabled={!isHost || quizRoomState.isRevealing}
                                 >
                                     <div
                                         className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold transition-colors ${

@@ -59,10 +59,6 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\HighscoreUpdat
     path: /api/v1/trivia/highscore
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\HighscoreUpdateController
     methods: PUT
-CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByRoomController:
-    path: /api/v1/trivia/quiz/room/{quizRoomId}/highscores
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByRoomController
-    methods: GET
 CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByAllRoomsController:
     path: /api/v1/trivia/quiz/room/highscores
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListHighscoreByAllRoomsController
@@ -74,10 +70,6 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ActiveRoomLoad
 CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\RevealCorrectAnswerController:
     path: /api/v1/trivia/quiz/room/answer/reveal
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\RevealCorrectAnswerController
-    methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CloseRoomController:
-    path: /api/v1/trivia/quiz/room/close
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CloseRoomController
     methods: POST
 
 CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\PersistController:

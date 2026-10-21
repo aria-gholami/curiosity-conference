@@ -49,6 +49,10 @@ final readonly class JoinRoomController
                 \json_encode(['action' => 'join', 'participants' => $participants], \JSON_THROW_ON_ERROR),
             );
             $this->hub->publish($update);
+            $this->hub->publish(new Update(
+                'trivia/quiz/room/list',
+                \json_encode(['action' => 'updateParticipants', 'quizRoomId' => $quizRoom->getId(), 'participants' => $participants], \JSON_THROW_ON_ERROR),
+            ));
 
             return new JsonResponse([
                 'id' => $quizRoom->getId(),

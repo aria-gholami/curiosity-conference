@@ -20,7 +20,6 @@ final class TriviaQuizRoom
     public const string STATUS_CREATED = 'created';
     public const string STATUS_STARTED = 'started';
     public const string STATUS_FINISHED = 'finished';
-    public const string STATUS_CLOSED = 'closed';
 
     #[ORM\Id]
     #[ORM\Column(type: 'uuid')]

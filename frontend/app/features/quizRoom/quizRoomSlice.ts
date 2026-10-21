@@ -10,8 +10,6 @@ import { deleteParticipant } from '~/features/quizRoom/reducers/deleteParticipan
 import type QuizRoomDeleteParticipantAttributes from '~/features/quizRoom/state/QuizRoomDeleteParticipantAttributes';
 import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
 import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
-import { fetchHighscoreByQuizRoom } from '~/features/quizRoom/reducers/fetchHighscoreByQuizRoom';
-import { closeQuizRoom } from '~/features/quizRoom/reducers/closeQuizRoom';
 import { fetchHighscoreByAllQuizRoom } from '~/features/quizRoom/reducers/fetchHighscoreByAllQuizRoom';
 
 const quizRoomSlice = createSlice({
@@ -62,6 +60,28 @@ const quizRoomSlice = createSlice({
                 state.isLoading = false;
             }
         },
+        updateRoomParticipants(
+            state: QuizRoomState,
+            action: PayloadAction<{ quizRoomId: string; participants: Participant[] }>,
+        ): void {
+            const room = state.rooms.find((room) => room.id === action.payload.quizRoomId);
+
+            if (room) {
+                room.participants = action.payload.participants;
+            }
+        },
+        removeRoomParticipant(
+            state: QuizRoomState,
+            action: PayloadAction<{ quizRoomId: string; participantId: string }>,
+        ): void {
+            const room = state.rooms.find((room) => room.id === action.payload.quizRoomId);
+
+            if (room) {
+                room.participants = room.participants.filter(
+                    (participant) => participant.userId !== action.payload.participantId,
+                );
+            }
+        },
         addRoomToRoomList(
             state: QuizRoomState,
             action: PayloadAction<{ quizRoom: QuizRoom }>,
@@ -95,8 +115,7 @@ const quizRoomSlice = createSlice({
             const statusOrder: Record<string, number> = {
                 created: 1,
                 started: 1,
-                finished: 1,
-                closed: 0,
+                finished: 0,
             };
             state.rooms.sort((a, b) => {
                 const statusDifference =
@@ -277,33 +296,6 @@ const quizRoomSlice = createSlice({
             .addCase(revealAnswer.rejected, (state: QuizRoomState) => {
                 state.isLoading = false;
             })
-            .addCase(closeQuizRoom.pending, (state: QuizRoomState) => {
-                state.isLoading = true;
-            })
-            .addCase(closeQuizRoom.fulfilled, (state: QuizRoomState) => {
-                state.currentRoom.status = 'closed';
-                state.isLoading = false;
-            })
-            .addCase(closeQuizRoom.rejected, (state: QuizRoomState) => {
-                state.isLoading = false;
-            })
-            .addCase(fetchHighscoreByQuizRoom.pending, (state: QuizRoomState) => {
-                state.isLoading = true;
-                state.isLoadingHighscores = true;
-            })
-            .addCase(
-                fetchHighscoreByQuizRoom.fulfilled,
-                (state: QuizRoomState, action: PayloadAction<QuizRoomState>) => {
-                    state.currentRoom.participants = action.payload.currentRoom.participants;
-                    state.rooms = action.payload.rooms;
-                    state.isLoading = false;
-                    state.isLoadingHighscores = false;
-                },
-            )
-            .addCase(fetchHighscoreByQuizRoom.rejected, (state: QuizRoomState) => {
-                state.isLoading = false;
-                state.isLoadingHighscores = false;
-            })
             .addCase(fetchHighscoreByAllQuizRoom.pending, (state: QuizRoomState) => {
                 state.isLoading = true;
             })
@@ -326,6 +318,8 @@ export const {
     resetCurrentRoom,
     updateParticipants,
     removeParticipant,
+    updateRoomParticipants,
+    removeRoomParticipant,
     addRoomToRoomList,
     removeRoomFromRoomList,
     updateQuizRoomStatus,

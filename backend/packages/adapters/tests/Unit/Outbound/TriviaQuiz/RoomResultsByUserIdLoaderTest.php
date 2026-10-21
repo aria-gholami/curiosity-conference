@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository;
 use CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomResultsByUserIdLoader;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
@@ -37,14 +35,6 @@ final class RoomResultsByUserIdLoaderTest extends TestCase
 
     public function testLoadByUserIdIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
-        $user = new User(
-            'test',
-            'test',
-        );
         $expectedQuizRoomEntityResults = [
             [
                 'id' => 'test',
@@ -52,7 +42,7 @@ final class RoomResultsByUserIdLoaderTest extends TestCase
             ],
             [
                 'id' => 'test2',
-                'status' => TriviaQuizRoom::STATUS_CLOSED,
+                'status' => TriviaQuizRoom::STATUS_FINISHED,
             ],
         ];
         $id = new Id('test');

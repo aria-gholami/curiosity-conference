@@ -14,7 +14,6 @@ export const useFetchActiveQuizRoom = () => {
     const userState: UserState = useAppSelector((state) => state.user);
     const quizState = useAppSelector((state) => state.quiz);
     useEffect(() => {
-        console.warn('useFetchActiveQuizRoom');
         if (!isActiveQuizRoomsFetched) {
             const requestBody: ActiveQuizRoomLoadRequestBody = {
                 userId: userState.userId,
@@ -33,7 +32,7 @@ export const useFetchActiveQuizRoom = () => {
             quizRoomState.currentRoom.id !== '' &&
             quizRoomState.currentRoom.status === 'finished'
         ) {
-            navigate('/trivia/highscore');
+            navigate('/trivia/list');
         }
-    }, [quizState.quizzes, quizRoomState.currentRoom.status, navigate]);
+    }, [quizState.quiz, quizRoomState.currentRoom.status, navigate]);
 };

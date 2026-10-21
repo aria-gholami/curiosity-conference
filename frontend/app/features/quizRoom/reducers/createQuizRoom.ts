@@ -1,9 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
+import type { Participant, QuizRoomState } from '~/features/quizRoom/state/Initial';
 import type { QuizRoomCreateRequestBody } from '~/features/quizRoom/state/QuizRoomCreateRequestBody';
 import type { RootState } from '~/redux/store';
 import type { QuizRoomCreateResponse } from '~/features/quizRoom/state/QuizRoomCreateResponse';
-import type { Participant } from '~/features/quizRoom/state/QuizRoomListResponse';
 
 export const createQuizRoom = createAsyncThunk<
     QuizRoomState,

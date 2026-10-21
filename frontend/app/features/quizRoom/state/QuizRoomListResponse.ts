@@ -1,7 +1,4 @@
-export interface Participant {
-    userName: string;
-    userId: string;
-}
+import type { Participant } from '~/features/quizRoom/state/Initial';
 
 export interface QuizRoomListItem {
     id: string;

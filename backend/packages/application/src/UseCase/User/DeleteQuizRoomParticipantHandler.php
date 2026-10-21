@@ -44,5 +44,9 @@ final readonly class DeleteQuizRoomParticipantHandler implements DeleteQuizRoomP
             \sprintf('trivia/quiz/room/%s/participants', $quizRoom->getId()),
             \json_encode(['action' => 'remove', 'participantId' => $participant->getId()], \JSON_THROW_ON_ERROR),
         ));
+        $this->hub->publish(new Update(
+            'trivia/quiz/room/list',
+            \json_encode(['action' => 'removeParticipant', 'quizRoomId' => $quizRoom->getId(), 'participantId' => $participant->getId()], \JSON_THROW_ON_ERROR),
+        ));
     }
 }

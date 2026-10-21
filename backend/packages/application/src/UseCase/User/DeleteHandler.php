@@ -37,20 +37,20 @@ final readonly class DeleteHandler implements DeleteHandlerInterface
             return;
         }
 
-        $quizRoomResultWithStatusNotClosed = \array_values(
+        $quizRoomResultWithStatusNotFinished = \array_values(
             \array_filter(
                 $quizRoomResults,
-                static fn (array $quizRoomResult): bool => TriviaQuizRoom::STATUS_CLOSED !== $quizRoomResult['status'],
+                static fn (array $quizRoomResult): bool => TriviaQuizRoom::STATUS_FINISHED !== $quizRoomResult['status'],
             ),
         );
         $this->hub->publish(new Update(
             'trivia/quiz/room/list',
             \json_encode(['action' => 'remove', 'quizRoomResults' => \array_column($quizRoomResults, 'id')], \JSON_THROW_ON_ERROR),
         ));
-        if (\count($quizRoomResultWithStatusNotClosed) > 0) {
+        if (\count($quizRoomResultWithStatusNotFinished) > 0) {
             $this->hub->publish(
                 new Update(
-                    \sprintf('trivia/quiz/room/%s/participants', $quizRoomResultWithStatusNotClosed[0]['id']),
+                    \sprintf('trivia/quiz/room/%s/participants', $quizRoomResultWithStatusNotFinished[0]['id']),
                     \json_encode(['action' => 'remove', 'participantId' => $userId->value], \JSON_THROW_ON_ERROR),
                 ),
             );

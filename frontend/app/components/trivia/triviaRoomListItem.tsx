@@ -17,18 +17,18 @@ export default function TriviaRoomListItem({ room, onShowParticipants }: TriviaR
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const userState: UserState = useAppSelector((state) => state.user);
 
-    const closedRoomsByScoreGroup = [...quizRoomState.rooms]
-        .filter((room) => room.status === 'closed')
+    const finishedRoomsByScoreGroup = [...quizRoomState.rooms]
+        .filter((room) => room.status === 'finished')
         .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-    const closedIndex =
-        room.status === 'closed'
-            ? closedRoomsByScoreGroup.findIndex((quizRoom: QuizRoom) => quizRoom.id === room.id)
+    const finishedIndex =
+        room.status === 'finished'
+            ? finishedRoomsByScoreGroup.findIndex((quizRoom: QuizRoom) => quizRoom.id === room.id)
             : -1;
 
-    const isFirst = closedIndex === 0;
-    const isSecond = closedIndex === 1;
-    const isThird = closedIndex === 2;
-    const isOtherClosed = closedIndex >= 3;
+    const isFirst = finishedIndex === 0;
+    const isSecond = finishedIndex === 1;
+    const isThird = finishedIndex === 2;
+    const isOtherClosed = finishedIndex >= 3;
 
     return (
         <div
@@ -65,7 +65,7 @@ export default function TriviaRoomListItem({ room, onShowParticipants }: TriviaR
                     ) : isThird ? (
                         <TrophyIcon className="h-6 w-6 text-amber-700" />
                     ) : isOtherClosed ? (
-                        <span>#{closedIndex + 1}</span>
+                        <span>#{finishedIndex + 1}</span>
                     ) : (
                         <UserGroupIcon className="h-5 w-5" />
                     )}
@@ -95,13 +95,13 @@ export default function TriviaRoomListItem({ room, onShowParticipants }: TriviaR
                         )}
                         {isOtherClosed && (
                             <span className="inline-flex shrink-0 items-center whitespace-nowrap rounded-full bg-slate-200 px-2.5 py-1 text-xs font-semibold text-slate-600">
-                                Rank #{closedIndex + 1}
+                                Rank #{finishedIndex + 1}
                             </span>
                         )}
                     </div>
                     <p className="text-card-text mt-2 break-words text-sm leading-5">
                         {room.participants.length} players · Status: {room.status}
-                        {room.score !== undefined && room.status === 'closed'
+                        {room.score !== undefined && room.status === 'finished'
                             ? ` · Highscore: ${room.score} pts`
                             : ''}
                     </p>

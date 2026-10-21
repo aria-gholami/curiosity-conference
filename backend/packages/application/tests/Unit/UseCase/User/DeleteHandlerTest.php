@@ -40,7 +40,7 @@ final class DeleteHandlerTest extends TestCase
         $quizRoomResults = [
             [
                 'id' => 'test2',
-                'status' => TriviaQuizRoom::STATUS_CLOSED,
+                'status' => TriviaQuizRoom::STATUS_FINISHED,
             ],
             [
                 'id' => 'test',
@@ -61,16 +61,16 @@ final class DeleteHandlerTest extends TestCase
         self::assertSame('{"action":"remove","participantId":"test"}', $this->hubMock->inputUpdateGroup[1]->getData());
     }
 
-    public function testHandleWithOnlyClosedRooms(): void
+    public function testHandleWithOnlyFinishedRooms(): void
     {
         $quizRoomResults = [
             [
                 'id' => 'test2',
-                'status' => TriviaQuizRoom::STATUS_CLOSED,
+                'status' => TriviaQuizRoom::STATUS_FINISHED,
             ],
             [
                 'id' => 'test',
-                'status' => TriviaQuizRoom::STATUS_CLOSED,
+                'status' => TriviaQuizRoom::STATUS_FINISHED,
             ],
         ];
         $this->roomByUserIdLoaderMock->outputQuizRoomResults = $quizRoomResults;

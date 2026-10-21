@@ -1,8 +1,10 @@
 import {
     addRoomToRoomList,
     removeRoomFromRoomList,
+    removeRoomParticipant,
     sortQuizRoomByStatus,
     updateQuizRoomStatus,
+    updateRoomParticipants,
 } from '~/features/quizRoom/quizRoomSlice';
 
 export default function handleUpdateRoomList(
@@ -27,6 +29,22 @@ export default function handleUpdateRoomList(
         if (data.action === 'status') {
             store.dispatch(updateQuizRoomStatus({ action: data.status, roomId: data.quizRoomId }));
             store.dispatch(sortQuizRoomByStatus());
+        }
+        if (data.action === 'updateParticipants' && data.quizRoomId && data.participants) {
+            store.dispatch(
+                updateRoomParticipants({
+                    quizRoomId: data.quizRoomId,
+                    participants: data.participants,
+                }),
+            );
+        }
+        if (data.action === 'removeParticipant' && data.quizRoomId && data.participantId) {
+            store.dispatch(
+                removeRoomParticipant({
+                    quizRoomId: data.quizRoomId,
+                    participantId: data.participantId,
+                }),
+            );
         }
     };
 

@@ -56,10 +56,6 @@ services:
   CuriosityConference\Application\UseCase\TriviaQuiz\ListRoomHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomLoader'
-  CuriosityConference\Application\UseCase\TriviaQuiz\ListHighscoreByRoomHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscoreCollectionByQuizRoomLoader'
   CuriosityConference\Application\UseCase\TriviaQuiz\ActiveRoomLoadHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByUserIdLoader'
@@ -98,11 +94,6 @@ services:
   CuriosityConference\Application\UseCase\TriviaQuiz\RevealCorrectAnswerHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
-      - '@mercure.hub.default'
-  CuriosityConference\Application\UseCase\TriviaQuiz\CloseRoomHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomUpdater'
       - '@mercure.hub.default'
 
   CuriosityConference\Application\UseCase\TriviaQuestion\ByQuizLoadHandler:

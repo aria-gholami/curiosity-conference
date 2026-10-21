@@ -17,8 +17,6 @@ export default function handleRevealAnswer(
     eventSource = new EventSource(url);
     eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
-        const state = store.getState();
-        const userId = state.user.userId;
         store.dispatch(setIsRevealing(true));
         setTimeout(() => {
             const state = store.getState();

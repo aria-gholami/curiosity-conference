@@ -1,6 +1,5 @@
 import { UserGroupIcon, XMarkIcon } from '@heroicons/react/24/solid';
 import type { QuizRoom } from '~/features/quizRoom/state/Initial';
-import { useFetchHighscoreByQuizRoom } from '~/components/trivia/hooks/useFetchHighscoreByQuizRoom';
 import { useAppSelector } from '~/redux/hooks';
 import { useBodyScrollLock } from '~/hooks/useBodyScrollLock';
 
@@ -22,7 +21,6 @@ export default function TriviaRoomParticipantsPopup({
     if (!open) {
         return null;
     }
-    useFetchHighscoreByQuizRoom(room.id);
     useBodyScrollLock(open);
 
     return (
@@ -69,10 +67,6 @@ export default function TriviaRoomParticipantsPopup({
                             displayRoom.participants.map((participant) => {
                                 const isHost = participant.userId === displayRoom.host.id;
 
-                                const showScore =
-                                    participant.score !== undefined &&
-                                    displayRoom.status === 'closed';
-
                                 return (
                                     <div
                                         key={participant.userId}
@@ -94,12 +88,6 @@ export default function TriviaRoomParticipantsPopup({
                                                 {isHost ? 'Host' : 'Player'}
                                             </p>
                                         </div>
-
-                                        {showScore && (
-                                            <span className="ml-auto shrink-0 whitespace-nowrap text-sm font-semibold text-dark-blue">
-                                                {participant.score} pts
-                                            </span>
-                                        )}
                                     </div>
                                 );
                             })

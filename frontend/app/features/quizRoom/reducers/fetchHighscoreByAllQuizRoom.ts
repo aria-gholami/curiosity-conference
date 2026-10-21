@@ -32,8 +32,7 @@ export const fetchHighscoreByAllQuizRoom = createAsyncThunk<
             const statusOrder: Record<string, number> = {
                 created: 1,
                 started: 1,
-                finished: 1,
-                closed: 0,
+                finished: 0,
             };
 
             const state: QuizRoomState = {

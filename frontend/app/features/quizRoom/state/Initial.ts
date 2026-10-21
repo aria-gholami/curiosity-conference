@@ -1,7 +1,6 @@
 export interface Participant {
     userName: string;
     userId: string;
-    score: number;
 }
 
 export interface QuizRoom {

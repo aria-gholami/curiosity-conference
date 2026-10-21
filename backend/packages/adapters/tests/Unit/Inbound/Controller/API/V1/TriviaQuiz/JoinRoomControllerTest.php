@@ -80,6 +80,8 @@ final class JoinRoomControllerTest extends TestCase
         self::assertSame($payload['userId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->userId);
         self::assertSame(\sprintf('trivia/quiz/room/%s/participants', $expectedQuizRoom->getId()), $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
         self::assertSame('{"action":"join","participants":[{"userId":"test","userName":"test"}]}', $this->hubMock->inputUpdateGroup[0]->getData());
+        self::assertSame('trivia/quiz/room/list', $this->hubMock->inputUpdateGroup[1]->getTopics()[0]);
+        self::assertSame('{"action":"updateParticipants","quizRoomId":"test","participants":[{"userId":"test","userName":"test"}]}', $this->hubMock->inputUpdateGroup[1]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 

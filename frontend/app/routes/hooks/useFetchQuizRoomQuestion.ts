@@ -10,7 +10,6 @@ export const useFetchQuizRoomQuestion = (setCurrentQuestion: any) => {
     const quizState: QuizState = useAppSelector((state) => state.quiz);
 
     useEffect(() => {
-        console.warn('useFetchQuizRoomQuestion');
         if (quizRoomState.currentRoom.status === 'started') {
             dispatch(fetchQuizQuestion(quizRoomState.currentRoom.id) as any);
         }

@@ -5,7 +5,7 @@ import { fetchQuizQuestion } from '~/features/quiz/reducers/fetchQuizQuestion';
 import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
 
 const quizSlice = createSlice({
-    name: 'quizRoom',
+    name: 'quiz',
     initialState,
     reducers: {
         reset(state: QuizState): void {

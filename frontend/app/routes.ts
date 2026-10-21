@@ -5,5 +5,4 @@ export default [
     route('/trivia/list', './routes/triviaRoomList.tsx'),
     route('/trivia/lobby', './routes/triviaLobby.tsx'),
     route('/trivia/quiz', './routes/triviaQuiz.tsx'),
-    route('/trivia/highscore', './routes/triviaHighscore.tsx'),
 ] satisfies RouteConfig;
