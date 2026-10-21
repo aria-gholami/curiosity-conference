@@ -42,11 +42,7 @@ final readonly class StartHandler implements StartHandlerInterface
         $quizRoom->setCurrentTriviaQuestion($questionCollection->data[0]);
         $quizRoom->setStatus(TriviaQuizRoom::STATUS_STARTED);
         $this->roomUpdater->update($quizRoom);
-
-        $participantCollection = $quizRoom->getTriviaParticipants();
-        foreach ($participantCollection as $participant) {
-            $this->highscorePersister->persist($quizRoom, $participant);
-        }
+        $this->highscorePersister->persist($quizRoom);
 
         $this->hub->publish(new Update(
             \sprintf('trivia/quiz/room/%s/status', $quizRoomId->value),

@@ -47,7 +47,6 @@ final class HighscoreUpdaterTest extends TestCase
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
-            $user,
             1,
         );
         $this->highscoreEntityRepositoryMock->expects(self::once())
@@ -87,7 +86,6 @@ final class HighscoreUpdaterTest extends TestCase
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
-            $user,
             1,
         );
         $this->highscoreEntityRepositoryMock->expects(self::once())

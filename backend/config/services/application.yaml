@@ -15,9 +15,6 @@ services:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomResultsByUserIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdDeleter'
       - '@mercure.hub.default'
-  CuriosityConference\Application\UseCase\User\DetailsGetHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
   CuriosityConference\Application\UseCase\User\DeleteQuizRoomParticipantHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
@@ -80,7 +77,6 @@ services:
   CuriosityConference\Application\UseCase\TriviaQuiz\HighscoreUpdateHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaAnswer\ByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscoreLoader'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscoreUpdater'

@@ -50,7 +50,6 @@ final class HighscorePersisterTest extends TestCase
         $this->highscorePersister->persist($quizRoom, $user);
 
         self::assertSame('test', $this->entityManagerMock->inputPersistedObject[0]->getTriviaQuizRoom()->getId());
-        self::assertSame('test', $this->entityManagerMock->inputPersistedObject[0]->getUser()->getId());
         self::assertSame(0, $this->entityManagerMock->inputPersistedObject[0]->getScore());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
         self::assertEquals([
@@ -99,7 +98,6 @@ final class HighscorePersisterTest extends TestCase
         }
 
         self::assertSame('test', $this->entityManagerMock->inputPersistedObject[0]->getTriviaQuizRoom()->getId());
-        self::assertSame('test', $this->entityManagerMock->inputPersistedObject[0]->getUser()->getId());
         self::assertSame(0, $this->entityManagerMock->inputPersistedObject[0]->getScore());
         self::assertFalse($this->entityManagerMock->isFlushCalled);
         self::assertEquals([

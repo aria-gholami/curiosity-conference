@@ -28,7 +28,6 @@ final readonly class HighscoreUpdateController
             $data = \json_decode($request->getContent(), true);
             $highscoreUpdateRequestBody = new HighscoreUpdateRequestBody(
                 $data['quizRoomId'] ?? '',
-                $data['userId'] ?? '',
                 $data['answerId'] ?? '',
             );
             $highscoreUpdateResponse = $this->highscoreUpdateHandler->handleAndGet($highscoreUpdateRequestBody);

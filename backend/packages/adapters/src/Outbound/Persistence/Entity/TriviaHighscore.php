@@ -23,18 +23,13 @@ final class TriviaHighscore
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private TriviaQuizRoom $triviaQuizRoom;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'triviaHighscores')]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private User $user;
-
     #[ORM\Column]
     private int $score;
 
-    public function __construct(string $id, TriviaQuizRoom $triviaQuizRoom, User $user, int $score)
+    public function __construct(string $id, TriviaQuizRoom $triviaQuizRoom, int $score)
     {
         $this->id = $id;
         $this->triviaQuizRoom = $triviaQuizRoom;
-        $this->user = $user;
         $this->score = $score;
     }
 
@@ -46,11 +41,6 @@ final class TriviaHighscore
     public function getTriviaQuizRoom(): TriviaQuizRoom
     {
         return $this->triviaQuizRoom;
-    }
-
-    public function getUser(): User
-    {
-        return $this->user;
     }
 
     public function getScore(): int

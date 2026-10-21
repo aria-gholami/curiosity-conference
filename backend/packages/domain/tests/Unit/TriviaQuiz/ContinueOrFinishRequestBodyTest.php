@@ -18,11 +18,9 @@ final class ContinueOrFinishRequestBodyTest extends TestCase
         $continueOrFinishRequestBody = new HighscoreUpdateRequestBody(
             'test',
             'test',
-            'test',
         );
 
         self::assertSame('test', $continueOrFinishRequestBody->quizRoomId);
-        self::assertSame('test', $continueOrFinishRequestBody->userId);
         self::assertSame('test', $continueOrFinishRequestBody->answerId);
     }
 
@@ -32,7 +30,6 @@ final class ContinueOrFinishRequestBodyTest extends TestCase
         try {
             new HighscoreUpdateRequestBody(
                 $payload['quizRoomId'] ?? '',
-                $payload['userId'] ?? '',
                 $payload['answerId'] ?? '',
             );
             $this->fail('EmptyStringException was expected to be thrown.');
@@ -45,12 +42,10 @@ final class ContinueOrFinishRequestBodyTest extends TestCase
     {
         $payload = [
             'quizRoomId' => 'test',
-            'userId' => 'test',
             'answerId' => 'test',
         ];
 
         yield 'empty quizRoomId' => [\array_replace($payload, ['quizRoomId' => '']), 'continueOrFinishRequestBodyQuizRoomId'];
-        yield 'empty userId' => [\array_replace($payload, ['userId' => '']), 'continueOrFinishRequestBodyUserId'];
         yield 'empty answerId' => [\array_replace($payload, ['answerId' => '']), 'continueOrFinishRequestBodyAnswerId'];
     }
 }

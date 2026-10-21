@@ -113,7 +113,6 @@ final class StartHandlerTest extends TestCase
         self::assertSame('test', $this->highscorePersisterMock->inputQuizRoom->getId());
         self::assertSame('test', $this->highscorePersisterMock->inputQuizRoom->getCurrentTriviaQuestion()->getId());
         self::assertSame(TriviaQuizRoom::STATUS_STARTED, $this->highscorePersisterMock->inputQuizRoom->getStatus());
-        self::assertSame('test', $this->highscorePersisterMock->inputUser->getId());
         self::assertSame('trivia/quiz/room/test/status', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
         self::assertSame('{"action":"started"}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertSame('trivia/quiz/room/list', $this->hubMock->inputUpdateGroup[1]->getTopics()[0]);

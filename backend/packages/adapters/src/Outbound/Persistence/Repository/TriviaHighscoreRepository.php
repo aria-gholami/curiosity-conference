@@ -34,7 +34,7 @@ class TriviaHighscoreRepository extends ServiceEntityRepository
     public function loadFromAllRooms(): array
     {
         return $this->createQueryBuilder('h')
-            ->select(\sprintf('NEW %s(qr.title, SUM(h.score))', QuizRoomHighscore::class))
+            ->select(\sprintf('NEW %s(qr.title, h.score)', QuizRoomHighscore::class))
             ->innerJoin('h.triviaQuizRoom', 'qr')
             ->groupBy('qr.id, qr.title')
             ->getQuery()

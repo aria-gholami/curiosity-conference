@@ -47,15 +47,14 @@ final class HighscoreLoaderTest extends TestCase
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
-            $user,
             0,
         );
         $this->highscoreEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
-            ->with(['user' => $highscore->getUser(), 'triviaQuizRoom' => $highscore->getTriviaQuizRoom()])
+            ->with(['triviaQuizRoom' => $highscore->getTriviaQuizRoom()])
             ->willReturn($highscore);
 
-        $highscore = $this->highscoreLoader->load($highscore->getUser(), $highscore->getTriviaQuizRoom());
+        $highscore = $this->highscoreLoader->load($highscore->getTriviaQuizRoom());
 
         self::assertSame('test', $highscore->getId());
         self::assertSame(0, $highscore->getScore());
@@ -91,16 +90,15 @@ final class HighscoreLoaderTest extends TestCase
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
-            $user,
             0,
         );
         $this->highscoreEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
-            ->with(['user' => $highscore->getUser(), 'triviaQuizRoom' => $highscore->getTriviaQuizRoom()])
+            ->with(['triviaQuizRoom' => $highscore->getTriviaQuizRoom()])
             ->willReturn(null);
 
         try {
-            $this->highscoreLoader->load($highscore->getUser(), $highscore->getTriviaQuizRoom());
+            $this->highscoreLoader->load($highscore->getTriviaQuizRoom());
             $this->fail('LoadEntityFailedException was expected to be thrown.');
         } catch (LoadEntityFailedException $exception) {
             self::assertSame('Load entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaHighscore" was not successful.', $exception->getMessage());

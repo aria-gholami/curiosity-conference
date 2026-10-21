@@ -21,15 +21,13 @@ export default function handleRevealAnswer(
         setTimeout(() => {
             const state = store.getState();
             const userId = state.user.userId;
-            const selectedAnswerId = state.quizRoom.currentRoom.selectedAnswerId;
-            const updateHighscorePayload: HighscoreUpdatePayload = {
-                quizRoomId: roomId,
-                userId: userId,
-                answerId: selectedAnswerId,
-            };
-            store.dispatch(updateHighscore(updateHighscorePayload));
             store.dispatch(setIsRevealing(false));
             if (userId === data.hostId) {
+                const updateHighscorePayload: HighscoreUpdatePayload = {
+                    quizRoomId: roomId,
+                    answerId: state.quizRoom.currentRoom.selectedAnswerId,
+                };
+                store.dispatch(updateHighscore(updateHighscorePayload));
                 store.dispatch(continueOrFinishQuiz(roomId));
             }
         }, 3000);

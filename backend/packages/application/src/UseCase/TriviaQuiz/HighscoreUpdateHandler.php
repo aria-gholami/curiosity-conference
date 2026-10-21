@@ -9,7 +9,6 @@ use CuriosityConference\Application\Port\Outbound\TriviaAnswer\ByIdLoader as Ans
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\HighscoreLoader;
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\HighscoreUpdater;
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\RoomByIdLoader;
-use CuriosityConference\Application\Port\Outbound\User\ByIdLoader as UserByIdLoader;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\TriviaQuiz\HighscoreUpdateRequestBody;
@@ -19,7 +18,6 @@ final readonly class HighscoreUpdateHandler implements HighscoreUpdateHandlerInt
 {
     public function __construct(
         private AnswerByIdLoader $answerByIdLoader,
-        private UserByIdLoader $userByIdLoader,
         private RoomByIdLoader $roomByIdLoader,
         private HighscoreLoader $highscoreLoader,
         private HighscoreUpdater $highscoreUpdater,
@@ -34,9 +32,8 @@ final readonly class HighscoreUpdateHandler implements HighscoreUpdateHandlerInt
     public function handleAndGet(HighscoreUpdateRequestBody $highscoreUpdateRequestBody): HighscoreUpdateResponse
     {
         $answer = $this->answerByIdLoader->load($highscoreUpdateRequestBody->answerId);
-        $user = $this->userByIdLoader->load($highscoreUpdateRequestBody->userId);
         $quizRoom = $this->roomByIdLoader->load($highscoreUpdateRequestBody->quizRoomId);
-        $highscore = $this->highscoreLoader->load($user, $quizRoom);
+        $highscore = $this->highscoreLoader->load($quizRoom);
         if (!$answer->isCorrect()) {
             return new HighscoreUpdateResponse($highscore, $answer);
         }

@@ -54,7 +54,6 @@ final class HighscoreUpdateControllerTest extends TestCase
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
-            $user,
             1,
         );
         $answer = new TriviaAnswer(
@@ -65,7 +64,6 @@ final class HighscoreUpdateControllerTest extends TestCase
         $this->highscoreUpdateHandlerMock->outputHighscoreUpdateResponse = new HighscoreUpdateResponse($highscore, $answer);
         $payload = [
             'quizRoomId' => 'test',
-            'userId' => 'test',
             'answerId' => 'test',
         ];
         $request = new Request(
@@ -82,7 +80,6 @@ final class HighscoreUpdateControllerTest extends TestCase
 
         self::assertSame(Response::HTTP_OK, $response->getStatusCode());
         self::assertSame('{"highscore":1,"isCorrect":true}', $response->getContent());
-        self::assertSame($payload['userId'], $this->highscoreUpdateHandlerMock->inputHighscoreUpdateRequestBody->userId);
         self::assertSame($payload['quizRoomId'], $this->highscoreUpdateHandlerMock->inputHighscoreUpdateRequestBody->quizRoomId);
         self::assertSame($payload['answerId'], $this->highscoreUpdateHandlerMock->inputHighscoreUpdateRequestBody->answerId);
         self::assertEquals([], $this->loggerMock->logs);
@@ -102,7 +99,6 @@ final class HighscoreUpdateControllerTest extends TestCase
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
-            $user,
             1,
         );
         $answer = new TriviaAnswer(
@@ -114,7 +110,6 @@ final class HighscoreUpdateControllerTest extends TestCase
         $this->highscoreUpdateHandlerMock->throwException = new LoadEntityFailedException('test');
         $payload = [
             'quizRoomId' => 'test',
-            'userId' => 'test',
             'answerId' => 'test',
         ];
         $request = new Request(
@@ -157,7 +152,6 @@ final class HighscoreUpdateControllerTest extends TestCase
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
-            $user,
             1,
         );
         $answer = new TriviaAnswer(
@@ -168,7 +162,6 @@ final class HighscoreUpdateControllerTest extends TestCase
         $this->highscoreUpdateHandlerMock->outputHighscoreUpdateResponse = new HighscoreUpdateResponse($highscore, $answer);
         $payload = [
             'quizRoomId' => '',
-            'userId' => 'test',
             'answerId' => 'test',
         ];
         $request = new Request(
@@ -211,7 +204,6 @@ final class HighscoreUpdateControllerTest extends TestCase
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
-            $user,
             1,
         );
         $answer = new TriviaAnswer(
@@ -223,7 +215,6 @@ final class HighscoreUpdateControllerTest extends TestCase
         $this->highscoreUpdateHandlerMock->throwException = new UpdateFailedException('test');
         $payload = [
             'quizRoomId' => 'test',
-            'userId' => 'test',
             'answerId' => 'test',
         ];
         $request = new Request(

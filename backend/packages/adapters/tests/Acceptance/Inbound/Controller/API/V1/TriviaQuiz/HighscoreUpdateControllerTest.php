@@ -131,7 +131,6 @@ final class HighscoreUpdateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'quizRoomId' => $responseQuizRoom['id'],
-            'userId' => $responseUser['id'],
             'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(
@@ -265,7 +264,6 @@ final class HighscoreUpdateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'quizRoomId' => '',
-            'userId' => $responseUser['id'],
             'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(
@@ -406,7 +404,6 @@ final class HighscoreUpdateControllerTest extends AbstractWebTestCase
         );
         $payload = [
             'quizRoomId' => $responseQuizRoom['id'],
-            'userId' => $responseUser['id'],
             'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(
@@ -530,8 +527,7 @@ final class HighscoreUpdateControllerTest extends AbstractWebTestCase
             'SELECT * FROM trivia_answer',
         );
         $payload = [
-            'quizRoomId' => $responseQuizRoom['id'],
-            'userId' => 'invalid',
+            'quizRoomId' => 'invalid',
             'answerId' => Uuid::fromBinary($row['id'])->toRfc4122(),
         ];
         $this->client->request(

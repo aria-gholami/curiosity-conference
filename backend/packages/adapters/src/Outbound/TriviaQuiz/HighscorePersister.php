@@ -6,7 +6,6 @@ namespace CuriosityConference\Adapters\Outbound\TriviaQuiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaHighscore;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\HighscorePersister as HighscorePersisterInterface;
 use CuriosityConference\Domain\Exception\PersistFailedException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -25,7 +24,7 @@ final readonly class HighscorePersister implements HighscorePersisterInterface
      * @throws PersistFailedException
      */
     #[\Override]
-    public function persist(TriviaQuizRoom $quizRoom, User $user): void
+    public function persist(TriviaQuizRoom $quizRoom): void
     {
         try {
             $this->logger->info('Start persisting new highscore.', [
@@ -34,7 +33,6 @@ final readonly class HighscorePersister implements HighscorePersisterInterface
             $highscore = new TriviaHighscore(
                 Uuid::v4()->toRfc4122(),
                 $quizRoom,
-                $user,
                 0,
             );
             $this->highscoreEntityManager->persist($highscore);

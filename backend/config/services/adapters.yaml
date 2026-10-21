@@ -19,12 +19,6 @@ services:
       - '@api.v1.user.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DetailsGetController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\User\DetailsGetHandler'
-      - '@api.v1.user.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
   CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController:
     arguments:
       - '@CuriosityConference\Application\UseCase\User\DeleteQuizRoomParticipantHandler'
