@@ -1,4 +1,4 @@
-import { ChevronDownIcon, PlusIcon, UserGroupIcon } from '@heroicons/react/24/solid';
+import { PlusIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
 import { useFetchQuizList } from '~/components/trivia/hooks/useFetchQuizList';
 import type { QuizState } from '~/features/quiz/state/Initial';
@@ -17,13 +17,11 @@ type TriviaRoomCreatePopupProps = {
 export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreatePopupProps) {
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const [selectedQuizId, setSelectedQuizId] = useState('');
     const [quizRoomTitle, setQuizRoomTitle] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const quizState: QuizState = useAppSelector((state) => state.quiz);
     const userState: UserState = useAppSelector((state) => state.user);
     const MAX_ROOM_TITLE_LENGTH = 15;
-    const selectedQuiz = quizState.quizzes.find((quiz) => quiz.id === selectedQuizId);
 
     useFetchQuizList();
     useBodyScrollLock(open);
@@ -43,13 +41,9 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
             return;
         }
 
-        if (!selectedQuizId) {
-            return;
-        }
-
         const requestBody: QuizRoomCreateRequestBody = {
             hostId: userState.userId,
-            quizId: selectedQuizId,
+            quizId: quizState.quiz.id,
             title: quizRoomTitle,
         };
 
@@ -124,58 +118,10 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
                         </div>
                     </div>
 
-                    <div className="space-y-1">
-                        <div>
-                            <label htmlFor="quizSelect" className="input-label">
-                                Select Quiz
-                            </label>
-
-                            <div className="relative">
-                                <div className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-cyan-700">
-                                    <UserGroupIcon className="h-5 w-5" />
-                                </div>
-
-                                <select
-                                    id="quizSelect"
-                                    value={selectedQuizId}
-                                    onChange={(e) => setSelectedQuizId(e.target.value)}
-                                    className="input w-full appearance-none pl-12 pr-12"
-                                >
-                                    <option value="" disabled className="bg-white text-slate-500">
-                                        Choose a quiz
-                                    </option>
-
-                                    {quizState.quizzes.map((quiz) => (
-                                        <option
-                                            key={quiz.id}
-                                            value={quiz.id}
-                                            className="bg-white text-black"
-                                        >
-                                            {quiz.title}
-                                        </option>
-                                    ))}
-                                </select>
-
-                                <div className="pointer-events-none absolute inset-y-0 right-4 flex items-center">
-                                    <ChevronDownIcon className="h-5 w-5 text-slate-500" />
-                                </div>
-                            </div>
-
-                            {selectedQuiz && (
-                                <p className="mt-2 text-sm text-card-text">
-                                    Selected quiz:
-                                    <span className="ml-1 font-medium text-dark-blue">
-                                        {selectedQuiz.title}
-                                    </span>
-                                </p>
-                            )}
-                        </div>
-                    </div>
-
                     <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                         <button
                             type="submit"
-                            disabled={!selectedQuizId || !quizRoomTitle}
+                            disabled={!quizRoomTitle}
                             className="btn-primary group gap-2.5 px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)] disabled:cursor-not-allowed disabled:opacity-60"
                         >
                             <span>Create Room</span>

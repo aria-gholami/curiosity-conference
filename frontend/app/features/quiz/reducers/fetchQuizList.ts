@@ -20,12 +20,7 @@ export const fetchQuizList = createAsyncThunk<QuizState, void, { state: RootStat
 
             const responseBody: QuizListResponse = await response.json();
             const state: QuizState = {
-                quizzes: responseBody.data.map((quiz) => ({
-                    id: quiz.id,
-                    title: quiz.title,
-                    description: quiz.description,
-                    category: quiz.category,
-                })),
+                quiz: responseBody.data[0],
                 isLoading: true,
             };
 
@@ -39,7 +34,7 @@ export const fetchQuizList = createAsyncThunk<QuizState, void, { state: RootStat
     {
         condition: (_arg, { getState }) => {
             const { quiz } = getState() as RootState;
-            if (quiz.isLoading || quiz.quizzes.length !== 0) {
+            if (quiz.isLoading || quiz.quiz.id !== '') {
                 return false;
             }
         },

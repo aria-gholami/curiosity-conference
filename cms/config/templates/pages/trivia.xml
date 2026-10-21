@@ -36,7 +36,7 @@
             <tag name="sulu.rlp"/>
         </property>
 
-        <property name="quizzes" type="block">
+        <property name="quizzes" type="block" mandatory="true" minOccurs="1" maxOccurs="1">
             <meta>
                 <title lang="en">Quizzes</title>
                 <title lang="de">Quizzes</title>

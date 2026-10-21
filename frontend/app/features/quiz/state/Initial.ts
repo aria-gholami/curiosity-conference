@@ -18,12 +18,17 @@ export interface Quiz {
 }
 
 export interface QuizState {
-    quizzes: Quiz[];
+    quiz: Quiz;
     isLoading: boolean;
 }
 
 const initialState: QuizState = {
-    quizzes: [],
+    quiz: {
+        id: '',
+        title: '',
+        description: '',
+        category: '',
+    },
     isLoading: false,
 };
 

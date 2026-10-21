@@ -20,20 +20,17 @@ export const fetchQuizQuestion = createAsyncThunk<QuizState, string, { state: Ro
 
             const responseBody: QuizRoomQuestionListResponse = await response.json();
             const { quiz } = getState();
-            const existingQuiz = quiz.quizzes.find((q) => q.id === quizRoomId);
             const state: QuizState = {
-                quizzes: [
-                    {
-                        id: quizRoomId,
-                        title: existingQuiz?.title ?? '',
-                        description: existingQuiz?.description ?? '',
-                        category: existingQuiz?.category ?? '',
-                        question: {
-                            title: responseBody.question,
-                            answers: responseBody.answers,
-                        },
+                quiz: {
+                    id: quizRoomId,
+                    title: quiz.quiz.title ?? '',
+                    description: quiz.quiz?.description ?? '',
+                    category: quiz.quiz?.category ?? '',
+                    question: {
+                        title: responseBody.question,
+                        answers: responseBody.answers,
                     },
-                ],
+                },
                 isLoading: false,
             };
 
@@ -45,10 +42,9 @@ export const fetchQuizQuestion = createAsyncThunk<QuizState, string, { state: Ro
         }
     },
     {
-        condition: (quizRoomId, { getState }) => {
+        condition: (_, { getState }) => {
             const { quiz } = getState() as RootState;
-            const existingQuiz = quiz.quizzes.find((q) => q.id === quizRoomId);
-            if (existingQuiz && existingQuiz.question) {
+            if (quiz.quiz && quiz.quiz.question) {
                 return false;
             }
         },

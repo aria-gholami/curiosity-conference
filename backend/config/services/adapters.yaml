@@ -404,9 +404,6 @@ services:
     calls:
       - [ pushHandler, [ '@api.v1.authentication.logging-handler' ] ]
 
-  CuriosityConference\Adapters\Outbound\Persistence\Fixtures\TriviaQuizFixture:
-    tags:
-      - { name: doctrine.fixture.orm }
   CuriosityConference\Adapters\Outbound\Persistence\Fixtures\TriviaQuizRoomFixture:
     tags:
       - { name: doctrine.fixture.orm }

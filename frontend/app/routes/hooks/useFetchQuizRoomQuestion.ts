@@ -14,12 +14,12 @@ export const useFetchQuizRoomQuestion = (setCurrentQuestion: any) => {
         if (quizRoomState.currentRoom.status === 'started') {
             dispatch(fetchQuizQuestion(quizRoomState.currentRoom.id) as any);
         }
-        const existingQuiz = quizState.quizzes.find((q) => q.id === quizRoomState.currentRoom.id);
+        const existingQuiz = quizState.quiz;
         if (existingQuiz) {
             setCurrentQuestion({
                 question: existingQuiz.question?.title ?? 'Loading...',
                 answers: existingQuiz.question?.answers ?? [],
             });
         }
-    }, [quizState.quizzes, quizRoomState.currentRoom.id, quizRoomState.currentRoom.status]);
+    }, [quizState.quiz, quizRoomState.currentRoom.id, quizRoomState.currentRoom.status]);
 };
