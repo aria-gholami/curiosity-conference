@@ -33,9 +33,6 @@ services:
   CuriosityConference\Application\UseCase\TriviaQuiz\ListHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\Loader'
-  CuriosityConference\Application\UseCase\TriviaQuiz\DeleteHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdDeleter'
   CuriosityConference\Application\UseCase\TriviaQuiz\StartHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomUpdater'

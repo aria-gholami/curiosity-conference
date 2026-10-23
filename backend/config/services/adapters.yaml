@@ -32,12 +32,6 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\TriviaQuiz\DeleteHandler'
-      - '@api.v1.quiz.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController:
     arguments:

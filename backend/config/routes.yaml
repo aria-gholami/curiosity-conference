@@ -19,10 +19,6 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListController
     path: /api/v1/trivia/quiz
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListController
     methods: GET
-CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteController:
-    path: /api/v1/trivia/quiz
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\DeleteController
-    methods: DELETE
 CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateRoomController:
     path: /api/v1/trivia/quiz/room
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateRoomController
