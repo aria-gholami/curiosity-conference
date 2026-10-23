@@ -87,9 +87,6 @@ services:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdLoader'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Application\UseCase\TriviaQuestion\DeleteHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdDeleter'
   CuriosityConference\Application\UseCase\TriviaQuestion\ByRoomLoadHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'

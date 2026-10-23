@@ -39,12 +39,6 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\DeleteController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\TriviaQuestion\DeleteHandler'
-      - '@api.v1.quiz.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
   CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByRoomLoadController:
     arguments:
       - '@CuriosityConference\Application\UseCase\TriviaQuestion\ByRoomLoadHandler'
