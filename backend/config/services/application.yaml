@@ -22,9 +22,6 @@ services:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomUpdater'
       - '@mercure.hub.default'
 
-  CuriosityConference\Application\UseCase\TriviaQuiz\CreateHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\Persister'
   CuriosityConference\Application\UseCase\TriviaQuiz\TriviaPersistHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\Loader'

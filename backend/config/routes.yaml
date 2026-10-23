@@ -11,10 +11,6 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomPartic
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController
     methods: DELETE
 
-CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateController:
-    path: /api/v1/trivia/quiz
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateController
-    methods: POST
 CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\TriviaPersistController:
     path: /api/v1/trivia/quizzes
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\TriviaPersistController
