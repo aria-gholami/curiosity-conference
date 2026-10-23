@@ -33,12 +33,6 @@ services:
     tags:
       - { name: 'controller.service_arguments' }
 
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\TriviaQuestion\CreateHandler'
-      - '@api.v1.quiz.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
   CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController:
     arguments:
       - '@CuriosityConference\Application\UseCase\TriviaQuestion\ByQuizLoadHandler'

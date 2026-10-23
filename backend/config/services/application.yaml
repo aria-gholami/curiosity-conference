@@ -54,10 +54,6 @@ services:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscoreByAllRoomsLoader'
 
-  CuriosityConference\Application\UseCase\TriviaQuestion\CreateHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\Persister'
   CuriosityConference\Application\UseCase\TriviaQuiz\CreateRoomHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdLoader'

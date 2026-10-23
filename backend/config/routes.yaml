@@ -65,10 +65,6 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\Per
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\PersistController
     methods: POST
 
-CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController:
-    path: /api/v1/trivia/question
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\CreateController
-    methods: POST
 CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController:
     path: /api/v1/trivia/question
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController
