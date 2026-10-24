@@ -1,6 +1,5 @@
 import {
     Bars3Icon,
-    SparklesIcon,
     XMarkIcon,
     HomeIcon,
     TrophyIcon,
@@ -59,14 +58,12 @@ export default function Header() {
         <>
             <header className="sticky top-0 z-50 border-b border-white/55 bg-white/80 backdrop-blur-[20px]">
                 <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5 sm:px-8">
-                    <a href="/" className="group flex items-center gap-2.5">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-sky-200 to-violet-200 shadow-sm ring-1 ring-white/90 transition duration-300 group-hover:scale-105 group-hover:shadow-md">
-                            <SparklesIcon className="h-4 w-4 text-indigo-500" />
-                        </div>
-
-                        <span className="text-sm font-semibold tracking-[0.06em] text-slate-800">
-                            Curious Activities
-                        </span>
+                    <a href="/" className="group flex items-center gap-3">
+                        <img
+                            src="/logo.svg"
+                            alt="Curious Activities Logo"
+                            className="h-12 w-auto max-w-40 object-contain transition-transform duration-300 group-hover:scale-105"
+                        />
                     </a>
 
                     <div className="hidden md:block">
@@ -113,9 +110,11 @@ export default function Header() {
                         <div className="pointer-events-none absolute -left-24 bottom-20 h-48 w-48 rounded-full bg-dark-blue-glow blur-3xl" />
                         <div className="relative flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-5 py-6">
                             <div className="flex min-w-0 items-center gap-3">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/15 bg-white/10 backdrop-blur-sm">
-                                    <SparklesIcon className="h-5 w-5 text-turquoise" />
-                                </div>
+                                <img
+                                    src="/logo.svg"
+                                    alt="Curious Activities Logo"
+                                    className="h-12 w-12 shrink-0 object-contain transition-transform duration-300 group-hover:scale-105"
+                                />
 
                                 <div className="min-w-0">
                                     <p className="text-sm font-semibold tracking-wide text-white">
