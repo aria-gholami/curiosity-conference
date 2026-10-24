@@ -17,13 +17,15 @@ export default function TriviaRoomListItem({ room, onShowParticipants }: TriviaR
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
     const userState: UserState = useAppSelector((state) => state.user);
 
-    const finishedRoomsByScoreGroup = [...quizRoomState.rooms]
-        .filter((room) => room.status === 'finished')
-        .sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
-    const finishedIndex =
-        room.status === 'finished'
-            ? finishedRoomsByScoreGroup.findIndex((quizRoom: QuizRoom) => quizRoom.id === room.id)
-            : -1;
+    const finishedScores = [
+        ...new Set(
+            quizRoomState.rooms
+                .filter((quizRoom) => quizRoom.status === 'finished')
+                .map((quizRoom) => quizRoom.score ?? 0),
+        ),
+    ].sort((a, b) => b - a);
+
+    const finishedIndex = room.status === 'finished' ? finishedScores.indexOf(room.score ?? 0) : -1;
 
     const isFirst = finishedIndex === 0;
     const isSecond = finishedIndex === 1;
