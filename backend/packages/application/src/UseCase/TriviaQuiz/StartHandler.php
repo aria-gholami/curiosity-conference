@@ -6,7 +6,7 @@ namespace CuriosityConference\Application\UseCase\TriviaQuiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Application\Port\Inbound\TriviaQuiz\StartHandler as StartHandlerInterface;
-use CuriosityConference\Application\Port\Outbound\TriviaQuestion\ByIdLoader;
+use CuriosityConference\Application\Port\Outbound\TriviaQuestion\Loader;
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\HighscorePersister;
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\RoomByIdLoader;
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\RoomUpdater;
@@ -22,7 +22,7 @@ final readonly class StartHandler implements StartHandlerInterface
     public function __construct(
         private RoomUpdater $roomUpdater,
         private RoomByIdLoader $roomByIdLoader,
-        private ByIdLoader $byIdLoader,
+        private Loader $questionLoader,
         private HighscorePersister $highscorePersister,
         private HubInterface $hub,
     ) {
@@ -38,7 +38,7 @@ final readonly class StartHandler implements StartHandlerInterface
     public function handle(Id $quizRoomId): void
     {
         $quizRoom = $this->roomByIdLoader->load($quizRoomId->value);
-        $questionCollection = $this->byIdLoader->load($quizRoom->getTriviaQuiz());
+        $questionCollection = $this->questionLoader->load();
         $quizRoom->setCurrentTriviaQuestion($questionCollection->data[0]);
         $quizRoom->setStatus(TriviaQuizRoom::STATUS_STARTED);
         $this->roomUpdater->update($quizRoom);

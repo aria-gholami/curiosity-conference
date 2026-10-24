@@ -57,9 +57,6 @@ final readonly class JoinRoomController
             return new JsonResponse([
                 'id' => $quizRoom->getId(),
                 'title' => $quizRoom->getTitle(),
-                'quiz' => [
-                    'title' => $quizRoom->getTriviaQuiz()->getTitle(),
-                ],
                 'host' => [
                     'id' => $quizRoom->getHost()->getId(),
                     'userName' => $quizRoom->getHost()->getUserName(),

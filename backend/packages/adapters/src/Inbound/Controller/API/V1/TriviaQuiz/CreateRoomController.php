@@ -32,7 +32,6 @@ final readonly class CreateRoomController
         try {
             $data = \json_decode($request->getContent(), true);
             $quizRoom = new QuizRoom(
-                $data['quizId'] ?? '',
                 $data['hostId'] ?? '',
                 $data['title'] ?? '',
             );
@@ -41,9 +40,6 @@ final readonly class CreateRoomController
             $response = [
                 'id' => $quizRoom->getId(),
                 'title' => $quizRoom->getTitle(),
-                'quiz' => [
-                    'title' => $quizRoom->getTriviaQuiz()->getTitle(),
-                ],
                 'host' => [
                     'id' => $quizRoom->getHost()->getId(),
                     'userName' => $quizRoom->getHost()->getUserName(),

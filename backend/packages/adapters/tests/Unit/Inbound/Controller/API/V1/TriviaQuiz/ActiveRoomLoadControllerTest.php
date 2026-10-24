@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ActiveRoomLoadController;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz\Mocks\ActiveRoomLoadHandlerMock;
@@ -38,10 +37,6 @@ final class ActiveRoomLoadControllerTest extends TestCase
 
     public function testLoadIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -49,7 +44,6 @@ final class ActiveRoomLoadControllerTest extends TestCase
         $expectedQuizRoomEntity = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,
@@ -63,7 +57,7 @@ final class ActiveRoomLoadControllerTest extends TestCase
         $jsonResponse = $this->activeRoomLoadController->__invoke($request);
 
         self::assertSame(Response::HTTP_OK, $jsonResponse->getStatusCode());
-        self::assertSame('{"id":"test","title":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $jsonResponse->getContent());
+        self::assertSame('{"id":"test","title":"test","host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $jsonResponse->getContent());
         self::assertEquals([], $this->loggerMock->logs);
     }
 
@@ -82,10 +76,6 @@ final class ActiveRoomLoadControllerTest extends TestCase
 
     public function testLoadWithEmptyStringException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -93,7 +83,6 @@ final class ActiveRoomLoadControllerTest extends TestCase
         $expectedQuizRoomEntity = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,
@@ -122,10 +111,6 @@ final class ActiveRoomLoadControllerTest extends TestCase
 
     public function testLoadWithLoadEntityFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -133,7 +118,6 @@ final class ActiveRoomLoadControllerTest extends TestCase
         $expectedQuizRoomEntity = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,

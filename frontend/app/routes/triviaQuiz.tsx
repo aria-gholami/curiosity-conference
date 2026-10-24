@@ -69,7 +69,7 @@ export default function TriviaQuiz() {
                 <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
                     <div>
                         <p className="text-text-light text-sm uppercase tracking-[0.14em]">
-                            {quizRoomState.currentRoom.quiz.title || 'Trivia Challenge'}
+                            Trivia Challenge
                         </p>
                         <h1 className="mt-3 text-4xl font-semibold tracking-[-0.02em] text-white sm:text-5xl">
                             Quiz Room

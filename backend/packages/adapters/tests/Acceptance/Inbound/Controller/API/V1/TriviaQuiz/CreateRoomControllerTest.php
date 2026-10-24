@@ -35,27 +35,40 @@ final class CreateRoomControllerTest extends AbstractWebTestCase
             flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
-            'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
+            [
+                'question' => 'test',
+                'answers' => [
+                    [
+                        'answer' => 'testAnswer1',
+                        'correct' => true,
+                    ],
+                    [
+                        'answer' => 'testAnswer2',
+                        'correct' => false,
+                    ],
+                    [
+                        'answer' => 'testAnswer3',
+                        'correct' => false,
+                    ],
+                    [
+                        'answer' => 'testAnswer4',
+                        'correct' => false,
+                    ],
+                ],
+            ],
         ];
         $this->client->request(
             'POST',
-            '/api/v1/trivia/quiz',
+            '/api/v1/trivia/questions',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $responseQuiz = \json_decode(
-            $this->client->getResponse()->getContent(),
-            true,
-            flags: \JSON_THROW_ON_ERROR,
-        );
         $payload = [
-            'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
             'title' => 'test',
         ];
@@ -83,7 +96,6 @@ final class CreateRoomControllerTest extends AbstractWebTestCase
             'SELECT * FROM trivia_quiz_room',
         );
         self::assertIsString($row['id']);
-        self::assertIsString($row['trivia_quiz_id']);
         self::assertIsString($row['host_id']);
     }
 
@@ -108,23 +120,41 @@ final class CreateRoomControllerTest extends AbstractWebTestCase
             flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
-            'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
+            [
+                'question' => 'test',
+                'answers' => [
+                    [
+                        'answer' => 'testAnswer1',
+                        'correct' => true,
+                    ],
+                    [
+                        'answer' => 'testAnswer2',
+                        'correct' => false,
+                    ],
+                    [
+                        'answer' => 'testAnswer3',
+                        'correct' => false,
+                    ],
+                    [
+                        'answer' => 'testAnswer4',
+                        'correct' => false,
+                    ],
+                ],
+            ],
         ];
         $this->client->request(
             'POST',
-            '/api/v1/trivia/quiz',
+            '/api/v1/trivia/questions',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
         $payload = [
-            'quizId' => '',
-            'hostId' => $responseUser['id'],
+            'hostId' => '',
             'title' => 'test',
         ];
         $this->client->request(
@@ -169,27 +199,40 @@ final class CreateRoomControllerTest extends AbstractWebTestCase
             flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
-            'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
+            [
+                'question' => 'test',
+                'answers' => [
+                    [
+                        'answer' => 'testAnswer1',
+                        'correct' => true,
+                    ],
+                    [
+                        'answer' => 'testAnswer2',
+                        'correct' => false,
+                    ],
+                    [
+                        'answer' => 'testAnswer3',
+                        'correct' => false,
+                    ],
+                    [
+                        'answer' => 'testAnswer4',
+                        'correct' => false,
+                    ],
+                ],
+            ],
         ];
         $this->client->request(
             'POST',
-            '/api/v1/trivia/quiz',
+            '/api/v1/trivia/questions',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $responseQuiz = \json_decode(
-            $this->client->getResponse()->getContent(),
-            true,
-            flags: \JSON_THROW_ON_ERROR,
-        );
         $payload = [
-            'quizId' => $responseQuiz['id'],
             'hostId' => $responseUser['id'],
             'title' => 'test',
         ];
@@ -234,27 +277,40 @@ final class CreateRoomControllerTest extends AbstractWebTestCase
             flags: \JSON_THROW_ON_ERROR,
         );
         $payload = [
-            'title' => 'test',
-            'description' => 'test',
-            'category' => 'test',
+            [
+                'question' => 'test',
+                'answers' => [
+                    [
+                        'answer' => 'testAnswer1',
+                        'correct' => true,
+                    ],
+                    [
+                        'answer' => 'testAnswer2',
+                        'correct' => false,
+                    ],
+                    [
+                        'answer' => 'testAnswer3',
+                        'correct' => false,
+                    ],
+                    [
+                        'answer' => 'testAnswer4',
+                        'correct' => false,
+                    ],
+                ],
+            ],
         ];
         $this->client->request(
             'POST',
-            '/api/v1/trivia/quiz',
+            '/api/v1/trivia/questions',
             server: [
                 'Content-Type' => 'application/json',
                 'Accept' => 'application/json',
                 'HTTP_API_KEY' => '42b1ed2a3b0cdb29b75875f3c88d454d',
+                'HTTP_AUTHORIZATION' => 'Bearer ' . $responseUser['token'],
             ],
             content: \json_encode($payload, \JSON_THROW_ON_ERROR),
         );
-        $responseQuiz = \json_decode(
-            $this->client->getResponse()->getContent(),
-            true,
-            flags: \JSON_THROW_ON_ERROR,
-        );
         $payload = [
-            'quizId' => $responseQuiz['id'],
             'hostId' => 'invalid',
             'title' => 'test',
         ];

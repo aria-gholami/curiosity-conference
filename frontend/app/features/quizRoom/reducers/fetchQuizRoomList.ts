@@ -24,9 +24,6 @@ export const fetchQuizRoomList = createAsyncThunk<QuizRoomState, void, { state: 
                 currentRoom: {
                     id: '',
                     title: '',
-                    quiz: {
-                        title: '',
-                    },
                     host: {
                         id: '',
                         userName: '',
@@ -37,9 +34,6 @@ export const fetchQuizRoomList = createAsyncThunk<QuizRoomState, void, { state: 
                 rooms: responseBody.data.map((room: QuizRoomListItem) => ({
                     id: room.id,
                     title: room.title,
-                    quiz: {
-                        title: room.quiz.title,
-                    },
                     host: {
                         id: room.host.id,
                         userName: room.host.userName,

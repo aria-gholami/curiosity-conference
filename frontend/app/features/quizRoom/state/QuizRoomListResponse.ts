@@ -3,9 +3,6 @@ import type { Participant } from '~/features/quizRoom/state/Initial';
 export interface QuizRoomListItem {
     id: string;
     title: string;
-    quiz: {
-        title: string;
-    };
     host: {
         id: string;
         userName: string;

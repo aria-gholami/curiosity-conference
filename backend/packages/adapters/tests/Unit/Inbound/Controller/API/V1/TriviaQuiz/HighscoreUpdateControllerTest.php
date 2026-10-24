@@ -7,7 +7,6 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Triv
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\HighscoreUpdateController;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaAnswer;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaHighscore;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz\Mocks\HighscoreUpdateHandlerMock;
@@ -42,15 +41,11 @@ final class HighscoreUpdateControllerTest extends TestCase
 
     public function testUpdateHighscoreIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
@@ -87,15 +82,11 @@ final class HighscoreUpdateControllerTest extends TestCase
 
     public function testUpdateHighscoreWithLoadEntityFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
@@ -140,15 +131,11 @@ final class HighscoreUpdateControllerTest extends TestCase
 
     public function testUpdateHighscoreWithEmptyStringException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
@@ -192,15 +179,11 @@ final class HighscoreUpdateControllerTest extends TestCase
 
     public function testUpdateHighscoreWithUpdateFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,

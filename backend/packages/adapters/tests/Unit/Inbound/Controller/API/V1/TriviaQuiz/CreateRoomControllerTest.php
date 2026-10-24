@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateRoomController;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom as QuizRoomEntity;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz\Mocks\CreateRoomHandlerMock;
@@ -45,10 +44,6 @@ final class CreateRoomControllerTest extends TestCase
 
     public function testCreateRoomIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -57,7 +52,6 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom = new QuizRoomEntity(
             'test',
             $title,
-            $quiz,
             null,
             $user,
             QuizRoomEntity::STATUS_STARTED,
@@ -67,7 +61,6 @@ final class CreateRoomControllerTest extends TestCase
         $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $this->hubMock->outputUpdate = 'test';
         $payload = [
-            'quizId' => 'test',
             'hostId' => 'test',
             'title' => 'test',
         ];
@@ -84,21 +77,16 @@ final class CreateRoomControllerTest extends TestCase
         $response = $this->createRoomController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"id":"test","title":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
+        self::assertSame('{"id":"test","title":"test","host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
-        self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
         self::assertSame($payload['title'], $this->createRoomHandlerMock->inputQuizRoom->title);
         self::assertSame('trivia/quiz/room/list', $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
-        self::assertSame('{"id":"test","title":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}],"action":"add"}', $this->hubMock->inputUpdateGroup[0]->getData());
+        self::assertSame('{"id":"test","title":"test","host":{"id":"test","userName":"test"},"status":"started","participants":[{"userId":"test","userName":"test"}],"action":"add"}', $this->hubMock->inputUpdateGroup[0]->getData());
         self::assertEquals([], $this->loggerMock->logs);
     }
 
     public function testCreateRoomWithEmptyStringException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -107,7 +95,6 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom = new QuizRoomEntity(
             'test',
             $title,
-            $quiz,
             null,
             $user,
             QuizRoomEntity::STATUS_STARTED,
@@ -116,8 +103,7 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom->addTriviaParticipant($user);
         $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $payload = [
-            'quizId' => '',
-            'hostId' => 'test',
+            'hostId' => '',
             'title' => 'test',
         ];
         $request = new Request(
@@ -139,7 +125,7 @@ final class CreateRoomControllerTest extends TestCase
                 [
                     'message' => 'Request data for POST to /api/v1/trivia/quiz/room is invalid.',
                     'context' => [
-                        'exceptionMessage' => EmptyStringException::stringIsEmpty('quizRoomQuizId')->getMessage(),
+                        'exceptionMessage' => EmptyStringException::stringIsEmpty('quizRoomHostId')->getMessage(),
                     ],
                 ],
             ],
@@ -148,10 +134,6 @@ final class CreateRoomControllerTest extends TestCase
 
     public function testCreateRoomWithInvalidRoomTitleException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -160,7 +142,6 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom = new QuizRoomEntity(
             'test',
             $title,
-            $quiz,
             null,
             $user,
             QuizRoomEntity::STATUS_STARTED,
@@ -169,7 +150,6 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom->addTriviaParticipant($user);
         $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $payload = [
-            'quizId' => 'test',
             'hostId' => 'test',
             'title' => '12345678901234567890',
         ];
@@ -192,7 +172,7 @@ final class CreateRoomControllerTest extends TestCase
                 [
                     'message' => 'Request data for POST to /api/v1/trivia/quiz/room is invalid.',
                     'context' => [
-                        'exceptionMessage' => InvalidRoomTitleException::isInvalid('quizRoomHostTitle')->getMessage(),
+                        'exceptionMessage' => InvalidRoomTitleException::isInvalid('quizRoomTitle')->getMessage(),
                     ],
                 ],
             ],
@@ -202,10 +182,6 @@ final class CreateRoomControllerTest extends TestCase
     public function testCreateRoomWithPersistFailedException(): void
     {
         $this->createRoomHandlerMock->throwException = new PersistFailedException('test');
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -214,7 +190,6 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom = new QuizRoomEntity(
             'test',
             $title,
-            $quiz,
             null,
             $user,
             QuizRoomEntity::STATUS_STARTED,
@@ -223,7 +198,6 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom->addTriviaParticipant($user);
         $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $payload = [
-            'quizId' => 'test',
             'hostId' => 'test',
             'title' => 'test',
         ];
@@ -242,7 +216,6 @@ final class CreateRoomControllerTest extends TestCase
         self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
         self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
-        self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
         self::assertSame($payload['title'], $this->createRoomHandlerMock->inputQuizRoom->title);
         self::assertEquals([
             'notice' => [
@@ -259,10 +232,6 @@ final class CreateRoomControllerTest extends TestCase
     public function testCreateRoomWithLoadEntityFailedException(): void
     {
         $this->createRoomHandlerMock->throwException = new LoadEntityFailedException('test');
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -271,7 +240,6 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom = new QuizRoomEntity(
             'test',
             $title,
-            $quiz,
             null,
             $user,
             QuizRoomEntity::STATUS_STARTED,
@@ -280,7 +248,6 @@ final class CreateRoomControllerTest extends TestCase
         $quizRoom->addTriviaParticipant($user);
         $this->createRoomHandlerMock->outputQuizRoom = $quizRoom;
         $payload = [
-            'quizId' => 'test',
             'hostId' => 'test',
             'title' => 'test',
         ];
@@ -299,7 +266,6 @@ final class CreateRoomControllerTest extends TestCase
         self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
         self::assertSame('{"message":"Internal Server Error."}', $response->getContent());
         self::assertSame($payload['hostId'], $this->createRoomHandlerMock->inputQuizRoom->hostId);
-        self::assertSame($payload['quizId'], $this->createRoomHandlerMock->inputQuizRoom->quizId);
         self::assertSame($payload['title'], $this->createRoomHandlerMock->inputQuizRoom->title);
         self::assertEquals([
             'notice' => [

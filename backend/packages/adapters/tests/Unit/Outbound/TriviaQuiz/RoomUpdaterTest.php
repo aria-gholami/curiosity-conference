@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository;
@@ -34,15 +33,11 @@ final class RoomUpdaterTest extends TestCase
 
     public function testUpdateIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
 
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('flush');
@@ -69,21 +64,11 @@ final class RoomUpdaterTest extends TestCase
 
     public function testUpdateWithUpdateFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
-            'test',
-            'test',
-            'test',
-            false,
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('flush')
             ->willThrowException(new UpdateFailedException('test'));

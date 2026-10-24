@@ -6,7 +6,6 @@ namespace CuriosityConference\Application\Tests\Unit\UseCase\TriviaQuiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaAnswer;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaHighscore;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Tests\Unit\Mocks\RoomByIdLoaderMock;
@@ -47,15 +46,11 @@ final class HighscoreUpdateHandlerTest extends TestCase
     {
         $answer = new TriviaAnswer('test', 'test', true);
         $this->answerByIdLoaderMock->outputAnswer = $answer;
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $expectedHighscore = new TriviaHighscore(
             'test',
             $quizRoom,
@@ -80,15 +75,11 @@ final class HighscoreUpdateHandlerTest extends TestCase
     {
         $answer = new TriviaAnswer('test', 'test', false);
         $this->answerByIdLoaderMock->outputAnswer = $answer;
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $expectedHighscore = new TriviaHighscore(
             'test',
             $quizRoom,

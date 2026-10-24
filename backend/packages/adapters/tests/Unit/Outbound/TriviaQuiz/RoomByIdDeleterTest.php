@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository;
@@ -37,18 +36,13 @@ final class RoomByIdDeleterTest extends TestCase
 
     public function testDeleteIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizEntity = new TriviaQuizRoom(
+        $expectedQuizRoomEntity = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,
@@ -57,10 +51,10 @@ final class RoomByIdDeleterTest extends TestCase
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => $id->value])
-            ->willReturn($expectedQuizEntity);
+            ->willReturn($expectedQuizRoomEntity);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('remove')
-            ->with($expectedQuizEntity);
+            ->with($expectedQuizRoomEntity);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('flush');
 
@@ -86,18 +80,13 @@ final class RoomByIdDeleterTest extends TestCase
 
     public function testDeleteWithNoQuizRoomFound(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizEntity = new TriviaQuizRoom(
+        $expectedQuizRoomEntity = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,
@@ -109,7 +98,7 @@ final class RoomByIdDeleterTest extends TestCase
             ->willReturn(null);
         $this->quizRoomEntityRepositoryMock->expects(self::never())
             ->method('remove')
-            ->with($expectedQuizEntity);
+            ->with($expectedQuizRoomEntity);
         $this->quizRoomEntityRepositoryMock->expects(self::never())
             ->method('flush');
 
@@ -129,18 +118,13 @@ final class RoomByIdDeleterTest extends TestCase
 
     public function testDeleteWithDeleteFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizEntity = new TriviaQuizRoom(
+        $expectedQuizRoomEntity = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,
@@ -149,7 +133,7 @@ final class RoomByIdDeleterTest extends TestCase
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => $id->value])
-            ->willReturn($expectedQuizEntity);
+            ->willReturn($expectedQuizRoomEntity);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('remove')
             ->willThrowException(new DeleteFailedException('test'));

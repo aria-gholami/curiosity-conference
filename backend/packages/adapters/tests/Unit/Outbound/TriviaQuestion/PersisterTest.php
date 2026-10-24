@@ -6,7 +6,6 @@ namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuestion;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaAnswer;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuestion as QuestionEntity;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\TriviaQuestion\Persister;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\EntityManagerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
@@ -39,12 +38,7 @@ final class PersisterTest extends TestCase
     #[DataProvider('provideDifferentAnswerData')]
     public function testPersistIsValid(array $correctAnswerData): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $question = new Question(
-            $quiz,
             'test',
             [
                 'test1',
@@ -59,7 +53,6 @@ final class PersisterTest extends TestCase
         $expectedQuizEntity = new QuestionEntity(
             'test',
             'test',
-            $quiz,
             new ArrayCollection(),
         );
         $expectedQuizEntity->addTriviaAnswer(new TriviaAnswer(
@@ -84,7 +77,6 @@ final class PersisterTest extends TestCase
         ));
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTitle());
-        self::assertEquals($expectedQuizEntity->getTriviaQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaQuiz());
         self::assertSame($expectedQuizEntity->getTriviaAnswerCollection()->get(0)->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaAnswerCollection()->get(0)->getTitle());
         self::assertEquals($expectedQuizEntity->getTriviaAnswerCollection()->get(0)->getTriviaQuestion()->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaAnswerCollection()->get(0)->getTriviaQuestion()->getTitle());
         self::assertSame($expectedQuizEntity->getTriviaAnswerCollection()->get(0)->isCorrect(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaAnswerCollection()->get(0)->isCorrect());
@@ -132,12 +124,7 @@ final class PersisterTest extends TestCase
     {
         $this->entityManagerMock->throwPersistException = new \Exception('test');
 
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $question = new Question(
-            $quiz,
             'test',
             [
                 'test',
@@ -157,7 +144,6 @@ final class PersisterTest extends TestCase
         $expectedQuizEntity = new QuestionEntity(
             'test',
             'test',
-            $quiz,
             new ArrayCollection(),
         );
         $expectedQuizEntity->addTriviaAnswer(new TriviaAnswer(
@@ -182,7 +168,6 @@ final class PersisterTest extends TestCase
         ));
         self::assertIsString($expectedQuizEntity->getId());
         self::assertSame($expectedQuizEntity->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTitle());
-        self::assertEquals($expectedQuizEntity->getTriviaQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaQuiz());
         self::assertSame($expectedQuizEntity->getTriviaAnswerCollection()->get(0)->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaAnswerCollection()->get(0)->getTitle());
         self::assertEquals($expectedQuizEntity->getTriviaAnswerCollection()->get(0)->getTriviaQuestion()->getTitle(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaAnswerCollection()->get(0)->getTriviaQuestion()->getTitle());
         self::assertSame($expectedQuizEntity->getTriviaAnswerCollection()->get(0)->isCorrect(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaAnswerCollection()->get(0)->isCorrect());

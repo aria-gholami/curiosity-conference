@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaHighscore;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaHighscoreRepository;
@@ -35,15 +34,11 @@ final class HighscoreLoaderTest extends TestCase
 
     public function testLoadIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,
@@ -78,15 +73,11 @@ final class HighscoreLoaderTest extends TestCase
 
     public function testLoadWithLoadEntityFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $highscore = new TriviaHighscore(
             'test',
             $quizRoom,

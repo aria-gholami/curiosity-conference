@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscorePersister;
@@ -30,10 +29,6 @@ final class HighscorePersisterTest extends TestCase
 
     public function testPersistIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -41,13 +36,12 @@ final class HighscorePersisterTest extends TestCase
         $quizRoom = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,
         );
 
-        $this->highscorePersister->persist($quizRoom, $user);
+        $this->highscorePersister->persist($quizRoom);
 
         self::assertSame('test', $this->entityManagerMock->inputPersistedObject[0]->getTriviaQuizRoom()->getId());
         self::assertSame(0, $this->entityManagerMock->inputPersistedObject[0]->getScore());
@@ -73,10 +67,6 @@ final class HighscorePersisterTest extends TestCase
     public function testPersistWithThrownException(): void
     {
         $this->entityManagerMock->throwPersistException = new \Exception('test');
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -84,14 +74,13 @@ final class HighscorePersisterTest extends TestCase
         $quizRoom = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,
         );
 
         try {
-            $this->highscorePersister->persist($quizRoom, $user);
+            $this->highscorePersister->persist($quizRoom);
             $this->fail('PersistFailedException was expected to be thrown.');
         } catch (PersistFailedException $exception) {
             self::assertSame('Persist entity "CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaHighscore" was not successful.', $exception->getMessage());

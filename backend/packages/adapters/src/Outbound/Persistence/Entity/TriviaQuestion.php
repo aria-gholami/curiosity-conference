@@ -23,20 +23,15 @@ final class TriviaQuestion
     #[ORM\Column(length: 255)]
     private string $title;
 
-    #[ORM\ManyToOne(targetEntity: TriviaQuiz::class)]
-    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private TriviaQuiz $triviaQuiz;
-
     /**
      * @var Collection<int, TriviaAnswer>
      */
     #[ORM\OneToMany(mappedBy: 'triviaQuestion', targetEntity: TriviaAnswer::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $triviaAnswerCollection;
 
-    public function __construct(string $id, string $title, TriviaQuiz $triviaQuiz, Collection $triviaAnswerCollection)
+    public function __construct(string $id, string $title, Collection $triviaAnswerCollection)
     {
         $this->id = $id;
-        $this->triviaQuiz = $triviaQuiz;
         $this->triviaAnswerCollection = $triviaAnswerCollection;
         $this->title = $title;
     }
@@ -44,11 +39,6 @@ final class TriviaQuestion
     public function getId(): string
     {
         return $this->id;
-    }
-
-    public function getTriviaQuiz(): TriviaQuiz
-    {
-        return $this->triviaQuiz;
     }
 
     public function addTriviaAnswer(TriviaAnswer $triviaAnswer): void

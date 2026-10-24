@@ -26,16 +26,9 @@ services:
     tags:
       - { name: 'controller.service_arguments' }
 
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ListController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\TriviaQuiz\ListHandler'
-      - '@api.v1.quiz.logger'
-    tags:
-      - { name: 'controller.service_arguments' }
-
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController:
-    arguments:
-      - '@CuriosityConference\Application\UseCase\TriviaQuestion\ByQuizLoadHandler'
+      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\Loader'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
@@ -107,9 +100,9 @@ services:
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
-  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\TriviaPersistController:
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\PersistController:
     arguments:
-      - '@CuriosityConference\Application\UseCase\TriviaQuiz\TriviaPersistHandler'
+      - '@CuriosityConference\Application\UseCase\TriviaQuestion\PersistHandler'
       - '@api.v1.quiz.logger'
     tags:
       - { name: 'controller.service_arguments' }
@@ -134,26 +127,6 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository'
       - '@api.v1.quiz.logger'
 
-  CuriosityConference\Adapters\Outbound\TriviaQuiz\Persister:
-    arguments:
-      - '@doctrine.orm.entity_manager'
-      - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\TriviaQuiz\Loader:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository'
-      - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdLoader:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository'
-      - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\TriviaQuiz\ByNameLoader:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository'
-      - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdDeleter:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository'
-      - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomPersister:
     arguments:
       - '@doctrine.orm.entity_manager'
@@ -203,19 +176,15 @@ services:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaHighscoreRepository'
       - '@api.v1.quiz.logger'
 
-  CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdLoader:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuestionRepository'
-      - '@api.v1.quiz.logger'
   CuriosityConference\Adapters\Outbound\TriviaQuestion\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
       - '@api.v1.user.logger'
-  CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdDeleter:
+  CuriosityConference\Adapters\Outbound\TriviaQuestion\Resetter:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuestionRepository'
       - '@api.v1.quiz.logger'
-  CuriosityConference\Adapters\Outbound\TriviaQuestion\ByQuizDeleter:
+  CuriosityConference\Adapters\Outbound\TriviaQuestion\Loader:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuestionRepository'
       - '@api.v1.quiz.logger'
@@ -241,11 +210,6 @@ services:
       - '@api.v1.questionnaire.logger'
 
   CuriosityConference\Adapters\Outbound\Persistence\Repository\UserRepository:
-    arguments:
-      - '@doctrine'
-    tags:
-      - 'doctrine.repository_service'
-  CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRepository:
     arguments:
       - '@doctrine'
     tags:

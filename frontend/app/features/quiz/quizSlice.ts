@@ -1,6 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import initialState, { type QuizState } from './state/Initial';
-import { fetchQuizList } from '~/features/quiz/reducers/fetchQuizList';
 import { fetchQuizQuestion } from '~/features/quiz/reducers/fetchQuizQuestion';
 import { continueOrFinishQuiz } from '~/features/quizRoom/reducers/continueOrFinishQuiz';
 
@@ -10,40 +9,17 @@ const quizSlice = createSlice({
     reducers: {
         reset(state: QuizState): void {
             state.quiz = {
-                id: '',
-                title: '',
-                description: '',
-                category: '',
+                roomId: '',
                 question: undefined,
             };
             state.isLoading = false;
         },
-        removeCurrentQuestion(state: QuizState, action): void {
+        removeCurrentQuestion(state: QuizState): void {
             state.quiz.question = undefined;
         },
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchQuizList.pending, (state: QuizState) => {
-                state.isLoading = true;
-            })
-            .addCase(
-                fetchQuizList.fulfilled,
-                (state: QuizState, action: PayloadAction<QuizState>) => {
-                    state.quiz = action.payload.quiz;
-                    state.isLoading = false;
-                },
-            )
-            .addCase(fetchQuizList.rejected, (state: QuizState) => {
-                state.quiz = {
-                    id: '',
-                    title: '',
-                    description: '',
-                    category: '',
-                    question: undefined,
-                };
-                state.isLoading = false;
-            })
             .addCase(fetchQuizQuestion.pending, (state: QuizState) => {
                 state.isLoading = true;
             })
@@ -57,7 +33,7 @@ const quizSlice = createSlice({
             .addCase(fetchQuizQuestion.rejected, (state: QuizState) => {
                 state.isLoading = false;
             })
-            .addCase(continueOrFinishQuiz.fulfilled, (state: QuizState, action) => {
+            .addCase(continueOrFinishQuiz.fulfilled, (state: QuizState) => {
                 state.quiz.question = undefined;
             });
     },

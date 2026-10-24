@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListRoomController;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz\Mocks\ListRoomHandlerMock;
@@ -35,10 +34,6 @@ final class ListRoomControllerTest extends TestCase
 
     public function testListRoomIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -46,7 +41,6 @@ final class ListRoomControllerTest extends TestCase
         $quizRoom = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $user,
             TriviaQuizRoom::STATUS_STARTED,
@@ -67,8 +61,7 @@ final class ListRoomControllerTest extends TestCase
         self::assertCount(3, $jsonResponseAsArray['data']);
         foreach ($jsonResponseAsArray['data'] as $jsonResponseItem) {
             self::assertIsArray($jsonResponseItem);
-            self::assertSame(['id', 'title', 'quiz', 'host', 'status', 'participants'], \array_keys($jsonResponseItem));
-            self::assertSame('test', $jsonResponseItem['quiz']['title']);
+            self::assertSame(['id', 'title', 'host', 'status', 'participants'], \array_keys($jsonResponseItem));
             self::assertSame('test', $jsonResponseItem['host']['userName']);
             self::assertSame('test', $jsonResponseItem['host']['id']);
             self::assertSame(TriviaQuizRoom::STATUS_STARTED, $jsonResponseItem['status']);
@@ -81,10 +74,6 @@ final class ListRoomControllerTest extends TestCase
     public function testListRoomWithLoadEntityFailedException(): void
     {
         $this->listRoomHandlerMock->throwException = new LoadEntityFailedException('test');
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -93,7 +82,6 @@ final class ListRoomControllerTest extends TestCase
             new TriviaQuizRoom(
                 'test',
                 'test',
-                $quiz,
                 null,
                 $user,
                 TriviaQuizRoom::STATUS_STARTED,
@@ -101,7 +89,6 @@ final class ListRoomControllerTest extends TestCase
             new TriviaQuizRoom(
                 'test',
                 'test',
-                $quiz,
                 null,
                 $user,
                 TriviaQuizRoom::STATUS_STARTED,
@@ -109,7 +96,6 @@ final class ListRoomControllerTest extends TestCase
             new TriviaQuizRoom(
                 'test',
                 'test',
-                $quiz,
                 null,
                 $user,
                 TriviaQuizRoom::STATUS_STARTED,

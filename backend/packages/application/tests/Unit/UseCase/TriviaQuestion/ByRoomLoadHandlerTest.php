@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\Tests\Unit\UseCase\TriviaQuestion;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuestion;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
@@ -35,10 +34,6 @@ final class ByRoomLoadHandlerTest extends TestCase
 
     public function testLoadIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -46,10 +41,9 @@ final class ByRoomLoadHandlerTest extends TestCase
         $expectedQuestion = new TriviaQuestion(
             'test',
             'test',
-            $quiz,
             new ArrayCollection(),
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, $expectedQuestion, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', $expectedQuestion, $user, TriviaQuizRoom::STATUS_STARTED);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
 
         $quizRoomId = new Id('test');
@@ -62,15 +56,11 @@ final class ByRoomLoadHandlerTest extends TestCase
 
     public function testLoadWithLoadEntityFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
 
         $quizRoomId = new Id('test');

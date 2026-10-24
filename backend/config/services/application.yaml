@@ -22,22 +22,15 @@ services:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomUpdater'
       - '@mercure.hub.default'
 
-  CuriosityConference\Application\UseCase\TriviaQuiz\TriviaPersistHandler:
+  CuriosityConference\Application\UseCase\TriviaQuestion\PersistHandler:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\Loader'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdDeleter'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\ByNameLoader'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\Persister'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\ByQuizDeleter'
+      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\Resetter'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\Persister'
-  CuriosityConference\Application\UseCase\TriviaQuiz\ListHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\Loader'
   CuriosityConference\Application\UseCase\TriviaQuiz\StartHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomUpdater'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\Loader'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\HighscorePersister'
       - '@mercure.hub.default'
   CuriosityConference\Application\UseCase\TriviaQuiz\DeleteRoomHandler:
@@ -56,7 +49,6 @@ services:
 
   CuriosityConference\Application\UseCase\TriviaQuiz\CreateRoomHandler:
     arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\User\ByIdLoader'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomPersister'
   CuriosityConference\Application\UseCase\TriviaQuiz\JoinRoomHandler:
@@ -73,7 +65,7 @@ services:
   CuriosityConference\Application\UseCase\TriviaQuiz\ContinueOrFinishHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdLoader'
+      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\Loader'
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomUpdater'
       - '@mercure.hub.default'
       - '@api.v1.quiz.logger'
@@ -82,11 +74,6 @@ services:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'
       - '@mercure.hub.default'
 
-  CuriosityConference\Application\UseCase\TriviaQuestion\ByQuizLoadHandler:
-    arguments:
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\ByIdLoader'
-      - '@CuriosityConference\Adapters\Outbound\TriviaQuestion\ByIdLoader'
-      - '@api.v1.quiz.logger'
   CuriosityConference\Application\UseCase\TriviaQuestion\ByRoomLoadHandler:
     arguments:
       - '@CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomByIdLoader'

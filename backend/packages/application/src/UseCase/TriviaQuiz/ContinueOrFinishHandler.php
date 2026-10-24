@@ -7,7 +7,7 @@ namespace CuriosityConference\Application\UseCase\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuestion;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Application\Port\Inbound\TriviaQuiz\ContinueOrFinishHandler as ContinueOrFinishHandlerInterface;
-use CuriosityConference\Application\Port\Outbound\TriviaQuestion\ByIdLoader as QuestionByIdLoader;
+use CuriosityConference\Application\Port\Outbound\TriviaQuestion\Loader as QuestionByIdLoader;
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\RoomByIdLoader;
 use CuriosityConference\Application\Port\Outbound\TriviaQuiz\RoomUpdater;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -47,7 +47,7 @@ final readonly class ContinueOrFinishHandler implements ContinueOrFinishHandlerI
             throw CurrentQuestionNotFoundException::notFound();
         }
 
-        $questionCollection = $this->questionByIdLoader->load($quizRoom->getTriviaQuiz());
+        $questionCollection = $this->questionByIdLoader->load();
         $questionCounter = 0;
         foreach ($questionCollection as $question) {
             if ($question->getId() === $currentQuestion->getId()) {

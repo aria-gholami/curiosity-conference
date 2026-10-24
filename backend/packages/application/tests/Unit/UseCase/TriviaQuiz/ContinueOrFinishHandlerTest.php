@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\Tests\Unit\UseCase\TriviaQuiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuestion;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\HubMock;
-use CuriosityConference\Application\Tests\Unit\Mocks\QuestionByIdLoaderMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\QuestionLoaderMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\RoomByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\TriviaQuiz\Mocks\RoomUpdaterMock;
 use CuriosityConference\Application\UseCase\TriviaQuiz\ContinueOrFinishHandler;
@@ -28,7 +27,7 @@ use PHPUnit\Framework\TestCase;
 final class ContinueOrFinishHandlerTest extends TestCase
 {
     private RoomByIdLoaderMock $roomByIdLoaderMock;
-    private QuestionByIdLoaderMock $questionByIdLoaderMock;
+    private QuestionLoaderMock $questionByIdLoaderMock;
     private RoomUpdaterMock $roomUpdaterMock;
     private HubMock $hubMock;
     private LoggerMock $loggerMock;
@@ -37,7 +36,7 @@ final class ContinueOrFinishHandlerTest extends TestCase
     protected function setUp(): void
     {
         $this->roomByIdLoaderMock = new RoomByIdLoaderMock();
-        $this->questionByIdLoaderMock = new QuestionByIdLoaderMock();
+        $this->questionByIdLoaderMock = new QuestionLoaderMock();
         $this->roomUpdaterMock = new RoomUpdaterMock();
         $this->loggerMock = new LoggerMock();
         $this->hubMock = new HubMock();
@@ -53,10 +52,6 @@ final class ContinueOrFinishHandlerTest extends TestCase
     public function testHandleWithStartedStatusIsValid(): void
     {
         $quizRoomId = 'test';
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $host = new User(
             'test',
             'test',
@@ -64,11 +59,9 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $quizRoom = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             new TriviaQuestion(
                 'test',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             $host,
@@ -80,25 +73,21 @@ final class ContinueOrFinishHandlerTest extends TestCase
             new TriviaQuestion(
                 'test',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test2',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test3',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test4',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
         ]);
@@ -107,8 +96,6 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $this->continueOrFinishHandler->handle(new Id($quizRoomId));
 
         self::assertSame('test', $this->roomByIdLoaderMock->inputId);
-        self::assertSame($quiz->getId(), $this->questionByIdLoaderMock->inputQuiz->getId());
-        self::assertSame($quiz->getId(), $this->roomUpdaterMock->inputQuizRoom->getTriviaQuiz()->getId());
         self::assertSame($host->getId(), $this->roomUpdaterMock->inputQuizRoom->getHost()->getId());
         self::assertSame(TriviaQuizRoom::STATUS_STARTED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
         self::assertSame('test2', $this->roomUpdaterMock->inputQuizRoom->getCurrentTriviaQuestion()->getId());
@@ -122,10 +109,6 @@ final class ContinueOrFinishHandlerTest extends TestCase
     public function testHandleWithStartedFinishedIsValid(): void
     {
         $quizRoomId = 'test';
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $host = new User(
             'test',
             'test',
@@ -133,13 +116,11 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $currentQuestion = new TriviaQuestion(
             'test4',
             'test',
-            $quiz,
             new ArrayCollection(),
         );
         $quizRoom = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             $currentQuestion,
             $host,
             TriviaQuizRoom::STATUS_STARTED,
@@ -150,19 +131,16 @@ final class ContinueOrFinishHandlerTest extends TestCase
             new TriviaQuestion(
                 'test',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test2',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test3',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             $currentQuestion,
@@ -172,8 +150,6 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $this->continueOrFinishHandler->handle(new Id($quizRoomId));
 
         self::assertSame('test', $this->roomByIdLoaderMock->inputId);
-        self::assertSame($quiz->getId(), $this->questionByIdLoaderMock->inputQuiz->getId());
-        self::assertSame($quiz->getId(), $this->roomUpdaterMock->inputQuizRoom->getTriviaQuiz()->getId());
         self::assertSame($host->getId(), $this->roomUpdaterMock->inputQuizRoom->getHost()->getId());
         self::assertSame(TriviaQuizRoom::STATUS_FINISHED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
         self::assertNull($this->roomUpdaterMock->inputQuizRoom->getCurrentTriviaQuestion());
@@ -185,10 +161,6 @@ final class ContinueOrFinishHandlerTest extends TestCase
     public function testHandleWithNoCurrentQuestion(): void
     {
         $quizRoomId = 'test';
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $host = new User(
             'test',
             'test',
@@ -197,7 +169,6 @@ final class ContinueOrFinishHandlerTest extends TestCase
         $quizRoom = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             null,
             $host,
             TriviaQuizRoom::STATUS_STARTED,
@@ -207,26 +178,22 @@ final class ContinueOrFinishHandlerTest extends TestCase
             new TriviaQuestion(
                 'test',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test2',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test3',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
 
             new TriviaQuestion(
                 'test4',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
         ]);

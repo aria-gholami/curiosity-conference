@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz;
 
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\JoinRoomController;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuiz\Mocks\JoinRoomHandlerMock;
@@ -45,15 +44,11 @@ final class JoinRoomControllerTest extends TestCase
 
     public function testJoinRoomIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_CREATED);
         $expectedQuizRoom->addTriviaParticipant($user);
         $expectedQuizRoom->addTriviaParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
@@ -75,7 +70,7 @@ final class JoinRoomControllerTest extends TestCase
         $response = $this->joinRoomController->__invoke($request);
 
         self::assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        self::assertSame('{"id":"test","title":"test","quiz":{"title":"test"},"host":{"id":"test","userName":"test"},"status":"created","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
+        self::assertSame('{"id":"test","title":"test","host":{"id":"test","userName":"test"},"status":"created","participants":[{"userId":"test","userName":"test"}]}', $response->getContent());
         self::assertSame($payload['quizRoomId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->quizRoomId);
         self::assertSame($payload['userId'], $this->joinRoomHandlerMock->inputJoinQuizRoom->userId);
         self::assertSame(\sprintf('trivia/quiz/room/%s/participants', $expectedQuizRoom->getId()), $this->hubMock->inputUpdateGroup[0]->getTopics()[0]);
@@ -87,15 +82,11 @@ final class JoinRoomControllerTest extends TestCase
 
     public function testJoinRoomWithEmptyStringException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_CREATED);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
         $payload = [
             'quizRoomId' => '',
@@ -129,15 +120,11 @@ final class JoinRoomControllerTest extends TestCase
 
     public function testJoinRoomWithLoadEntityFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_CREATED);
         $expectedQuizRoom->addTriviaParticipant($user);
         $expectedQuizRoom->addTriviaParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
@@ -176,15 +163,11 @@ final class JoinRoomControllerTest extends TestCase
 
     public function testJoinRoomWithUpdateFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_CREATED);
         $expectedQuizRoom->addTriviaParticipant($user);
         $expectedQuizRoom->addTriviaParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;
@@ -223,15 +206,11 @@ final class JoinRoomControllerTest extends TestCase
 
     public function testJoinRoomWithQuizRoomIsAlreadyStartedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_CREATED);
         $expectedQuizRoom->addTriviaParticipant($user);
         $expectedQuizRoom->addTriviaParticipant($user);
         $this->joinRoomHandlerMock->outputQuizRoom = $expectedQuizRoom;

@@ -35,7 +35,6 @@ final readonly class Persister implements PersisterInterface
             $questionEntity = new QuestionEntity(
                 Uuid::v4()->toRfc4122(),
                 $question->title,
-                $question->quiz,
                 new ArrayCollection(),
             );
             $questionEntity->addTriviaAnswer(new TriviaAnswer(Uuid::v4()->toRfc4122(), $question->answers[0], 0 === $question->correctAnswerIndex));

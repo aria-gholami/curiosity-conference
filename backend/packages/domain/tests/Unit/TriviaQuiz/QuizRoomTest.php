@@ -15,40 +15,29 @@ final class QuizRoomTest extends TestCase
 {
     public function testQuizRoomIsValid(): void
     {
-        $quizRoom = new QuizRoom('test', 'test', 'test');
+        $quizRoom = new QuizRoom('test', 'test');
 
-        self::assertSame('test', $quizRoom->quizId);
         self::assertSame('test', $quizRoom->hostId);
         self::assertSame('test', $quizRoom->title);
-    }
-
-    public function testQuizRoomQuizIdWithEmptyStringException(): void
-    {
-        try {
-            new QuizRoom('', 'test', 'test');
-            $this->fail('EmptyStringException was expected to be thrown.');
-        } catch (EmptyStringException $exception) {
-            self::assertSame('Validation failed for value "quizRoomQuizId" with error: "Value for "quizRoomQuizId" should not be empty."', $exception->getMessage());
-        }
     }
 
     public function testQuizRoomHostIdWithEmptyStringException(): void
     {
         try {
-            new QuizRoom('test', '', 'test');
+            new QuizRoom('', 'test');
             $this->fail('EmptyStringException was expected to be thrown.');
         } catch (EmptyStringException $exception) {
             self::assertSame('Validation failed for value "quizRoomHostId" with error: "Value for "quizRoomHostId" should not be empty."', $exception->getMessage());
         }
     }
 
-    public function testQuizRoomTitleWithEmptyStringException(): void
+    public function testQuizRoomTitleWithInvalidRoomTitleException(): void
     {
         try {
-            new QuizRoom('test', 'test', '');
-            $this->fail('InvalidRoomTitleException was expected to be thrown.');
+            new QuizRoom('test', '');
+            $this->fail('EmptyStringException was expected to be thrown.');
         } catch (InvalidRoomTitleException $exception) {
-            self::assertSame(InvalidRoomTitleException::isInvalid('quizRoomHostTitle')->getMessage(), $exception->getMessage());
+            self::assertSame('Validation failed for value "quizRoomTitle" with error: "Value for "quizRoomTitle" should not be valid."', $exception->getMessage());
         }
     }
 
@@ -57,12 +46,11 @@ final class QuizRoomTest extends TestCase
         try {
             new QuizRoom(
                 'test',
-                'test',
                 '12345678901234567890',
             );
             $this->fail('InvalidNameException was expected to be thrown.');
         } catch (InvalidRoomTitleException $exception) {
-            self::assertSame(InvalidRoomTitleException::isInvalid('quizRoomHostTitle')->getMessage(), $exception->getMessage());
+            self::assertSame(InvalidRoomTitleException::isInvalid('quizRoomTitle')->getMessage(), $exception->getMessage());
         }
     }
 
@@ -70,11 +58,9 @@ final class QuizRoomTest extends TestCase
     {
         $quizRoom = new QuizRoom(
             'test',
-            'test',
             '123456789012345',
         );
 
-        self::assertSame('test', $quizRoom->quizId);
         self::assertSame('test', $quizRoom->hostId);
         self::assertSame('123456789012345', $quizRoom->title);
     }
@@ -83,11 +69,9 @@ final class QuizRoomTest extends TestCase
     {
         $quizRoom = new QuizRoom(
             'test',
-            'test',
             'äääääääääääääää',
         );
 
-        self::assertSame('test', $quizRoom->quizId);
         self::assertSame('test', $quizRoom->hostId);
         self::assertSame('äääääääääääääää', $quizRoom->title);
     }

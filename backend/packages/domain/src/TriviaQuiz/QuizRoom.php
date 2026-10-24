@@ -14,18 +14,14 @@ final readonly class QuizRoom
      * @throws InvalidRoomTitleException
      */
     public function __construct(
-        public string $quizId,
         public string $hostId,
         public string $title,
     ) {
-        if ('' === $this->quizId) {
-            throw EmptyStringException::stringIsEmpty('quizRoomQuizId');
-        }
         if ('' === $this->hostId) {
             throw EmptyStringException::stringIsEmpty('quizRoomHostId');
         }
         if ('' === $this->title || \mb_strlen($this->title) > 15) {
-            throw InvalidRoomTitleException::isInvalid('quizRoomHostTitle');
+            throw InvalidRoomTitleException::isInvalid('quizRoomTitle');
         }
     }
 }

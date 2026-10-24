@@ -10,10 +10,7 @@ interface QuizQuestion {
 }
 
 export interface Quiz {
-    id: string;
-    title: string;
-    description: string;
-    category: string;
+    roomId: string;
     question?: QuizQuestion;
 }
 
@@ -24,10 +21,7 @@ export interface QuizState {
 
 const initialState: QuizState = {
     quiz: {
-        id: '',
-        title: '',
-        description: '',
-        category: '',
+        roomId: '',
     },
     isLoading: false,
 };

@@ -11,14 +11,6 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomPartic
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\User\DeleteQuizRoomParticipantController
     methods: DELETE
 
-CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\TriviaPersistController:
-    path: /api/v1/trivia/quizzes
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\TriviaPersistController
-    methods: POST
-CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListController:
-    path: /api/v1/trivia/quiz
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\ListController
-    methods: GET
 CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateRoomController:
     path: /api/v1/trivia/quiz/room
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuiz\CreateRoomController
@@ -65,9 +57,13 @@ CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\Per
     controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\PersistController
     methods: POST
 
-CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController:
-    path: /api/v1/trivia/question
-    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByQuizLoadController
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\PersistController:
+    path: /api/v1/trivia/questions
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\PersistController
+    methods: POST
+CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ListController:
+    path: /api/v1/trivia/questions
+    controller: CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ListController
     methods: GET
 CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByRoomLoadController:
     path: /api/v1/trivia/quiz/room/{quizRoomId}/question

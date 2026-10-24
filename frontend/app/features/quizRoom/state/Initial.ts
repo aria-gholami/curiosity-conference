@@ -6,9 +6,6 @@ export interface Participant {
 export interface QuizRoom {
     id: string;
     title: string;
-    quiz: {
-        title: string;
-    };
     host: {
         id: string;
         userName: string;
@@ -32,9 +29,6 @@ const initialState: QuizRoomState = {
     currentRoom: {
         id: '',
         title: '',
-        quiz: {
-            title: '',
-        },
         host: {
             id: '',
             userName: '',

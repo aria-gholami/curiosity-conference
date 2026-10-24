@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Application\Tests\Unit\UseCase\TriviaQuiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Tests\Unit\Mocks\RoomByIdLoaderMock;
@@ -41,15 +40,11 @@ final class JoinRoomHandlerTest extends TestCase
 
     public function testHandleAndGetIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_CREATED);
+        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_CREATED);
         $this->roomByIdLoaderMock->outputQuizRoom = $expectedQuizRoom;
         $this->userByIdLoaderMock->outputUser = $user;
         $this->roomParticipantPersisterMock->outputQuizRoom = $expectedQuizRoom;
@@ -70,15 +65,11 @@ final class JoinRoomHandlerTest extends TestCase
 
     public function testHandleAndGetWithQuizRoomIsAlreadyStartedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
         );
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $user, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $user, TriviaQuizRoom::STATUS_STARTED);
         $this->roomByIdLoaderMock->outputQuizRoom = $quizRoom;
         $this->userByIdLoaderMock->outputUser = $user;
         $this->roomParticipantPersisterMock->outputQuizRoom = $quizRoom;

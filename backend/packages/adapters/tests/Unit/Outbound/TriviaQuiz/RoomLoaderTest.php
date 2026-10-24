@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository;
@@ -31,10 +30,6 @@ final class RoomLoaderTest extends TestCase
 
     public function testLoadIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $user = new User(
             'test',
             'test',
@@ -43,7 +38,6 @@ final class RoomLoaderTest extends TestCase
             new TriviaQuizRoom(
                 'test',
                 'test',
-                $quiz,
                 null,
                 $user,
                 TriviaQuizRoom::STATUS_STARTED,
@@ -51,7 +45,6 @@ final class RoomLoaderTest extends TestCase
             new TriviaQuizRoom(
                 'test',
                 'test',
-                $quiz,
                 null,
                 $user,
                 TriviaQuizRoom::STATUS_STARTED,
@@ -59,7 +52,6 @@ final class RoomLoaderTest extends TestCase
             new TriviaQuizRoom(
                 'test',
                 'test',
-                $quiz,
                 null,
                 $user,
                 TriviaQuizRoom::STATUS_STARTED,
@@ -71,7 +63,6 @@ final class RoomLoaderTest extends TestCase
         $quizCollection = $this->roomLoader->load();
 
         self::assertSame('test', $quizCollection->data[0]->getId());
-        self::assertSame('test', $quizCollection->data[0]->getTriviaQuiz()->getTitle());
         self::assertEquals([
             'info' => [
                 [

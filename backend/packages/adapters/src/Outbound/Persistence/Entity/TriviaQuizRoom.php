@@ -28,10 +28,6 @@ final class TriviaQuizRoom
     #[ORM\Column(type: 'string', length: 255)]
     private string $title;
 
-    #[ORM\ManyToOne(targetEntity: TriviaQuiz::class)]
-    #[ORM\JoinColumn(nullable: false)]
-    private TriviaQuiz $triviaQuiz;
-
     #[ORM\ManyToOne(targetEntity: TriviaQuestion::class)]
     #[ORM\JoinColumn(nullable: true)]
     private ?TriviaQuestion $currentTriviaQuestion;
@@ -56,11 +52,10 @@ final class TriviaQuizRoom
     #[ORM\Column(type: 'string', length: 255)]
     private string $status;
 
-    public function __construct(string $id, string $title, TriviaQuiz $triviaQuiz, ?TriviaQuestion $currentTriviaQuestion, User $host, string $status)
+    public function __construct(string $id, string $title, ?TriviaQuestion $currentTriviaQuestion, User $host, string $status)
     {
         $this->id = $id;
         $this->title = $title;
-        $this->triviaQuiz = $triviaQuiz;
         $this->currentTriviaQuestion = $currentTriviaQuestion;
         $this->host = $host;
         $this->triviaParticipants = new ArrayCollection();
@@ -76,11 +71,6 @@ final class TriviaQuizRoom
     public function getTitle(): string
     {
         return $this->title;
-    }
-
-    public function getTriviaQuiz(): TriviaQuiz
-    {
-        return $this->triviaQuiz;
     }
 
     public function getCurrentTriviaQuestion(): ?TriviaQuestion

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\Persistence\Repository\TriviaQuizRoomRepository;
@@ -32,12 +31,8 @@ final class RoomByIdLoaderTest extends TestCase
 
     public function testLoadIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $host = new User('test', 'test');
-        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $host, TriviaQuizRoom::STATUS_STARTED);
+        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $host, TriviaQuizRoom::STATUS_STARTED);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => $expectedQuizRoom->getId()])
@@ -47,7 +42,6 @@ final class RoomByIdLoaderTest extends TestCase
         self::assertSame('test', $quizRoom->getId());
         self::assertEquals($host, $quizRoom->getHost());
         self::assertEquals(new ArrayCollection(), $quizRoom->getTriviaParticipants());
-        self::assertEquals($quiz, $quizRoom->getTriviaQuiz());
         self::assertEquals([
             'info' => [
                 [
@@ -68,12 +62,8 @@ final class RoomByIdLoaderTest extends TestCase
 
     public function testLoadWithEmptyQuizRooms(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $host = new User('test', 'test');
-        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $host, TriviaQuizRoom::STATUS_STARTED);
+        $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $host, TriviaQuizRoom::STATUS_STARTED);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
             ->method('findOneBy')
             ->with(['id' => $expectedQuizRoom->getId()])

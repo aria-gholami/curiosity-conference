@@ -5,7 +5,7 @@ import type { QuizRoomQuestionListResponse } from '~/features/quiz/state/QuizQue
 
 export const fetchQuizQuestion = createAsyncThunk<QuizState, string, { state: RootState }>(
     'quizRoomQuestion/fetch',
-    async (quizRoomId: string, { getState }) => {
+    async (quizRoomId: string) => {
         try {
             const url: string = `${import.meta.env.VITE_BACKEND_API_BASE_URL}/trivia/quiz/room/${quizRoomId}/question`;
             const response = await fetch(url, {
@@ -19,13 +19,9 @@ export const fetchQuizQuestion = createAsyncThunk<QuizState, string, { state: Ro
             }
 
             const responseBody: QuizRoomQuestionListResponse = await response.json();
-            const { quiz } = getState();
             const state: QuizState = {
                 quiz: {
-                    id: quizRoomId,
-                    title: quiz.quiz.title ?? '',
-                    description: quiz.quiz?.description ?? '',
-                    category: quiz.quiz?.category ?? '',
+                    roomId: quizRoomId,
                     question: {
                         title: responseBody.question,
                         answers: responseBody.answers,

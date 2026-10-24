@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace CuriosityConference\Adapters\Tests\Unit\Outbound\TriviaQuiz;
 
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Adapters\Outbound\TriviaQuiz\RoomParticipantPersister;
@@ -30,16 +29,11 @@ final class RoomParticipantPersisterTest extends TestCase
 
     public function testPersistIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $host = new User('test', 'test');
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $host, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $host, TriviaQuizRoom::STATUS_STARTED);
         $this->roomParticipantPersister->persist($quizRoom);
 
         self::assertSame($quizRoom->getId(), $this->entityManagerMock->inputPersistedObject[0]->getId());
-        self::assertSame($quizRoom->getTriviaQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaQuiz());
         self::assertSame($quizRoom->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
         self::assertSame($quizRoom->getTriviaParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaParticipants());
         self::assertTrue($this->entityManagerMock->isFlushCalled);
@@ -64,12 +58,8 @@ final class RoomParticipantPersisterTest extends TestCase
     public function testPersistWithThrownException(): void
     {
         $this->entityManagerMock->throwPersistException = new \Exception('test');
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $host = new User('test', 'test');
-        $quizRoom = new TriviaQuizRoom('test', 'test', $quiz, null, $host, TriviaQuizRoom::STATUS_STARTED);
+        $quizRoom = new TriviaQuizRoom('test', 'test', null, $host, TriviaQuizRoom::STATUS_STARTED);
         try {
             $this->roomParticipantPersister->persist($quizRoom);
             $this->fail('PersistFailedException was expected to be thrown.');
@@ -78,7 +68,6 @@ final class RoomParticipantPersisterTest extends TestCase
         }
 
         self::assertSame($quizRoom->getId(), $this->entityManagerMock->inputPersistedObject[0]->getId());
-        self::assertSame($quizRoom->getTriviaQuiz(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaQuiz());
         self::assertSame($quizRoom->getHost(), $this->entityManagerMock->inputPersistedObject[0]->getHost());
         self::assertSame($quizRoom->getTriviaParticipants(), $this->entityManagerMock->inputPersistedObject[0]->getTriviaParticipants());
         self::assertFalse($this->entityManagerMock->isFlushCalled);

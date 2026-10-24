@@ -7,7 +7,6 @@ namespace CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\Triv
 use CuriosityConference\Adapters\Inbound\Controller\API\V1\TriviaQuestion\ByRoomLoadController;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaAnswer;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuestion;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Tests\Unit\Inbound\Controller\API\V1\TriviaQuestion\Mocks\ByRoomLoadHandlerMock;
 use CuriosityConference\Adapters\Tests\Unit\Mocks\LoggerMock;
 use CuriosityConference\Domain\Exception\LoadEntityFailedException;
@@ -39,16 +38,9 @@ final class ByRoomLoadControllerTest extends TestCase
 
     public function testLoadIsValid(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-            'test',
-            'test',
-        );
         $expectedQuestion = new TriviaQuestion(
             'test',
             'test',
-            $quiz,
             new ArrayCollection([
                 new TriviaAnswer(
                     'test',
@@ -83,16 +75,9 @@ final class ByRoomLoadControllerTest extends TestCase
 
     public function testLoadWithEmptyStringException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-            'test',
-            'test',
-        );
         $expectedQuestion = new TriviaQuestion(
             'test',
             'test',
-            $quiz,
             new ArrayCollection([
                 new TriviaAnswer(
                     'test',
@@ -127,16 +112,9 @@ final class ByRoomLoadControllerTest extends TestCase
 
     public function testLoadWithLoadEntityFailedException(): void
     {
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-            'test',
-            'test',
-        );
         $expectedQuestion = new TriviaQuestion(
             'test',
             'test',
-            $quiz,
             new ArrayCollection([
                 new TriviaAnswer(
                     'test',

@@ -5,11 +5,10 @@ declare(strict_types=1);
 namespace CuriosityConference\Application\Tests\Unit\UseCase\TriviaQuiz;
 
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuestion;
-use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuiz;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Adapters\Outbound\Persistence\Entity\User;
 use CuriosityConference\Application\Tests\Unit\Mocks\HubMock;
-use CuriosityConference\Application\Tests\Unit\Mocks\QuestionByIdLoaderMock;
+use CuriosityConference\Application\Tests\Unit\Mocks\QuestionLoaderMock;
 use CuriosityConference\Application\Tests\Unit\Mocks\RoomByIdLoaderMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\TriviaQuiz\Mocks\HighscorePersisterMock;
 use CuriosityConference\Application\Tests\Unit\UseCase\TriviaQuiz\Mocks\RoomUpdaterMock;
@@ -27,7 +26,7 @@ final class StartHandlerTest extends TestCase
 {
     private RoomUpdaterMock $roomUpdaterMock;
     private RoomByIdLoaderMock $roomByIdLoaderMock;
-    private QuestionByIdLoaderMock $questionByIdLoaderMock;
+    private QuestionLoaderMock $questionByIdLoaderMock;
     private HighscorePersisterMock $highscorePersisterMock;
     private HubMock $hubMock;
     private StartHandler $startHandler;
@@ -36,7 +35,7 @@ final class StartHandlerTest extends TestCase
     {
         $this->roomUpdaterMock = new RoomUpdaterMock();
         $this->roomByIdLoaderMock = new RoomByIdLoaderMock();
-        $this->questionByIdLoaderMock = new QuestionByIdLoaderMock();
+        $this->questionByIdLoaderMock = new QuestionLoaderMock();
         $this->highscorePersisterMock = new HighscorePersisterMock();
         $this->hubMock = new HubMock();
         $this->startHandler = new StartHandler(
@@ -52,10 +51,6 @@ final class StartHandlerTest extends TestCase
     {
         $quizRoomId = new Id('test');
 
-        $quiz = new TriviaQuiz(
-            'test',
-            'test',
-        );
         $host = new User(
             'test',
             'test',
@@ -63,14 +58,12 @@ final class StartHandlerTest extends TestCase
         $initialQuestion = new TriviaQuestion(
             'initial-question',
             'test',
-            $quiz,
             new ArrayCollection(),
         );
 
         $quizRoom = new TriviaQuizRoom(
             'test',
             'test',
-            $quiz,
             $initialQuestion,
             $host,
             TriviaQuizRoom::STATUS_CREATED,
@@ -85,19 +78,16 @@ final class StartHandlerTest extends TestCase
             new TriviaQuestion(
                 'test',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test2',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
             new TriviaQuestion(
                 'test3',
                 'test',
-                $quiz,
                 new ArrayCollection(),
             ),
         ]);
@@ -109,7 +99,6 @@ final class StartHandlerTest extends TestCase
         self::assertSame('test', $this->roomUpdaterMock->inputQuizRoom->getId());
         self::assertSame('test', $this->roomUpdaterMock->inputQuizRoom->getCurrentTriviaQuestion()->getId());
         self::assertSame(TriviaQuizRoom::STATUS_STARTED, $this->roomUpdaterMock->inputQuizRoom->getStatus());
-        self::assertSame('test', $this->questionByIdLoaderMock->inputQuiz->getId());
         self::assertSame('test', $this->highscorePersisterMock->inputQuizRoom->getId());
         self::assertSame('test', $this->highscorePersisterMock->inputQuizRoom->getCurrentTriviaQuestion()->getId());
         self::assertSame(TriviaQuizRoom::STATUS_STARTED, $this->highscorePersisterMock->inputQuizRoom->getStatus());

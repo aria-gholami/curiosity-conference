@@ -1,7 +1,5 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
-import { useFetchQuizList } from '~/components/trivia/hooks/useFetchQuizList';
-import type { QuizState } from '~/features/quiz/state/Initial';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
 import type { QuizRoomCreateRequestBody } from '~/features/quizRoom/state/QuizRoomCreateRequestBody';
@@ -19,11 +17,9 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
     const dispatch = useAppDispatch();
     const [quizRoomTitle, setQuizRoomTitle] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
-    const quizState: QuizState = useAppSelector((state) => state.quiz);
     const userState: UserState = useAppSelector((state) => state.user);
     const MAX_ROOM_TITLE_LENGTH = 15;
 
-    useFetchQuizList();
     useBodyScrollLock(open);
     if (!open) {
         return null;
@@ -43,7 +39,6 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
 
         const requestBody: QuizRoomCreateRequestBody = {
             hostId: userState.userId,
-            quizId: quizState.quiz.id,
             title: quizRoomTitle,
         };
 

@@ -16,7 +16,7 @@ export default function handleUpdateQuizQuestionContinue(
     eventSource.onmessage = (event) => {
         const data = JSON.parse(event.data);
         store.dispatch(setSelectedAnswerId(''));
-        store.dispatch(removeCurrentQuestion(roomId));
+        store.dispatch(removeCurrentQuestion());
         store.dispatch(updateQuizRoomStatus({ action: data.status, roomId }));
     };
 

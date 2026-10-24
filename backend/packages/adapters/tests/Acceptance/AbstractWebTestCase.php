@@ -27,6 +27,5 @@ abstract class AbstractWebTestCase extends WebTestCase
         $this->connection->executeStatement('DELETE FROM user;');
         $this->connection->executeStatement('DELETE FROM trivia_answer;');
         $this->connection->executeStatement('DELETE FROM trivia_question;');
-        $this->connection->executeStatement('DELETE FROM trivia_quiz;');
     }
 }
