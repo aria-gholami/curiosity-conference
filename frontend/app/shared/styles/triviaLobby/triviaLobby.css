@@ -1,3 +1,5 @@
+@import 'triviaLobbyPartivipantList.css';
+
 /* Main container */
 .trivia-lobby-container {
     @apply relative z-10 mx-auto flex max-w-5xl flex-col px-6 pb-20 pt-14 sm:px-8;
