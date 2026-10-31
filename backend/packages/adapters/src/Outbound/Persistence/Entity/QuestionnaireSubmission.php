@@ -20,14 +20,25 @@ final class QuestionnaireSubmission
     #[ORM\Column(type: 'uuid')]
     private string $id;
 
-    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'questionnaireSubmissions')]
+    #[ORM\OneToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private User $user;
 
     /**
      * @var Collection<int, QuestionnaireAnswer>
      */
-    #[ORM\OneToMany(mappedBy: 'questionnaire_answer', targetEntity: QuestionnaireAnswer::class)]
+    #[ORM\ManyToMany(
+        targetEntity: QuestionnaireAnswer::class
+    )]
+    #[ORM\JoinTable(name: 'questionnaire_submission_answer')]
+    #[ORM\JoinColumn(
+        name: 'questionnaire_submission_id',
+        referencedColumnName: 'id'
+    )]
+    #[ORM\InverseJoinColumn(
+        name: 'questionnaire_answer_id',
+        referencedColumnName: 'id'
+    )]
     private Collection $questionnaireAnswerCollection;
 
     public function __construct(string $id, User $user, Collection $questionnaireAnswerCollection)
