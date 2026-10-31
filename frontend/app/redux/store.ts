@@ -5,6 +5,7 @@ import quizRoomSlice from '~/features/quizRoom/quizRoomSlice';
 import userSlice from '~/features/user/userSlice';
 import quizSlice from '~/features/quiz/quizSlice';
 import { mercureMiddleware } from '~/redux/middleware/mercureMiddleware';
+import questionnaireSlice from '~/features/questionnaire/questionnaireSlice';
 
 const createNoopStorage = () => ({
     getItem(_key: string) {
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
     quizRoom: quizRoomSlice.reducer,
     user: userSlice.reducer,
     quiz: quizSlice.reducer,
+    questionnaire: questionnaireSlice.reducer,
 });
 const persistConfig = {
     key: 'root',
