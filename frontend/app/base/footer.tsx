@@ -12,7 +12,7 @@ export default function Footer() {
                 <div className="flex items-center gap-2">
                     <SparklesIcon className="h-3.5 w-3.5 text-indigo-400" />
                     <span className="text-sm font-medium text-slate-600">
-                        © 2026 Curious Activities
+                        © 2027 Curious Activities
                     </span>
                 </div>
 
