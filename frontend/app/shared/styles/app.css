@@ -6,6 +6,7 @@
 @import 'background.css';
 @import 'triviaLobby/triviaLobby.css';
 @import 'components/popup.css';
+@import 'triviaQuiz/triviaQuiz.css';
 
 @theme {
     --color-turquoise: #3dd6e0;

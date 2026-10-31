@@ -1,4 +1,4 @@
-import { MENU_STYLES } from '~/shared/styles/menuStyles';
+import { MENU_STYLES } from '~/shared/styles/base/menuStyles';
 import { ChevronRightIcon, HomeIcon, TrophyIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import { ArrowRightStartOnRectangleIcon } from '@heroicons/react/16/solid';
 import { useNavigate } from 'react-router';

@@ -1,0 +1,94 @@
+/* Question container */
+.trivia-quiz-question {
+    @apply w-full max-w-4xl rounded-[2.5rem] p-6 sm:p-8;
+}
+
+/* Question card */
+.trivia-quiz-question-card {
+    @apply flex min-h-[200px] flex-col items-center justify-center rounded-3xl px-8 py-10 text-center;
+}
+
+.trivia-quiz-question-title {
+    @apply text-2xl font-bold leading-snug text-dark-blue sm:text-3xl;
+}
+
+/* Answer grid */
+.trivia-quiz-question-answers {
+    @apply mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2;
+}
+
+/* Answer button */
+.trivia-quiz-question-answer {
+    @apply relative flex cursor-pointer items-center gap-4 rounded-2xl border-2 px-6 py-5 text-left transition-all duration-200;
+}
+
+/* Default answer */
+.trivia-quiz-question-answer-default {
+    @apply border-transparent bg-slate-50 text-dark-blue hover:border-turquoise hover:shadow-md;
+}
+
+/* Selected answer */
+.trivia-quiz-question-answer-selected {
+    @apply scale-[1.02] border-dark-blue bg-dark-blue text-white shadow-lg;
+}
+
+/* Correct answer revealed */
+.trivia-quiz-question-answer-correct {
+    @apply z-20 scale-[1.05];
+}
+
+/* Incorrect answer revealed */
+.trivia-quiz-question-answer-dimmed {
+    @apply opacity-50 grayscale-[0.5];
+}
+
+/* Answer letter */
+.trivia-quiz-question-answer-letter {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold transition-colors;
+}
+
+.trivia-quiz-question-answer-letter-default {
+    @apply bg-dark-blue text-white;
+}
+
+.trivia-quiz-question-answer-default:hover .trivia-quiz-question-answer-letter-default {
+    @apply bg-turquoise;
+}
+
+.trivia-quiz-question-answer-letter-selected {
+    @apply bg-white text-dark-blue;
+}
+
+/* Answer text */
+.trivia-quiz-question-answer-text {
+    @apply text-lg font-semibold;
+}
+
+/* Host actions */
+.trivia-quiz-question-host-actions {
+    @apply mt-10 flex flex-col justify-center gap-4 sm:flex-row;
+}
+
+/* Next question button */
+.trivia-quiz-question-next-button {
+    @apply rounded-2xl px-10 py-4 text-lg shadow-xl transition-transform hover:scale-105;
+}
+
+.trivia-quiz-question-next-button-disabled {
+    @apply cursor-not-allowed opacity-50;
+}
+
+/* Delete room button */
+.trivia-quiz-question-delete-button {
+    @apply cursor-pointer rounded-2xl border-2 border-red-500/50 px-10 py-4 text-lg font-bold text-red-500 shadow-lg transition-all hover:scale-105 hover:bg-red-500 hover:text-white;
+}
+
+/* Player actions */
+.trivia-quiz-question-player-actions {
+    @apply mt-10 flex justify-center;
+}
+
+/* Leave room button */
+.trivia-quiz-question-leave-button {
+    @apply cursor-pointer rounded-2xl border-2 border-white/20 px-10 py-4 text-lg font-bold text-white/70 shadow-lg transition-all hover:scale-105 hover:bg-white/10 hover:text-white;
+}

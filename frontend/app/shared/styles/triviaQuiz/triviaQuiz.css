@@ -1,0 +1,60 @@
+@import 'triviaQuizQuestion.css';
+
+/* Main container */
+.trivia-quiz-container {
+    @apply relative z-10 mx-auto flex max-w-5xl flex-col px-6 pb-20 pt-14 sm:px-8;
+}
+
+/* Header */
+.trivia-quiz-header {
+    @apply flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between;
+}
+
+.trivia-quiz-subtitle {
+    @apply text-sm uppercase tracking-[0.14em] text-text-light;
+}
+
+.trivia-quiz-title {
+    @apply mt-3 text-4xl font-semibold tracking-[-0.02em] text-white sm:text-5xl;
+}
+
+/* Room badge */
+.trivia-quiz-room-badge {
+    @apply rounded-full border border-white/20 bg-white/10 px-4 py-2 backdrop-blur-md;
+}
+
+.trivia-quiz-room-name {
+    @apply font-medium text-white;
+}
+
+/* Quiz content */
+.trivia-quiz-content {
+    @apply mt-12 flex flex-col items-center;
+}
+
+/* Participants */
+.trivia-quiz-participants {
+    @apply mt-8 flex w-full justify-center gap-4 overflow-x-auto pb-4;
+}
+
+.trivia-quiz-participant {
+    @apply flex min-w-[80px] flex-col items-center gap-2;
+}
+
+/* Participant avatar */
+.trivia-quiz-participant-avatar-container {
+    @apply relative;
+}
+
+.trivia-quiz-participant-avatar {
+    @apply flex h-12 w-12 items-center justify-center rounded-full border border-white/30 bg-white/20 font-bold text-white shadow-sm backdrop-blur-md;
+}
+
+.trivia-quiz-participant-status {
+    @apply absolute -bottom-1 -right-1 h-4 w-4 rounded-full border-2 border-slate-900 bg-green-500;
+}
+
+/* Participant name */
+.trivia-quiz-participant-name {
+    @apply max-w-[80px] truncate text-xs font-medium text-white/80;
+}
