@@ -37,7 +37,7 @@ export default function TriviaQuizQuestion(props: TriviaQuizQuestionProps) {
                             className={[
                                 'trivia-quiz-question-answer',
                                 isCorrectRevealed
-                                    ? 'trivia-quiz-question-answer-correct'
+                                    ? 'reveal-correct trivia-quiz-question-answer-correct'
                                     : isSelected
                                       ? 'trivia-quiz-question-answer-selected'
                                       : 'trivia-quiz-question-answer-default',
