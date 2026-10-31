@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 #[CoversNothing(PersistController::class)]
 final class PersistControllerTest extends AbstractWebTestCase
 {
-    public function testPersistTriviaIsValid(): void
+    public function testPersistQuestionnaireIsValid(): void
     {
         $payload = [
             'questions' => [
@@ -44,7 +44,7 @@ final class PersistControllerTest extends AbstractWebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
     }
 
-    public function testPersistTriviaIsValidWithoutShowResults(): void
+    public function testPersistQuestionnaireIsValidWithoutShowResults(): void
     {
         $payload = [
             'questions' => [
@@ -73,7 +73,7 @@ final class PersistControllerTest extends AbstractWebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
     }
 
-    public function testPersistTriviaWithUnauthorized(): void
+    public function testPersistQuestionnaireWithUnauthorized(): void
     {
         $payload = [
             'questions' => [
@@ -102,7 +102,7 @@ final class PersistControllerTest extends AbstractWebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_UNAUTHORIZED);
     }
 
-    public function testPersistTriviaWithBadRequestAndNoQuestion(): void
+    public function testPersistQuestionnaireWithBadRequestAndNoQuestion(): void
     {
         $payload = [
             'questions' => [
@@ -132,7 +132,7 @@ final class PersistControllerTest extends AbstractWebTestCase
         self::assertResponseStatusCodeSame(Response::HTTP_BAD_REQUEST);
     }
 
-    public function testPersistTriviaWithBadRequestAndNoAnswers(): void
+    public function testPersistQuestionnaireWithBadRequestAndNoAnswers(): void
     {
         $payload = [
             'questions' => [

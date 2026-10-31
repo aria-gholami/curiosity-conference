@@ -28,16 +28,16 @@ final class QuestionnaireSubmission
      * @var Collection<int, QuestionnaireAnswer>
      */
     #[ORM\ManyToMany(
-        targetEntity: QuestionnaireAnswer::class
+        targetEntity: QuestionnaireAnswer::class,
     )]
     #[ORM\JoinTable(name: 'questionnaire_submission_answer')]
     #[ORM\JoinColumn(
         name: 'questionnaire_submission_id',
-        referencedColumnName: 'id'
+        referencedColumnName: 'id',
     )]
     #[ORM\InverseJoinColumn(
         name: 'questionnaire_answer_id',
-        referencedColumnName: 'id'
+        referencedColumnName: 'id',
     )]
     private Collection $questionnaireAnswerCollection;
 

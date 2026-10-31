@@ -113,6 +113,12 @@ services:
       - '@api.v1.questionnaire.logger'
     tags:
       - { name: 'controller.service_arguments' }
+  CuriosityConference\Adapters\Inbound\Controller\API\V1\QuestionnaireQuestion\LoadController:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\QuestionnaireAnswer\Loader'
+      - '@api.v1.questionnaire.logger'
+    tags:
+      - { name: 'controller.service_arguments' }
 
   CuriosityConference\Adapters\Outbound\User\Persister:
     arguments:
@@ -197,6 +203,10 @@ services:
   CuriosityConference\Adapters\Outbound\QuestionnaireAnswer\Persister:
     arguments:
       - '@doctrine.orm.entity_manager'
+      - '@api.v1.questionnaire.logger'
+  CuriosityConference\Adapters\Outbound\QuestionnaireAnswer\Loader:
+    arguments:
+      - '@CuriosityConference\Adapters\Outbound\Persistence\Repository\QuestionnaireAnswerRepository'
       - '@api.v1.questionnaire.logger'
 
   CuriosityConference\Adapters\Outbound\QuestionnaireQuestion\QuestionResetter:
