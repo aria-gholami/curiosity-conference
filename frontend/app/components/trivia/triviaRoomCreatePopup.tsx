@@ -1,16 +1,13 @@
 import { PlusIcon } from '@heroicons/react/24/solid';
 import { useState } from 'react';
+import type { FormEvent } from 'react';
 import { useAppDispatch, useAppSelector } from '~/redux/hooks';
 import { createQuizRoom } from '~/features/quizRoom/reducers/createQuizRoom';
 import type { QuizRoomCreateRequestBody } from '~/features/quizRoom/state/QuizRoomCreateRequestBody';
 import type { UserState } from '~/features/user/state/Initial';
 import { useNavigate } from 'react-router';
 import { useBodyScrollLock } from '~/hooks/useBodyScrollLock';
-
-type TriviaRoomCreatePopupProps = {
-    open: boolean;
-    onClose: () => void;
-};
+import type TriviaRoomCreatePopupProps from '~/components/trivia/types/TriviaRoomCreatePopupProps';
 
 export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreatePopupProps) {
     const navigate = useNavigate();
@@ -25,13 +22,12 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
         return null;
     }
 
-    const handleSubmit = async (event: React.FormEvent) => {
+    const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (quizRoomTitle.length === 0) {
             setErrorMessage("The room title can't be empty.");
             return;
         }
-
         if (quizRoomTitle.length > MAX_ROOM_TITLE_LENGTH) {
             setErrorMessage('The room title must not exceed 15 characters.');
             return;
@@ -47,33 +43,26 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
     };
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
-            <div className="absolute inset-0 bg-dark-blue/55 backdrop-blur-md" />
+        <div className="popup">
+            <div className="popup-overlay" />
+            <div className="glass popup-container">
+                <div className="popup-glow-turquoise" />
+                <div className="popup-glow-dark-blue" />
+                <div className="popup-gradient" />
 
-            <div className="glass relative w-full max-w-lg overflow-hidden rounded-[2rem] border border-white/20 bg-white/90">
-                <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-turquoise/15 blur-3xl" />
-                <div className="pointer-events-none absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-dark-blue/20 blur-3xl" />
-                <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.6)_0%,transparent_55%)]" />
-
-                <form onSubmit={handleSubmit} className="relative p-6 sm:p-8">
-                    <div className="flex items-start justify-between gap-4">
+                <form onSubmit={handleSubmit} className="popup-content">
+                    <div className="trivia-room-create-popup-header">
                         <div>
-                            <div className="inline-flex items-center gap-2 rounded-full border border-turquoise/20 bg-turquoise/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-dark-blue">
-                                Trivia Challenge
-                            </div>
-
-                            <h2 className="mt-4 text-2xl font-semibold tracking-[-0.02em] text-dark-blue sm:text-3xl">
-                                Create Trivia Room
-                            </h2>
-
-                            <p className="mt-3 text-sm leading-6 text-card-text sm:text-base">
+                            <div className="popup-badge">Trivia Challenge</div>
+                            <h2 className="popup-title">Create Trivia Room</h2>
+                            <p className="popup-description">
                                 Create a new room for the selected quiz and invite other
                                 participants to join.
                             </p>
                         </div>
                     </div>
 
-                    <div className="mt-3 space-y-4">
+                    <div className="trivia-room-create-popup-fields">
                         <div>
                             <label htmlFor="roomTitle" className="input-label">
                                 Title
@@ -92,19 +81,20 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
                                     setErrorMessage('');
                                 }}
                             />
-                            <div className="mt-2 flex items-start justify-between gap-3">
-                                <div className="min-w-0 flex-1">
+
+                            <div className="trivia-room-create-popup-input-footer">
+                                <div className="trivia-room-create-popup-error-container">
                                     {errorMessage && (
-                                        <p className="text-xs leading-5 text-red-600 mb-2">
+                                        <p className="trivia-room-create-popup-error">
                                             {errorMessage}
                                         </p>
                                     )}
                                 </div>
                                 <span
-                                    className={`shrink-0 text-xs leading-3 ${
+                                    className={`trivia-room-create-popup-character-count ${
                                         quizRoomTitle.length > MAX_ROOM_TITLE_LENGTH
-                                            ? 'font-semibold text-red-600'
-                                            : 'text-card-text'
+                                            ? 'trivia-room-create-popup-character-count-error'
+                                            : ''
                                     }`}
                                 >
                                     {quizRoomTitle.length}/{MAX_ROOM_TITLE_LENGTH}
@@ -113,14 +103,14 @@ export default function TriviaRoomCreatePopup({ open, onClose }: TriviaRoomCreat
                         </div>
                     </div>
 
-                    <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                    <div className="popup-actions">
                         <button
                             type="submit"
                             disabled={!quizRoomTitle}
-                            className="btn-primary group gap-2.5 px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)] disabled:cursor-not-allowed disabled:opacity-60"
+                            className="btn-primary popup-confirm group trivia-room-create-popup-submit"
                         >
                             <span>Create Room</span>
-                            <PlusIcon className="h-4 w-4" />
+                            <PlusIcon className="trivia-room-create-popup-submit-icon" />
                         </button>
 
                         <button

@@ -42,6 +42,84 @@
     @apply mt-8 flex flex-col gap-3 sm:flex-row;
 }
 
+/* Logout */
 .logout-popup-confirm {
     @apply px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)];
+}
+
+/* TriviaRoom */
+.trivia-room-create-popup-header {
+    @apply flex items-start justify-between gap-4;
+}
+
+.trivia-room-create-popup-fields {
+    @apply mt-3 space-y-4;
+}
+.trivia-room-create-popup-input-footer {
+    @apply mt-2 flex items-start justify-between gap-3;
+}
+.trivia-room-create-popup-error-container {
+    @apply min-w-0 flex-1;
+}
+.trivia-room-create-popup-error {
+    @apply mb-2 text-xs leading-5 text-red-600;
+}
+
+.trivia-room-create-popup-character-count {
+    @apply shrink-0 text-xs leading-3 text-card-text;
+}
+.trivia-room-create-popup-character-count-error {
+    @apply font-semibold text-red-600;
+}
+
+.trivia-room-create-popup-submit {
+    @apply gap-2.5 px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)] disabled:cursor-not-allowed disabled:opacity-60;
+}
+.trivia-room-create-popup-submit-icon {
+    @apply h-4 w-4;
+}
+
+/* Trivia Room participants */
+.trivia-room-participants-popup-header {
+    @apply flex items-start justify-between gap-4;
+}
+.trivia-room-participants-popup-heading {
+    @apply min-w-0;
+}
+.trivia-room-participants-popup-badge-icon {
+    @apply h-3.5 w-3.5;
+}
+.trivia-room-participants-popup-description {
+    @apply mt-2 text-sm leading-6 text-card-text sm:text-base;
+}
+
+.trivia-room-participants-popup-close {
+    @apply shrink-0 cursor-pointer rounded-full p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600;
+}
+.trivia-room-participants-popup-close-icon {
+    @apply h-6 w-6;
+}
+
+.trivia-room-participants-popup-list {
+    @apply mt-6 flex max-h-60 min-w-0 flex-col gap-3 overflow-x-hidden overflow-y-auto pr-1;
+}
+
+.trivia-room-participants-popup-item {
+    @apply flex w-full min-w-0 items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3;
+}
+.trivia-room-participants-popup-avatar {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-dark-blue text-xs font-semibold text-white;
+}
+.trivia-room-participants-popup-participant-info {
+    @apply flex min-w-0 flex-1 flex-col;
+}
+.trivia-room-participants-popup-name {
+    @apply truncate text-sm font-semibold text-dark-blue;
+}
+.trivia-room-participants-popup-role {
+    @apply text-xs text-card-text;
+}
+
+.trivia-room-participants-popup-empty {
+    @apply py-8 text-center text-sm text-card-text;
 }
