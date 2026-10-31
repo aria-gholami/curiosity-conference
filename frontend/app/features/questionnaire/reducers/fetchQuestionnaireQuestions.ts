@@ -53,7 +53,7 @@ export const fetchQuestionnaireQuestions = createAsyncThunk<
     {
         condition: (_, { getState }) => {
             const { questionnaire } = getState() as RootState;
-            if (questionnaire.questions.length === 0 && !questionnaire.isLoading) {
+            if (questionnaire.questions.length !== 0 && !questionnaire.isLoading) {
                 return false;
             }
         },
