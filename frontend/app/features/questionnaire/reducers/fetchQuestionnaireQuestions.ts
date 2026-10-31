@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import type { RootState } from '~/redux/store';
-import type {QuestionnaireState, Questions} from '~/features/questionnaire/state/Initial';
+import type { QuestionnaireState, Questions } from '~/features/questionnaire/state/Initial';
 import type QuestionnaireQuestionsResponse from '~/features/questionnaire/state/QuestionnaireQuestionsResponse';
 
 export const fetchQuestionnaireQuestions = createAsyncThunk<
