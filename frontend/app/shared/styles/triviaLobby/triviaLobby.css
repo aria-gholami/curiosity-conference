@@ -1,0 +1,76 @@
+/* Main container */
+.trivia-lobby-container {
+    @apply relative z-10 mx-auto flex max-w-5xl flex-col px-6 pb-20 pt-14 sm:px-8;
+}
+
+/* Header */
+.trivia-lobby-header {
+    @apply flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between;
+}
+
+.trivia-lobby-subtitle {
+    @apply text-sm uppercase tracking-[0.14em] text-text-light;
+}
+
+.trivia-lobby-title {
+    @apply mt-3 text-4xl font-semibold tracking-[-0.02em] text-white sm:text-5xl;
+}
+
+.trivia-lobby-description {
+    @apply mt-3 max-w-2xl text-sm leading-6 text-text-soft sm:text-base;
+}
+
+/* Lobby content */
+.trivia-lobby-content {
+    @apply mt-10 flex justify-center;
+}
+
+.trivia-lobby-panel {
+    @apply w-full max-w-3xl rounded-[2rem] p-5 sm:p-6;
+}
+
+.trivia-lobby-card {
+    @apply rounded-3xl px-6 py-6;
+}
+
+/* Room header */
+.trivia-lobby-room-header {
+    @apply flex min-w-0 flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between;
+}
+
+.trivia-lobby-room-info {
+    @apply min-w-0 flex-1;
+}
+
+.trivia-lobby-room-title {
+    @apply break-words text-2xl font-semibold text-dark-blue [overflow-wrap:anywhere] sm:text-3xl;
+}
+
+.trivia-lobby-participants-title {
+    @apply mt-2 text-xl font-semibold text-dark-blue;
+}
+
+.trivia-lobby-participants-description {
+    @apply mt-1 text-sm text-card-text;
+}
+
+.trivia-lobby-participants-count {
+    @apply flex w-full shrink-0 items-center justify-center rounded-full bg-dark-blue px-4 py-2 text-center text-xs font-semibold uppercase tracking-[0.12em] text-white sm:w-auto;
+}
+
+/* Actions */
+.trivia-lobby-actions {
+    @apply mt-8 flex flex-col gap-3;
+}
+
+.trivia-lobby-start-button {
+    @apply flex items-center justify-center gap-2;
+}
+
+.trivia-lobby-leave-button {
+    @apply flex items-center justify-center gap-2;
+}
+
+.trivia-lobby-action-icon {
+    @apply h-4 w-4;
+}

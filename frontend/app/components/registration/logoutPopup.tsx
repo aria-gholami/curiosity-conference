@@ -8,26 +8,20 @@ export default function LogoutPopup({ open, onCancel, onConfirm }: LogoutPopupPr
     }
 
     return (
-        <div className="logout-popup">
-            <div className="logout-popup-overlay" onClick={onCancel} />
+        <div className="popup" role="dialog" aria-modal="true" aria-labelledby="logout-title">
+            <div className="popup-overlay" onClick={onCancel} />
+            <div className="glass popup-container">
+                <div className="popup-glow-turquoise" />
+                <div className="popup-glow-dark-blue" />
+                <div className="popup-gradient" />
+                <div className="popup-content">
+                    <div className="popup-badge">Logout</div>
+                    <h2 id="logout-title" className="popup-title">
+                        Leave session?
+                    </h2>
+                    <p className="popup-description">Are you sure you want to log out?</p>
 
-            <div className="glass logout-popup-container">
-                <div className="logout-popup-glow-turquoise" />
-                <div className="logout-popup-glow-dark-blue" />
-                <div className="logout-popup-gradient" />
-
-                <div className="logout-popup-content">
-                    <div className="logout-popup-header">
-                        <div className="logout-popup-badge">Logout</div>
-
-                        <h2 className="logout-popup-title">Leave session?</h2>
-
-                        <p className="logout-popup-description">
-                            Are you sure you want to log out?
-                        </p>
-                    </div>
-
-                    <div className="logout-popup-actions">
+                    <div className="popup-actions">
                         <button
                             type="button"
                             onClick={onConfirm}

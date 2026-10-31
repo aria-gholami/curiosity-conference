@@ -1,6 +1,11 @@
 @import 'tailwindcss';
-@import './base/header.css';
-@import './base/footer.css';
+@import 'base/header.css';
+@import 'base/footer.css';
+@import 'home.css';
+@import 'triviaRoomList.css';
+@import 'background.css';
+@import 'triviaLobby/triviaLobby.css';
+@import 'components/popup.css';
 
 @theme {
     --color-turquoise: #3dd6e0;

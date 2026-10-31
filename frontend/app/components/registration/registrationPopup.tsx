@@ -26,7 +26,6 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
             setErrorMessage("Your username can't be empty.");
             return;
         }
-
         if (userName.length > MAX_USERNAME_LENGTH) {
             setErrorMessage('Your username must not exceed 15 characters.');
             return;
@@ -41,24 +40,20 @@ export default function RegistrationPopup({ open }: RegistrationPopupProps) {
     };
 
     return (
-        <div className="registration-popup">
-            <div className="registration-popup-overlay" />
-
-            <div className="glass registration-popup-container">
-                <div className="registration-popup-glow-turquoise" />
-                <div className="registration-popup-glow-dark-blue" />
-                <div className="registration-popup-gradient" />
-
-                <form onSubmit={handleSubmit} className="registration-popup-form">
+        <div className="popup">
+            <div className="popup-overlay" />
+            <div className="glass popup-container">
+                <div className="popup-glow-turquoise" />
+                <div className="popup-glow-dark-blue" />
+                <div className="popup-gradient" />
+                <form onSubmit={handleSubmit} className="popup-content">
                     <div className="registration-popup-header">
-                        <div>
-                            <div className="registration-popup-badge">Registration</div>
-                            <h2 className="registration-popup-title">Sign up now</h2>
-                            <p className="registration-popup-description">
-                                Register to join interactive activities, meet other participants,
-                                and explore ideas together.
-                            </p>
-                        </div>
+                        <div className="popup-badge">Registration</div>
+                        <h2 className="popup-title">Sign up now</h2>
+                        <p className="popup-description">
+                            Register to join interactive activities, meet other participants, and
+                            explore ideas together.
+                        </p>
                     </div>
 
                     <div className="mt-3">

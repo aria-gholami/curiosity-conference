@@ -8,17 +8,7 @@ import type QuizRoomDeleteParams from '~/features/quizRoom/state/QuizRoomDeleteR
 import type QuizRoomStartRequestBody from '~/features/quizRoom/state/QuizRoomStartRequestBody';
 import { startQuizRoom } from '~/features/quizRoom/reducers/startQuizRoom';
 import { revealAnswer } from '~/features/quizRoom/reducers/revealAnswer';
-
-type ConfirmationAction =
-    | {
-          type: 'remove';
-          participantId: string;
-          participantName: string;
-      }
-    | { type: 'delete' }
-    | { type: 'leave' }
-    | { type: 'start' }
-    | { type: 'next' };
+import type { ConfirmationAction } from '~/components/trivia/types/ConfirmationAction';
 
 export const useConfirmation = () => {
     const dispatch = useAppDispatch();

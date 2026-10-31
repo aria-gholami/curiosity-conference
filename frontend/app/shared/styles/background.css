@@ -1,0 +1,19 @@
+.page-background {
+    @apply relative min-h-screen overflow-hidden font-sans bg-(image:--background-main);
+}
+
+.page-background-overlay {
+    @apply absolute inset-0 bg-(image:--background-overlay);
+}
+
+.page-glow-turquoise {
+    @apply pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-turquoise-glow blur-3xl;
+}
+
+.page-glow-dark-blue {
+    @apply pointer-events-none absolute -left-24 top-1/3 h-72 w-72 rounded-full bg-dark-blue-glow blur-3xl;
+}
+
+.page-glow-light-blue {
+    @apply pointer-events-none absolute bottom-0 right-1/4 h-64 w-64 rounded-full bg-light-blue-glow blur-3xl;
+}

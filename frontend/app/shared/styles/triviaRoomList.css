@@ -1,0 +1,39 @@
+/* Main container */
+.trivia-room-list-container {
+    @apply relative z-10 mx-auto flex max-w-5xl flex-col px-6 pb-20 pt-14 sm:px-8;
+}
+
+/* Header */
+.trivia-room-list-header {
+    @apply flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center;
+}
+
+.trivia-room-list-subtitle {
+    @apply text-sm uppercase tracking-[0.14em] text-text-light;
+}
+
+.trivia-room-list-title {
+    @apply mt-3 text-4xl font-semibold tracking-[-0.02em] text-white sm:text-5xl;
+}
+
+.trivia-room-list-description {
+    @apply mt-3 max-w-2xl text-sm leading-6 text-text-soft sm:text-base;
+}
+
+/* Create room button */
+.trivia-room-list-create-button {
+    @apply flex items-center gap-2;
+}
+
+.trivia-room-list-create-icon {
+    @apply h-5 w-5;
+}
+
+/* Room list */
+.trivia-room-list-room-list {
+    @apply mt-10 max-h-[60vh] overflow-y-auto rounded-[2rem] p-5 sm:p-6;
+}
+
+.trivia-room-list-room-items {
+    @apply flex flex-col gap-4;
+}

@@ -26,11 +26,11 @@ export default function TriviaRoomList() {
     useResetQuiz();
 
     return (
-        <div className="relative min-h-screen overflow-hidden font-sans bg-(image:--background-main)">
-            <div className="absolute inset-0 bg-(image:--background-overlay)" />
-            <div className="absolute -right-32 -top-32 h-96 w-96 rounded-full blur-3xl bg-turquoise-glow" />
-            <div className="absolute -left-24 top-1/3 h-72 w-72 rounded-full blur-3xl bg-dark-blue-glow" />
-            <div className="absolute bottom-0 right-1/4 h-64 w-64 rounded-full blur-3xl bg-light-blue-glow" />
+        <div className="page-background">
+            <div className="page-background-overlay" />
+            <div className="page-glow-turquoise" />
+            <div className="page-glow-dark-blue" />
+            <div className="page-glow-light-blue" />
 
             <RegistrationPopup open={isRegistrationPopupOpen} />
             <TriviaRoomCreatePopup
@@ -38,16 +38,14 @@ export default function TriviaRoomList() {
                 onClose={() => setIsCreateRoomPopupOpen(false)}
             />
 
-            <div className="relative z-10 mx-auto flex max-w-5xl flex-col px-6 pb-20 pt-14 sm:px-8">
-                <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-center">
+            <div className="trivia-room-list-container">
+                <div className="trivia-room-list-header">
                     <div>
-                        <p className="text-text-light text-sm uppercase tracking-[0.14em]">
-                            Trivia Challenge
-                        </p>
-                        <h1 className="mt-3 text-4xl font-semibold tracking-[-0.02em] text-white sm:text-5xl">
-                            Quiz Rooms
-                        </h1>
-                        <p className="text-text-soft mt-3 max-w-2xl text-sm leading-6 sm:text-base">
+                        <p className="trivia-room-list-subtitle">Trivia Challenge</p>
+
+                        <h1 className="trivia-room-list-title">Quiz Rooms</h1>
+
+                        <p className="trivia-room-list-description">
                             Join an existing room or create a new quiz room for other conference
                             participants.
                         </p>
@@ -56,24 +54,22 @@ export default function TriviaRoomList() {
                     <button
                         type="button"
                         onClick={() => setIsCreateRoomPopupOpen(true)}
-                        className="btn btn-primary btn-lg flex items-center gap-2"
+                        className="btn btn-primary btn-lg trivia-room-list-create-button"
                     >
-                        <PlusIcon className="h-5 w-5" />
+                        <PlusIcon className="trivia-room-list-create-icon" />
                         <span>Create New Room</span>
                     </button>
                 </div>
 
-                <div className="glass mt-10 rounded-[2rem] p-5 sm:p-6 max-h-[60vh] overflow-y-auto">
-                    <div className="flex flex-col gap-4">
-                        {quizRoomState.rooms.map((room: QuizRoom) => {
-                            return (
-                                <TriviaRoomListItem
-                                    key={room.id}
-                                    room={room}
-                                    onShowParticipants={setSelectedParticipantsRoom}
-                                />
-                            );
-                        })}
+                <div className="glass trivia-room-list-room-list">
+                    <div className="trivia-room-list-room-items">
+                        {quizRoomState.rooms.map((room: QuizRoom) => (
+                            <TriviaRoomListItem
+                                key={room.id}
+                                room={room}
+                                onShowParticipants={setSelectedParticipantsRoom}
+                            />
+                        ))}
                     </div>
                 </div>
                 {selectedParticipantsRoom && (
