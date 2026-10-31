@@ -35,7 +35,7 @@ export default function MobileBurgerMenu(props: MobileBurgerMenuProps) {
                     <div className="mobile-menu-header">
                         <div className="mobile-menu-brand">
                             <img
-                                src="/logo.svg"
+                                src="/favicon.ico"
                                 alt="Curious Activities Logo"
                                 className="mobile-menu-logo"
                             />
