@@ -10,6 +10,7 @@ import type { QuizRoomState } from '~/features/quizRoom/state/Initial';
 import { useConfirmation } from '~/components/trivia/hooks/useConfirmation';
 import ConfirmationPopup from '~/components/trivia/confirmationPopup';
 import TriviaQuizQuestion from '~/components/trivia/triviaQuizQuestion';
+import LoadingSpinner from '~/components/loadingSpinner';
 
 export default function TriviaQuiz() {
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
@@ -43,6 +44,7 @@ export default function TriviaQuiz() {
 
     return (
         <div className="page-background">
+            <LoadingSpinner />
             <div className="page-background-overlay" />
             <div className="page-glow-turquoise" />
             <div className="page-glow-dark-blue" />

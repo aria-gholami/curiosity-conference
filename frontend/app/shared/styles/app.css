@@ -7,6 +7,7 @@
 @import 'triviaLobby/triviaLobby.css';
 @import 'components/popup.css';
 @import 'triviaQuiz/triviaQuiz.css';
+@import 'components/loadingSpinner.css';
 
 @theme {
     --color-turquoise: #3dd6e0;

@@ -11,6 +11,7 @@ import { useLobbyNotFoundRedirect } from '~/routes/hooks/useLobbyNotFoundRedirec
 import { useStartedQuiz } from '~/routes/hooks/useStartedQuiz';
 import { useConfirmation } from '~/components/trivia/hooks/useConfirmation';
 import TriviaLobbyParticipantList from '~/components/trivia/triviaLobbyParticipantList';
+import LoadingSpinner from '~/components/loadingSpinner';
 
 export default function TriviaLobby() {
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
@@ -35,6 +36,7 @@ export default function TriviaLobby() {
 
     return (
         <div className="page-background">
+            <LoadingSpinner />
             <div className="page-background-overlay" />
             <div className="page-glow-turquoise" />
             <div className="page-glow-dark-blue" />

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useDisplayRegistrationPopup } from '~/routes/hooks/useDisplayRegistrationPopup';
 import { useNavigate } from 'react-router';
 import { useFetchActiveQuizRoom } from '~/routes/hooks/useFetchActiveQuizRoom';
+import LoadingSpinner from '~/components/loadingSpinner';
 
 export default function Home() {
     const [isRegistrationPopupOpen, setIsRegistrationPopupOpen] = useState(true);
@@ -33,6 +34,7 @@ export default function Home() {
 
     return (
         <div className="page-background">
+            <LoadingSpinner />
             <div className="page-background-overlay" />
             <div className="page-glow-turquoise" />
             <div className="page-glow-dark-blue" />

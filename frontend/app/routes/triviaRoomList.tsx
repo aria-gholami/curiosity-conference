@@ -11,6 +11,7 @@ import { useFetchHighscoreByAllQuizRoom } from '~/routes/hooks/useFetchHighscore
 import TriviaRoomListItem from '~/components/trivia/triviaRoomListItem';
 import TriviaRoomParticipantsPopup from '~/components/trivia/triviaRoomParticipantsPopup';
 import { useResetQuiz } from '~/routes/hooks/useResetQuiz';
+import LoadingSpinner from '~/components/loadingSpinner';
 
 export default function TriviaRoomList() {
     const quizRoomState: QuizRoomState = useAppSelector((state) => state.quizRoom);
@@ -27,6 +28,7 @@ export default function TriviaRoomList() {
 
     return (
         <div className="page-background">
+            <LoadingSpinner />
             <div className="page-background-overlay" />
             <div className="page-glow-turquoise" />
             <div className="page-glow-dark-blue" />
