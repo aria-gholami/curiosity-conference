@@ -128,7 +128,6 @@ export default function TriviaRoomListItem({ room, onShowParticipants }: TriviaR
                                 quizRoomId: room.id,
                             };
                             dispatch(joinQuizRoom(requestBody) as any);
-                            navigate('/trivia/lobby');
                         }}
                     >
                         <span>Join</span>
