@@ -1,0 +1,51 @@
+.logout-popup {
+    @apply fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6;
+}
+
+.logout-popup-overlay {
+    @apply absolute inset-0 bg-dark-blue/55 backdrop-blur-md;
+}
+
+/* Popup container */
+.logout-popup-container {
+    @apply relative w-full max-w-lg overflow-hidden rounded-[2rem] border border-white/20 bg-white/90;
+}
+
+/* Background effects */
+.logout-popup-glow-turquoise {
+    @apply pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-turquoise/15 blur-3xl;
+}
+
+.logout-popup-glow-dark-blue {
+    @apply pointer-events-none absolute -left-12 bottom-0 h-32 w-32 rounded-full bg-dark-blue/20 blur-3xl;
+}
+
+.logout-popup-gradient {
+    @apply pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.6)_0%,transparent_55%)];
+}
+
+/* Content */
+.logout-popup-content {
+    @apply relative p-6 sm:p-8;
+}
+
+.logout-popup-badge {
+    @apply inline-flex items-center gap-2 rounded-full border border-turquoise/20 bg-turquoise/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-dark-blue;
+}
+
+.logout-popup-title {
+    @apply mt-4 text-2xl font-semibold tracking-[-0.02em] text-dark-blue sm:text-3xl;
+}
+
+.logout-popup-description {
+    @apply mt-3 text-sm leading-6 text-card-text sm:text-base;
+}
+
+/* Actions */
+.logout-popup-actions {
+    @apply mt-8 flex flex-col gap-3 sm:flex-row;
+}
+
+.logout-popup-confirm {
+    @apply px-6 py-3 shadow-[0_8px_28px_rgba(230,103,39,0.3)] hover:shadow-[0_12px_36px_rgba(230,103,39,0.4)];
+}

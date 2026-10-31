@@ -33,8 +33,5 @@ export const useFetchActiveQuizRoom = () => {
         ) {
             navigate('/trivia/list');
         }
-    }, [
-        quizRoomState.currentRoom.id,
-        quizRoomState.currentRoom.status
-    ]);
+    }, [quizRoomState.currentRoom.id, quizRoomState.currentRoom.status]);
 };

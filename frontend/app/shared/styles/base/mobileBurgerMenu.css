@@ -1,0 +1,149 @@
+.mobile-menu-container {
+    @apply relative flex h-full w-full min-w-0 flex-col overflow-x-hidden overflow-y-auto bg-(image:--background-main) text-white;
+}
+
+.mobile-menu-glow-turquoise {
+    @apply pointer-events-none absolute -right-20 top-0 h-56 w-56 rounded-full bg-turquoise-glow blur-3xl;
+}
+
+.mobile-menu-glow-dark-blue {
+    @apply pointer-events-none absolute -left-24 bottom-20 h-48 w-48 rounded-full bg-dark-blue-glow blur-3xl;
+}
+
+.mobile-menu-header {
+    @apply relative flex shrink-0 items-center justify-between gap-3 border-b border-white/10 px-5 py-6;
+}
+
+.mobile-menu-brand {
+    @apply flex min-w-0 items-center gap-3;
+}
+
+.mobile-menu-logo {
+    @apply h-12 w-12 shrink-0 object-contain transition-transform duration-300;
+}
+
+.mobile-menu-brand-text {
+    @apply min-w-0;
+}
+
+.mobile-menu-brand-title {
+    @apply text-sm font-semibold tracking-wide text-white;
+}
+
+.mobile-menu-brand-subtitle {
+    @apply mt-0.5 text-[10px] uppercase tracking-wider text-text-muted;
+}
+
+/* Mobile navigation */
+
+.mobile-menu-nav {
+    @apply relative flex min-h-0 min-w-0 flex-1 flex-col px-5 pt-8;
+}
+
+.mobile-menu-nav-heading {
+    @apply mb-5 flex items-center gap-2 px-3;
+}
+
+.mobile-menu-nav-indicator {
+    @apply h-1.5 w-1.5 shrink-0 rounded-full bg-turquoise;
+}
+
+.mobile-menu-nav-label {
+    @apply text-[10px] font-semibold uppercase tracking-[0.18em] text-text-muted;
+}
+
+.mobile-menu-nav-items {
+    @apply flex flex-col gap-2;
+}
+
+/* Navigation buttons */
+
+.mobile-menu-nav-item {
+    @apply flex w-full min-w-0 cursor-pointer items-center gap-3 rounded-2xl border border-white/10 bg-white/10 px-4 py-4 text-left select-none transition-all duration-200 hover:-translate-y-0.5 hover:bg-white/15 hover:shadow-md active:translate-y-0 active:scale-95 active:brightness-95 active:shadow-sm;
+}
+
+.mobile-menu-nav-item-home {
+    @apply hover:border-turquoise/30;
+}
+
+.mobile-menu-nav-item-trivia {
+    @apply hover:border-accent-orange/30;
+}
+
+.mobile-menu-nav-icon {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/10;
+}
+
+.mobile-menu-nav-item-trivia .mobile-menu-nav-icon {
+    @apply border-orange-400/20 bg-orange-400/10;
+}
+
+.mobile-menu-nav-icon-svg {
+    @apply h-5 w-5 text-turquoise;
+}
+
+.mobile-menu-nav-item-trivia .mobile-menu-nav-icon-svg {
+    @apply text-accent-orange;
+}
+
+.mobile-menu-nav-item-label {
+    @apply min-w-0 flex-1 text-sm font-semibold text-white;
+}
+
+.mobile-menu-nav-arrow {
+    @apply h-4 w-4 shrink-0 text-white/40 transition-transform;
+}
+
+.mobile-menu-nav-item:hover .mobile-menu-nav-arrow {
+    @apply translate-x-1;
+}
+
+/* Session */
+
+.mobile-menu-session {
+    @apply mt-auto pb-6 pt-10;
+}
+
+.mobile-menu-session-divider {
+    @apply mb-5 h-px bg-white/10;
+}
+
+.mobile-menu-session-info {
+    @apply mb-5 flex items-center justify-between gap-2 px-2;
+}
+
+.mobile-menu-session-label-container {
+    @apply flex min-w-0 items-center gap-2;
+}
+
+.mobile-menu-session-icon {
+    @apply h-5 w-5 shrink-0 text-turquoise;
+}
+
+.mobile-menu-session-label {
+    @apply text-xs font-medium text-text-soft;
+}
+
+.mobile-menu-session-active {
+    @apply shrink-0 rounded-full border border-turquoise/20 bg-turquoise/10 px-2.5 py-1 text-[10px] font-semibold text-turquoise;
+}
+
+/* Authentication */
+
+.mobile-menu-auth-button {
+    @apply flex w-full items-center justify-center gap-3 rounded-xl;
+}
+
+.mobile-menu-auth-icon {
+    @apply h-4 w-4 shrink-0;
+}
+
+/* Footer */
+
+.mobile-menu-footer {
+    @apply relative shrink-0 border-t border-white/10 px-5 py-5 text-center;
+}
+
+.mobile-menu-footer-text {
+    @apply text-[10px] font-medium uppercase tracking-[0.10em] text-text-muted;
+}

@@ -1,4 +1,6 @@
 @import 'tailwindcss';
+@import './base/header.css';
+@import './base/footer.css';
 
 @theme {
     --color-turquoise: #3dd6e0;

@@ -1,0 +1,23 @@
+@import 'mobileBurgerMenu.css';
+@import 'logoutPopup.css';
+@import 'registrationPopup.css';
+
+.sticky-header {
+    @apply sticky top-0 z-50 border-b border-white/55 bg-white/80 backdrop-blur-[20px];
+}
+
+.sticky-header-container {
+    @apply mx-auto flex max-w-6xl items-center justify-between px-6 py-3.5 sm:px-8;
+}
+
+.sticky-header-logo-link {
+    @apply flex items-center gap-3;
+}
+
+.sticky-header-login-container {
+    @apply hidden md:block;
+}
+
+.sticky-header-burger-menu-button {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/70 bg-white/60 text-slate-600 shadow-sm transition-all duration-200 hover:bg-white active:scale-95 md:hidden cursor-pointer;
+}
