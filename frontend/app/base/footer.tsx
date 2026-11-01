@@ -10,7 +10,11 @@ export default function Footer() {
         <footer className="footer">
             <div className="footer-container">
                 <div className="footer-brand">
-                    <SparklesIcon className="footer-brand-icon" />
+                    <img
+                        src="/favicon.ico"
+                        alt="Curious Activities Logo"
+                        className="footer-brand-icon"
+                    />
                     <span className="footer-copyright">© 2027 Curious Activities</span>
                 </div>
 

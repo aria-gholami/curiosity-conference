@@ -2,7 +2,8 @@
 @import 'registrationPopup.css';
 
 .sticky-header {
-    @apply sticky top-0 z-50 border-b border-white/55 bg-white/80 backdrop-blur-[20px];
+    @apply sticky top-0 z-50 border-b border-white/10 bg-[#093c66]/80 backdrop-blur-xl;
+    box-shadow: 0 8px 24px -12px rgb(0 0 0 / 0.45);
 }
 
 .sticky-header-container {
@@ -10,7 +11,7 @@
 }
 
 .sticky-header-logo-link {
-    @apply flex items-center gap-3;
+    @apply flex items-center gap-3 rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-teal-300;
 }
 
 .sticky-header-login-container {
@@ -18,5 +19,5 @@
 }
 
 .sticky-header-burger-menu-button {
-    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/70 bg-white/60 text-slate-600 shadow-sm transition-all duration-200 hover:bg-white active:scale-95 md:hidden cursor-pointer;
+    @apply flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-lg text-white/65 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300 active:scale-95 md:hidden;
 }

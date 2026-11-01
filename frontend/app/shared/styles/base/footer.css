@@ -1,36 +1,33 @@
 /* Footer */
 .footer {
-    @apply border-t border-slate-300/60 bg-white/70 font-sans shadow-[inset_0_1px_0_rgba(255,255,255,0.9)] backdrop-blur-[20px];
+    @apply border-t border-white/10 bg-[#093c66]/80 font-sans text-white/70 backdrop-blur-xl;
+    box-shadow: 0 -8px 24px -12px rgb(0 0 0 / 0.45);
 }
 
 /* Footer container */
-
 .footer-container {
     @apply mx-auto flex max-w-6xl flex-col items-center gap-4 px-6 py-5 sm:px-8 md:flex-row md:justify-between;
 }
 
 /* Brand */
-
 .footer-brand {
     @apply flex items-center gap-2;
 }
 
 .footer-brand-icon {
-    @apply h-3.5 w-3.5 text-indigo-400;
+    @apply h-3.5 w-3.5 text-teal-300;
 }
 
 .footer-copyright {
-    @apply text-sm font-medium text-slate-600;
+    @apply text-sm font-medium text-white/60;
 }
 
 /* Divider */
-
 .footer-divider {
-    @apply h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent md:hidden;
+    @apply h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent md:hidden;
 }
 
 /* Navigation */
-
 .footer-links {
     @apply flex items-center gap-1;
 }
@@ -40,9 +37,9 @@
 }
 
 .footer-link {
-    @apply rounded-lg px-3 py-2 text-sm font-medium text-slate-600 underline-offset-2 transition hover:bg-slate-100 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500;
+    @apply rounded-lg px-3 py-2 text-sm font-medium text-white/65 underline-offset-2 transition-colors duration-200 hover:bg-white/10 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-300;
 }
 
 .footer-link-divider {
-    @apply h-3.5 w-px bg-slate-300;
+    @apply h-3.5 w-px bg-white/20;
 }
