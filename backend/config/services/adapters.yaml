@@ -335,3 +335,6 @@ services:
   CuriosityConference\Adapters\Outbound\Persistence\Fixtures\TriviaQuizRoomFixture:
     tags:
       - { name: doctrine.fixture.orm }
+  CuriosityConference\Adapters\Outbound\Persistence\Fixtures\QuestionnaireFixture:
+    tags:
+      - { name: doctrine.fixture.orm }
