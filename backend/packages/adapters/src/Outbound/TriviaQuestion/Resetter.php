@@ -26,7 +26,7 @@ final readonly class Resetter implements ResetterInterface
     {
         try {
             $this->logger->info('Start deleting all questions.');
-            $questionCollection = $this->questionRepository->findAll();
+            $questionCollection = $this->questionRepository->findAllWithAnswers();
             foreach ($questionCollection as $questionEntity) {
                 $this->questionRepository->remove($questionEntity);
             }

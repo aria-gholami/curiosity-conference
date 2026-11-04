@@ -46,7 +46,7 @@ final class LoaderTest extends TestCase
             ),
         ];
         $this->questionEntityRepositoryMock->expects(self::once())
-            ->method('findAll')
+            ->method('findAllQuestions')
             ->willReturn($questionGroup);
 
         $questionCollection = $this->byIdLoader->load();
@@ -73,7 +73,7 @@ final class LoaderTest extends TestCase
     {
         $questionGroup = [];
         $this->questionEntityRepositoryMock->expects($this->once())
-            ->method('findAll')
+            ->method('findAllQuestions')
             ->willReturn($questionGroup);
 
         $questionCollection = $this->byIdLoader->load();
@@ -96,7 +96,7 @@ final class LoaderTest extends TestCase
     public function testLoadWithDatabaseError(): void
     {
         $this->questionEntityRepositoryMock->expects(self::once())
-            ->method('findAll')
+            ->method('findAllQuestions')
             ->willThrowException(new \Exception('test'));
 
         try {

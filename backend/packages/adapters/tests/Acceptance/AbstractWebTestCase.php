@@ -20,12 +20,24 @@ abstract class AbstractWebTestCase extends WebTestCase
         $this->client = static::createClient();
         $entityManager = static::getContainer()->get(EntityManagerInterface::class);
         $this->connection = $entityManager->getConnection();
+        $this->clearDatabase();
     }
 
     protected function tearDown(): void
     {
-        $this->connection->executeStatement('DELETE FROM user;');
-        $this->connection->executeStatement('DELETE FROM trivia_answer;');
-        $this->connection->executeStatement('DELETE FROM trivia_question;');
+        try {
+            $this->clearDatabase();
+        } finally {
+            parent::tearDown();
+        }
+    }
+
+    private function clearDatabase(): void
+    {
+        foreach (['user', 'trivia_answer', 'trivia_question', 'questionnaire_answer', 'questionnaire_question', 'questionnaire_settings'] as $table) {
+            $this->connection->createQueryBuilder()
+                ->delete($table)
+                ->executeStatement();
+        }
     }
 }

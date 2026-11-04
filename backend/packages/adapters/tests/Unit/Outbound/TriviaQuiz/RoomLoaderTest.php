@@ -58,7 +58,7 @@ final class RoomLoaderTest extends TestCase
             ),
         ];
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('findAll')
+            ->method('findAllWithParticipants')
             ->willReturn($quizRoomGroup);
         $quizCollection = $this->roomLoader->load();
 
@@ -80,7 +80,7 @@ final class RoomLoaderTest extends TestCase
     public function testLoadWithLoadEntityFailedException(): void
     {
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('findAll')
+            ->method('findAllWithParticipants')
             ->willThrowException(new LoadEntityFailedException('test'));
         try {
             $this->roomLoader->load();

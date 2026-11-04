@@ -27,7 +27,7 @@ final readonly class Loader implements LoaderInterface
     {
         try {
             $this->logger->info('Start loading all questionnaire answers.');
-            $questionnaireAnswerGroup = $this->questionnaireAnswerRepository->findAll();
+            $questionnaireAnswerGroup = $this->questionnaireAnswerRepository->findAllWithQuestions();
             $this->logger->info('Loading all questionnaire answers was successful.');
 
             return new AnswerCollection($questionnaireAnswerGroup);

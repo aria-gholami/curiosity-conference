@@ -9,6 +9,7 @@ use CuriosityConference\Adapters\Outbound\Persistence\Entity\TriviaQuizRoom;
 use CuriosityConference\Domain\Exception\UpdateFailedException;
 use CuriosityConference\Domain\TriviaQuiz\Id;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -53,7 +54,8 @@ class TriviaQuizRoomRepository extends ServiceEntityRepository
 
     public function findOneByParticipantId(string $userId): ?TriviaQuizRoom
     {
-        return $this->createQueryBuilder('qr')
+        $result = $this->createQueryBuilder('qr')
+            ->select('qr.id AS id')
             ->innerJoin('qr.triviaParticipants', 'p')
             ->andWhere('p.id = :userId')
             ->andWhere('qr.status != :status')
@@ -61,7 +63,9 @@ class TriviaQuizRoomRepository extends ServiceEntityRepository
             ->setParameter('status', TriviaQuizRoom::STATUS_FINISHED)
             ->setMaxResults(1)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult(AbstractQuery::HYDRATE_ARRAY);
+
+        return null === $result ? null : $this->findOneByIdWithParticipants((string) $result['id']);
     }
 
     public function findByParticipantId(string $userId): array
@@ -73,5 +77,31 @@ class TriviaQuizRoomRepository extends ServiceEntityRepository
             ->setParameter('userId', $userId, 'uuid')
             ->getQuery()
             ->getArrayResult();
+    }
+
+    /**
+     * @return TriviaQuizRoom[]
+     */
+    public function findAllWithParticipants(): array
+    {
+        return $this->createQueryBuilder('qr')
+            ->addSelect('host', 'participants')
+            ->innerJoin('qr.host', 'host')
+            ->leftJoin('qr.triviaParticipants', 'participants')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findOneByIdWithParticipants(string $id): ?TriviaQuizRoom
+    {
+        return $this->createQueryBuilder('qr')
+            ->addSelect('host', 'participants', 'question')
+            ->innerJoin('qr.host', 'host')
+            ->leftJoin('qr.triviaParticipants', 'participants')
+            ->leftJoin('qr.currentTriviaQuestion', 'question')
+            ->andWhere('qr.id = :id')
+            ->setParameter('id', $id, 'uuid')
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 }

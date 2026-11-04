@@ -21,4 +21,16 @@ class QuestionnaireAnswerRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, QuestionnaireAnswer::class);
     }
+
+    /**
+     * @return QuestionnaireAnswer[]
+     */
+    public function findAllWithQuestions(): array
+    {
+        return $this->createQueryBuilder('a')
+            ->addSelect('q')
+            ->innerJoin('a.questionnaireQuestion', 'q')
+            ->getQuery()
+            ->getResult();
+    }
 }

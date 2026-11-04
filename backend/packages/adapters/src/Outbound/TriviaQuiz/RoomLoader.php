@@ -24,7 +24,7 @@ final readonly class RoomLoader implements RoomLoaderInterface
     {
         try {
             $this->logger->info('Start loading quiz rooms.');
-            $quizEntityGroup = $this->quizRoomRepository->findAll();
+            $quizEntityGroup = $this->quizRoomRepository->findAllWithParticipants();
             $this->logger->info('Loading quiz rooms was successful.');
 
             return new QuizRoomCollection($quizEntityGroup);

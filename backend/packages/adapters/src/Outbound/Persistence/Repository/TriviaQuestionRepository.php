@@ -26,4 +26,26 @@ class TriviaQuestionRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($entity);
     }
+
+    /**
+     * @return TriviaQuestion[]
+     */
+    public function findAllQuestions(): array
+    {
+        return $this->createQueryBuilder('q')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return TriviaQuestion[]
+     */
+    public function findAllWithAnswers(): array
+    {
+        return $this->createQueryBuilder('q')
+            ->addSelect('a')
+            ->leftJoin('q.triviaAnswerCollection', 'a')
+            ->getQuery()
+            ->getResult();
+    }
 }

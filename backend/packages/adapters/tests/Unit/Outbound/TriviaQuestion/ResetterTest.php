@@ -39,7 +39,7 @@ final class ResetterTest extends TestCase
             new ArrayCollection(),
         );
         $this->questionEntityRepositoryMock->expects($this->once())
-            ->method('findAll')
+            ->method('findAllWithAnswers')
             ->willReturn([$question]);
         $this->questionEntityRepositoryMock->expects($this->once())
             ->method('remove')
@@ -69,7 +69,7 @@ final class ResetterTest extends TestCase
             new ArrayCollection(),
         );
         $this->questionEntityRepositoryMock->expects($this->once())
-            ->method('findAll')
+            ->method('findAllWithAnswers')
             ->willReturn([$question]);
         $this->questionEntityRepositoryMock->expects($this->once())
             ->method('remove')

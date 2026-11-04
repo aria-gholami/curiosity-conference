@@ -25,7 +25,7 @@ final readonly class RoomByIdLoader implements RoomByIdLoaderInterface
             $this->logger->info('Start loading quiz room by id.', [
                 'id' => $id,
             ]);
-            $quizRoom = $this->quizRoomRepository->findOneBy(['id' => $id]);
+            $quizRoom = $this->quizRoomRepository->findOneByIdWithParticipants($id);
             if (!$quizRoom instanceof TriviaQuizRoom) {
                 throw LoadEntityFailedException::loadFailed(TriviaQuizRoom::class);
             }

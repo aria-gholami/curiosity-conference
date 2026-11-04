@@ -34,8 +34,8 @@ final class RoomByIdLoaderTest extends TestCase
         $host = new User('test', 'test');
         $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $host, TriviaQuizRoom::STATUS_STARTED);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('findOneBy')
-            ->with(['id' => $expectedQuizRoom->getId()])
+            ->method('findOneByIdWithParticipants')
+            ->with($expectedQuizRoom->getId())
             ->willReturn($expectedQuizRoom);
         $quizRoom = $this->roomByIdLoader->load($expectedQuizRoom->getId());
 
@@ -65,8 +65,8 @@ final class RoomByIdLoaderTest extends TestCase
         $host = new User('test', 'test');
         $expectedQuizRoom = new TriviaQuizRoom('test', 'test', null, $host, TriviaQuizRoom::STATUS_STARTED);
         $this->quizRoomEntityRepositoryMock->expects(self::once())
-            ->method('findOneBy')
-            ->with(['id' => $expectedQuizRoom->getId()])
+            ->method('findOneByIdWithParticipants')
+            ->with($expectedQuizRoom->getId())
             ->willReturn(null);
         try {
             $this->roomByIdLoader->load($expectedQuizRoom->getId());
